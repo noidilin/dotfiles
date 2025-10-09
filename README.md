@@ -1,9 +1,14 @@
+# dotfile
+
+> [!WARNING] platform
+> currently only works on windows
+
 ## install scripts
 
 The `.install` dir contains all the installation scripts that can setup environment variables, daily used apps and symlinks. The scripts are wrote in `pwsh` since it is the modern shell language in windows, and is more verbose but clear for me.
 
-- `init`: setup buckets and install `git`, `chezmoi`, `pwsh`, `nu`, `age` and `firefox-dev`
-- `env`: setup `XDG` dir and the config path for `bat` `eza`, `yazi`
+- `init`: setup buckets and install `git`, `chezmoi`, `pwsh`, `nu`, `age`
+- `env`: setup environment variable and PATH
 - `symlinks`: setup symbolic links
   - for apps that won't utilize `XDG` dir, and depends on the original config dir to work.
 - `scoop`: install apps with `scoop`
@@ -32,9 +37,7 @@ In addition, `batch` scripts streamline all the installation scripts. However, i
 
 ---
 
-## chezmoi setup
-
-### API keys
+## Setup age Keys
 
 Since I stored some api keys for AI chat bot in my dotfiles, I encrypted it with `chezmoi` using `age` encryption. However, `chezmoi` needs to setup a `age` private key first to encrypt and decrypt the secret files.
 
@@ -42,7 +45,7 @@ reference: [Encryption - chezmoi](https://www.chezmoi.io/user-guide/frequently-a
 
 The strategy:
 
-1. Generate an age private key, which will be used to encrypt and decrypt secrets
+### 1. Generate an age private key, which will be used to encrypt and decrypt secrets
 
 ```sh
 chezmoi cd ~
@@ -54,7 +57,7 @@ age-keygen | age --armor --passphrase > key.txt.age
 > I can further encrypt this private key with a passphrase to safely save it to remote repo.
 > The passphrase will be used to decrypt the private key when setting up a new device.
 
-2. Setup `chezmoi` script template to decrypt the private key if needed
+### 2. Setup `chezmoi` script template to decrypt the private key if needed
 
 ```sh
 # pseudo code
@@ -64,7 +67,7 @@ age-keygen | age --armor --passphrase > key.txt.age
 # set private key permission `chmod 600 {private-key}`
 ```
 
-3. Configure `chezmoi.toml` to use the private key, and `age` encryption
+### 3. Configure `chezmoi.toml` to use the private key, and `age` encryption
 
 ```toml
 encryption = "age"
@@ -72,7 +75,7 @@ encryption = "age"
 [age.recipient]: public key of the private key
 ```
 
-4. Add my secret files with encryption
+### 4. Add my secret files with encryption
 
 ```sh
 chezmoi add --encrypt {file}

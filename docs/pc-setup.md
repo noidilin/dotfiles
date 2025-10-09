@@ -21,9 +21,9 @@ Use **_Rufus_** to make iso USB drive to avoid microsoft online account validati
 - motherboard (X570 Meg Ace):
   - it will automatically prompt to install necessary motherboard driver.
   - remember to uncheck some unnecessary applications in default selection.
-- cpu: amd razen master
+- cpu: amd razen master (optional)
 - gpu: studio version
-- hard drive: acronis true image WD
+- hard drive: acronis true image WD (optional)
 
 ---
 
