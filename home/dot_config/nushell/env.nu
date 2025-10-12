@@ -1,25 +1,5 @@
-export const ENV_DIR = ($nu.default-config-dir | path join 'env')
+# env.nu is now intentionally minimal
+# All environment variables and initialization have been moved to config.nu
+# following Nushell best practices (as of 0.96+)
 
-# use $ENV_DIR os init-os-env
-# init-os-env | load-env
-# hide init-os-env
-
-# use $ENV_DIR atuin init-atuin
-# init-atuin
-# hide init-atuin
-
-use $ENV_DIR mise init-mise
-init-mise
-hide init-mise
-
-use $ENV_DIR zoxide init-zoxide
-init-zoxide
-hide init-zoxide
-
-use $ENV_DIR carapace init-carapace
-init-carapace
-hide init-carapace
-
-use $ENV_DIR starship init-starship
-init-starship
-hide init-starship
+# The env/ directory modules are still used by config.nu for initialization
