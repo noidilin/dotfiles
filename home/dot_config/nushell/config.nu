@@ -65,16 +65,6 @@ $env.PROMPT_INDICATOR_VI_NORMAL = ''
 $env.PROMPT_INDICATOR_VI_INSERT = ''
 # $env.PROMPT_MULTILINE_INDICATOR = {|| "::: " }
 
-const NU_LIB_DIRS = [
-  ($nu.default-config-dir | path join 'scripts')
-]
-
-# scripts in $NU_LIB_DIRS
-source alias.nu
-source commands.nu
-source mocha-update.nu
-source pbr-move-preview.nu
-
 # use $ENV_DIR atuin ATUIN_INIT_PATH
 # source $ATUIN_INIT_PATH
 # hide ATUIN_INIT_PATH
