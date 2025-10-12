@@ -1,9 +1,3 @@
-# Default config files aren't required, since they're applied in internal Rust code.
-#
-# Use `config` command to browse the default config and env
-# > config env --default | nu-highlight | lines
-# > config nu --default | nu-highlight | lines
-
 const CONFIG_DIR = ($nu.default-config-dir | path join 'config')
 
 # list import modules based on mod.nu file
@@ -33,6 +27,10 @@ $env.config.shell_integration.osc133 = false
 $env.PROMPT_INDICATOR_VI_NORMAL = ''
 $env.PROMPT_INDICATOR_VI_INSERT = ''
 # $env.PROMPT_MULTILINE_INDICATOR = {|| "::: " }
+
+const NU_LIB_DIRS = [
+  ($nu.default-config-dir | path join 'scripts')
+]
 
 # scripts in $NU_LIB_DIRS
 source alias.nu

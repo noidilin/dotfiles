@@ -9,5 +9,5 @@ def --env yz [...args] {
 }
 
 def clean-shada [] {
-  ls ($env.LOCALAPPDATA | path join 'nvim-data' 'shada' ) | get name | each {|file| rm -fv $file}
+  ls ($env.XDG_STATE_HOME | path join 'nvim-data' 'shada' ) | get name | each {|file| rm -fv $file}
 }

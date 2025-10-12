@@ -1,8 +1,8 @@
-# $env.VISUAL = 'code'
 $env.EDITOR = 'nvim'
+# $env.VISUAL = 'code'
 $env.PAGER = 'delta'
 $env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense' # optional
-$env.LS_COLORS = (vivid generate color-fatigue | str trim)
+$env.LS_COLORS = (vivid generate ($env.XDG_CONFIG_HOME | path join 'vivid' 'themes' 'color-fatigue.yml') | str trim)
 $env.CC = 'gcc' # for tree-sitter
 
 export const ENV_DIR = ($nu.default-config-dir | path join 'env')
