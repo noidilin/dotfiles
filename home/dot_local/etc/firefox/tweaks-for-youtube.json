@@ -21,11 +21,15 @@
   "audioCompressorKnee": 20,
   "audioCompressorRatio": 12,
   "audioCompressorThreshold": -50,
+  "audioCompressorVolumeOnChanged": false,
+  "audioCompressorVolumeOnDisabled": 50,
+  "audioCompressorVolumeOnEnabled": 10,
   "audioHPF": false,
   "audioHPFFrequency": 200,
   "audioMonoMix": false,
   "audioMonoMixSource": "left+right",
   "audioPan": 0,
+  "audioProcessingOnYtMusic": false,
   "autoPip": false,
   "autoclickAdSkipButton": true,
   "backToTop": "dark-or-light",
@@ -49,6 +53,7 @@
   "cleanPlayerEmbeddedPauseOverlay": false,
   "cleanPlayerEndScreen": false,
   "cleanPlayerFullscreenButton": false,
+  "cleanPlayerFullscreenQuickActions": false,
   "cleanPlayerLargePlayButton": false,
   "cleanPlayerLoadingSpinner": false,
   "cleanPlayerMiniplayerButton": false,
@@ -83,10 +88,10 @@
   "cleanSiteHeaderLogoYoodle": true,
   "cleanSiteHeaderVoiceSearchButton": true,
   "cleanSiteHeaderYouTubeLogo": false,
-  "cleanSiteHomeHeaderChips": true,
+  "cleanSiteHomeHeaderChips": false,
   "cleanSiteHomeSections": false,
-  "cleanSiteNotificationToast": false,
-  "cleanSitePromos": false,
+  "cleanSiteNotificationToast": true,
+  "cleanSitePromos": true,
   "cleanSiteSidebarDonationShelf": true,
   "cleanSiteThumbnailHoverOverlays": false,
   "cleanSiteWatchChaptersSyncToVideoTime": false,
@@ -123,6 +128,9 @@
   "contentFiltersShortsRelatedVideos": true,
   "contentFiltersShortsSearch": true,
   "contentFiltersShortsSubscriptionsPage": true,
+  "contentFiltersStreamedSubscriptionsPage": false,
+  "contentFiltersStreamedSubscriptionsPageString": "streamed",
+  "contentFiltersUpcomingChannelPage": false,
   "contentFiltersUpcomingHomePage": true,
   "contentFiltersUpcomingSubscriptionsPage": true,
   "contentFiltersWatchedVideosChannelPage": false,
@@ -205,6 +213,7 @@
   "initialChannelPageTab": false,
   "initialFullscreen": false,
   "initialLoop": false,
+  "initialLoopDisabledOnPlaylist": false,
   "initialMute": false,
   "initialMuteValue": false,
   "initialPlaybackRate": false,
@@ -533,40 +542,28 @@
     {
       "actionMap": [
         {
-          "action": "captureVideoFrameToClipboard",
-          "key": "ctrl+mousedown2+g050B"
+          "key": "ctrl+mousedown2+g6B0B",
+          "action": "getVideoURL"
         },
         {
-          "action": "viewCurrentThumbnail",
-          "key": "shift+mousedown2+g050B"
+          "key": "alt+mousedown2+g6B0B",
+          "action": "getVideoURLAtCurrentTime"
         },
         {
-          "action": "toggleVideoDimmer",
-          "key": "alt+mousedown2+g050B"
+          "key": "ctrl+alt+mousedown2+g6B0B",
+          "action": "togglePlayerSettings"
         },
         {
-          "action": "captureVideoFrame",
-          "key": "ctrl+shift+mousedown2+g050B"
+          "key": "ctrl+mousedown2+g050B",
+          "action": "captureVideoFrameToClipboard"
         },
         {
-          "action": "getVideoURL",
-          "key": "ctrl+mousedown2+g6B0B"
+          "key": "ctrl+alt+mousedown2+g050B",
+          "action": "toggleVideoDimmer"
         },
         {
-          "action": "getVideoURLAtCurrentTime",
-          "key": "shift+mousedown2+g6B0B"
-        },
-        {
-          "action": "togglePlayerSettings",
-          "key": "alt+mousedown2+g6B0B"
-        },
-        {
-          "action": "toggleTranscript",
-          "key": "shift+alt+mousedown2+g6B0B"
-        },
-        {
-          "action": "toggleTheatreMode",
-          "key": "ctrl+shift+mousedown2+g6B0B"
+          "key": "alt+mousedown2+g050B",
+          "action": "captureVideoFrame"
         }
       ],
       "gridColumns": 2,
@@ -1087,7 +1084,7 @@
   "pausePreviousActiveVideo": false,
   "playbackRateRangeMax": 16,
   "playbackRateRangeMin": 0.1,
-  "playerBackgroundColor": false,
+  "playerBackgroundColor": true,
   "playerInitialStateBackground": false,
   "playerInitialStateForeground": false,
   "playerViewChangeDelayInBackground": 0,
@@ -1102,6 +1099,7 @@
   "richGridViewDecreasedFontSize": true,
   "richGridViewHiddenAvatars": true,
   "richGridViewItemsPerRow": 5,
+  "richSectionOnTop": false,
   "scrollbarThin": true,
   "searchBoxStyles": true,
   "searchPlaylistPage": false,
@@ -1158,6 +1156,12 @@
   "themeType": "system",
   "thumbnailControlPrimary": false,
   "thumbnailControlPrimaryCleanUrl": false,
+  "thumbnailControlPrimaryG00": "openInForegroundTab",
+  "thumbnailControlPrimaryG01": "openInBackgroundTab",
+  "thumbnailControlPrimaryG10": "openInForegroundTab",
+  "thumbnailControlPrimaryG11": "openInBackgroundTab",
+  "thumbnailShortsChannelLink": false,
+  "thumbnailShortsTitle": false,
   "thumbnailViewFullSize": false,
   "thumbnailViewFullSizeByMouse": "ctrl+mousedown0",
   "transcriptAutoShow": false,
@@ -1185,6 +1189,7 @@
   "videoPlaybackInfoStylePosition": "top-left",
   "videoPlaybackInfoTemplate": false,
   "videoPlaybackInfoTemplateContent": "",
+  "videoPlaybackInfoVisibility": "default",
   "videoPlaybackInfoVolume": true,
   "volumeRangeMax": 100,
   "volumeRangeMin": 0,
@@ -1231,6 +1236,7 @@
   "ytpProgressBarColorPaused": "#ff0000",
   "ytpProgressBarColorPlaying": "#ff0000",
   "ytpProgressBarOpacity": 0.5,
+  "ytpProgressBarPadding": "",
   "ytpQualityUseEnhancedBitrate": false,
   "ytpTimeBasedOnPlaybackRate": true,
   "ytpTimeDisplayCustom": false,
