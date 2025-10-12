@@ -5943,3 +5943,1075 @@ z mise
 nvim
 mise doctor
 rustup show
+chezmoi re-add
+lg
+z obsidian
+z install
+nvim
+z msie
+z mise
+nvim
+chezmoi status
+yazi
+yz
+lg
+z
+yazi
+nvim
+mise doctor
+nvim
+z nvim
+nvim
+nvim
+z nushell
+nvim
+ls
+z mise
+nvim
+sfsu help
+sfsu search wezterm
+z scoop
+ls
+yazi
+scoop bucket list
+scoop bucket --help
+scoop bucket rm neorocks-scoop
+scoop bucket rm versions
+scoop bucket list
+yazi
+cd buckets
+ls
+cd custom
+ls
+yazi
+z downloads
+ls
+yazi
+z downloads
+yazi
+open WezTerm-windows-Mikker-Black-20240203-110809-5046fc22.zip | hash sha256
+yazi
+scoop update
+scoop install custom/wezterm-alt-icon
+yazi
+scoop install custom/wezterm-alt-icon
+yazi
+scoop update
+scoop install custom/wezterm-alt-icon
+z scoop
+scoop cache rm wezterm-alt-icon
+scoop install custom/wezterm-alt-icon --verbose
+scoop install custom/wezterm-alt-icon
+yazi
+scoop checkver custom/wezterm-alt-icon
+scoop update custom/wezterm-alt-icon -f
+sfsu cleanup --cache --all
+scoop uninstall custom/wezterm-alt-icon
+scoop update
+yazi
+nvim
+z scoop
+cd buckets
+cd custom
+lg
+z install
+z scoop
+cd buckets/custom/
+ls
+yazi
+z
+z chezmoi
+ls
+yazi
+chezmoi status
+chezmoi init
+chezmoi status
+lg
+chezmoi status
+nvim .chezmoiroot
+yazi
+chezmoi status
+chezmoi init
+chezmoi status
+yazi
+chezmoi status
+lg
+chezmoi status
+lg
+yazi
+cd home
+cd ..
+z chezmoi
+yazi
+yazi
+chezmoi help
+chezmoi doctor
+age-keygen | age --armor --passphrase | save chezmoiKey.txt.age
+yazi
+yz
+z config
+ls
+age-keygen | age --armor --passphrase | save .age-key.txt.age
+chezmoi add ~/.config/.age-key.txt.age
+z chezmoi
+yazi
+z
+z chezmoi
+yazi
+z config
+chezmoi apply
+yazi
+chezmoi apply
+chezmoi apply --init
+yazi
+chezmoi doctor
+yazi
+chezmoi apply
+chezmoi apply --init
+chezmoi add --encrypt ~/.config/api/ANTHROPIC_API_KEY
+yazi
+z chezmoi
+yazi
+yazi
+yz
+chezmoi age decrypt --output 'test.txt' 'encrypted_ANTHROPIC_API_KEY.age'
+chezmoi init
+chezmoi apply
+yazi
+chezmoi init
+chezmoi apply
+chezmoi init
+chezmoi apply --init
+chezmoi add --encrypt ~/.config/api/ANTHROPIC_API_KEY
+chezmoi add --encrypt ~/.config/api/TAVILY_API_KEY
+yazi
+nvim
+lg
+z
+yazi
+nvim
+chezmoi status
+chezmoi re-add
+z chezmoi
+lg
+nvim
+chezmoi re-add
+lg
+nvim
+git status
+lg
+git push
+yazi
+z obsidian
+nvim
+git pull
+lg
+z scoop
+cd buckets/custom/
+ls
+nvim
+sfsu status
+scoop update chezmoi fastfetch opencode tree-sitter mise
+sfsu status
+nvim
+scoop update
+scoop install custom/wezterm --dry-run
+scoop install --help
+opencode
+yazi
+cd bin
+pwsh test.ps1
+scoop update custom/wezterm -f
+nvim
+z scoop
+cd buckets/custom/
+lg
+yazi
+z obsidian
+lg
+chezmoi status
+z glazewm
+ls
+nvim
+z chezmoi
+yazi
+z config
+yazi
+chezmoi add ~/.config/flow-launcher/
+chezmoi status
+chezmoi forget ~/scoop/persist/flow-launcher/UserData/
+chezmoi status
+chezmoi re-add
+z chezmoi
+lg
+z
+z chezmoi
+lg
+clear
+sfsu status
+sfsu bucket update
+sfsu status
+scoop update git mise opencode
+sfsu status
+clear
+winget update
+winget update -all
+winget update --all
+z obsidian
+lg
+nvim
+z dev
+ls
+cd printez-store\
+ls
+nvim
+z nvim
+nvim
+bun dev
+yazi
+rimraf --verbose .\node_modules\
+nvim
+pnpm install
+pnpm run dev
+z nvim
+nvim
+nvim
+lg
+pnpm dlx shadcn@latest add https://neobrutalism.dev/r/dropdown-menu.json
+pnpm dlx shadcn@latest add @neo/sidebar
+pnpm dlx shadcn@latest add @neo/sidebar --overwrite
+pnpm dlx shadcn@latest add --overwrite @neo/sidebar
+pnpm dlx shadcn@latest add @neo/breadcrumb
+pnpm dlx shadcn@latest add @neo/button
+pnpm dlx shadcn@latest add @neo/avatar
+z nvim
+ls
+yazi
+z nvim
+pnpm run dev
+nvim
+nvim
+opencode
+pnpm add @supabase/supabase-js
+pnpm status
+pnpm help
+pnpm prune
+pnpm help
+pnpm install
+yazi
+pnpm add @supabase/supabase-js
+nvim
+pnpm add @supabase/supabase-js
+z obsidian
+nvim
+sfsu bucket update
+sfsu update
+sfsu status
+scoop update mise opencode
+sfsu status
+z downloads
+ls
+open import.json
+nvim
+z downloads
+open import.json
+z area
+ls
+z downloads
+ls
+open import.json
+code import.json
+z dev
+yazi
+z userstyles\
+git clone git@github.com:noidilin/userstyles.git .
+opencode
+z wezterm
+lg
+nvim
+z nvim
+lg
+chezmoi status
+z dev
+yazi
+cd printez-store\
+lg
+sfsu search sed
+scoop install main/sed
+z install
+ls
+nvim
+chezmoi re-add
+z chezmoi
+lg
+opencode
+z nvim
+z nushell
+git remote add upstream https://github.com/catppuccin/userstyles.git
+git push origin feat/color-theme
+nvim
+z downloads
+code import.json
+z install
+nvim
+z nushell
+nvim
+sfsu search sd
+sfsu list sd
+z install
+nvim
+rg -l "@import \"https://userstyles.catppuccin.com/lib/lib.less\"" styles | sd "@import \"https://userstyles.catppuccin.com/lib/lib.less\"" "@import \"https://noidilin.github.io/userstyles/lib/lib.less\""
+glob styles/**/*.less | each { |file| sd "@import \"https://userstyles.catppuccin.com/lib/lib.less\"" "@import \"https://noidilin.github.io/userstyles/lib/lib.less\"" $file }
+rg "userstyles\.catppuccin\.com/lib" styles
+rg "userstyles.catppuccin.com/lib" styles
+rg "noidilin.github.io/userstyles/lib" styles
+rg -l "@import \"https://userstyles.catppuccin.com/lib/lib.less\"" styles
+rg -l "@import \"https://noidilin.github.io/userstyles/lib/lib.less\"" styles
+rg -l "@import \"https://noidilin.github.io/userstyles/lib/lib.less\"" styles | lines
+rg -l "@import \"https://userstyles.catppuccin.com/lib/lib.less\"" styles | lines
+glob styles/**/*.less | each { |file| sd '"mauve:Mauve\*"' '"mauve:Mauve", "rosewater:Rosewater*"' $file }
+glob styles/**/*.less | each { |file| sd '"mauve:Mauve\*"' '"mauve:Mauve"' $file }
+rg "accentColor.*\*" styles --max-count 5
+rg "accentColor.*" styles --max-count 5
+rg "mauve:Mauve*" styles --max-count 5
+rg "mauve:Mauve\*" styles --max-count 5
+rg "mauve:Mauve/*" styles --max-count 5
+rg "mauve:Mauve\\*" styles --max-count 5
+rg "mauve:Mauve*" styles --max-count 5
+rg "mauve:Mauve\*" styles --max-count 5
+rg "mauve:Mauve*" styles --max-count 5
+glob styles/**/*.less | each { |file| sd '"rosewater:Rosewater"' '"rosewater:Rosewater*"' $file }
+nvim
+git push --force
+z downloads
+ls
+sed -i 's|https://userstyles.catppuccin.com/lib/lib.less|https://noidilin.github.io/userstyles/lib/lib.less|g' import.json
+z nushell
+nivm
+nvim
+z downloads
+yazi
+http get https://github.com/catppuccin/userstyles/releases/download/all-userstyles-export/import.json
+http get https://github.com/catppuccin/userstyles/releases/download/all-userstyles-export/import.json | save import.json
+ls
+open import.json | <\n>each { |style| $style | update usercssData.vars.accentColor.value "rosewater" }<\n>to json --indent 2<\n>str replace --all "https://userstyles.catppuccin.com/lib/lib.less" "https://noidilin.github.io/userstyles/lib/lib.less"<\n>save --force import-custom.json
+nvim
+customize-catppuccin
+z downloads
+customize-catppuccin
+z local
+yazi
+yz
+customize-catppuccin
+ls
+open temp.json | to json | str contains 'https://noidilin.github.io/userstyles/lib/lib.less'
+open temp.json | to json | str contains 'https://userstyles.catppuccin.com/lib/lib.less'
+open temp.json | first 3 | each { |style| { name: $style.name, accent: $style.usercssData?.vars?.accentColor?.value } }
+open temp.json | first 3 | each { |style| { name: $style.name accent: $style.usercssData?.vars?.accentColor?.value } }
+open temp.json | first 3 | each { |style| { accent: $style.usercssData?.vars?.accentColor?.value } }
+open temp.json | first 100 | each { |style| { accent: $style.usercssData?.vars?.accentColor?.value } }
+open temp.json | first 200 | each { |style| { accent: $style.usercssData?.vars?.accentColor?.value } }
+open temp.json | to json | str contains 'https://userstyles.catppuccin.com/lib/lib.less'
+open temp.json | to json | str contains 'https://noidilin.github.io/userstyles/lib/lib.less'
+open temp.json | first 200 | each { |style| { accent: $style.usercssData?.vars?.accentColor?.value } }
+stylus-update
+stylus-examine
+open temp.json | to json | str contains 'https://userstyles.catppuccin.com/lib/lib.less'
+open temp.json | to json | str contains 'https://noidilin.github.io/userstyles/lib/lib.less'
+open temp.json | first 200 | each { |style| { accent: $style.usercssData?.vars?.accentColor?.value } }
+open temp.json | to json | str contains 'https://userstyles.catppuccin.com/lib/lib.less'
+open temp.json | to json | str contains 'https://noidilin.github.io/userstyles/lib/lib.less'
+stylus-examine
+stylus-update
+stylus-examine
+cd ..
+yazi
+ls
+cd color-fatigue\
+ls
+git init
+lg
+git remote add origin git@github.com:noidilin/color-fatigue.git
+git push -u origin main
+yazi
+z nvim
+z local
+yz
+stylus-update
+stylus-examine
+z userstyles\
+z userstyles
+ls
+yazi
+z obsidian
+yazi
+nvim
+nvim
+yazi
+chezmoi re-add
+ls
+z chezmoi
+lg
+nvim
+cd ..
+cd userstyles\
+ls
+sfsu bucket update
+scoop update
+sfsu status
+opencode
+scoop update opencode carapace-bin
+nvim
+z obsidian
+nvim
+opencode
+z nushell
+yazi
+z local
+cd etc\
+z stylus\
+z stylus
+yazi
+stylus-update
+yazi
+nvim
+z nvim
+z wezterm
+keybindings listen
+keybindings default 
+keybindings default | select code
+keybindings default | find code
+keybindings default | get code
+keybindings default | filter { |key| key.code = 'Tab' }
+keybindings default
+nvim
+nvim
+keybindings default
+nvim -d color-fatigue-old.json color-fatigue.json
+yazi
+chezmoi status
+stylus-examine
+nvim
+chezmoi status
+chezmoi re-add
+z chezmoi
+lg
+z config
+z opencode
+ls
+yazi
+z obsidian
+nvim
+yazi
+chezmoi add ~/.config/opencode/
+z chezmoi
+lg
+z dev
+cd printez-store\
+ls
+sfsu bucket update
+sfsu status
+scoop update mise eza ast-grep opencode psfzf
+sfsu status
+sfsu bucket
+sfsu bucket update
+z scoop
+yz
+scoop uninstall custom/vivid
+scoop install main/vivid
+vivid preview color-fatigue | table
+z install
+rustup show
+mise --version
+nvim
+nvim
+yazi
+cd ..
+mkdir wezterm-alt-icon
+yazi
+cd wezterm-alt-icon\
+git clone git@github.com:noidilin/wezterm-alt-icon.git
+yazi
+cd ..
+yazi
+git clone git@github.com:noidilin/wezterm-alt-icon.git
+yazi
+cd wezterm-alt-icon\
+ls
+nvim
+yazi
+git push --force
+opencode
+scoop install main/gh
+z install
+nvim
+pwsh .\bin\checkver.ps1
+nvim
+pwsh .\bin\checkver.ps1
+nvim
+ls wezterm*.json
+cd buckets
+ls
+cd bucket
+ls wezterm*.json
+ls wezterm*.json | where name !~ template
+ls wezterm*.json | where name !~ template | each { |f| <\n>  open $f.name | upsert checkver.regex "tag/([\\w-]+-alt-icons)" | save -f $f.name<\n>}
+pwsh .\bin\checkver.ps1
+pwsh .\bin\checkhashes.ps1
+pwsh .\bin\checkurls.ps1
+pwsh .\bin\missing-checkver.ps1
+pwsh .\bin\formatjson.ps1
+pwsh .\bin\test.ps1
+cd ..
+cd custom
+cd ..
+cd custom
+nvim
+nvim
+opencode
+nvim
+opencode
+opencode
+yazi
+sfsu list
+z scoop
+cd bucket
+ls
+cd buckets
+ls
+yz
+cd custom
+ls
+cd ..
+ls
+lg
+sfsu bucket update
+z install
+sfsu bucket update
+sfsu bucket
+sfsu bucket list
+z scoop
+sfsu bucket list
+yz
+z
+yz
+nvim
+chezmoi status
+chezmoi re-add
+z chezmoi
+lg
+z dev
+git clone https://github.com/x0rzavi/x0rzavi.git githube-readme
+cd githube-readme\
+ls
+fastfetch
+z fastfetch
+ls
+yazi
+z mise
+ls
+nvim
+mise doctor
+nvim
+mise doctor
+nvim
+mise doctor
+scoop install main/uv
+nvim
+uv init
+uv add github-readme-terminal
+z
+ls
+yazi
+uv --cache-dir
+uv --help
+uv help
+uv help cache
+uv cache dir
+yazi
+mise doctor
+z install
+uv help
+$env.UV_CONFIG_FILE
+pwsh env.ps1
+yazi
+uv sync
+nvim
+uv main.py
+uv run main.py
+yazi
+opencode
+nvim
+opencode
+yazi
+git clone git@github.com:noidilin/noidilin.git .
+git clone git@github.com:noidilin/noidilin.git . --force
+git clone --help
+yazi
+git clone git@github.com:noidilin/noidilin.git .
+yazi
+z obsidian
+ls
+nvim
+nvim
+z fastfetch
+fastfetch
+opencode
+z
+z opencode
+z dev
+yazi
+ls
+yazi
+ls
+yazi
+z dev
+yazi
+z dev
+yazi
+cd github-readme\
+z fastfetch
+fastfetch
+z nvim
+fastfetch
+fastfetch -h gpu-format
+fastfetch
+fastfetch -h gpu-format
+fastfetch 
+fastfetch -h host-format
+fastfetch -h shell-format
+fastfetch -h terminal-format
+fastfetch -h editor-format
+fastfetch -h kernel-format
+fastfetch
+fastfetch -h packages-format
+fastfetch -h cpu-format
+fastfetch -h disk-format
+fastfetch
+nvim
+nvim
+opencode
+z obsidian
+opencode
+$env.Path
+opencode
+nvim
+z nvim
+sfsu bucket update
+sfsu list
+$env
+z install
+sfsu list
+$env
+cd ~/.config
+ls
+sfsu list
+clear
+$env
+nvim
+nvim
+sfsu bucket update
+sfsu status
+scoop update gsudo imagemagick mise opencode 
+sfsu status
+sfsu cleanup --cache --all
+sfsu cleanup
+sfsu cleanup --all --dry-run
+sfsu cleanup --help
+winget update
+btm
+winget update
+z area
+ls
+yz
+ls
+yazi
+z dev
+ls
+cd printez-store\
+ls
+cd ..
+yazi
+chezmoi status
+chezmoi re-add
+z chezmoi
+lg
+chezmoi add ~/.config/fastfetch/
+lg
+z nvim
+nvim
+lg
+nvim
+z dev
+ls
+yazi
+sfsu bucket update
+sfsu status
+nvim
+scoop update mise chezmoi carapace-bin bottom opencode
+sfsu status
+scoop uninstall uv
+z nushell
+yazi
+z
+yazi
+nvim
+dev
+z dev
+clear
+mkdir react-hook-form
+cd react-hook-form\
+ls
+cd ..
+rm react-hook-form\
+ls
+z obsidian
+z chezmoi
+nvim
+git remote
+git remote -v
+git remote set-url --help
+git remote set-url origin git@github.com:noidilin/dotfiles.git
+git remote -v
+git status
+git fetch
+chezmoi status
+lg
+winget search comfy
+sfsu bucket update
+sfsu status
+scoop update mise mise
+scoop update opencode
+sfsu status
+nvim
+z dev
+yazi
+bunx create-next-app@latest .
+bun create-next-app@latest .
+bun --version
+z
+yazi
+bun x create-next-app@latest .
+z dev
+ls
+cd server-action\
+bun x create-next-app@latest .
+pnpm store status
+cd ..
+ls
+cd printez-store\
+pnpm store status
+z .dev
+ls
+cd pnpm
+ls
+yazi
+pnpm store status
+du 
+ls
+yazi
+pnpm store status
+pnpm store 
+clear
+ls
+yazi
+cd ..
+cd printez-store\
+nvim
+cd ..
+yazi
+yz
+fsutil hardlink list index.d.ts
+z .dev
+cd bun\
+ls
+yazi
+cd install\cache\
+ls
+yazi
+cd @tailwindcss\
+ls
+yazi
+yz
+fsutil hardlink list index.d.ts
+yz
+yz
+fsutil hardlink list cowsay.es.js
+bun help
+bun install --help
+bun install --backend
+bun pm cache-dir
+bun pm cache
+yz
+fsutil help
+fsutil hardlink --help
+cd ..
+ls
+yz
+fsutil hardlink list index.js
+yazi
+yz
+fsutil hardlink list index.js
+ls
+yazi
+bun config
+yazi
+z .config
+ls
+cd ..
+bun install --backend hardlink
+yazi
+yazi
+mkdir hardlink-test
+cd hardlink-test\
+"hello hardlink test" | save original.txt
+ls
+^cmd /c mklink /H linked.txt original.txt
+ls
+fsutil hardlink list original.txt
+'modified content' | save original.txt
+'modified content' | save original.txt -f
+open linked.txt
+fsutil file queryfileid original.txt
+fsutil file queryfileid linked.txt
+cd ..
+rm -rf .\hardlink-test\
+ls
+yazi
+yz
+fsutil file queryfileid index.js
+z .dev
+cd bun\install\cache\react\
+ls
+yazi
+yz
+ls
+ls
+fsutil file queryfileid index.js
+fsutil file queryfileid index.js
+z .config
+nvim .bunfig.toml 
+nvim
+rimraf --verbose .\node_modules\
+ls
+yazi
+ls
+z .dev
+yazi
+bun pm cache rm
+yazi
+cd ..
+clear
+z .config
+ls
+nvim starship.toml
+yazi
+mkdir bun-hardlink-test
+cd bun-hardlink-test\
+bun init -y
+bun add react
+fsutil hardlink list node_modules\react\index.js
+fsutil hardlink list node_modules\react\package.json
+bun pm ls --all
+pwd
+cd ..
+rm -rf .\bun-hardlink-test\
+ls
+cd ..
+du dev
+cd dev
+ls --du
+fastfetch
+ls
+z
+ls
+mkdir hub
+cd hub
+ls
+pwd
+ls
+mkdir test dev edu
+ls
+yazi
+cd ..
+ls --du
+cd eventful\
+rimraf --verbose .\node_modules\
+cd ..
+cd self
+cd test\
+cd ..
+z test
+cd ..
+z dev
+cd ..
+z edu
+cd ..
+z test
+mkdir bun-hardlink-test
+"hello hardlink test" | save original.txt
+cmd /c mklink /H linked.txt original.txt
+fsutil hardlink list original.txt
+cd ..
+cd test\
+ls
+rm linked.txt
+rm original.txt
+ls
+cd bun-hardlink-test\
+bun init -y
+bun add react
+ls
+fsutil hardlink list node_modules\react\index.js
+cd ..
+ls
+rimraf --verbose .\node_modules\
+cd ..
+cd layers
+rm -rf .\bun-hardlink-test\
+ls
+cd ..
+ls
+cd learning
+ls
+yazi
+ls --du
+yazi
+rimraf --verbose .\node_modules\
+git remote set-url origin git@github.com:noidilin/edu.git
+git remote -v
+git fetch
+cd ..
+cd newsly\
+yazi
+cd ..
+yazi
+cd dev
+ls
+rimraf --verbose .\node_modules\
+cd ..
+z dev
+ls
+ls --du
+cd newsly\
+ls
+ls --du
+cd ..
+cd printez-store\
+rimraf --verbose .\node_modules\
+ls
+cd ..
+yazi
+cd ..
+yazi
+gsudo yazi
+cd ..
+ls
+rimraf --verbose .\.pnpm-store\
+ls
+yazi
+gsudo yazi
+yazi
+z 
+z dev
+z hub
+z dev
+z
+z dev
+z hub\dev
+cd ..
+z dev
+z hub\dev
+ls
+z area
+ls
+cd ..
+yazi
+z obsidian
+nvim
+z nvim
+ls
+nvim
+yazi
+nvim
+opencode
+lg
+yazi
+nvim
+opencode
+nvim
+ls ($env.LOCALAPPDATA | path join 'nvim-data' 'shada' ) | get name | each {|file| rm -fv $file}
+nvim
+z
+$env.XDG_STATE_HOME
+ls ($env.XDG_STATE_HOME | path join 'nvim-data' 'shada' ) | get name | each {|file| rm -fv $file}
+yazi
+nvim
+opencode
+nvim
+z
+z hub\dev
+z chezmoi
+nvim
+z nushell
+$env.NU_LIB_DIRS
+z hub\dev
+ls
+$env.LS_COLORS
+vivid generate color-fatigue
+cd ..
+vivid generate color-fatigue
+$env.LS_COLORS
+opencode
+lg
+ls
+nvim
+less AGENTS.md
+z hub\dev
+opencode
+z nushell
+$nu.user-autoload-dirs
+chezmoi status
+chezmoi re-add
+chezmoi status
+z chezmoi
+lg
+z nushell
+chezmoi status
+chezmoi re-add
+z chezmoi
+lg
+yz
+ez
+nvim
+chezmoi add ~/.config/nushell/
+yazi
+lg
+z chezmoi
+mise doctor
+yazi
+z chezmoi
+yazi
+lg
+chezmoi status
+chezmoi re-add
+lg
+help source
+$nu.user-autoload-dirs
+help use
+clear
+lg
+yazi
+lg
+$nu.data-dir
+help source
+clear
+mise doctor
+z dev
+zoxide dev
+lg
+yazi
+nvim
+clear
+$env.config.buffer_editor
+chezmoi status
