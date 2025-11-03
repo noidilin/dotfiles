@@ -1,9 +1,9 @@
 # dotfile
 
-> [!WARNING] platform
+> [!CAUTION]
 > currently only works on windows
 
-## install scripts
+## Install Scripts
 
 The `.install` dir contains all the installation scripts that can setup environment variables, daily used apps and symlinks. The scripts are wrote in `pwsh` since it is the modern shell language in windows, and is more verbose but clear for me.
 
@@ -15,7 +15,8 @@ The `.install` dir contains all the installation scripts that can setup environm
 - `pnpm`: install `pnpm` packages globally
 - `winget`: install apps with `winget`
 
-> [!note] XDG directory
+> [!NOTE]
+> XDG directory
 > It will affect app storing location of config, data and cache, like neovim, lazygit...
 > Unfortunately, vs code don't utilize these env variables by default now (2024-11-27).
 > Hence, I've manually add those environment variables in the `settings.json`.
@@ -25,11 +26,12 @@ The `.install` dir contains all the installation scripts that can setup environm
 > - it is a vs code issue
 > - it's because I install vs code with `scoop`.
 
-### batch scripts
+### Batch Scripts
 
 In addition, `batch` scripts streamline all the installation scripts. However, it requires setting up private `ssh` key, which is currently stored in USB flash drive, since I couldn't think of a valid way to save the private key.
 
-> [!warning] UAC prompt
+> [!WARNING]
+> UAC prompt
 > There will be UAC prompt asking for admin privilege during some installation, mostly from `winget install` and `scoop install neorocks-scoop/luarocks`.
 > Since UAC prompt has to be interact with the GUI manually, which makes the scripts not so automatical.
 
@@ -52,7 +54,8 @@ chezmoi cd ~
 age-keygen | age --armor --passphrase > key.txt.age
 ```
 
-> [!hint] the mysterious key.txt
+> [!TIP]
+> The mysterious key.txt
 > The 'key.txt' will be the private key to encrypt and decrypt files processed with `chezmoi add --encrypt {file}`
 > I can further encrypt this private key with a passphrase to safely save it to remote repo.
 > The passphrase will be used to decrypt the private key when setting up a new device.
