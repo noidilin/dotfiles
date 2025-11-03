@@ -28,6 +28,8 @@ $SCOOP_FONT = @(
   "nerd-fonts/GlowSansTC-Extended"
   "nerd-fonts/GlowSansTC-Normal"
   "nerd-fonts/GlowSansTC-Wide"
+  "nerd-fonts/Noto-CJK-Mega-OTC"
+  "nerd-fonts/Noto-Serif-CJK-Super-OTC"
 )
 
 $SCOOP_EDITOR = @(
@@ -75,6 +77,7 @@ $SCOOP_CLI = @(
   "main/ffmpeg"
   "main/fzf"
   "main/gh"
+  # "main/glow" # terminal based markdown reader 
   "main/gpg"
   "main/grep"
   "main/gsudo"
@@ -82,16 +85,17 @@ $SCOOP_CLI = @(
   # "main/jq" # command-line JSON processor
   "main/less"
   # "main/lazydocker"
+  "main/pastel"
   "main/ripgrep"
   "main/sd" # sed alternative
   "main/sed" # sed (stream editor) is a non-interactive command-line text editor
   "main/starship"
+  "main/tectonic" # modernized, complete, self-contained TeX/LaTeX engine, powered by XeTeX and TeXLive
   "main/vivid"
   # "main/xh" # friendly and fast tool for sending HTTP requests
   "main/yazi"
   # "main/yq" # a portable command-line YAML, JSON, XML, CSV, TOML and properties processor
   "main/zoxide"
-  # "main/glow" # terminal based markdown reader 
   # "main/yt-dlp" # command-line audio/video downloader 
   # "main/rclone" # sync files and directories to and from multiple cloud / FTP / HTTP hosters.
 )
