@@ -1,6 +1,4 @@
-const cache_file = ($nu.cache-dir | path join 'starship' 'init.nu')
+const init_file = ($nu.data-dir | path join 'vendor' 'autoload' 'starship.nu')
+mkdir ($init_file | path dirname)
 
-mkdir ($cache_file | path dirname)
-starship init nu | save -f $cache_file
-
-source $cache_file
+starship init nu | save -f $init_file

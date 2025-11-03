@@ -37,10 +37,8 @@ $env.config = (
 )
 "
 
-const cache_file = ($nu.cache-dir | path join 'atuin' 'init.nu')
+const init_file = ($nu.data-dir | path join 'vendor' 'autoload' 'atuin.nu')
+mkdir ($init_file | path dirname)
 
-mkdir ($cache_file | path dirname)
-atuin init nu --disable-up-arrow | save -f $cache_file
-echo $ctrl_b_handler | save --append $cache_file
-
-source $cache_file
+atuin init nu --disable-up-arrow | save -f $init_file
+echo $ctrl_b_handler | save --append $init_file

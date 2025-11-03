@@ -1,6 +1,4 @@
-const cache_file = ($nu.cache-dir | path join 'zoxide' 'init.nu')
+const init_file = ($nu.data-dir | path join 'vendor' 'autoload' 'zoxide.nu')
+mkdir ($init_file | path dirname)
 
-mkdir ($cache_file | path dirname)
-zoxide init nushell --hook prompt | save -f $cache_file
-
-source $cache_file
+zoxide init nushell --hook prompt | save -f $init_file

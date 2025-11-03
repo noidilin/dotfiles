@@ -1,6 +1,4 @@
-const cache_file = ($nu.cache-dir | path join 'carapace' 'init.nu')
+const init_file = ($nu.data-dir | path join 'vendor' 'autoload' 'carapace.nu')
+mkdir ($init_file | path dirname)
 
-mkdir ($cache_file | path dirname)
-carapace _carapace nushell | save -f $cache_file
-
-source $cache_file
+carapace _carapace nushell | save -f $init_file

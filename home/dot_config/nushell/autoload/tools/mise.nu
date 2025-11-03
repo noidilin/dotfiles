@@ -1,6 +1,4 @@
-const cache_file = ($nu.cache-dir | path join 'mise' 'init.nu')
+const init_file = ($nu.data-dir | path join 'vendor' 'autoload' 'mise.nu')
+mkdir ($init_file | path dirname)
 
-mkdir ($cache_file | path dirname)
-mise activate nu | save -f $cache_file
-
-source $cache_file
+mise activate nu | save -f $init_file
