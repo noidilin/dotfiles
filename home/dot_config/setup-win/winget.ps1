@@ -8,13 +8,13 @@ $WINGET_GUI = @(
   @{name = "Rime.Weasel"}
   @{name = "dechamps.FlexASIO" }
   @{name = "CyberPowerSystemsInc.PowerPanelPersonal" }
-  @{name = "SteelSeries.GG"}
+  # @{name = "SteelSeries.GG"}
   @{name = "Wacom.WacomTabletDriver"}
   # @{name = "Crucial.StorageExecutive"}
   # @{name = "lukehaas.RunJS" }
   @{name = "ogdesign.Eagle"}
   @{name = "WavesAudio.WavesCentral"}
-  @{name = "Zen-Team.Zen-Browser.Optimized"}
+  @{name = "Zen-Team.Zen-Browser"}
 )
 
 Write-Host "installing winget apps..." -ForegroundColor Gray
