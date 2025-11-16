@@ -1,0 +1,80 @@
+#!/bin/bash
+# vim: ft=bash
+
+{{- if eq .chezmoi.os "linux" }}
+{{- if eq .chezmoi.osRelease.id "arch" }}
+
+# Install essential packages for Arch Linux
+# This script runs when the hash of this file changes
+
+set -euo pipefail
+
+echo "Installing essential packages for Arch Linux..."
+
+# Update package database
+sudo pacman -Syu --noconfirm
+
+# Core shell and prompt
+packages=(
+    # Shell and prompt
+    nushell
+    starship
+    
+    # CLI utilities
+    bat                 # cat with syntax highlighting
+    eza                 # modern ls replacement
+    fd                  # modern find replacement
+    ripgrep             # fast grep
+    sd                  # modern sed
+    fzf                 # fuzzy finder
+    zoxide              # smart cd
+    
+    # File managers and TUI tools
+    yazi                # terminal file manager
+    lazygit             # git TUI
+    bottom              # process viewer
+    
+    # Dev tools
+    mise                # runtime version manager
+    git-delta           # better git diff
+    
+    # Other utilities
+    age                 # encryption tool for chezmoi
+    fastfetch           # system info
+    atuin               # shell history
+    carapace-bin        # completion generator
+    
+    # Optional tools
+    imagemagick         # image manipulation
+    ast-grep            # code search
+)
+
+# Install packages
+for package in "${packages[@]}"; do
+    if ! pacman -Q "$package" &>/dev/null; then
+        echo "Installing $package..."
+        sudo pacman -S --noconfirm "$package" || echo "Failed to install $package"
+    else
+        echo "$package is already installed"
+    fi
+done
+
+# Set nushell as default shell if not already set
+if [[ "$SHELL" != *"nu"* ]]; then
+    echo "Setting nushell as default shell..."
+    nu_path=$(which nu)
+    
+    # Add nu to /etc/shells if not present
+    if ! grep -q "$nu_path" /etc/shells; then
+        echo "$nu_path" | sudo tee -a /etc/shells
+    fi
+    
+    # Change default shell
+    chsh -s "$nu_path"
+    echo "Default shell changed to nushell. Please log out and log back in."
+fi
+
+echo "Package installation complete!"
+
+{{- end }}
+{{- end }}
