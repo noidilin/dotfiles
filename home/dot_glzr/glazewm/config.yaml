@@ -184,20 +184,36 @@ window_rules:
         window_title: { regex: "Cavalry|Rename" }
 
 binding_modes:
-  # When enabled, the focused window can be resized via arrow keys or HJKL.
-  - name: "resize"
+  - name: "edit"
     keybindings:
-      - commands: ["resize --width -5%"]
+      - commands: ["resize --width -2%"]
         bindings: ["h"]
-      - commands: ["resize --width +5%"]
+      - commands: ["resize --width +2%"]
         bindings: ["l"]
-      - commands: ["resize --height +5%"]
+      - commands: ["resize --height +2%"]
         bindings: ["k"]
-      - commands: ["resize --height -5%"]
+      - commands: ["resize --height -2%"]
         bindings: ["j"]
+      - commands: ["resize --width -10%"]
+        bindings: ["shift+h"]
+      - commands: ["resize --width +10%"]
+        bindings: ["shift+l"]
+      - commands: ["resize --height +10%"]
+        bindings: ["shift+k"]
+      - commands: ["resize --height -10%"]
+        bindings: ["shift+j"]
+      # Move focused window in a given direction.
+      - commands: ["move --direction left"]
+        bindings: ["alt+h"]
+      - commands: ["move --direction right"]
+        bindings: ["alt+l"]
+      - commands: ["move --direction up"]
+        bindings: ["alt+k"]
+      - commands: ["move --direction down"]
+        bindings: ["alt+j"]
       # return to default keybindings
-      - commands: ["wm-disable-binding-mode --name resize"]
-        bindings: ["escape", "alt+r"]
+      - commands: ["wm-disable-binding-mode --name edit"]
+        bindings: ["escape", "alt+shift+e"]
 
   - name: "extra"
     keybindings:
@@ -224,10 +240,8 @@ binding_modes:
         bindings: ["alt+enter"]
       # return to default keybindings
       - commands: ["wm-disable-binding-mode --name extra"]
-        bindings: ["escape", "alt+b"]
+        bindings: ["escape", "alt+shift+g"]
 
-  # When enabled, all keybindings are disabled except for alt+shift+p which
-  # returns to default keybindings.
   - name: "pause"
     keybindings:
       - commands: ["wm-disable-binding-mode --name pause"]
@@ -236,48 +250,24 @@ binding_modes:
 keybindings:
   # Shift focus in a given direction.
   - commands: ["focus --direction left"]
-    bindings: ["alt+h"]
-  - commands: ["focus --direction right"]
-    bindings: ["alt+l"]
-  - commands: ["focus --direction up"]
-    bindings: ["alt+k"]
-  - commands: ["focus --direction down"]
-    bindings: ["alt+j"]
-
-  # Move focused window in a given direction.
-  - commands: ["move --direction left"]
     bindings: ["alt+shift+h"]
-  - commands: ["move --direction right"]
+  - commands: ["focus --direction right"]
     bindings: ["alt+shift+l"]
-  - commands: ["move --direction up"]
+  - commands: ["focus --direction up"]
     bindings: ["alt+shift+k"]
-  - commands: ["move --direction down"]
+  - commands: ["focus --direction down"]
     bindings: ["alt+shift+j"]
 
-  # Resize focused window by a percentage or pixel amount.
-  # - commands: ['resize --width -2%']
-  #   bindings: ['alt+u']
-  # - commands: ['resize --width +2%']
-  #   bindings: ['alt+p']
-  # - commands: ['resize --height +2%']
-  #   bindings: ['alt+o']
-  # - commands: ['resize --height -2%']
-  #   bindings: ['alt+i']
-
-  # As an alternative to the resize keybindings above, resize mode enables
-  # resizing via arrow keys or HJKL. The binding mode is defined above with
-  # the name 'resize'.
-  - commands: ["wm-enable-binding-mode --name resize"]
-    bindings: ["alt+r"]
+  # binding mode
+  - commands: ["wm-enable-binding-mode --name edit"]
+    bindings: ["alt+shift+e"]
   - commands: ["wm-enable-binding-mode --name extra"]
-    bindings: ["alt+b"]
-
-  # Disables all keybindings until alt+shift+p is pressed again.
+    bindings: ["alt+shift+g"]
+  # Disables all keybindings until ctrl+alt+shift+p is pressed again
   - commands: ["wm-enable-binding-mode --name pause"]
     bindings: ["ctrl+alt+shift+p"]
 
-  # Change tiling direction. This determines where new tiling windows will
-  # be inserted.
+  # Change tiling direction. This determines where new tiling windows will be inserted.
   - commands: ["toggle-tiling-direction"]
     bindings: ["alt+v"]
 
@@ -296,10 +286,6 @@ keybindings:
   # Change the focused window to be fullscreen.
   - commands: ["toggle-fullscreen"]
     bindings: ["alt+shift+m"]
-
-  # Set exact window size
-  - commands: ["size --width 86% --height 90%"]
-    bindings: ["alt+shift+e"]
 
   # Focus the next/previous workspace defined in `workspaces` config.
   # - commands: ['focus --next-workspace']
