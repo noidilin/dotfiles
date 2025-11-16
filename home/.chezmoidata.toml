@@ -65,7 +65,6 @@ tools = [
 
 [packages.cli.windows]
 scoop = [
-  "delta",
   "gsudo",    # system
   "tectonic", # TeX/LaTeX engine
   # Text processing (not needed on Linux - coreutils)
