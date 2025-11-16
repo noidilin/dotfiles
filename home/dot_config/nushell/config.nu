@@ -1,6 +1,7 @@
 const CONFIG_DIR = ($nu.default-config-dir | path join 'config')
 const ENV_DIR = ($nu.default-config-dir | path join 'env')
 
+source ($ENV_DIR | path join 'xdg.nu')
 source ($ENV_DIR | path join 'dev.nu')
 source ($ENV_DIR | path join 'shell.nu')
 source ($ENV_DIR | path join 'fzf.nu')
