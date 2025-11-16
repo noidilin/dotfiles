@@ -201,7 +201,7 @@ pnpm = [
   "next-devtools-mcp",
   "chrome-devtools-mcp",
 ]
-# bun = ["@vscode/vsce"] # Alternatives (not actively used, kept for reference)
+bun = [""] # Alternatives (not actively used, kept for reference)
 
 # -----------------------------------------------------------------------------
 # Environment Variables (Windows Only)
