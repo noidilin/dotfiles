@@ -22,6 +22,11 @@ scoop/*
 FlexASIO.toml
 .config/pwsh/*
 .config/winterm/*
+.config/flow-launcher/*
+.config/rime/*
+.config/setup-win/*
+.config/vscode/main.css
+.chezmoiscripts/run_once_before_decrypt-private-key.ps1.tmpl
 {{- end }}
 
 {{- if ne .chezmoi.os "darwin" }}
