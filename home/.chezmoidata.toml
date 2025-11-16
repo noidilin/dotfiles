@@ -151,8 +151,8 @@ winget = [
   "Zen-Team.Zen-Browser",
 ]
 
-# [packages.gui.linux]
-# pacman = ["obs-studio"]
+[packages.gui.linux]
+pacman = []
 # aur = ["obsidian"]
 
 # -----------------------------------------------------------------------------
