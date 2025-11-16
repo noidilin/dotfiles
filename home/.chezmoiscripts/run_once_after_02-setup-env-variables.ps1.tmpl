@@ -1,0 +1,35 @@
+{{- if eq .chezmoi.os "windows" }}
+# =============================================================================
+# Setup Environment Variables (Windows Only)
+# =============================================================================
+# This script runs ONCE after chezmoi initialization
+# Source: .chezmoidata.toml [env.windows]
+# =============================================================================
+
+Write-Host "=== Setting up environment variables ===" -ForegroundColor Cyan
+
+# Environment variables from .chezmoidata.toml
+$NamedEnv = @{
+{{- range $key, $value := .env.windows }}
+    "{{ $key }}" = "{{ $value }}"
+{{- end }}
+}
+
+# Set environment variables
+foreach ($Key in $NamedEnv.Keys) {
+    # Expand variables like $HOME
+    $expandedValue = $ExecutionContext.InvokeCommand.ExpandString($NamedEnv[$Key])
+    
+    # Check if the environment variable already exists
+    $currentValue = [System.Environment]::GetEnvironmentVariable($Key, [System.EnvironmentVariableTarget]::User)
+    
+    if ($currentValue -eq $null -or $currentValue -ne $expandedValue) {
+        Write-Host "Setting $Key = $expandedValue" -ForegroundColor Green
+        [System.Environment]::SetEnvironmentVariable($Key, $expandedValue, [System.EnvironmentVariableTarget]::User)
+    } else {
+        Write-Host "$Key is already set correctly (skipping)" -ForegroundColor DarkGray
+    }
+}
+
+Write-Host "Environment variables setup complete!" -ForegroundColor Green
+{{- end }}

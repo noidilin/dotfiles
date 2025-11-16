@@ -1,0 +1,54 @@
+{{- if eq .chezmoi.os "windows" }}
+# =============================================================================
+# Install WinGet Packages (Windows Only)
+# =============================================================================
+# This script runs when .chezmoidata.toml changes
+# Source: .chezmoidata.toml [packages.*.windows.winget]
+# Hash trigger: {{ include ".chezmoidata.toml" | sha256sum }}
+# =============================================================================
+
+Write-Host "=== Installing WinGet packages ===" -ForegroundColor Cyan
+
+# Check if winget is installed
+if (!(Get-Command winget -ErrorAction SilentlyContinue)) {
+    Write-Host "ERROR: WinGet is not installed!" -ForegroundColor Red
+    Write-Host "WinGet comes with Windows 11 or can be installed via Microsoft Store (App Installer)" -ForegroundColor Yellow
+    exit 1
+}
+
+# Function to check if package is installed
+function Test-WinGetPackage {
+    param([string]$PackageId)
+    
+    $result = winget list --id $PackageId --exact 2>$null
+    return $LASTEXITCODE -eq 0
+}
+
+# Function to install package if not already installed
+function Install-WinGetPackage {
+    param([string]$PackageId)
+    
+    if (Test-WinGetPackage $PackageId) {
+        Write-Host "$PackageId is already installed (skipping)" -ForegroundColor DarkGray
+        return
+    }
+    
+    Write-Host "Installing: $PackageId" -ForegroundColor Green
+    try {
+        winget install --id $PackageId --silent --accept-source-agreements --accept-package-agreements
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "Failed to install $PackageId (exit code: $LASTEXITCODE)" -ForegroundColor Red
+        }
+    } catch {
+        Write-Host "Failed to install $PackageId : $_" -ForegroundColor Red
+    }
+}
+
+# Install GUI applications
+Write-Host "`nInstalling GUI applications..." -ForegroundColor Yellow
+{{- range .packages.gui.windows.winget }}
+Install-WinGetPackage "{{ . }}"
+{{- end }}
+
+Write-Host "`nWinGet package installation complete!" -ForegroundColor Green
+{{- end }}

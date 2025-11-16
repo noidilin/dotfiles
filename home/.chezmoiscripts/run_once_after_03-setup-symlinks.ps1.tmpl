@@ -1,0 +1,57 @@
+{{- if eq .chezmoi.os "windows" }}
+# =============================================================================
+# Setup Symbolic Links (Windows Only)
+# =============================================================================
+# This script runs ONCE after chezmoi initialization
+# Source: .chezmoidata.toml [symlinks.windows]
+# Creates symlinks for apps that don't support XDG Base Directory
+# =============================================================================
+
+Write-Host "=== Setting up symbolic links ===" -ForegroundColor Cyan
+
+# Symlinks configuration from .chezmoidata.toml
+$symlinks = @{
+{{- range .symlinks.windows }}
+    "{{ .target }}" = "{{ .source }}"
+{{- end }}
+}
+
+# Create symbolic links
+foreach ($symlink in $symlinks.GetEnumerator()) {
+    # Expand environment variables in paths
+    $targetPath = $ExecutionContext.InvokeCommand.ExpandString($symlink.Key)
+    $sourcePath = $ExecutionContext.InvokeCommand.ExpandString($symlink.Value)
+    
+    # Resolve source path to absolute path
+    if (Test-Path $sourcePath) {
+        $sourcePath = Resolve-Path $sourcePath
+    } else {
+        Write-Host "Warning: Source path does not exist: $sourcePath" -ForegroundColor Yellow
+        continue
+    }
+    
+    # Remove existing target if it exists (backup not needed, managed by chezmoi)
+    if (Test-Path $targetPath) {
+        Write-Host "Removing existing: $targetPath" -ForegroundColor DarkGray
+        Remove-Item -Path $targetPath -Force -Recurse -ErrorAction SilentlyContinue
+    }
+    
+    # Ensure parent directory exists
+    $targetParent = Split-Path -Parent $targetPath
+    if (-not (Test-Path $targetParent)) {
+        Write-Host "Creating parent directory: $targetParent" -ForegroundColor DarkGray
+        New-Item -ItemType Directory -Path $targetParent -Force | Out-Null
+    }
+    
+    # Create symbolic link
+    try {
+        Write-Host "Linking: $targetPath -> $sourcePath" -ForegroundColor Green
+        New-Item -ItemType SymbolicLink -Path $targetPath -Target $sourcePath -Force -ErrorAction Stop | Out-Null
+    } catch {
+        Write-Host "Error creating symlink: $_" -ForegroundColor Red
+        Write-Host "You may need to run PowerShell as Administrator or enable Developer Mode" -ForegroundColor Yellow
+    }
+}
+
+Write-Host "Symbolic links setup complete!" -ForegroundColor Green
+{{- end }}

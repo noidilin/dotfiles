@@ -1,0 +1,93 @@
+{{- if eq .chezmoi.os "windows" }}
+# =============================================================================
+# Install Scoop Packages (Windows Only)
+# =============================================================================
+# This script runs when .chezmoidata.toml changes
+# Source: .chezmoidata.toml [packages.*.windows.scoop]
+# Hash trigger: {{ include ".chezmoidata.toml" | sha256sum }}
+# =============================================================================
+
+Write-Host "=== Installing Scoop packages ===" -ForegroundColor Cyan
+
+# Check if scoop is installed
+if (!(Get-Command scoop -ErrorAction SilentlyContinue)) {
+    Write-Host "ERROR: Scoop is not installed!" -ForegroundColor Red
+    Write-Host "Please install Scoop first: https://scoop.sh" -ForegroundColor Yellow
+    exit 1
+}
+
+# Add custom buckets
+Write-Host "`nAdding custom buckets..." -ForegroundColor Yellow
+{{- range .bootstrap.windows.scoop.custom_buckets }}
+$bucketName = "{{ .name }}"
+$bucketUrl = "{{ .url }}"
+if (!(scoop bucket list | Select-String -Pattern "^$bucketName\s")) {
+    Write-Host "Adding bucket: $bucketName" -ForegroundColor Green
+    scoop bucket add $bucketName $bucketUrl
+} else {
+    Write-Host "Bucket already added: $bucketName (skipping)" -ForegroundColor DarkGray
+}
+{{- end }}
+
+# Add standard buckets
+{{- range .bootstrap.windows.scoop.buckets }}
+$bucketName = "{{ . }}"
+if (!(scoop bucket list | Select-String -Pattern "^$bucketName\s")) {
+    Write-Host "Adding bucket: $bucketName" -ForegroundColor Green
+    scoop bucket add $bucketName
+} else {
+    Write-Host "Bucket already added: $bucketName (skipping)" -ForegroundColor DarkGray
+}
+{{- end }}
+
+# Function to install package if not already installed
+function Install-ScoopPackage {
+    param([string]$Package)
+    
+    # Check if already installed
+    if (scoop list $Package 2>$null | Select-String -Pattern "^\s*$Package\s") {
+        Write-Host "$Package is already installed (skipping)" -ForegroundColor DarkGray
+        return
+    }
+    
+    Write-Host "Installing: $Package" -ForegroundColor Green
+    try {
+        scoop install $Package
+    } catch {
+        Write-Host "Failed to install $Package : $_" -ForegroundColor Red
+    }
+}
+
+# Install packages from different categories
+Write-Host "`nInstalling CLI tools (common)..." -ForegroundColor Yellow
+{{- range .packages.cli.common.tools }}
+Install-ScoopPackage "{{ . }}"
+{{- end }}
+
+Write-Host "`nInstalling CLI tools (Windows-specific)..." -ForegroundColor Yellow
+{{- range .packages.cli.windows.scoop }}
+Install-ScoopPackage "{{ . }}"
+{{- end }}
+
+Write-Host "`nInstalling fonts..." -ForegroundColor Yellow
+{{- range .packages.fonts.windows.scoop }}
+Install-ScoopPackage "{{ . }}"
+{{- end }}
+
+Write-Host "`nInstalling editors & IDEs..." -ForegroundColor Yellow
+{{- range .packages.editor.windows.scoop }}
+Install-ScoopPackage "{{ . }}"
+{{- end }}
+
+Write-Host "`nInstalling GUI applications..." -ForegroundColor Yellow
+{{- range .packages.gui.windows.scoop }}
+Install-ScoopPackage "{{ . }}"
+{{- end }}
+
+Write-Host "`nInstalling development toolchain..." -ForegroundColor Yellow
+{{- range .dev.toolchain.windows.scoop }}
+Install-ScoopPackage "{{ . }}"
+{{- end }}
+
+Write-Host "`nScoop package installation complete!" -ForegroundColor Green
+{{- end }}

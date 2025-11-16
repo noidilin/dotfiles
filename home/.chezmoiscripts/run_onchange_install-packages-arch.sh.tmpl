@@ -4,49 +4,59 @@
 {{- if eq .chezmoi.os "linux" }}
 {{- if eq .chezmoi.osRelease.id "arch" }}
 
-# Install essential packages for Arch Linux
-# This script runs when the hash of this file changes
+# =============================================================================
+# Install Essential Packages for Arch Linux
+# =============================================================================
+# This script runs when .chezmoidata.toml changes
+# Source: .chezmoidata.toml [packages.*.linux.pacman, packages.cli.common.tools]
+# Hash trigger: {{ include ".chezmoidata.toml" | sha256sum }}
+# =============================================================================
 
 set -euo pipefail
 
-echo "Installing essential packages for Arch Linux..."
+echo "=== Installing essential packages for Arch Linux ==="
 
 # Update package database
 sudo pacman -Syu --noconfirm
 
-# Core shell and prompt
+# Build package list from .chezmoidata.toml
 packages=(
-    # Shell and prompt
+    # Core shell (always needed)
     nushell
-    starship
     
-    # CLI utilities
-    bat                 # cat with syntax highlighting
-    eza                 # modern ls replacement
-    fd                  # modern find replacement
-    ripgrep             # fast grep
-    sd                  # modern sed
-    fzf                 # fuzzy finder
-    zoxide              # smart cd
+    # CLI tools (common across platforms, with name mapping)
+{{- range .packages.cli.common.tools }}
+    {{- $pkg := . }}
+    {{- if eq $pkg "delta" -}}
+    git-delta
+    {{- else if eq $pkg "gpg" -}}
+    gnupg
+    {{- else if eq $pkg "openssh" -}}
+    openssh  # Usually pre-installed
+    {{- else -}}
+    {{ $pkg }}
+    {{- end }}
+{{- end }}
     
-    # File managers and TUI tools
-    yazi                # terminal file manager
-    lazygit             # git TUI
-    bottom              # process viewer
+    # Linux-specific CLI tools
+{{- range .packages.cli.linux.pacman }}
+    {{ . }}
+{{- end }}
     
-    # Dev tools
-    mise                # runtime version manager
-    git-delta           # better git diff
+    # Editors
+{{- range .packages.editor.linux.pacman }}
+    {{ . }}
+{{- end }}
     
-    # Other utilities
-    age                 # encryption tool for chezmoi
-    fastfetch           # system info
-    atuin               # shell history
-    carapace-bin        # completion generator
+    # GUI applications
+{{- range .packages.gui.linux.pacman }}
+    {{ . }}
+{{- end }}
     
-    # Optional tools
-    imagemagick         # image manipulation
-    ast-grep            # code search
+    # Development toolchain
+{{- range .dev.toolchain.linux.pacman }}
+    {{ . }}
+{{- end }}
 )
 
 # Install packages
