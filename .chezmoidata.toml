@@ -11,18 +11,15 @@
 [bootstrap.windows.scoop]
 # Install scoop itself, then these packages are needed before main installation
 initial = [
-  "git",           # Required before adding buckets
+  "git",     # Required before adding buckets
   "chezmoi",
+  "age",
   "pwsh",
   "nu",
-  "age",
 ]
-buckets = [
-  "extras",
-  "nerd-fonts",
-]
+buckets = ["extras", "nerd-fonts"]
 custom_buckets = [
-  { name = "wezterm-alt-icon", url = "git@github.com:noidilin/wezterm-alt-icon.git" }
+  { name = "wezterm-alt-icon", url = "https://github.com/ocodo/wezterm-alt-windows-icon-builds.git" },
 ]
 
 # -----------------------------------------------------------------------------
@@ -32,10 +29,12 @@ custom_buckets = [
 # Cross-platform CLI tools (install via native package manager)
 # Windows: scoop main bucket | Linux: pacman | macOS: homebrew
 tools = [
+  "7zip",
+  "ast-grep",
   "bat",
   "bottom",
   "carapace-bin",
-  "delta",           # Note: "git-delta" on Arch pacman
+  "delta",        # Note: "git-delta" on Arch pacman
   "eza",
   "fastfetch",
   "fd",
@@ -43,45 +42,37 @@ tools = [
   "fzf",
   "gh",
   "gpg",
+  "gzip",
   "imagemagick",
+  "jq",
   "lazygit",
-  "neovim",
+  "openssh",
   "pastel",
+  "poppler",
   "ripgrep",
   "sd",
   "starship",
+  "unrar",
+  "unzip",
   "vivid",
+  "wget",
   "yazi",
   "zoxide",
 ]
 
 [packages.cli.windows]
 scoop = [
-  # Compression tools
-  "7zip",
-  "gzip",
-  "unrar",
-  "unzip",
-  
-  # Network & system
-  "wget",
-  "openssh",
-  "gsudo",
-  
+  "gsudo", # system
   # Text processing (not needed on Linux - coreutils)
   "grep",
   "sed",
   "less",
-  
-  # Development
-  "ast-grep",
-  "tectonic",        # TeX/LaTeX engine
+  "tectonic", # TeX/LaTeX engine
 ]
 
 [packages.cli.linux]
 pacman = [
-  "ast-grep",
-  "atuin",           # Shell history sync
+  "atuin", # Shell history sync
 ]
 
 # -----------------------------------------------------------------------------
@@ -108,13 +99,13 @@ scoop = [
   "neovim",
   "vscode",
   "zed",
-  "wezterm",         # From custom bucket: wezterm-alt-icon
+  "wezterm-alt-icon/wezterm", # From custom bucket: wezterm-alt-icon
 ]
 
 [packages.editor.linux]
 pacman = [
   "neovim",
-  "code",            # VSCode (or use AUR: visual-studio-code-bin)
+  "code",   # VSCode (or use AUR: visual-studio-code-bin)
 ]
 
 # -----------------------------------------------------------------------------
@@ -131,13 +122,13 @@ scoop = [
   "obs-studio",
   "obsidian",
   "potplayer",
-  
+
   # PowerShell modules (via scoop extras)
   "posh-git",
   "psreadline",
   "psfzf",
   "sfsu",
-  
+
   # System dependencies
   "vcredist2022",
 ]
@@ -155,27 +146,22 @@ winget = [
 ]
 
 [packages.gui.linux]
-pacman = [
-  "obs-studio",
-]
-# AUR (manual or via yay/paru)
-aur = [
-  "obsidian",
-]
+pacman = ["obs-studio"]
+aur = ["obsidian"]
 
 # -----------------------------------------------------------------------------
 # Development: Language Toolchains
 # -----------------------------------------------------------------------------
 [dev.toolchain.windows]
 scoop = [
-  "mingw",           # C/C++ compiler for Windows (GCC)
-  "mise",            # Runtime version manager
+  "mise",  # Runtime version manager
+  "mingw", # C/C++ compiler for Windows (GCC)
 ]
 
 [dev.toolchain.linux]
 pacman = [
   "mise",
-  "base-devel",      # gcc, make, etc. (may already be installed)
+  "base-devel", # gcc, make, etc. (may already be installed)
 ]
 
 # -----------------------------------------------------------------------------
@@ -183,7 +169,7 @@ pacman = [
 # -----------------------------------------------------------------------------
 # These will be used to generate: home/dot_config/mise/config.toml.tmpl
 [dev.mise.tools]
-bun = "1.3.1"
+bun = "latest"
 python = "latest"
 
 [dev.mise.tools.node]
@@ -202,65 +188,34 @@ python_uv_venv_auto = true
 # -----------------------------------------------------------------------------
 # Development: Node.js Packages (pnpm global)
 # -----------------------------------------------------------------------------
-# Installed to: $HOME/.dev/pnpm/
-[dev.node.pnpm]
-packages = [
+[dev.node]
+pnpm = [
   "tldr",
   "rimraf",
   "yamlresume",
   "next-devtools-mcp",
   "chrome-devtools-mcp",
 ]
-
-# Alternatives (not actively used, kept for reference)
-[dev.node.npm]
-packages = [
-  "corepack@latest",
-]
-
-[dev.node.bun]
-packages = [
-  "@vscode/vsce",
-  "tldr",
-  "rimraf",
-]
+bun = ["@vscode/vsce"] # Alternatives (not actively used, kept for reference)
 
 # -----------------------------------------------------------------------------
-# Environment Variables (System-Level Only)
+# Environment Variables (Windows Only)
 # -----------------------------------------------------------------------------
-# Shell-specific vars (EZA_CONFIG_DIR, BAT_CONFIG_DIR, etc.) 
-# should be managed in shell configs (nushell/env/, pwsh/profile.ps1)
-
-[env.windows]
 # XDG Base Directory (non-standard on Windows, needed globally)
+# Linux: XDG and PATH managed by shell profiles (no system-level env needed)
+[env.windows]
 XDG_CONFIG_HOME = "$HOME\\.config"
 XDG_DATA_HOME = "$HOME\\.local\\share"
 XDG_CACHE_HOME = "$HOME\\.cache"
 XDG_STATE_HOME = "$HOME\\.local\\state"
 XDG_BIN_HOME = "$HOME\\.local\\bin"
-
-# Node.js package managers (in $HOME/.dev/)
-PNPM_HOME = "$HOME\\.dev\\pnpm"
-BUN_INSTALL_GLOBAL_DIR = "$HOME\\.dev\\bun\\install\\global"
-BUN_INSTALL_BIN = "$HOME\\.dev\\bun\\bin"
-BUN_INSTALL_CACHE_DIR = "$HOME\\.dev\\bun\\install\\cache"
-
-# Rust toolchain
-CARGO_HOME = "$HOME\\.dev\\cargo"
-RUSTUP_HOME = "$HOME\\.dev\\rustup"
-
-[env.windows.path]
-# Directories to append to user PATH
-append = [
-  "$HOME\\.dev\\pnpm",
-  "$HOME\\.dev\\bun\\bin",
-]
-
-# Linux: XDG and PATH managed by shell profiles (no system-level env needed)
+YAZI_FILE_ONE = "$HOME\\scoop\\apps\\git\\current\\usr\\bin\\file.exe"
+BLENDER_USER_RESOURCES = "$HOME\\.local\\etc\\blender"
 
 # -----------------------------------------------------------------------------
 # Symbolic Links (Windows Only)
 # -----------------------------------------------------------------------------
+# Linux: Most configs follow XDG by default (no symlinks needed)
 # Format: { target = "destination", source = "config_file" }
 [[symlinks.windows]]
 target = "$PROFILE.CurrentUserAllHosts"
@@ -289,5 +244,3 @@ source = "$HOME\\.config\\bat"
 [[symlinks.windows]]
 target = "$env:LOCALAPPDATA\\nvim"
 source = "$HOME\\.config\\nvim"
-
-# Linux: Most configs follow XDG by default (no symlinks needed)
