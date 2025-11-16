@@ -81,17 +81,13 @@ done
 
 # Set nushell as default shell if not already set
 if [[ "$SHELL" != *"nu"* ]]; then
-    echo "Setting nushell as default shell..."
-    nu_path=$(which nu)
-    
-    # Add nu to /etc/shells if not present
-    if ! grep -q "$nu_path" /etc/shells; then
-        echo "$nu_path" | sudo tee -a /etc/shells
-    fi
-    
-    # Change default shell
-    chsh -s "$nu_path"
-    echo "Default shell changed to nushell. Please log out and log back in."
+    echo ""
+    echo -e "${YELLOW}Nushell is installed but not set as your default shell.${RESET}"
+    echo "To change your default shell, run:"
+    echo -e "  ${GREEN}chsh -s \$(which nu)${RESET}"
+    echo ""
+    echo "Then log out and log back in for changes to take effect."
+    echo "After logging back in, re-run 'chezmoi apply' to continue setup."
 fi
 
 echo -e "${GREEN}Package installation complete!${RESET}"
