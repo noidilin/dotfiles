@@ -6,25 +6,25 @@ $NamedEnv = @{
   XDG_DATA_HOME = "$HOME\.local\share"
   XDG_STATE_HOME = "$HOME\.local\state"
   XDG_BIN_HOME = "$HOME\.local\bin"
-  PNPM_HOME = "$HOME\.dev\pnpm"
-  BUN_INSTALL_GLOBAL_DIR = "$HOME\.dev\bun\install\global" # where `bun install --global` installs packages
-  BUN_INSTALL_BIN = "$HOME\.dev\bun\bin" # where globally-installed package bins are linked
-  BUN_INSTALL_CACHE_DIR = "$HOME\.dev\bun\install\cache" # all downloaded packages are stored in global cache
-  CARGO_HOME = "$HOME\.dev\cargo"
-  RUSTUP_HOME = "$HOME\.dev\rustup"
+  # PNPM_HOME = "$HOME\.dev\pnpm"
+  # BUN_INSTALL_GLOBAL_DIR = "$HOME\.dev\bun\install\global" # where `bun install --global` installs packages
+  # BUN_INSTALL_BIN = "$HOME\.dev\bun\bin" # where globally-installed package bins are linked
+  # BUN_INSTALL_CACHE_DIR = "$HOME\.dev\bun\install\cache" # all downloaded packages are stored in global cache
+  # CARGO_HOME = "$HOME\.dev\cargo"
+  # RUSTUP_HOME = "$HOME\.dev\rustup"
   # npm_config_cache = ""
   # PIP_CACHE_DIR = ""
-  EZA_CONFIG_DIR = "$HOME\.config\eza"
-  BAT_CONFIG_DIR = "$HOME\.config\bat"
-  YAZI_CONFIG_HOME = "$HOME\.config\yazi"
+  # EZA_CONFIG_DIR = "$HOME\.config\eza"
+  # BAT_CONFIG_DIR = "$HOME\.config\bat"
+  # YAZI_CONFIG_HOME = "$HOME\.config\yazi"
   YAZI_FILE_ONE = "$HOME\scoop\apps\git\current\usr\bin\file.exe"
   BLENDER_USER_RESOURCES = "$HOME\.local\etc\blender"
 }
 
 # List of directories to add to PATH
 $PathsToAdd = @(
-  "$HOME\.dev\pnpm"
-  "$HOME\.dev\bun\bin"
+  "$HOME\.dev\pnpm" # NOTE: placeholder for now
+  # "$HOME\.dev\bun\bin"
 )
 
 Write-Host "setting up environment variables..." -ForegroundColor Gray
