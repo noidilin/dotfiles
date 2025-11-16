@@ -2,7 +2,10 @@
 # =============================================================================
 # Install WinGet Packages (Windows Only)
 # =============================================================================
-# This script runs when .chezmoidata.toml changes
+# Execution Order: 11 (run_onchange_after_11-*)
+# - Runs on every `chezmoi apply` when .chezmoidata.toml changes
+# - Installs GUI applications via WinGet
+# - Runs after Scoop (10) to ensure system dependencies are installed
 # Source: .chezmoidata.toml [packages.*.windows.winget]
 # Hash trigger: {{ include ".chezmoidata.toml" | sha256sum }}
 # =============================================================================

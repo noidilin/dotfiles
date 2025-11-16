@@ -2,9 +2,11 @@
 # =============================================================================
 # Setup Symbolic Links (Windows Only)
 # =============================================================================
-# This script runs ONCE after chezmoi initialization
+# Execution Order: 03 (run_once_after_03-*)
+# - Runs once after environment variables are set
+# - Creates symlinks for apps that don't support XDG Base Directory
+# - Requires XDG_CONFIG_HOME to be set (from script 02)
 # Source: .chezmoidata.toml [symlinks.windows]
-# Creates symlinks for apps that don't support XDG Base Directory
 # =============================================================================
 
 Write-Host "=== Setting up symbolic links ===" -ForegroundColor Cyan

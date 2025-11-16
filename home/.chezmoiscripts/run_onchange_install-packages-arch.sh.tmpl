@@ -7,14 +7,24 @@
 # =============================================================================
 # Install Essential Packages for Arch Linux
 # =============================================================================
-# This script runs when .chezmoidata.toml changes
+# Execution Order: No number (run_onchange_*)
+# - Runs on every `chezmoi apply` when .chezmoidata.toml changes
+# - Installs system packages via pacman
+# - Should run before Node.js package script (12)
 # Source: .chezmoidata.toml [packages.*.linux.pacman, packages.cli.common.tools]
 # Hash trigger: {{ include ".chezmoidata.toml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
 
-echo "=== Installing essential packages for Arch Linux ==="
+# Color codes
+CYAN='\033[36m'
+GREEN='\033[32m'
+YELLOW='\033[33m'
+GRAY='\033[90m'
+RESET='\033[0m'
+
+echo -e "${CYAN}=== Installing essential packages for Arch Linux ===${RESET}"
 
 # Update package database
 sudo pacman -Syu --noconfirm
@@ -62,10 +72,10 @@ packages=(
 # Install packages
 for package in "${packages[@]}"; do
     if ! pacman -Q "$package" &>/dev/null; then
-        echo "Installing $package..."
-        sudo pacman -S --noconfirm "$package" || echo "Failed to install $package"
+        echo -e "${GREEN}Installing: $package${RESET}"
+        sudo pacman -S --noconfirm "$package" || echo -e "${YELLOW}Failed to install $package${RESET}"
     else
-        echo "$package is already installed"
+        echo -e "${GRAY}$package is already installed (skipping)${RESET}"
     fi
 done
 
@@ -84,7 +94,7 @@ if [[ "$SHELL" != *"nu"* ]]; then
     echo "Default shell changed to nushell. Please log out and log back in."
 fi
 
-echo "Package installation complete!"
+echo -e "${GREEN}Package installation complete!${RESET}"
 
 {{- end }}
 {{- end }}

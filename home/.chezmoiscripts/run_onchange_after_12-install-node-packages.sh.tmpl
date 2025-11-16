@@ -5,51 +5,61 @@
 # =============================================================================
 # Install Node.js Global Packages (Linux)
 # =============================================================================
-# This script runs when .chezmoidata.toml changes
+# Execution Order: 12 (run_onchange_after_12-*)
+# - Runs on every `chezmoi apply` when .chezmoidata.toml changes
+# - Installs global npm/pnpm/bun packages via mise
+# - Requires mise and Node.js to be installed first
 # Source: .chezmoidata.toml [dev.node.*]
 # Hash trigger: {{ include ".chezmoidata.toml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
 
-echo "=== Installing Node.js global packages ==="
+# Color codes
+CYAN='\033[36m'
+GREEN='\033[32m'
+YELLOW='\033[33m'
+GRAY='\033[90m'
+RESET='\033[0m'
+
+echo -e "${CYAN}=== Installing Node.js global packages ===${RESET}"
 
 # Check if mise is installed
 if ! command -v mise &>/dev/null; then
-    echo "WARNING: mise is not installed yet (skipping node package installation)"
+    echo -e "${YELLOW}WARNING: mise is not installed yet (skipping node package installation)${RESET}"
     exit 0
 fi
 
 # Check if node is available via mise
 if ! mise exec -- node --version &>/dev/null; then
-    echo "WARNING: Node.js is not installed via mise yet (skipping)"
+    echo -e "${YELLOW}WARNING: Node.js is not installed via mise yet (skipping)${RESET}"
     echo "Run 'mise install' to install Node.js first"
     exit 0
 fi
 
 node_version=$(mise exec -- node --version)
-echo "Node.js version: $node_version"
+echo -e "${GRAY}Node.js version: $node_version${RESET}"
 
 # Install pnpm global packages
 {{- if .dev.node.pnpm }}
 echo ""
-echo "Installing pnpm global packages..."
+echo -e "${YELLOW}Installing pnpm global packages...${RESET}"
 {{- range .dev.node.pnpm }}
-echo "Installing (pnpm): {{ . }}"
-mise exec -- pnpm add -g {{ . }} || echo "Failed to install {{ . }}"
+echo -e "${GREEN}Installing (pnpm): {{ . }}${RESET}"
+mise exec -- pnpm add -g {{ . }} || echo -e "${YELLOW}Failed to install {{ . }}${RESET}"
 {{- end }}
 {{- end }}
 
 # Install bun global packages
 {{- if .dev.node.bun }}
 echo ""
-echo "Installing bun global packages..."
+echo -e "${YELLOW}Installing bun global packages...${RESET}"
 {{- range .dev.node.bun }}
-echo "Installing (bun): {{ . }}"
-mise exec -- bun add -g {{ . }} || echo "Failed to install {{ . }}"
+echo -e "${GREEN}Installing (bun): {{ . }}${RESET}"
+mise exec -- bun add -g {{ . }} || echo -e "${YELLOW}Failed to install {{ . }}${RESET}"
 {{- end }}
 {{- end }}
 
 echo ""
-echo "Node.js package installation complete!"
+echo -e "${GREEN}Node.js package installation complete!${RESET}"
 {{- end }}

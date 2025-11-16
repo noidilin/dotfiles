@@ -2,7 +2,10 @@
 # =============================================================================
 # Install Node.js Global Packages (Windows)
 # =============================================================================
-# This script runs when .chezmoidata.toml changes
+# Execution Order: 12 (run_onchange_after_12-*)
+# - Runs on every `chezmoi apply` when .chezmoidata.toml changes
+# - Installs global npm/pnpm/bun packages via mise
+# - Requires mise and Node.js to be installed (from script 10)
 # Source: .chezmoidata.toml [dev.node.*]
 # Hash trigger: {{ include ".chezmoidata.toml" | sha256sum }}
 # =============================================================================

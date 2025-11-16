@@ -2,7 +2,10 @@
 # =============================================================================
 # Install Scoop Packages (Windows Only)
 # =============================================================================
-# This script runs when .chezmoidata.toml changes
+# Execution Order: 10 (run_onchange_after_10-*)
+# - Runs on every `chezmoi apply` when .chezmoidata.toml changes
+# - Installs CLI tools, fonts, editors, GUI apps via Scoop
+# - Should run before WinGet (11) to ensure dependencies are met
 # Source: .chezmoidata.toml [packages.*.windows.scoop]
 # Hash trigger: {{ include ".chezmoidata.toml" | sha256sum }}
 # =============================================================================
