@@ -31,6 +31,10 @@ gui:
       - red
     defaultFgColor: # Default text color
       - "#878787"
+keybinding:
+  commits:
+    moveDownCommit: <c-d>
+    moveUpCommit: <c-u>
 git:
   pagers:
     - colorArg: always
