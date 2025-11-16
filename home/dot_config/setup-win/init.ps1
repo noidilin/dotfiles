@@ -1,3 +1,15 @@
+# =============================================================================
+# DEPRECATED: This script is no longer maintained
+# =============================================================================
+# New approach: Bootstrap setup is documented in bootstrap guide
+# - See docs/bootstrap-windows.md for step-by-step manual bootstrap process
+# - After chezmoi init, everything is automated via chezmoiscripts
+# =============================================================================
+
+Write-Host "WARNING: This script is DEPRECATED!" -ForegroundColor Red
+Write-Host "Please follow the manual bootstrap process in docs/bootstrap-windows.md" -ForegroundColor Yellow
+Write-Host ""
+
 Write-Host "starting init.ps1 script..." -ForegroundColor White
 $SCOOP_INIT = @(
   "main/chezmoi"

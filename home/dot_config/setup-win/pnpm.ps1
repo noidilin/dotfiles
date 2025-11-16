@@ -1,10 +1,16 @@
-# WARN: Prerequisite: 
-# 1. add PNPM_HOME=$XDG_DATA_HOME/pnpm/ to environment variable
-# 2. add path of PNPM_HOME into PATH
-# 3. `scoop install main/mise`
-# 4. `mise install`, which will:
-#   a. install node lts version
-#   b. execute `corepack enable` after installation
+# =============================================================================
+# DEPRECATED: This script is no longer maintained
+# =============================================================================
+# New approach: Package installation is managed via chezmoi
+# - Package list: .chezmoidata.toml
+# - Installation: home/.chezmoiscripts/run_onchange_after_12-install-node-packages.ps1.tmpl
+# - See docs/bootstrap-windows.md for new setup process
+# =============================================================================
+
+Write-Host "WARNING: This script is DEPRECATED!" -ForegroundColor Red
+Write-Host "Please use the new chezmoi-based package management system." -ForegroundColor Yellow
+Write-Host "See: docs/bootstrap-windows.md" -ForegroundColor Yellow
+Write-Host ""
 
 Write-Host "starting pnpm.ps1 script..." -ForegroundColor White
 

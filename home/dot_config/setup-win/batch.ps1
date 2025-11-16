@@ -1,3 +1,15 @@
+# =============================================================================
+# DEPRECATED: This batch script is no longer maintained
+# =============================================================================
+# New approach: Follow the manual bootstrap process instead
+# - See docs/bootstrap-windows.md for complete setup instructions
+# - All automation is now handled by chezmoi chezmoiscripts
+# =============================================================================
+
+Write-Host "WARNING: This batch script is DEPRECATED!" -ForegroundColor Red
+Write-Host "Please follow the new bootstrap guide: docs/bootstrap-windows.md" -ForegroundColor Yellow
+Pause
+
 Write-Host "(batch) please run this with NON-admin privileges!" -ForegroundColor Red
 Pause
 

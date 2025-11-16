@@ -1,3 +1,17 @@
+# =============================================================================
+# DEPRECATED: This script is no longer maintained
+# =============================================================================
+# New approach: Symlinks are managed via chezmoi
+# - Symlink configuration: .chezmoidata.toml [symlinks.windows]
+# - Setup script: home/.chezmoiscripts/run_once_after_03-setup-symlinks.ps1.tmpl
+# - See docs/bootstrap-windows.md for new setup process
+# =============================================================================
+
+Write-Host "WARNING: This script is DEPRECATED!" -ForegroundColor Red
+Write-Host "Please use the new chezmoi-based symlink management system." -ForegroundColor Yellow
+Write-Host "See: docs/bootstrap-windows.md" -ForegroundColor Yellow
+Write-Host ""
+
 Write-Host "starting symlinks.ps1 script..." -ForegroundColor White
 
 # linked files (destination => source)

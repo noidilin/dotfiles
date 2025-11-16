@@ -1,3 +1,17 @@
+# =============================================================================
+# DEPRECATED: This script is no longer maintained
+# =============================================================================
+# New approach: Environment setup is managed via chezmoi
+# - Environment variables: .chezmoidata.toml [env.windows]
+# - Setup script: home/.chezmoiscripts/run_once_after_02-setup-env-variables.ps1.tmpl
+# - See docs/bootstrap-windows.md for new setup process
+# =============================================================================
+
+Write-Host "WARNING: This script is DEPRECATED!" -ForegroundColor Red
+Write-Host "Please use the new chezmoi-based environment management system." -ForegroundColor Yellow
+Write-Host "See: docs/bootstrap-windows.md" -ForegroundColor Yellow
+Write-Host ""
+
 Write-Host "starting env.ps1 script..." -ForegroundColor White
 
 $NamedEnv = @{

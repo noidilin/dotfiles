@@ -1,3 +1,17 @@
+# =============================================================================
+# DEPRECATED: This script is no longer maintained
+# =============================================================================
+# New approach: Package installation is managed via chezmoi
+# - Package list: .chezmoidata.toml
+# - Installation: home/.chezmoiscripts/run_onchange_after_10-install-scoop-packages.ps1.tmpl
+# - See docs/bootstrap-windows.md for new setup process
+# =============================================================================
+
+Write-Host "WARNING: This script is DEPRECATED!" -ForegroundColor Red
+Write-Host "Please use the new chezmoi-based package management system." -ForegroundColor Yellow
+Write-Host "See: docs/bootstrap-windows.md" -ForegroundColor Yellow
+Write-Host ""
+
 Write-Host "starting scoop.ps1 script..." -ForegroundColor White
 
 # NOTE: set up ssh private key before this
