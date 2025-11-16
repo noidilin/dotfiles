@@ -13,7 +13,7 @@
         "-y",
         "next-devtools-mcp@latest"
       ],
-      "enabled": true,
+      "enabled": false,
     },
     "chrome-devtools": {
       "type": "local",
