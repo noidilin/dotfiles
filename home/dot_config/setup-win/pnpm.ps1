@@ -12,6 +12,9 @@ $PNPM_PACKAGES = @(
   # "@vscode/vsce"
   "tldr"
   "rimraf"
+  "yamlresume"
+  "next-devtools-mcp"
+  "chrome-devtools-mcp"
   # "yo"
   # "generator-code"
 )
