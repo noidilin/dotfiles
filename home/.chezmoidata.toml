@@ -111,7 +111,7 @@ scoop = [
 [packages.editor.linux]
 pacman = [
   "neovim",
-  "code",   # VSCode (or use AUR: visual-studio-code-bin)
+  # "code",   # VSCode (or use AUR: visual-studio-code-bin)
 ]
 
 # -----------------------------------------------------------------------------
