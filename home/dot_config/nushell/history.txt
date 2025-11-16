@@ -8482,3 +8482,138 @@ wsl -d archlinux
 wsl --terminate archlinux
 z chezmoi
 chezmoi status
+chezmoi re-add
+lg
+opencode
+z opencode
+nvim
+clear
+yazi
+lg
+yazi
+lg
+opencode
+scoop search via
+scoop uninstall via
+scoop install via
+z config
+ls
+cd setup-win\
+yazi
+lg
+yazi
+nvim
+cd
+yazi
+z
+yazi
+z chezmoi
+lg
+z nushell
+ls
+nvim
+cd ..
+cd setup-win\
+nvim
+z nushell
+bun pm cache-dir
+bun pm cache -g
+nvim
+bun pm ls -g
+bun pm bin -g
+pnpm bin -g
+pnpm root -g
+pnpm store status
+pnpm store
+pnpm root -g
+pnpm bin -g
+pnpm cache -g
+pnpm cache list -g
+pnpm cache list
+pnpm root -g
+pnpm bin -g
+pnpm ls -g
+bun pm bin -g
+z .dev
+yazi
+bun pm ls -g
+bun pm ls cache -g
+yazi
+nvim
+cd ..
+z pwsh\
+yazi
+z config
+cd setup-win\
+nvim
+pwsh
+cargo info
+cargo --list
+cargo --version
+cargo --info
+cargo info
+$env.CARGO_HOME
+chezmoi status
+chezmoi add ~/.wslconfig
+chezmoi add ~/.config/nushell/
+chezmoi status
+chezmoi re-add
+chezmoi status
+z chezmoi
+nvim
+chezmoi re-add
+sfsu bucket list
+z mise
+yazi
+nvim
+mise doctor
+sfsu bucket update
+sfsu status
+scoop update ast-grep fzf fastfetch
+sfsu status
+scoop update mise opencode starship
+yazi
+z chezmoi
+lg
+z obsidian
+nvim
+opencode
+nvim
+lg
+yazi
+lg
+chezmoi apply --dry-run --verbose
+yazi
+lg
+chezmoi apply --dry-run --verbose
+clear
+chezmoi apply --init --dry-run --verbose
+z chezmoi
+nvim
+z
+cd .config\
+ls
+z chezmoi
+z
+z chezmoi
+nvim
+wsl -d archlinux
+nvim
+z chezmoi
+wsl -d archlinux
+wsl --terminate archlinux
+z 
+z nushell
+chezmoi status
+chezmoi apply
+z appdata
+cd Local\Temp\
+ls
+yazi
+chezmoi apply
+yazi
+pwsh chezmoi apply
+pwsh -c 'chezmoi apply'
+pwsh
+z nushell
+nvim
