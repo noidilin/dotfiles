@@ -1,0 +1,293 @@
+# =============================================================================
+# Chezmoi Data File - Single Source of Truth for Package Management
+# =============================================================================
+# Structure: [packages.<category>.<platform>.<package_manager>]
+# Modify this file, then run: chezmoi apply
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Bootstrap: Initial Setup (Windows Only)
+# -----------------------------------------------------------------------------
+[bootstrap.windows.scoop]
+# Install scoop itself, then these packages are needed before main installation
+initial = [
+  "git",           # Required before adding buckets
+  "chezmoi",
+  "pwsh",
+  "nu",
+  "age",
+]
+buckets = [
+  "extras",
+  "nerd-fonts",
+]
+custom_buckets = [
+  { name = "wezterm-alt-icon", url = "git@github.com:noidilin/wezterm-alt-icon.git" }
+]
+
+# -----------------------------------------------------------------------------
+# Packages: CLI Tools
+# -----------------------------------------------------------------------------
+[packages.cli.common]
+# Cross-platform CLI tools (install via native package manager)
+# Windows: scoop main bucket | Linux: pacman | macOS: homebrew
+tools = [
+  "bat",
+  "bottom",
+  "carapace-bin",
+  "delta",           # Note: "git-delta" on Arch pacman
+  "eza",
+  "fastfetch",
+  "fd",
+  "ffmpeg",
+  "fzf",
+  "gh",
+  "gpg",
+  "imagemagick",
+  "lazygit",
+  "neovim",
+  "pastel",
+  "ripgrep",
+  "sd",
+  "starship",
+  "vivid",
+  "yazi",
+  "zoxide",
+]
+
+[packages.cli.windows]
+scoop = [
+  # Compression tools
+  "7zip",
+  "gzip",
+  "unrar",
+  "unzip",
+  
+  # Network & system
+  "wget",
+  "openssh",
+  "gsudo",
+  
+  # Text processing (not needed on Linux - coreutils)
+  "grep",
+  "sed",
+  "less",
+  
+  # Development
+  "ast-grep",
+  "tectonic",        # TeX/LaTeX engine
+]
+
+[packages.cli.linux]
+pacman = [
+  "ast-grep",
+  "atuin",           # Shell history sync
+]
+
+# -----------------------------------------------------------------------------
+# Packages: Fonts
+# -----------------------------------------------------------------------------
+[packages.fonts.windows]
+scoop = [
+  "CommitMono-NF-Mono",
+  "jf-open-huninn",
+  "GlowSansTC-Compressed",
+  "GlowSansTC-Condensed",
+  "GlowSansTC-Extended",
+  "GlowSansTC-Normal",
+  "GlowSansTC-Wide",
+  "Noto-CJK-Mega-OTC",
+  "Noto-Serif-CJK-Super-OTC",
+]
+
+# -----------------------------------------------------------------------------
+# Packages: Editors & IDEs
+# -----------------------------------------------------------------------------
+[packages.editor.windows]
+scoop = [
+  "neovim",
+  "vscode",
+  "zed",
+  "wezterm",         # From custom bucket: wezterm-alt-icon
+]
+
+[packages.editor.linux]
+pacman = [
+  "neovim",
+  "code",            # VSCode (or use AUR: visual-studio-code-bin)
+]
+
+# -----------------------------------------------------------------------------
+# Packages: GUI Applications
+# -----------------------------------------------------------------------------
+[packages.gui.windows]
+scoop = [
+  "via",
+  "flow-launcher",
+  "blender-launcher",
+  "crystaldiskinfo",
+  "rufus",
+  "sharex",
+  "obs-studio",
+  "obsidian",
+  "potplayer",
+  
+  # PowerShell modules (via scoop extras)
+  "posh-git",
+  "psreadline",
+  "psfzf",
+  "sfsu",
+  
+  # System dependencies
+  "vcredist2022",
+]
+
+winget = [
+  "Microsoft.PowerToys",
+  "glzr-io.glazewm",
+  "Rime.Weasel",
+  "dechamps.FlexASIO",
+  "CyberPowerSystemsInc.PowerPanelPersonal",
+  "Wacom.WacomTabletDriver",
+  "ogdesign.Eagle",
+  "WavesAudio.WavesCentral",
+  "Zen-Team.Zen-Browser",
+]
+
+[packages.gui.linux]
+pacman = [
+  "obs-studio",
+]
+# AUR (manual or via yay/paru)
+aur = [
+  "obsidian",
+]
+
+# -----------------------------------------------------------------------------
+# Development: Language Toolchains
+# -----------------------------------------------------------------------------
+[dev.toolchain.windows]
+scoop = [
+  "mingw",           # C/C++ compiler for Windows (GCC)
+  "mise",            # Runtime version manager
+]
+
+[dev.toolchain.linux]
+pacman = [
+  "mise",
+  "base-devel",      # gcc, make, etc. (may already be installed)
+]
+
+# -----------------------------------------------------------------------------
+# Development: Mise-Managed Runtimes
+# -----------------------------------------------------------------------------
+# These will be used to generate: home/dot_config/mise/config.toml.tmpl
+[dev.mise.tools]
+bun = "1.3.1"
+python = "latest"
+
+[dev.mise.tools.node]
+version = "lts"
+postinstall = "corepack enable"
+
+[dev.mise.tools.rust]
+# Platform-specific rust versions
+windows = { version = "stable-gnu", profile = "minimal" }
+linux = { version = "stable", profile = "minimal" }
+
+[dev.mise.settings]
+experimental = true
+python_uv_venv_auto = true
+
+# -----------------------------------------------------------------------------
+# Development: Node.js Packages (pnpm global)
+# -----------------------------------------------------------------------------
+# Installed to: $HOME/.dev/pnpm/
+[dev.node.pnpm]
+packages = [
+  "tldr",
+  "rimraf",
+  "yamlresume",
+  "next-devtools-mcp",
+  "chrome-devtools-mcp",
+]
+
+# Alternatives (not actively used, kept for reference)
+[dev.node.npm]
+packages = [
+  "corepack@latest",
+]
+
+[dev.node.bun]
+packages = [
+  "@vscode/vsce",
+  "tldr",
+  "rimraf",
+]
+
+# -----------------------------------------------------------------------------
+# Environment Variables (System-Level Only)
+# -----------------------------------------------------------------------------
+# Shell-specific vars (EZA_CONFIG_DIR, BAT_CONFIG_DIR, etc.) 
+# should be managed in shell configs (nushell/env/, pwsh/profile.ps1)
+
+[env.windows]
+# XDG Base Directory (non-standard on Windows, needed globally)
+XDG_CONFIG_HOME = "$HOME\\.config"
+XDG_DATA_HOME = "$HOME\\.local\\share"
+XDG_CACHE_HOME = "$HOME\\.cache"
+XDG_STATE_HOME = "$HOME\\.local\\state"
+XDG_BIN_HOME = "$HOME\\.local\\bin"
+
+# Node.js package managers (in $HOME/.dev/)
+PNPM_HOME = "$HOME\\.dev\\pnpm"
+BUN_INSTALL_GLOBAL_DIR = "$HOME\\.dev\\bun\\install\\global"
+BUN_INSTALL_BIN = "$HOME\\.dev\\bun\\bin"
+BUN_INSTALL_CACHE_DIR = "$HOME\\.dev\\bun\\install\\cache"
+
+# Rust toolchain
+CARGO_HOME = "$HOME\\.dev\\cargo"
+RUSTUP_HOME = "$HOME\\.dev\\rustup"
+
+[env.windows.path]
+# Directories to append to user PATH
+append = [
+  "$HOME\\.dev\\pnpm",
+  "$HOME\\.dev\\bun\\bin",
+]
+
+# Linux: XDG and PATH managed by shell profiles (no system-level env needed)
+
+# -----------------------------------------------------------------------------
+# Symbolic Links (Windows Only)
+# -----------------------------------------------------------------------------
+# Format: { target = "destination", source = "config_file" }
+[[symlinks.windows]]
+target = "$PROFILE.CurrentUserAllHosts"
+source = "$HOME\\.config\\pwsh\\profile.ps1"
+
+[[symlinks.windows]]
+target = "$env:APPDATA\\bottom"
+source = "$HOME\\.config\\bottom"
+
+[[symlinks.windows]]
+target = "$env:APPDATA\\Rime"
+source = "$HOME\\.config\\rime"
+
+[[symlinks.windows]]
+target = "$env:APPDATA\\vivid"
+source = "$HOME\\.config\\vivid"
+
+[[symlinks.windows]]
+target = "$env:LOCALAPPDATA\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json"
+source = "$HOME\\.config\\winterm\\settings.json"
+
+[[symlinks.windows]]
+target = "$HOME\\scoop\\persist\\bat"
+source = "$HOME\\.config\\bat"
+
+[[symlinks.windows]]
+target = "$env:LOCALAPPDATA\\nvim"
+source = "$HOME\\.config\\nvim"
+
+# Linux: Most configs follow XDG by default (no symlinks needed)
