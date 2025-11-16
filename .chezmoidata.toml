@@ -30,25 +30,28 @@ custom_buckets = [
 # Windows: scoop main bucket | Linux: pacman | macOS: homebrew
 tools = [
   "7zip",
+  "age",
   "ast-grep",
   "bat",
   "bottom",
   "carapace-bin",
-  "delta",        # Note: "git-delta" on Arch pacman
+  "chezmoi",
   "eza",
   "fastfetch",
   "fd",
   "ffmpeg",
   "fzf",
   "gh",
-  "gpg",
+  "git",          # Required before adding buckets
   "gzip",
   "imagemagick",
   "jq",
   "lazygit",
+  "nu",
   "openssh",
   "pastel",
   "poppler",
+  "pwsh",
   "ripgrep",
   "sd",
   "starship",
@@ -62,17 +65,21 @@ tools = [
 
 [packages.cli.windows]
 scoop = [
-  "gsudo", # system
+  "delta",
+  "gsudo",    # system
+  "tectonic", # TeX/LaTeX engine
   # Text processing (not needed on Linux - coreutils)
   "grep",
+  "gpg",
   "sed",
   "less",
-  "tectonic", # TeX/LaTeX engine
 ]
 
 [packages.cli.linux]
 pacman = [
-  "atuin", # Shell history sync
+  "atuin",     # Shell history sync
+  "git-delta",
+  "gnupg",
 ]
 
 # -----------------------------------------------------------------------------
