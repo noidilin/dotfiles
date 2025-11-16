@@ -7015,3 +7015,1470 @@ nvim
 clear
 $env.config.buffer_editor
 chezmoi status
+chezmoi add ~/.config/nushell/
+chezmoi status
+yazi
+lg
+yazi
+chezmoi status
+lg
+yazi
+chezmoi status
+chezmoi re-add
+lg
+opencode
+nvim
+yazi
+opencode
+nvim
+chezmoi status
+chezmoi add ~/.config/nushell/
+lg
+z hub\dev
+ls
+cd server-action\
+ls
+sfsu bucket update
+sfsu status
+scoop update carapace-bin
+scoop update fzf
+scoop update opencode
+sfsu status
+mise doctor
+mise --help
+mise p
+mise upgrade
+sfsu bucket update
+sfsu status
+bun --version
+ls
+yazi
+bun install
+clear
+bun install
+bun help
+bun info
+bun audit
+bun run dev
+nvim
+cd ..
+rimraf --verbose .\server-action\
+mkdir server-action
+cd server-action\
+ls
+bun x create-next-app@latest .
+ls
+z hub\dev
+cd server-action\
+bun x create-next-app@latest .
+scoop help
+sfsu search bun
+sfsu search --help
+scoop install bun@1.2.22
+bun --version
+scoop uninstall bun
+z
+yz
+ls
+rimraf --verbose .\install\
+ls
+cd ..
+yz
+z
+bun --version
+where bun
+bun help
+bun info
+bun --status
+help where
+which bun
+z .config
+ls
+z mise
+ls
+open config.toml
+sfsu list
+sfsu list | less
+which bun
+z hub\dev
+cd server-action\
+bun x create-next-app@latest .
+z mise
+nvim
+ls
+yazi
+z chezmoi
+lg
+z ^
+z hub\dev
+nvim
+mise doctor
+mise install
+bun x create-next-app@latest .
+cd server-action\
+bun x create-next-app@latest .
+yazi
+fsutil hardlink list node_modules\react\index.js
+nvim
+z obsidian
+nvim
+z nvim
+ls
+nvim
+nvim
+z local
+cd share
+ls
+cd nvim
+ls
+cd nvim-data\
+ls
+cd lazy
+ls
+cd friendly-snippets\
+ls
+cd snippets\
+ls
+nvim
+yazi
+z obsidian
+bun add react-hot-toast react-hook-form zod @hookform/resolvers
+nvim
+z nvim
+yazi
+opencode
+opencode auth logout
+opencode auth login
+opencode
+sfsu bucket update
+sfsu status
+scoop update mise
+z nvim
+nvim
+z nvim
+ls
+opencode
+scoop update opencode
+sfsu status
+scoop install opencode@0.14.7
+opencode --version
+scoop install opencode@0.14.7 -f
+scoop uninstall opencode
+scoop install opencode@0.14.7
+opencode --version
+opencode logout
+opencode auth logout
+z
+sfsu cleanup
+sfsu cleanup --all --dry-run
+sfsu cleanup --all
+sfsu cleanup --cache --all --dry-run
+sfsu cleanup mise --cache --dry-run
+z nvim
+lg
+z hub\dev
+cd server-action\
+z opencode
+ls
+scoop install main/pastel
+pastel help
+pastel darken -help
+pastel darken 0.2 '#b07878'
+pastel darken 0.1 '#b07878'
+pastel darken 0.9 '#b07878'
+pastel darken 0.5 '#b07878'
+pastel darken 0.4 '#b07878'
+pastel darken 0.45 '#b07878'
+pastel darken 0.46 '#b07878'
+pastel darken 0.46 '#778777'
+pastel darken 0.4 '#778777'
+pastel darken 0.35 '#778777'
+pastel darken 0.36 '#778777'
+pastel darken 0.38 '#778777'
+pastel darken 0.36 '#778777'
+pastel darken 0.46 '#b07878'
+pastel darken 0.38 '#778777'
+nvim
+z install
+ls
+nvim
+z opencode
+nvim
+z obsidian
+sfsu cache
+scoop cleanup --help
+scoop cache --help
+sfsu cache --help
+sfsu cache 
+sfsu cache remove "*"
+sfsu cache
+nvim
+nvim
+opencode
+z opencode
+nvim
+nvim
+lg
+nvim
+lg
+sfsu bucket update
+sfsu status
+scoop update
+scoop status
+sfsu search opencode
+scoop update opencode
+scoop uninstall opencode
+scoop install opencode
+opencode run hello --print-logs
+scoop uninstall opencode
+scoop install opencode@0.14.7
+fastfetch
+bun run dev
+z nvim
+yazi
+z scoop
+cd buckets\
+cd wezterm-alt-icon\
+ls
+yazi
+z downloads
+ls
+yazi
+cd code
+ls
+cd .tmp_e9011ab243d411f3d7d9134461398717\
+ls
+cd advanced-patterns-react\
+rimraf --verbose .\node_modules\
+cd ../..
+ls
+yazi
+cd ..
+z dev
+ls
+git clone git@github.com:noidilin/wezterm-alt-windows-icon-builds.git
+cd wezterm-alt-windows-icon-builds\
+ls
+lg
+nvim
+yazi
+nvim
+lg
+nvim
+lg
+yazi
+lg
+opencode
+ls
+z hub\edu
+git branch
+clear
+lg
+z scoop
+cd buckets\
+cd wezterm-alt-icon\
+ls
+clear
+lg
+git remote add bucket https://github.com/noidilin/wezterm-alt-icon.git
+git fetch bucket
+git branch -r
+git branch -r | grep bucket/
+git merge bucket/master --allow-unrelated-histories
+git status
+ls
+nvim .gitignore
+git mergetool --tool-help
+z
+git mergetool
+git status
+lg
+git status
+git commit
+lg
+git branch -r | grep bucket/
+git merge bucket/master --allow-unrelated-histories
+git mergetool
+git status
+git mergetool --tool-help
+git mergetool
+lg
+git status
+git commit
+lg
+yazi
+lg
+yazi
+nvim README.md 
+lg
+pwsh .\bin\checkver.ps1
+pwsh .\bin\checkhashes.ps1
+pwsh .\bin\checkurls.ps1
+pwsh .\bin\missing-checkver.ps1
+pwsh .\bin\formatjson.ps1
+pwsh .\bin\test.ps1
+pwsh .\bin\checkver.ps1
+pwsh .\bin\checkhashes.ps1
+pwsh .\bin\checkurls.ps1
+pwsh .\bin\missing-checkver.ps1
+pwsh .\bin\formatjson.ps1
+yazi
+opencode
+lg
+lg
+z config
+git status
+git remote
+git remote remove bucket
+git remote
+git push -u origin feat/scoop-bucket
+z hub\edu
+cd ..
+cd dev
+cd wezterm-alt-windows-icon-builds\
+ls
+nvim
+git push --force
+nvim
+git push --force
+yazi
+lg
+nvim
+nvim
+z hub\dev
+ls
+git clone https://github.com/ScoopInstaller/GithubActions.git scoop-action
+cd scoop-action\
+ls
+sfsu search bun
+z hub\dev
+cd wezterm-alt-windows-icon-builds\
+ls
+nvim
+opencode
+scoop list
+sfsu list | grep wezterm
+z hub\dev
+z scoop
+cd buckets\
+yazi
+ls
+cd wezterm-alt-windows-icon-builds\
+lg
+z obsidian
+starship explain
+z
+starship explain
+z dev
+cd server-action\
+cd ..
+ls
+yazi
+cd scoop-action\
+scoop uninstall opencode
+scoop install opencode
+opencode
+yazi
+opencode
+yazi
+z opencode
+ls
+yazi
+opencode
+yazi
+opencode
+opencode run hello --print-logs
+yazi
+opencode
+opencode run hello --print-logs
+nvim
+opencode
+opencode run hello --print-logs
+yazi
+opencode run hello --print-logs
+yazi
+scoop uninstall opencode
+scoop install opencode@0.14.7
+fastfetch
+sfsu list
+z install
+nvim
+z hub\dev
+cd wezterm-alt-windows-icon-builds\
+lg
+opencode
+lg
+yazi
+lg
+z scoop
+cd buckets\
+ls
+cd wezterm-alt-icon\
+yazi
+yazi
+lg
+yazi
+git remote -v
+git remote add upstream git@github.com:ocodo/wezterm-alt-windows-icon-builds.git
+git fetch upstream
+git branch --set-upstream-to=upstream/main main
+git config branch.main.pushRemote no_push
+yazi
+git config
+git config -h
+git config list
+nvim
+nvim
+z hub\dev
+ls
+cd wezterm-alt-windows-icon-builds\
+yazi
+lg
+git push upstream feat/scoop-manifest
+scoop list wez-test
+scoop bucket list
+scoop update wez-test/wezterm
+z obsidian
+nvim
+z obsidian
+sfsu search helium
+sfsu bucket update
+sfsu status
+scoop status
+sfsu status
+scoop update ripgrep pastel mise less git gh fastfetch bat chezmoi
+sfsu status
+scoop update flow-launcher imagemagick
+scoop update flow-launcher 
+btm
+nvim
+sfsu status
+scoop bucket list
+sfsu bucket list
+sfsu bucket update
+z scoop
+cd buckets\
+ls
+cd wezterm-alt-icon\
+git remote --list
+git remote -v
+git branch 
+git branch -h
+git branch -a
+cd ..
+cd wez-test\
+git branch -a
+cd ..
+z dev
+cd wezterm-alt-windows-icon-builds\
+git branch -a
+lg
+git remote -v
+git switch feat/scoop-github-action 
+git branch
+git push upstream feat/scoop-test
+z scoop
+cd buckets\
+ls
+cd wezterm-alt-icon\
+ls
+scoop prefix scoop
+lg
+git status
+ls
+git mergetool
+ls
+git status
+yazi
+lg
+git status
+git branch
+git remote -v
+git push origin feat/scoop-test
+git push origin feat/scoop-github-action
+git push origin feat/scoop-github-action --force
+git push upstream feat/scoop-test
+yazi
+nvim
+git push upstream feat/scoop-github-action
+opencode
+lg
+opencode
+nvim
+yz
+winget update
+winget update --all
+gsudo winget update --all
+sfsu bucket update
+sfsu status
+scoop update mise
+z obsidian
+nvim
+z nvim
+lg
+z dev
+ls
+cd server-action\
+yazi
+yz
+opencode
+yazi
+nvim
+z
+yazi
+clear
+nvim
+sfsu bucket update
+sfsu status
+scoop update mise gh ripgrep
+scoop update psreadline
+scoop status
+winget update
+winget update --all
+cd ..
+ls
+cd scoop-action\
+ls
+cd ..
+git clone https://github.com/ScoopInstaller/Scoop.git scoop-app
+cd scoop-app
+ls
+yazi
+cd ..
+cd scoop-app
+yazi
+cd ..
+cd scoop-app
+opencode
+z nvim
+nvim
+z hub\dev
+cd scoop-app
+opencode
+z hub\dev
+cd wezterm-alt-icon\
+ls
+cd wezterm-alt-windows-icon-builds\
+lg
+git branch -a
+git fetch upstream
+git merge upstream/feat/scoop-test feat/scoop-test 
+git remote -v
+lg
+git fetch --prune
+lg
+git push origin feat/scoop-test -f
+scoop bucket list
+scoop bucket remove wezterm-alt-icon
+scoop bucket rm wezterm-alt-icon
+scoop bucket list
+scoop bucket add wezterm-alt-icon https://github.com/ocodo/wezterm-alt-windows-icon-builds.git
+scoop install wezterm-alt-icon/wezterm
+nvim
+opencode
+sfsu bucket update
+sfsu status
+sfsu status --help
+scoop status
+scoop bucket -h
+scoop update
+sfsu status
+sfsu version
+sfsu --version
+scoop update fzf imagemagick mise starship
+winget update
+z obsidian
+nvim
+z nvim
+nvim
+z project
+ls
+yazi
+yz
+ls
+git init
+z project
+cd ..
+ls
+z onedrive
+ls
+cd project
+ls
+cd blender
+ls
+cd ..
+ls
+z project
+ls
+z onedrive
+cd project
+cd blender
+ls
+yazi
+lg
+btm
+scoop uninstall opencode
+scoop install opencode
+z hub\dev
+ls
+cd scoop-action\
+ls
+opencode
+opencode run hello --print-logs
+scoop uninstall opencode
+scoop install opencode@0.14.7
+sfsu status
+scoop update ast-grep git mise
+scoop bucket list
+scoop status
+mise doctor
+mise install
+z mise
+ls
+mise install
+corepack enable
+mise install
+nvim config.toml 
+z obsidian
+z dev
+ls
+mkdir resume
+la
+ls
+cd resume\
+bun --version
+bun pm ls --all
+bun pm ls --all --global
+bun pm ls --global
+pnpm list -g
+pnpm list
+pnpm list --global
+pnpm --version
+pnpm store status
+pnpm status
+pnpm status -h
+pnpm status --help
+pnpm doctor
+pnpm cache list -g
+pnpm cache list
+pnpm cache view
+pnpm bin --help
+pnpm bin -g
+pnpm root -g
+z 
+cd .dev
+cd pnpm
+yazi
+tldr pnpm
+tldr --version
+pnpm list -g
+pnpm add -g yamlresume
+pnpm list -g
+z dev
+cd resume\
+yamlresume help
+scoop install main/miktex
+yamlresume new noidilin-resume.yml
+ls
+yamlresume dev noidilin-resume.yml
+nvim noidilin-resume.yml
+scoop install main/tectonic
+scoop uninstall miktex
+btm
+scoop uninstall miktex
+ls
+yazi
+yamlresume dev noidilin-resume.yml
+nvim
+scoop install nerd-fonts/Noto-CJK-Mega-OTC
+z install
+ls
+scoop install nerd-fonts/Noto-Serif-CJK-Super-OTC
+yamlresume build noidilin-resume.yml
+yazi
+nvim
+z obsidian
+nvim
+yazi
+cd ..
+yazi
+cd github-readme\
+ls
+yazi
+nvim
+yazi
+btm
+yazi
+cd ..
+yazi
+yz
+ls
+pwd
+cd ..
+z ifc
+ls
+z dev
+ls
+cd ..
+z edu
+ls
+pwd
+z dev
+ls
+git subtree add --prefix=next/project/self/ ~\hub\dev\self\ main
+yazi
+lg
+git subtree add --prefix=next/project/self/ ~\hub\dev\self\ main
+lg
+yazi
+lg
+git subtree add --prefix=next/basic/server-action/ ~\hub\dev\server-action\ basic/server-action
+git subtree add --prefix=next/basic/server-action/ ~\hub\dev\server-action\ main
+yazi
+yazi
+z readme\
+lg
+yazi
+git log -S keyboard
+lg
+cd ..
+cd server-action\
+lg
+git subtree add --prefix=next/project/layers/ ~\hub\dev\layers\ main
+yazi
+lg
+git subtree add --prefix=next/project/self/ ~\hub\dev\self\ main
+yazi
+lg
+yazi
+opencode
+yazi
+cd ..
+ls
+lg
+gh auth login
+nvim
+cd ..
+cd edu\
+nvim
+z downloads
+ls
+yazi
+z edu
+nvim
+start .
+nvim
+ls
+cd resume\
+opencode
+lg
+ls
+opencode
+clear
+lg
+nvim
+cd resumes\
+yamlresume build noidilin-resume.yml
+yamlresume build noidilin-resume-tw.yml
+yazi
+nvim
+cd ..
+yamlresume build resumes/noidilin-resume.yml
+yamlresume build resumes/noidilin-resume-tw.yml
+yazi
+yamlresume build resumes/noidilin-resume-tw.yml
+opencode
+z edu
+lg
+nvim
+lg
+yazi
+lg
+nvim
+nvim
+z ifc
+ls
+z downloads
+ls
+yazi
+z dev
+cd readme\
+nvim
+yamlresume build resumes/noidilin-resume-tw.yml
+yamlresume build resumes/noidilin-resume.yml
+cd ..
+ls
+z edu
+cd ..
+yazi
+cd grit
+ls
+lg
+git remote set-url origin git@github.com:noidilin/grit.git
+nvim
+z dev
+cd readme\
+nvim
+yamlresume build resumes/noidilin-resume.yml
+yamlresume build resumes/noidilin-resume-tw.yml
+yazi
+lg
+yazi
+z dev
+cd self
+git remote add origin git@github.com:noidilin/self.git
+git push origin main
+z dev
+cd readme\
+yamlresume build resumes/resume-en.yml
+nvim
+z dev
+cd readme\
+nvim
+yazi
+yamlresume build resumes/resume-en.yml
+nvim
+z mise
+nvim
+mise doctor
+sfsu bucket update
+sfsu status
+scoop update git carapace-bin chezmoi mise lazygit
+lg
+scoop update lazygit
+sfsu status
+nvim
+scoop update neovim
+scoop update git
+btm
+scoop update git
+mise doctor
+nvim
+mise doctor
+nvim
+mise doctor
+mise install
+bun --version
+bun install
+z chezmoi
+nvim
+bun run dev
+cd ..
+z grit
+ls
+git subtree pull --prefix=next/project/self/ ~\hub\dev\self\ main
+lg
+cd ..
+ls
+cd eventful\
+bun install
+bun run dev
+cd ..
+cd newsly\
+cd ..
+ls
+cd layers
+bun install
+bun run dev
+git remote add origin git@github.com:noidilin/layers.git
+git push origin main
+cd 
+z dev
+cd readme\
+nvim
+lg
+nvim
+ls ($env.XDG_STATE_HOME | path join 'nvim-data' 'shada' ) | get name | each {|file| rm -fv $file}
+cd ..
+ls
+cd newsly\
+bun install
+git remote add origin git@github.com:noidilin/newsly.git
+git push origin main
+bun run build
+bun run lint
+bun run dev
+bun run build
+nvim
+nvim
+yazi
+z downloads
+cd ..
+ls
+cd server-action\
+git remote add origin git@github.com:noidilin/server-action.git
+git push origin main
+bun run build
+nvim
+yazi
+z 
+cd .cache
+ls
+cd nushell
+ls
+cd mise
+ls
+yazi
+z nushell
+ls
+nvim
+z 
+cd .cache\nushell\mise\
+ls
+yazi
+z
+z nushell
+z
+cd .cache\nushell\mise\
+bun run build
+nvim
+ls
+nvim
+z dev
+z local
+cd share\nushell\vendor\autoload\
+ls
+yazi
+mise activate nu
+mise activate nu | less
+mise activate nu 
+nu --version
+mise --version
+fastfetch
+# source $init_file
+z 
+cd .cache\nushell
+ls
+yazi
+yazi
+cd ..
+yazi
+opencode
+chezmoi status
+chezmoi re-add
+z chezmoi
+z config
+ls
+cd lazygit\
+ls
+lg
+z grit
+lg
+z nvim
+nvim
+lg
+z config
+cd lazygit\
+z chezmoi
+z nvim
+lg
+nvim
+chezmoi re-add
+nvim
+sfsu bucket update
+sfsu status
+scoop update cacert mise psfzf
+sfsu status
+sfsu status --help
+sfsu status -g
+clear
+z ifc
+ls
+lg
+git remote add origin git@github.com:noidilin/ifc.git
+git push origin main
+lg
+yazi
+lg
+git merge --help
+git rebase --help
+git rebase main feat/door
+lg
+git rebase feat/window main
+z obsidian
+nvimm
+z 
+yz
+lg
+btm
+yazi
+nvim
+yazi
+lg
+z ifc
+ls
+z obsidian
+z config
+ls
+yazi
+cd wezterm\
+ls
+z ifc
+yazi
+nvim
+lg
+yazi
+z obsidian
+z downloads
+yazi
+z local
+z downloads
+ls
+yazi
+start .
+yazi
+z ifc
+scoop install extras/inkscape
+yazi
+cd 12FA3\
+ls
+cd layouts\
+ls
+yazi
+inkscape "A01 - FLOOR.svg" 
+inkscape "A02 - KITCHEN.svg" 
+inkscape "A03 - WARDROBE.svg" 
+inkscape "A04 - WASHITSU.svg" 
+inkscape "A05 - TV.svg" 
+inkscape "A02 - KITCHEN.svg" 
+inkscape "A05 - TV.svg" 
+inkscape "A03 - WARDROBE.svg" 
+z
+yazi
+winget list search affinity
+winget search affinity
+winget list
+winget search Affinity 
+clear
+sfsu bucket update
+sfsu status
+winget update
+winget update --id microsoft.edge
+z nvim
+btm
+lg
+clear
+z nvim
+scoop update gh bottom ast-grep mise
+nvim
+nvim
+nvim
+mise doctor
+scoop update bottom
+mise doctor
+nvim
+sfsu status
+scoop update innounp
+scoop update blender-launcher
+scoop update obs-studio
+z grit
+ls
+yazi
+git log -- C:\Users\noid\hub\grit\react\project\worldwise\index.html
+yazi
+git log -- C:\Users\noid\hub\grit\react\project\worldwise\src\App.jsx
+z obsidian
+ls
+z nvim
+nvim
+z dev
+ls
+pwd
+yazi
+cd eventful\
+ls
+nvim
+cd ..
+yazi
+mkdir interview-react
+cd interview-react\
+opencode
+yazi
+git init
+lg
+yazi
+yazi
+ls
+yazi
+rg 'react-query' -g 'package.json'
+opencode
+nvim
+cd ..
+yazi
+ls
+yazi
+yazi
+ls
+cd app-router-01\
+ls
+bun install
+ls
+yazi
+bun run start
+bun run dev
+z dev
+ls
+cd newsly\
+yazi
+bun run dev
+cd ..
+cd layers\
+yazi
+bun run dev
+cd ..
+cd server-action\
+ls
+bun run dev
+cd ..
+yazi
+cd redux-01\
+bun install
+bun run dev
+cd ..
+cd react-query-01\
+bun install
+bun run dev
+yazi
+cd backend
+bun install
+yazi
+cd ..
+bun run dev
+bun run app.js
+cd ..
+cd pizza\
+ls
+bun install
+bun run dev
+cd ..
+ls
+cd redux-01\
+cd ..
+cd temp\
+nvim
+cd ..
+cd react-query-01\
+nvim
+nvim
+cd ..
+cd pizza\
+nvim
+cd ..
+ls
+cd react-query-01\
+opencode
+cd ..
+cd react-query-01\
+opencode
+nvim
+cs ..
+cd ..
+cd newsly\
+cd ..
+cd newsly\
+ls
+nvim
+cd ..
+ls
+cd server-action\
+opencode
+cd ..
+cd server-action\
+nvim
+opencode
+cd ..
+yazi
+ls
+cd redux-01\
+ls
+nvim
+cd ..
+cd react-query-01\
+nvim
+cd ..
+yazi
+z obsidian
+nvim
+lg
+sfsu bucket update
+sfsu status
+scoop update sfsu openssh innounp fastfetch
+winget update
+winget update --all
+winget update
+mise doctor
+chezmoi status
+z chezmoi
+cd home\
+ls
+z 
+yazi
+cd .config\
+ls
+yazi
+z setup-win\
+ls
+lg
+winget list zen
+winget help
+winget show --id zen-team
+winget list zen
+winget show --id zen-team.zen-browser
+nvim
+chezmoi status
+chezmoi re-add
+lg
+z obsidian
+z downloads
+yazi
+z dev
+yazi
+rimraf --verbose .\app-router-01\
+ls
+yazi
+rimraf --verbose .\react-query-01\
+rimraf --verbose .\redux-01\
+z config
+ls
+cd pwsh
+yazi
+z dev
+ls
+rimraf --verbose .\20-manual-ssr\
+yazi
+git clone git@github.com:Alion-Tech/drelation-frontend.git
+cd drelation-frontend\
+ls
+pnpm install
+corepack use --help
+corepack use pnpm
+yazi
+pnpm dev
+clear
+nvim
+nvim
+opencode
+btm
+clear
+pnpm storybook
+scoop uninstall opencode
+scoop install extras/opencode
+clear
+opencode
+yazi
+cd ..
+yazi
+ls
+cd temp
+opencode
+cd ..
+cd drelation-frontend\
+z downloads
+ls
+yazi
+opencode
+pnpm dev
+nvim
+clear
+pnpm dev
+git status
+git restore package.json
+git status
+lg
+yazi
+git rebase --continue
+lg
+yazi
+git rebase --abort
+cd ..
+rimraf --verbose .\drelation-frontend\
+ls
+git clone git@github.com:Alion-Tech/drelation-frontend.git
+yazi
+cd drelation-frontend\
+pnpm install
+lg
+yazi
+lg
+yazi
+lg
+clear
+yazi
+git pull origin develop
+git fetch origin develop
+git checkout -b develop origin/develop
+git checkout --track origin/develop
+lg
+git pull origin develop
+yazi
+git pull origin develop
+z downloads
+yazi
+ls
+yazi
+lg
+nvim
+yazi
+pnpm run dev
+nvim
+yazi
+cleawr
+clear
+pnpm storybook
+pnpm run dev
+opencode
+pnpm dlx shadcn@latest add pagination
+clear
+opencode
+clear
+opencode
+git fetch origin develop
+git pull -h
+git merge -h
+git merge -h | less
+nvim
+lg
+nvim
+pnpm add -D next-devtools-mcp
+pnpm install
+yazi
+nvim
+yazi
+pnpm storybook
+opencode
+nvim
+lg
+git status
+git rebase --continue
+lg
+git rebase --continue
+git rebase --quit
+lg
+pnpm storybook
+clear
+opencode
+pnpm dev
+sfsu bucket update
+sfsu status
+scoop update mise gh innounp
+scoop update opencode
+scoop update blender-launcher
+sfsu status
+opencode
+nvim
+z config
+cd lazygit\
+lg
+clear
+lg
+nvim config.yml
+yazi
+git show-branch
+git show-branch feat/report-rebasing
+git show-branch feat/report-rebasing HEAD
+git merge-base feat/components-ui HEAD
+pnpm dev
+z config
+ls
+cd git
+ls
+nvim config
+git config --global push.useForceIfIncludes true
+nvim config
+lg
+git push
+git push --force-with-lease
+z config
+ls
+cd opencode\
+ls
+nvim
+pnpm add -g next-devtools-mcp chrome-devtools-mcp
+pnpm list -g
+opencode
+cd 
+cd .config\
+ls
+z setup-win\
+ls
+pnpm list -g
+nvim
+z opencode
+nvim
+ls ($env.XDG_STATE_HOME | path join 'nvim-data' 'shada' ) | get name | each {|file| rm -fv $file}
+nvim
+z local
+nvim
+yz
+nvim
+z
+ls
+cd .glzr\
+ls
+cd glazewm\
+nvim
+ls ($env.XDG_STATE_HOME | path join 'nvim-data' 'shada' ) | get name | each {|file| rm -fv $file}
+nvim
+yazi
+nvim
+yazi
+pnpm dev
+lg
+yazi
+nvim
+yazi
+clear
+nvim
+yazi
+pnpm dev
+z dev
+ls
+cd drelation-frontend\
+yazi
+nvim
+z nvim
+nvim
+z nvim
+nvim
+nvim
+scoop update vscode
+sfsu cleanup --all --dry-run
+sfsu cleanup --all 
+sfsu cleanup --cache --all --dry-run
+sfsu cleanup --cache --all 
+code
+z nvim
+nvim
+nvim
+wsl --status
+wsl --help
+wsl --update
+wsl --list
+wsl.exe --list --online
+wsl.exe --install Ubuntu
+wsl --list
+wsl --list --online
+wsl --install 'Arch Linux'
+z obsidian
+scoop update rufus
+wsl --install archlinux
+wsl --list --verbose
+wsl --set-default archlinux
+wsl --list --verbose
+wsl -d archlinux
+wsl --terminate archlinux
+wsl -d archlinux
+cd
+nvim .wslconfig
+wsl -d archlinux
+wsl --shutdown
+ls
+yazi
+wsl -d archlinux
+wsl --terminate archlinux
+wsl -d archlinux -u noid
+wsl --terminate archlinux
+wsl -d archlinux
+wsl --terminate archlinux
+z chezmoi
+chezmoi status

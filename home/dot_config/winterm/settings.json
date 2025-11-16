@@ -4,6 +4,10 @@
     "actions": 
     [
         {
+            "command": "find",
+            "id": "User.find"
+        },
+        {
             "command": 
             {
                 "action": "splitPane",
@@ -11,10 +15,6 @@
                 "splitMode": "duplicate"
             },
             "id": "User.splitPane.A6751878"
-        },
-        {
-            "command": "find",
-            "id": "User.find"
         },
         {
             "command": "paste",
@@ -35,12 +35,12 @@
     "keybindings": 
     [
         {
-            "id": "User.paste",
-            "keys": "ctrl+v"
-        },
-        {
             "id": "User.find",
             "keys": "ctrl+shift+f"
+        },
+        {
+            "id": "User.paste",
+            "keys": "ctrl+v"
         },
         {
             "id": "User.splitPane.A6751878",
@@ -111,6 +111,18 @@
                 "name": "Nushell",
                 "startingDirectory": "%USERPROFILE%",
                 "tabTitle": "Nushell"
+            },
+            {
+                "guid": "{3630a796-aee0-5bbc-a89a-42e85eafcca4}",
+                "hidden": false,
+                "name": "Ubuntu",
+                "source": "Microsoft.WSL"
+            },
+            {
+                "guid": "{a8970d83-2928-51ca-8ceb-dcaa15cf4ed7}",
+                "hidden": false,
+                "name": "archlinux",
+                "source": "Microsoft.WSL"
             }
         ]
     },

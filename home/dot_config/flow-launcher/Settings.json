@@ -23,7 +23,7 @@
   "Theme": "color-fatigue",
   "UseDropShadowEffect": true,
   "BackdropType": 3,
-  "ReleaseNotesVersion": "2.0.1",
+  "ReleaseNotesVersion": "2.0.2",
   "WindowHeightSize": 46,
   "ItemHeightSize": 58,
   "QueryBoxFontSize": 22,
@@ -146,8 +146,8 @@
   "AlwaysStartEn": true,
   "QuerySearchPrecision": "Regular",
   "AutoUpdates": false,
-  "WindowLeft": 2777.6666666666665,
-  "WindowTop": 349.5,
+  "WindowLeft": 1280,
+  "WindowTop": 348.5,
   "PreviousScreenWidth": 0,
   "PreviousScreenHeight": 0,
   "PreviousDpiX": 0,
@@ -156,7 +156,7 @@
   "CustomWindowTop": 0,
   "KeepMaxResults": false,
   "MaxResultsToShow": 9,
-  "ActivateTimes": 1777,
+  "ActivateTimes": 2228,
   "CustomPluginHotkeys": [],
   "CustomShortcuts": [],
   "DontPromptUpdateMsg": false,
@@ -324,18 +324,6 @@
         "Disabled": false,
         "HomeDisabled": false
       },
-      "0ECADE17459B49F587BF81DC3A125110": {
-        "ID": "0ECADE17459B49F587BF81DC3A125110",
-        "Name": "Browser Bookmarks",
-        "Version": "3.3.3",
-        "ActionKeywords": [
-          "b"
-        ],
-        "Priority": 0,
-        "SearchDelayTime": null,
-        "Disabled": true,
-        "HomeDisabled": false
-      },
       "565B73353DBF4806919830B9202EE3BF": {
         "ID": "565B73353DBF4806919830B9202EE3BF",
         "Name": "Web Searches",
@@ -366,6 +354,18 @@
         "Priority": 0,
         "SearchDelayTime": null,
         "Disabled": true,
+        "HomeDisabled": false
+      },
+      "0ECADE17459B49F587BF81DC3A125110": {
+        "ID": "0ECADE17459B49F587BF81DC3A125110",
+        "Name": "Browser Bookmarks",
+        "Version": "2.0.2",
+        "ActionKeywords": [
+          "b"
+        ],
+        "Priority": 0,
+        "SearchDelayTime": null,
+        "Disabled": false,
         "HomeDisabled": false
       }
     }

@@ -23,16 +23,16 @@ world_strength=>float===5.0
 fbx_importer=>str===Blender
 show_default_settings=>bool===False
 show_default_settings_this_file=>bool===False
-default_settings_this_file=>Create_Assets_From_This_File_Props_Base===<bpy_struct, Create_Assets_From_This_File_Props_Base("") at 0x000002B9F2F0D260>
+default_settings_this_file=>Create_Assets_From_This_File_Props_Base===<bpy_struct, Create_Assets_From_This_File_Props_Base("") at 0x0000021C4FA9D260>
 show_default_settings_from_directory=>bool===False
-default_settings_from_directory=>Create_Assets_From_Directory_Props_Base===<bpy_struct, Create_Assets_From_Directory_Props_Base("") at 0x000002B9F2F0D1A0>
+default_settings_from_directory=>Create_Assets_From_Directory_Props_Base===<bpy_struct, Create_Assets_From_Directory_Props_Base("") at 0x0000021C4FA9D1A0>
 show_default_settings_fbx=>bool===False
-default_settings_fbx=>Create_Assets_FBX_Props_Base===<bpy_struct, Create_Assets_FBX_Props_Base("") at 0x000002B9F2F0D0E0>
+default_settings_fbx=>Create_Assets_FBX_Props_Base===<bpy_struct, Create_Assets_FBX_Props_Base("") at 0x0000021C4FA9D0E0>
 show_default_settings_obj=>bool===False
-default_settings_obj=>Create_Assets_From_OBJ_Props_Base===<bpy_struct, Create_Assets_From_OBJ_Props_Base("") at 0x000002B9F2F0D020>
+default_settings_obj=>Create_Assets_From_OBJ_Props_Base===<bpy_struct, Create_Assets_From_OBJ_Props_Base("") at 0x0000021C4FA9D020>
 show_default_settings_usd=>bool===False
-default_settings_usd=>Create_Assets_From_USD_Props_Base===<bpy_struct, Create_Assets_From_USD_Props_Base("") at 0x000002B9F2F0CF60>
+default_settings_usd=>Create_Assets_From_USD_Props_Base===<bpy_struct, Create_Assets_From_USD_Props_Base("") at 0x0000021C4FA9CF60>
 show_default_settings_materials=>bool===False
-default_settings_materials=>Create_Materials_Props_Base===<bpy_struct, Create_Materials_Props_Base("") at 0x000002B9F2F0CEA0>
+default_settings_materials=>Create_Materials_Props_Base===<bpy_struct, Create_Materials_Props_Base("") at 0x0000021C4FA9CEA0>
 show_default_settings_worlds=>bool===False
-default_settings_worlds=>Create_Worlds_Props_Base===<bpy_struct, Create_Worlds_Props_Base("") at 0x000002B9F2F0CD20>
+default_settings_worlds=>Create_Worlds_Props_Base===<bpy_struct, Create_Worlds_Props_Base("") at 0x0000021C4FA9CD20>
