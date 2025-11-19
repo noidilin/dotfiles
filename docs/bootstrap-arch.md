@@ -19,10 +19,20 @@ sudo pacman -Syu
 
 ### Step 2: Install Essential Bootstrap Tools
 
-Install git, chezmoi, and age for encryption:
+Needed tools:
+
+- sudo: add command for normal user
+- neovim: edit `sudoers` file with
+  - `EDITOR=nano visudo`
+- openssh: setup ssh
+- git: initialize chezmoi repo
+- chezmoi:
+  - which: setup script (check nushell)
+  - age: decryption
+- vivid: command used by nushell config
 
 ```bash
-sudo pacman -S git chezmoi age
+sudo pacman -S neovim openssh git chezmoi which age vivid
 ```
 
 ### Step 3: Setup Age Encryption Key (Optional)
@@ -117,10 +127,12 @@ cat ~/.ssh/id_ed25519.pub
 The installation script (`run_onchange_install-packages-arch.sh.tmpl`) installs:
 
 **Core Shells & Prompt:**
+
 - nushell
 - starship
 
 **CLI Tools:**
+
 - bat, eza, fd, ripgrep, sd, fzf, zoxide
 - yazi, lazygit, bottom
 - mise, git-delta
@@ -129,14 +141,17 @@ The installation script (`run_onchange_install-packages-arch.sh.tmpl`) installs:
 - 7zip, ffmpeg, jq, wget, unzip, unrar, gzip, poppler, pastel, vivid, gh, openssh
 
 **Editors:**
+
 - neovim
 - code (VSCode)
 
 **GUI Apps (if specified):**
+
 - obs-studio
 - obsidian (from AUR, if configured)
 
 **Development Toolchain:**
+
 - mise (runtime version manager)
 - base-devel (gcc, make, etc.)
 
@@ -153,6 +168,7 @@ The installation script (`run_onchange_install-packages-arch.sh.tmpl`) installs:
 ### Windows-Specific Configs NOT Synced
 
 The following are automatically excluded via `.chezmoiignore`:
+
 - Flow Launcher
 - Windows Terminal (winterm)
 - GlazeWM
@@ -166,6 +182,7 @@ The following are automatically excluded via `.chezmoiignore`:
 ### Add New Package
 
 1. Edit `.chezmoidata.toml`:
+
    ```bash
    chezmoi edit .chezmoidata.toml
    ```
@@ -176,6 +193,7 @@ The following are automatically excluded via `.chezmoiignore`:
    - `packages.gui.linux.pacman` - GUI applications
 
 3. Apply changes:
+
    ```bash
    chezmoi apply
    ```
@@ -279,6 +297,7 @@ yay -S obsidian visual-studio-code-bin
 ### Customize Package Lists
 
 Edit `.chezmoidata.toml` to:
+
 - Add/remove packages
 - Change mise runtime versions
 - Add AUR packages (install manually or via helper)
@@ -316,6 +335,7 @@ export PATH="$PATH:/mnt/c/Windows/System32"
 ## XDG Base Directory
 
 Arch Linux follows XDG standards by default:
+
 - `XDG_CONFIG_HOME` = `~/.config`
 - `XDG_DATA_HOME` = `~/.local/share`
 - `XDG_CACHE_HOME` = `~/.cache`
