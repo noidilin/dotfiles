@@ -85,12 +85,12 @@ symbol = ' '
 
 [character]
 success_symbol = '[](bold fg:mono21)'
-error_symbol = '[](bold fg:red00)'
+error_symbol = '[](bold fg:red00)'
 
 # left
 [shell]
 disabled = false
-format = '[  $indicator ]($style)'
+format = '[  $indicator ]($style)'
 style = 'fg:mono21'
 
 [username]
@@ -142,7 +142,7 @@ format = '[ $symbol]($style)'
 style = 'fg:mono11'
 
 [os.symbols]
-Windows = ' win'
+Windows = ' win'
 Macos = '󰀵 mac'
 Arch = '󰣇 arch'
 
