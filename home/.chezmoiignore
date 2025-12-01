@@ -6,7 +6,6 @@ doc/
 .config/chezmoi/*
 .config/chezmoi/chezmoistate.boltdb
 .config/chezmoi/chezmoi.toml
-.sh.tmpl
 
 # age passphrase key for chezmoi to decryp private key
 key.txt.age
@@ -15,7 +14,12 @@ key.txt.age
 Documents/PowerShell/Scripts/InstalledScriptInfos/*
 Documents/PowerShell/Scripts/Modules/*
 
+{{- if ne .chezmoi.os "linux" }}
+.chezmoiscripts/arch/**
+{{- end }}
+
 {{- if ne .chezmoi.os "windows" }}
+.chezmoiscripts/windows/**
 .glzr/
 scoop/
 .config/cursor/
