@@ -21,6 +21,7 @@ set -euo pipefail
 CYAN='\033[36m'
 GREEN='\033[32m'
 YELLOW='\033[33m'
+RED='\033[31m'
 GRAY='\033[90m'
 RESET='\033[0m'
 
@@ -33,7 +34,7 @@ function install_pacman_package() {
     if ! pacman -Q "$package" &>/dev/null; then
         echo -e "${GREEN}Installing: $package${RESET}"
         sudo pacman -S --noconfirm "$package" || \
-            echo -e "${YELLOW}Failed to install $package${RESET}"
+            echo -e "${RED}Failed to install $package${RESET}"
     else
         echo -e "${GRAY}$package is already installed (skipping)${RESET}"
     fi

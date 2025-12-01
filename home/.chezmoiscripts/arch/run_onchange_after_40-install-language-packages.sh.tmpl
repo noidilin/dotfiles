@@ -19,6 +19,7 @@ set -euo pipefail
 CYAN='\033[36m'
 GREEN='\033[32m'
 YELLOW='\033[33m'
+RED='\033[31m'
 GRAY='\033[90m'
 RESET='\033[0m'
 
@@ -36,7 +37,7 @@ function install_pnpm_package() {
     
     echo -e "${GREEN}Installing (pnpm): $package${RESET}"
     mise exec -- pnpm add -g "$package" || \
-        echo -e "${YELLOW}Failed to install $package${RESET}"
+        echo -e "${RED}Failed to install $package${RESET}"
 }
 
 # Install pnpm global packages (Node.js)
