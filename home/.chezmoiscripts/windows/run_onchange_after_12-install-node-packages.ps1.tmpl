@@ -3,11 +3,11 @@
 # Install Node.js Global Packages (Windows)
 # =============================================================================
 # Execution Order: 12 (run_onchange_after_12-*)
-# - Runs on every `chezmoi apply` when .chezmoidata.toml changes
+# - Runs on every `chezmoi apply` when chezmoidata files change
 # - Installs global npm/pnpm/bun packages via mise
 # - Requires mise and Node.js to be installed (from script 10)
-# Source: .chezmoidata.toml [dev.node.*]
-# Hash trigger: {{ include ".chezmoidata.toml" | sha256sum }}
+# Source: .chezmoidata/pkg-manager/node.yml
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/node.yml" | sha256sum }}
 # =============================================================================
 
 Write-Host "=== Installing Node.js global packages ===" -ForegroundColor Cyan
@@ -52,19 +52,9 @@ function Install-BunPackage {
 }
 
 # Install pnpm global packages
-{{- if .dev.node.pnpm }}
 Write-Host "`nInstalling pnpm global packages..." -ForegroundColor Yellow
-{{- range .dev.node.pnpm }}
+{{- range .pkgs.node }}
 Install-PnpmPackage "{{ . }}"
-{{- end }}
-{{- end }}
-
-# Install bun global packages
-{{- if .dev.node.bun }}
-Write-Host "`nInstalling bun global packages..." -ForegroundColor Yellow
-{{- range .dev.node.bun }}
-Install-BunPackage "{{ . }}"
-{{- end }}
 {{- end }}
 
 Write-Host "`nNode.js package installation complete!" -ForegroundColor Green

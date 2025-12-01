@@ -1,0 +1,14 @@
+[".config/nvim"]
+type = "git-repo"
+url = "git@github.com:noidilin/nvim.git"
+refreshPeriod = "168h"
+
+[".config/yazi/flavors/color-fatigue.yazi"]
+type = "git-repo"
+url = "git@github.com:noidilin/color-fatigue.yazi.git"
+refreshPeriod = "168h"
+
+[".config/wezterm"]
+type = "git-repo"
+url = "git@github.com:noidilin/wezterm.git"
+refreshPeriod = "168h"

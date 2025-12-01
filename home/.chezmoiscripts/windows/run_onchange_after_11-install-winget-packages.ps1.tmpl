@@ -3,11 +3,11 @@
 # Install WinGet Packages (Windows Only)
 # =============================================================================
 # Execution Order: 11 (run_onchange_after_11-*)
-# - Runs on every `chezmoi apply` when .chezmoidata.toml changes
+# - Runs on every `chezmoi apply` when chezmoidata files change
 # - Installs GUI applications via WinGet
 # - Runs after Scoop (10) to ensure system dependencies are installed
-# Source: .chezmoidata.toml [packages.*.windows.winget]
-# Hash trigger: {{ include ".chezmoidata.toml" | sha256sum }}
+# Source: .chezmoidata/pkg-manager/winget.yml
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/winget.yml" | sha256sum }}
 # =============================================================================
 
 Write-Host "=== Installing WinGet packages ===" -ForegroundColor Cyan
@@ -47,9 +47,9 @@ function Install-WinGetPackage {
     }
 }
 
-# Install GUI applications
-Write-Host "`nInstalling GUI applications..." -ForegroundColor Yellow
-{{- range .packages.gui.windows.winget }}
+# Install WinGet packages
+Write-Host "`nInstalling WinGet packages..." -ForegroundColor Yellow
+{{- range .pkgs.winget }}
 Install-WinGetPackage "{{ . }}"
 {{- end }}
 

@@ -1,0 +1,16 @@
+mise:
+  tools:
+    bun: "latest"
+    python: "latest"
+    node:
+      version: "lts"
+      postinstall: "corepack enable"
+    rust:
+      windows:
+        version: "stable-gnu"
+        profile: "minimal"
+      linux:
+        version: "stable"
+        profile: "minimal"
+  settings:
+    experimental: true

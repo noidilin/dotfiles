@@ -6,11 +6,11 @@
 # Install Node.js Global Packages (Linux)
 # =============================================================================
 # Execution Order: 12 (run_onchange_after_12-*)
-# - Runs on every `chezmoi apply` when .chezmoidata.toml changes
+# - Runs on every `chezmoi apply` when chezmoidata files change
 # - Installs global npm/pnpm/bun packages via mise
 # - Requires mise and Node.js to be installed first
-# Source: .chezmoidata.toml [dev.node.*]
-# Hash trigger: {{ include ".chezmoidata.toml" | sha256sum }}
+# Source: .chezmoidata/pkg-manager/node.yml
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/node.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
@@ -41,23 +41,11 @@ node_version=$(mise exec -- node --version)
 echo -e "${GRAY}Node.js version: $node_version${RESET}"
 
 # Install pnpm global packages
-{{- if .dev.node.pnpm }}
 echo ""
 echo -e "${YELLOW}Installing pnpm global packages...${RESET}"
-{{- range .dev.node.pnpm }}
+{{- range .pkgs.node }}
 echo -e "${GREEN}Installing (pnpm): {{ . }}${RESET}"
 mise exec -- pnpm add -g {{ . }} || echo -e "${YELLOW}Failed to install {{ . }}${RESET}"
-{{- end }}
-{{- end }}
-
-# Install bun global packages
-{{- if .dev.node.bun }}
-echo ""
-echo -e "${YELLOW}Installing bun global packages...${RESET}"
-{{- range .dev.node.bun }}
-echo -e "${GREEN}Installing (bun): {{ . }}${RESET}"
-mise exec -- bun add -g {{ . }} || echo -e "${YELLOW}Failed to install {{ . }}${RESET}"
-{{- end }}
 {{- end }}
 
 echo ""

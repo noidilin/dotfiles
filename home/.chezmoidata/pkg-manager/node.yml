@@ -1,0 +1,7 @@
+pkgs:
+  node:
+    - "tldr"
+    - "rimraf"
+    - "yamlresume"
+    - "next-devtools-mcp"
+    - "chrome-devtools-mcp"

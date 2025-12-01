@@ -1,32 +1,32 @@
 # =============================================================================
 # Mise Runtime Version Manager Configuration
 # =============================================================================
-# Generated from: .chezmoidata.toml [dev.mise.*]
-# Modify .chezmoidata.toml, then run: chezmoi apply
+# Generated from: .chezmoidata/mise.yml
+# Modify .chezmoidata/mise.yml, then run: chezmoi apply
 # =============================================================================
 
 [tools]
-{{- range $name, $config := .dev.mise.tools }}
+{{- range $name, $config := .mise.tools }}
 {{- if eq $name "node" }}
 node = { version = "{{ $config.version }}", postinstall = "{{ $config.postinstall }}" }
 {{- else if eq $name "rust" }}
 {{- if eq $.chezmoi.os "windows" }}
-"rust".version = "{{ $config.windows.version }}"
-"rust".profile = "{{ $config.windows.profile }}"
+rust = { version = "{{ $config.windows.version }}", profile = "{{ $config.windows.profile }}" }
 {{- else if eq $.chezmoi.os "linux" }}
-"rust".version = "{{ $config.linux.version }}"
-"rust".profile = "{{ $config.linux.profile }}"
+rust = { version = "{{ $config.linux.version }}", profile = "{{ $config.linux.profile }}" }
 {{- end }}
 {{- else if kindIs "string" $config }}
 {{ $name }} = "{{ $config }}"
-{{- else }}
-# Complex config for {{ $name }}
-{{ $name }} = {{ $config | toJson }}
+{{- else if kindIs "map" $config }}
+{{- /* Handle future tools with inline table format */ -}}
+{{- if and $config.version (not $config.windows) (not $config.linux) }}
+{{ $name }} = { version = "{{ $config.version }}"{{- if $config.profile }}, profile = "{{ $config.profile }}"{{- end }}{{- if $config.postinstall }}, postinstall = "{{ $config.postinstall }}"{{- end }} }
+{{- end }}
 {{- end }}
 {{- end }}
 
 [settings]
-{{- range $key, $value := .dev.mise.settings }}
+{{- range $key, $value := .mise.settings }}
 {{- if kindIs "bool" $value }}
 {{ $key }} = {{ $value }}
 {{- else if kindIs "string" $value }}

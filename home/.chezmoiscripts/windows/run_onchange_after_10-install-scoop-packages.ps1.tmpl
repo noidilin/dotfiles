@@ -1,0 +1,55 @@
+{{- if eq .chezmoi.os "windows" }}
+# =============================================================================
+# Install Scoop Packages (Windows Only)
+# =============================================================================
+# Execution Order: 10 (run_onchange_after_10-*)
+# - Runs on every `chezmoi apply` when chezmoidata files change
+# - Installs CLI tools, fonts, editors, GUI apps via Scoop
+# - Should run before WinGet (11) to ensure dependencies are met
+# Source: .chezmoidata/pkg-manager/{common,scoop}.yml
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/common.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/scoop.yml" | sha256sum }}
+# =============================================================================
+
+Write-Host "=== Installing Scoop packages ===" -ForegroundColor Cyan
+
+# Check if scoop is installed
+if (!(Get-Command scoop -ErrorAction SilentlyContinue)) {
+    Write-Host "ERROR: Scoop is not installed!" -ForegroundColor Red
+    Write-Host "Please install Scoop first: https://scoop.sh" -ForegroundColor Yellow
+    exit 1
+}
+
+# NOTE: Bucket setup removed - should be handled during bootstrap before chezmoi
+# This script assumes buckets (extras, nerd-fonts, wezterm-alt-icon) are already added
+
+# Function to install package if not already installed
+function Install-ScoopPackage {
+    param([string]$Package)
+    
+    # Check if already installed
+    if (scoop list $Package 2>$null | Select-String -Pattern "^\s*$Package\s") {
+        Write-Host "$Package is already installed (skipping)" -ForegroundColor DarkGray
+        return
+    }
+    
+    Write-Host "Installing: $Package" -ForegroundColor Green
+    try {
+        scoop install $Package
+    } catch {
+        Write-Host "Failed to install $Package : $_" -ForegroundColor Red
+    }
+}
+
+# Install packages from package lists
+Write-Host "`nInstalling common packages (cross-platform)..." -ForegroundColor Yellow
+{{- range .pkgs.common }}
+Install-ScoopPackage "{{ . }}"
+{{- end }}
+
+Write-Host "`nInstalling Windows-specific packages (Scoop)..." -ForegroundColor Yellow
+{{- range .pkgs.scoop }}
+Install-ScoopPackage "{{ . }}"
+{{- end }}
+
+Write-Host "`nScoop package installation complete!" -ForegroundColor Green
+{{- end }}

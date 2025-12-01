@@ -1,0 +1,42 @@
+pkgs:
+  scoop:
+    - "delta"
+    - "grep"
+    - "gsudo" # system
+    - "mingw" # C/C++ compiler for Windows (GCC)
+    - "sed"
+    - "tectonic" # TeX/LaTeX engine
+    - "vcredist2022" # system dependencies
+
+    # editor
+    - "vscode"
+    - "wezterm-alt-icon/wezterm" # From custom bucket: wezterm-alt-icon
+    - "zed"
+
+    # font
+    - "CommitMono-NF-Mono"
+    - "Noto-CJK-Mega-OTC"
+    - "Noto-Serif-CJK-Super-OTC"
+    - "jf-open-huninn"
+    - "GlowSansTC-Compressed"
+    - "GlowSansTC-Condensed"
+    - "GlowSansTC-Extended"
+    - "GlowSansTC-Normal"
+    - "GlowSansTC-Wide"
+
+    # GUI
+    - "via"
+    - "flow-launcher"
+    - "blender-launcher"
+    - "crystaldiskinfo"
+    - "rufus"
+    - "sharex"
+    - "obs-studio"
+    - "obsidian"
+    - "potplayer"
+
+    # PowerShell modules (via scoop extras)
+    - "posh-git"
+    - "psreadline"
+    - "psfzf"
+    - "sfsu"

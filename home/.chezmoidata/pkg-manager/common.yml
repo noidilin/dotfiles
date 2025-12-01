@@ -1,0 +1,44 @@
+# common package manager for different device
+# - windows: scoop
+# - arch: pacman
+# - darwin: brew
+
+pkgs:
+  common:
+    - "7zip"
+    - "age"
+    - "atuin"
+    - "ast-grep"
+    - "bat"
+    - "bottom"
+    - "carapace-bin"
+    - "chezmoi"
+    - "eza"
+    - "fastfetch"
+    - "fd"
+    - "ffmpeg"
+    - "fzf"
+    - "gh"
+    - "git" # Required before adding buckets
+    - "gnupg"
+    - "gzip"
+    - "imagemagick"
+    - "jq"
+    - "lazygit"
+    - "less"
+    - "mise"
+    - "neovim"
+    - "nu"
+    - "openssh"
+    - "pastel"
+    - "poppler"
+    - "pwsh"
+    - "ripgrep"
+    - "sd"
+    - "starship"
+    - "unrar"
+    - "unzip"
+    - "vivid"
+    - "wget"
+    - "yazi"
+    - "zoxide"

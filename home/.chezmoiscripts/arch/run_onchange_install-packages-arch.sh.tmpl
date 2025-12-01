@@ -8,11 +8,11 @@
 # Install Essential Packages for Arch Linux
 # =============================================================================
 # Execution Order: No number (run_onchange_*)
-# - Runs on every `chezmoi apply` when .chezmoidata.toml changes
+# - Runs on every `chezmoi apply` when chezmoidata files change
 # - Installs system packages via pacman
 # - Should run before Node.js package script (12)
-# Source: .chezmoidata.toml [packages.*.linux.pacman, packages.cli.common.tools]
-# Hash trigger: {{ include ".chezmoidata.toml" | sha256sum }}
+# Source: .chezmoidata/pkg-manager/{common,pacman}.yml
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/common.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/pacman.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
@@ -29,13 +29,13 @@ echo -e "${CYAN}=== Installing essential packages for Arch Linux ===${RESET}"
 # Update package database
 sudo pacman -Syu --noconfirm
 
-# Build package list from .chezmoidata.toml
+# Build package list from .chezmoidata/
 packages=(
     # Core shell (always needed)
     nushell
     
     # CLI tools (common across platforms, with name mapping)
-{{- range .packages.cli.common.tools }}
+{{- range .pkgs.common }}
     {{- $pkg := . }}
     {{- if eq $pkg "delta" -}}
     git-delta
@@ -43,28 +43,15 @@ packages=(
     gnupg
     {{- else if eq $pkg "openssh" -}}
     openssh  # Usually pre-installed
+    {{- else if eq $pkg "7zip" -}}
+    p7zip
     {{- else -}}
     {{ $pkg }}
     {{- end }}
 {{- end }}
     
-    # Linux-specific CLI tools
-{{- range .packages.cli.linux.pacman }}
-    {{ . }}
-{{- end }}
-    
-    # Editors
-{{- range .packages.editor.linux.pacman }}
-    {{ . }}
-{{- end }}
-    
-    # GUI applications
-{{- range .packages.gui.linux.pacman }}
-    {{ . }}
-{{- end }}
-    
-    # Development toolchain
-{{- range .dev.toolchain.linux.pacman }}
+    # Linux-specific packages (pacman)
+{{- range .pkgs.pacman }}
     {{ . }}
 {{- end }}
 )

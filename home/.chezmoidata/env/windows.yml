@@ -1,0 +1,36 @@
+# -----------------------------------------------------------------------------
+# Environment Variables (Windows Only)
+# -----------------------------------------------------------------------------
+# XDG Base Directory (non-standard on Windows, needed globally)
+# Linux: XDG and PATH managed by shell profiles (no system-level env needed)
+env:
+  windows:
+    XDG_CONFIG_HOME: "$HOME\\.config"
+    XDG_DATA_HOME: "$HOME\\.local\\share"
+    XDG_CACHE_HOME: "$HOME\\.cache"
+    XDG_STATE_HOME: "$HOME\\.local\\state"
+    XDG_BIN_HOME: "$HOME\\.local\\bin"
+    YAZI_FILE_ONE: "$HOME\\scoop\\apps\\git\\current\\usr\\bin\\file.exe"
+    BLENDER_USER_RESOURCES: "$HOME\\.local\\etc\\blender"
+
+# -----------------------------------------------------------------------------
+# Symbolic Links (Windows Only)
+# -----------------------------------------------------------------------------
+# Linux: Most configs follow XDG by default (no symlinks needed)
+# Format: { target: "destination", source: "config_file" }
+symlinks:
+  windows:
+    - target: "$PROFILE.CurrentUserAllHosts"
+      source: "$HOME\\.config\\pwsh\\profile.ps1"
+    - target: "$env:APPDATA\\bottom"
+      source: "$HOME\\.config\\bottom"
+    - target: "$env:APPDATA\\Rime"
+      source: "$HOME\\.config\\rime"
+    - target: "$env:APPDATA\\vivid"
+      source: "$HOME\\.config\\vivid"
+    - target: "$env:LOCALAPPDATA\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json"
+      source: "$HOME\\.config\\winterm\\settings.json"
+    - target: "$HOME\\scoop\\persist\\bat"
+      source: "$HOME\\.config\\bat"
+    - target: "$env:LOCALAPPDATA\\nvim"
+      source: "$HOME\\.config\\nvim"

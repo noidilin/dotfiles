@@ -1,0 +1,11 @@
+pkgs:
+  winget:
+    - "Microsoft.PowerToys"
+    - "glzr-io.glazewm"
+    - "Rime.Weasel"
+    - "dechamps.FlexASIO"
+    - "CyberPowerSystemsInc.PowerPanelPersonal"
+    - "Wacom.WacomTabletDriver"
+    - "ogdesign.Eagle"
+    - "WavesAudio.WavesCentral"
+    - "Zen-Team.Zen-Browser"

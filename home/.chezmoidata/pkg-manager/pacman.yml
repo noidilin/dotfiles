@@ -1,0 +1,8 @@
+pkgs:
+  pacman:
+    - "sudo"
+    - "which"
+    - "pacman-contrib"
+    - "base-devel" # gcc, make, etc. (may already be installed)
+    - "code"
+    - "git-delta"
