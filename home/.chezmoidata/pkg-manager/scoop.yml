@@ -1,15 +1,14 @@
 pkgs:
   scoop:
-    - "delta"
     - "grep"
     - "gsudo" # system
     - "mingw" # C/C++ compiler for Windows (GCC)
+    - "pwsh"
     - "sed"
     - "tectonic" # TeX/LaTeX engine
     - "vcredist2022" # system dependencies
 
     # editor
-    - "vscode"
     - "wezterm-alt-icon/wezterm" # From custom bucket: wezterm-alt-icon
     - "zed"
 
