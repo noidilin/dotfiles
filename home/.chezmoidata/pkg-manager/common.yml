@@ -28,7 +28,6 @@ pkgs:
     - "neovim"
     - "openssh"
     - "pastel"
-    - "poppler"
     - "ripgrep"
     - "sd"
     - "starship"
