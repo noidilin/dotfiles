@@ -1,0 +1,49 @@
+{{- if eq .chezmoi.os "windows" }}
+# =============================================================================
+# Install Language Package Managers (Windows)
+# =============================================================================
+# Execution Order: 13 (run_onchange_after_13-*)
+# - Runs on every `chezmoi apply` when package manager files change
+# - Installs global packages via pnpm, uv, cargo
+# - Requires mise and runtimes to be installed (from script 12)
+# Source: .chezmoidata/pkg-manager/node.yml
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/node.yml" | sha256sum }}
+# =============================================================================
+
+Write-Host "=== Installing language packages ===" -ForegroundColor Cyan
+
+# Check if mise is installed
+if (!(Get-Command mise -ErrorAction SilentlyContinue)) {
+    Write-Host "WARNING: mise is not installed yet (skipping language package installation)" -ForegroundColor Yellow
+    exit 0
+}
+
+# Function to install pnpm package
+function Install-PnpmPackage {
+    param([string]$Package)
+    
+    Write-Host "Installing (pnpm): $Package" -ForegroundColor Green
+    try {
+        mise exec -- pnpm add -g $Package
+    } catch {
+        Write-Host "Failed to install $Package : $_" -ForegroundColor Red
+    }
+}
+
+# Install pnpm global packages (Node.js)
+{{- if .pkgs.node }}
+# Check if node is available via mise
+$nodeVersion = mise exec -- node --version 2>$null
+if ($LASTEXITCODE -eq 0) {
+    Write-Host "`nNode.js version: $nodeVersion" -ForegroundColor DarkGray
+    Write-Host "Installing pnpm global packages..." -ForegroundColor Yellow
+    {{- range .pkgs.node }}
+    Install-PnpmPackage "{{ . }}"
+    {{- end }}
+} else {
+    Write-Host "`nWARNING: Node.js is not installed via mise yet (skipping Node packages)" -ForegroundColor Yellow
+}
+{{- end }}
+
+Write-Host "`nLanguage package installation complete!" -ForegroundColor Green
+{{- end }}

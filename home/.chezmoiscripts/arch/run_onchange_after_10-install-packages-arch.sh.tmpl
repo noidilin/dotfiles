@@ -1,0 +1,60 @@
+#!/bin/bash
+# vim: ft=bash
+
+{{- if eq .chezmoi.os "linux" }}
+{{- if eq .chezmoi.osRelease.id "arch" }}
+
+# =============================================================================
+# Install System Packages for Arch Linux
+# =============================================================================
+# Execution Order: 10 (run_onchange_after_10-*)
+# - Runs on every `chezmoi apply` when chezmoidata files change
+# - Installs system packages via pacman
+# - Should run before mise tools (12) and language packages (13)
+# Source: .chezmoidata/pkg-manager/{common,pacman}.yml
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/common.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/pacman.yml" | sha256sum }}
+# =============================================================================
+
+set -euo pipefail
+
+# Color codes
+CYAN='\033[36m'
+GREEN='\033[32m'
+YELLOW='\033[33m'
+GRAY='\033[90m'
+RESET='\033[0m'
+
+echo -e "${CYAN}=== Installing system packages for Arch Linux ===${RESET}"
+
+# Function to install package if not already installed
+function install_pacman_package() {
+    local package="$1"
+    
+    if ! pacman -Q "$package" &>/dev/null; then
+        echo -e "${GREEN}Installing: $package${RESET}"
+        sudo pacman -S --noconfirm "$package" || \
+            echo -e "${YELLOW}Failed to install $package${RESET}"
+    else
+        echo -e "${GRAY}$package is already installed (skipping)${RESET}"
+    fi
+}
+
+# Update package database
+sudo pacman -Syu --noconfirm
+
+# Install common packages (cross-platform)
+echo -e "\n${YELLOW}Installing common packages (cross-platform)...${RESET}"
+{{- range .pkgs.common }}
+install_pacman_package "{{ . }}"
+{{- end }}
+
+# Install Linux-specific packages (pacman)
+echo -e "\n${YELLOW}Installing Linux-specific packages (Pacman)...${RESET}"
+{{- range .pkgs.pacman }}
+install_pacman_package "{{ . }}"
+{{- end }}
+
+echo -e "\n${GREEN}Package installation complete!${RESET}"
+
+{{- end }}
+{{- end }}
