@@ -58,22 +58,17 @@ Scripts run in this order during `chezmoi apply`:
 | # | Script | Platform | Purpose |
 |---|--------|----------|---------|
 | 01 | decrypt-private-key | Cross-platform | Decrypt age key and set permissions (icacls on Windows, chmod on Linux) |
+| 02 | setup-env-variables | Windows | Set XDG Base Directory variables in Registry (makes env vars available before dotfiles are applied) |
 
-#### Phase 2: run_once_after (One-time System Setup)
-
-| # | Script | Platform | Purpose |
-|---|--------|----------|---------|
-| 02 | setup-env-variables | Windows | Set XDG Base Directory variables in Registry (one-time, persists) |
-
-#### Phase 3: run_onchange_after (Declarative Packages)
+#### Phase 2: run_onchange_after (Declarative Packages)
 
 | # | Script | Platform | Purpose | Triggers |
 |---|--------|----------|---------|----------|
-| 03 | setup-symlinks | Windows | Create symlinks for non-XDG apps | `windows.yml` changes |
+| 02 | setup-symlinks | Windows | Create symlinks for non-XDG apps | `windows.yml` changes |
 | 10 | install-system-packages | Cross-platform | Scoop (Windows) or Pacman (Linux) | Package list changes |
-| 11 | install-additional-packages | Windows | WinGet packages | Package list changes |
-| 12 | install-mise-tools | Cross-platform | Runtime version managers | `mise.yml` changes (not implemented) |
-| 13 | install-language-packages | Cross-platform | pnpm/uv/cargo packages | Package list changes |
+| 20 | install-additional-packages | Windows | WinGet packages | Package list changes |
+| 30 | install-mise-tools | Cross-platform | Runtime version managers | `mise.yml` changes |
+| 40 | install-language-packages | Cross-platform | pnpm/uv/cargo packages | Package list changes |
 
 ### Script Type Selection Guide
 

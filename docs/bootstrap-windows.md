@@ -36,6 +36,7 @@ scoop install git
 ```powershell
 scoop bucket add extras
 scoop bucket add nerd-fonts
+scoop bucket add wezterm-alt-icon https://github.com/ocodo/wezterm-alt-windows-icon-builds.git
 ```
 
 ### Step 4: Install Bootstrap Tools
@@ -47,6 +48,7 @@ scoop install chezmoi age nu pwsh
 ```
 
 **Tools installed:**
+
 - `chezmoi` - Dotfiles manager
 - `age` - Encryption tool for private files
 - `nu` - Nushell (primary shell)
@@ -68,11 +70,13 @@ chezmoi init --apply https://github.com/noidilin/dotfiles.git
 Chezmoi will automatically run installation scripts in this order:
 
 1. **Decrypt age encryption keys** (you'll be prompted for passphrase)
-2. **Setup environment variables** (XDG paths, etc.)
-3. **Create symbolic links** (for apps that don't support XDG)
-4. **Install Scoop packages** (CLI tools, fonts, editors, GUI apps)
-5. **Install WinGet packages** (system apps)
-6. **Install Node.js global packages** (via pnpm/bun)
+2. **Setup environment variables** (XDG paths set in Registry before dotfiles are applied)
+3. **Apply dotfiles** to target directories
+4. **Create symbolic links** (for apps that don't support XDG)
+5. **Install Scoop packages** (CLI tools, fonts, editors, GUI apps)
+6. **Install WinGet packages** (system apps)
+7. **Install mise tools** (runtime version managers)
+8. **Install language packages** (pnpm/uv/cargo global packages)
 
 This process may take 15-30 minutes depending on your internet connection.
 
@@ -133,6 +137,7 @@ Some applications may require manual configuration:
 ### Add New Package
 
 1. Edit `.chezmoidata.toml` in your source directory:
+
    ```powershell
    chezmoi edit .chezmoidata.toml
    ```
@@ -140,6 +145,7 @@ Some applications may require manual configuration:
 2. Add package to appropriate section (e.g., `packages.cli.windows.scoop`)
 
 3. Apply changes:
+
    ```powershell
    chezmoi apply
    ```
@@ -178,6 +184,7 @@ chezmoi apply
 **Error:** "You do not have sufficient privilege to perform this operation"
 
 **Solutions:**
+
 1. Run PowerShell as Administrator (one-time setup)
 2. Or enable Windows Developer Mode:
    - Settings → Update & Security → For developers → Developer Mode
@@ -187,6 +194,7 @@ chezmoi apply
 **Error:** "Could not find manifest for..."
 
 **Solution:** Ensure buckets are added:
+
 ```powershell
 scoop bucket list
 scoop bucket add extras
@@ -202,6 +210,7 @@ WinGet installations may trigger User Account Control (UAC) prompts. Click "Yes"
 **Error:** "command not found" after installing via mise
 
 **Solution:** Restart terminal or run:
+
 ```powershell
 mise activate
 ```
@@ -211,6 +220,7 @@ mise activate
 **Issue:** Scripts only run once (`run_once_*`) or when data changes (`run_onchange_*`)
 
 **Solution:** To force re-run:
+
 ```powershell
 # Remove script state
 chezmoi state delete-bucket --bucket=scriptState
@@ -224,6 +234,7 @@ chezmoi apply
 ### Customize Package Installation
 
 Modify `.chezmoidata.toml` to:
+
 - Add/remove packages
 - Change mise runtime versions
 - Modify environment variables
@@ -243,14 +254,25 @@ Edit `.chezmoiignore` to exclude files from certain platforms.
 
 ```
 ~/.local/share/chezmoi/           # Chezmoi source directory
-├── .chezmoidata.toml             # Package/config data (single source of truth)
+├── .chezmoidata/                 # Package/config data (single source of truth)
+│   ├── pkg-manager/
+│   │   ├── common.yml            # Cross-platform packages
+│   │   ├── pacman.yml            # Arch Linux packages
+│   │   └── scoop.yml             # Windows packages
+│   ├── env/windows.yml           # Environment variables & symlinks
+│   └── mise.yml                  # Runtime version managers
 ├── home/
 │   ├── .chezmoiscripts/          # Installation scripts
-│   │   ├── run_once_after_02-setup-env-variables.ps1.tmpl
-│   │   ├── run_once_after_03-setup-symlinks.ps1.tmpl
-│   │   ├── run_onchange_after_10-install-scoop-packages.ps1.tmpl
-│   │   ├── run_onchange_after_11-install-winget-packages.ps1.tmpl
-│   │   └── run_onchange_after_12-install-node-packages.ps1.tmpl
+│   │   ├── windows/
+│   │   │   ├── run_once_before_01-decrypt-private-key.ps1.tmpl
+│   │   │   ├── run_once_before_02-setup-env-variables.ps1.tmpl
+│   │   │   ├── run_onchange_after_02-setup-symlinks.ps1.tmpl
+│   │   │   ├── run_onchange_after_10-install-scoop-packages.ps1.tmpl
+│   │   │   ├── run_onchange_after_20-install-winget-packages.ps1.tmpl
+│   │   │   ├── run_onchange_after_30-install-mise-tools.ps1.tmpl
+│   │   │   └── run_onchange_after_40-install-language-packages.ps1.tmpl
+│   │   └── arch/
+│   │       └── run_onchange_after_10-install-pacman-packages.sh.tmpl
 │   └── dot_config/               # Configuration files
 │       ├── nushell/
 │       ├── pwsh/
