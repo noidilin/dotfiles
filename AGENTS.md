@@ -38,3 +38,71 @@
 - **Line endings**: LF for `.sh` files (see `.editorconfig`)
 - **Markdown**: MD013 (line length) disabled (see `.markdownlint-cli2.yaml`)
 - **Naming**: Use descriptive function names with verb-noun pattern (e.g., `Update-Stylus`, `Delete-TempData`)
+
+## Script Execution Order
+
+### Execution Phases
+
+Scripts run in this order during `chezmoi apply`:
+
+1. **run_once_before_*** → Prerequisites (before applying dotfiles)
+2. **run_onchange_before_*** → Dynamic prerequisites (before applying dotfiles)
+3. **[Apply dotfiles to target directories]**
+4. **run_onchange_after_*** → Declarative configs (after dotfiles exist)
+5. **run_once_after_*** → One-time system setup (after dotfiles exist)
+
+### Current Implementation
+
+#### Phase 1: run_once_before (Prerequisites)
+
+| # | Script | Platform | Purpose |
+|---|--------|----------|---------|
+| 01 | decrypt-private-key | Cross-platform | Decrypt age key and set permissions (icacls on Windows, chmod on Linux) |
+
+#### Phase 2: run_once_after (One-time System Setup)
+
+| # | Script | Platform | Purpose |
+|---|--------|----------|---------|
+| 02 | setup-env-variables | Windows | Set XDG Base Directory variables in Registry (one-time, persists) |
+
+#### Phase 3: run_onchange_after (Declarative Packages)
+
+| # | Script | Platform | Purpose | Triggers |
+|---|--------|----------|---------|----------|
+| 03 | setup-symlinks | Windows | Create symlinks for non-XDG apps | `windows.yml` changes |
+| 10 | install-system-packages | Cross-platform | Scoop (Windows) or Pacman (Linux) | Package list changes |
+| 11 | install-additional-packages | Windows | WinGet packages | Package list changes |
+| 12 | install-mise-tools | Cross-platform | Runtime version managers | `mise.yml` changes (not implemented) |
+| 13 | install-language-packages | Cross-platform | pnpm/uv/cargo packages | Package list changes |
+
+### Script Type Selection Guide
+
+**Use `run_once_*` when:**
+- System-level settings that rarely change (e.g., Registry variables)
+- Expensive operations that should only run once
+- Manual re-run is acceptable for updates
+
+**Use `run_onchange_*` when:**
+- Script depends on declarative config files (e.g., package lists in `.chezmoidata/`)
+- Should automatically respond to config changes
+- Script is idempotent (safe to re-run)
+
+**Use `*_before_*` when:**
+- Script doesn't depend on dotfiles being in target location
+- Must run before dotfiles are applied (e.g., decrypt keys)
+
+**Use `*_after_*` when:**
+- Script depends on dotfiles already existing in target location
+- Reads/uses dotfiles as source (e.g., symlinks, reading configs)
+
+### Platform-Specific Wrappers
+
+Scripts use templating to select platform-specific implementations:
+
+```
+run_onchange_after_10-install-system-packages.sh.tmpl
+├── Windows: install-scoop-packages.ps1
+└── Linux: install-packages-arch.sh (pacman)
+```
+
+Common package data is unified in `.chezmoidata/pkg-manager/common.yml` and merged with platform-specific package lists.
