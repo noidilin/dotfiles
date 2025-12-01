@@ -2,11 +2,13 @@
 # =============================================================================
 # Setup Symbolic Links (Windows Only)
 # =============================================================================
-# Execution Order: 03 (run_once_after_03-*)
-# - Runs once after environment variables are set
+# Execution Order: 03 (run_onchange_after_03-*)
+# - Runs on every `chezmoi apply` when chezmoidata files change
 # - Creates symlinks for apps that don't support XDG Base Directory
+# - Runs after dotfiles are applied to ensure source files exist
 # - Requires XDG_CONFIG_HOME to be set (from script 02)
 # Source: .chezmoidata/env/windows.yml
+# Hash trigger: {{ include ".chezmoidata/env/windows.yml" | sha256sum }}
 # =============================================================================
 
 Write-Host "=== Setting up symbolic links ===" -ForegroundColor Cyan
