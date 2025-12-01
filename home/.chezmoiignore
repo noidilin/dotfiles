@@ -16,17 +16,15 @@ Documents/PowerShell/Scripts/InstalledScriptInfos/*
 Documents/PowerShell/Scripts/Modules/*
 
 {{- if ne .chezmoi.os "windows" }}
-.install/*
-.glzr/*
-scoop/*
+.glzr/
+scoop/
+.config/cursor/
+.config/flow-launcher/
+.config/pwsh/
+.config/rime/
+.config/setup-win/
+.config/winterm/
 FlexASIO.toml
-.config/pwsh/*
-.config/winterm/*
-.config/flow-launcher/*
-.config/rime/*
-.config/setup-win/*
-.config/vscode/main.css
-.chezmoiscripts/run_once_before_decrypt-private-key.ps1.tmpl
 {{- end }}
 
 {{- if ne .chezmoi.os "darwin" }}
