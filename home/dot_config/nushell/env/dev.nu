@@ -6,4 +6,11 @@ $env.BUN_INSTALL_CACHE_DIR = ($nu.home-path | path join '.dev' 'bun' 'install' '
 $env.CARGO_HOME = ($nu.home-path | path join '.dev' 'cargo')
 $env.RUSTUP_HOME = ($nu.home-path | path join '.dev' 'rustup')
 
-$env.PATH = ($env.PATH | prepend $env.PNPM_HOME | prepend $env.BUN_INSTALL_BIN)
+# UV configuration - force all storage to follow XDG-like structure on Windows
+$env.UV_CONFIG_FILE = ($env.XDG_CONFIG_HOME | path join 'uv' 'uv.toml')
+$env.UV_CACHE_DIR = ($nu.home-path | path join '.dev' 'uv' 'cache')
+$env.UV_PYTHON_INSTALL_DIR = ($nu.home-path | path join '.dev' 'uv' 'python')
+$env.UV_TOOL_DIR = ($nu.home-path | path join '.dev' 'uv' 'tools')
+$env.UV_TOOL_BIN_DIR = ($nu.home-path | path join '.dev' 'uv' 'bin')
+
+$env.PATH = ($env.PATH | prepend $env.UV_TOOL_BIN_DIR | prepend $env.PNPM_HOME | prepend $env.BUN_INSTALL_BIN)

@@ -13,5 +13,7 @@ mise:
       linux:
         version: "stable"
         profile: "minimal"
+    uv: "latest"
   settings:
     experimental: true
+    python.uv_venv_auto: true
