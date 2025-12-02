@@ -13,49 +13,119 @@
 
 Write-Host "=== Setting up symbolic links ===" -ForegroundColor Cyan
 
-# Symlinks configuration from .chezmoidata.toml
+# Check if we can create symlinks (need Admin OR Developer Mode)
+$canCreateSymlinks = $false
+$isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+$devModeEnabled = $false
+
+try {
+    $devMode = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -ErrorAction SilentlyContinue
+    $devModeEnabled = ($devMode.AllowDevelopmentWithoutDevLicense -eq 1)
+} catch {
+    # Unable to check Developer Mode status
+}
+
+$canCreateSymlinks = ($isAdmin -or $devModeEnabled)
+
+if (-not $canCreateSymlinks) {
+    Write-Host ""
+    Write-Host "WARNING: Cannot create symlinks!" -ForegroundColor Red
+    Write-Host "You need EITHER:" -ForegroundColor Yellow
+    Write-Host "  1. Run PowerShell as Administrator, OR" -ForegroundColor Yellow
+    Write-Host "  2. Enable Developer Mode:" -ForegroundColor Yellow
+    Write-Host "     Settings > Update & Security > For developers > Developer mode" -ForegroundColor DarkGray
+    Write-Host ""
+    Write-Host "Skipping symlink creation..." -ForegroundColor Yellow
+    exit 1
+}
+
+# Symlinks configuration from .chezmoidata/env/windows.yml
 $symlinks = @{
 {{- range .symlinks.windows }}
     "{{ .target }}" = "{{ .source }}"
 {{- end }}
 }
 
+$successCount = 0
+$failCount = 0
+$skipCount = 0
+
 # Create symbolic links
 foreach ($symlink in $symlinks.GetEnumerator()) {
+    Write-Host "" # Empty line for readability
+    
     # Expand environment variables in paths
     $targetPath = $ExecutionContext.InvokeCommand.ExpandString($symlink.Key)
     $sourcePath = $ExecutionContext.InvokeCommand.ExpandString($symlink.Value)
     
-    # Resolve source path to absolute path
-    if (Test-Path $sourcePath) {
-        $sourcePath = Resolve-Path $sourcePath
-    } else {
-        Write-Host "Warning: Source path does not exist: $sourcePath" -ForegroundColor Yellow
+    Write-Host "Processing: $($symlink.Key)" -ForegroundColor White
+    Write-Host "  Target: $targetPath" -ForegroundColor DarkGray
+    Write-Host "  Source: $sourcePath" -ForegroundColor DarkGray
+    
+    # Check if source exists
+    if (-not (Test-Path $sourcePath)) {
+        Write-Host "  ✗ SKIPPED: Source does not exist!" -ForegroundColor Red
+        $skipCount++
         continue
     }
     
-    # Remove existing target if it exists (backup not needed, managed by chezmoi)
+    # Resolve source path to absolute path
+    $resolvedSource = Resolve-Path $sourcePath
+    Write-Host "  Resolved: $resolvedSource" -ForegroundColor DarkGray
+    
+    # Remove existing target if it exists
     if (Test-Path $targetPath) {
-        Write-Host "Removing existing: $targetPath" -ForegroundColor DarkGray
+        $existingItem = Get-Item $targetPath -Force
+        if ($existingItem.LinkType -eq "SymbolicLink") {
+            Write-Host "  Removing existing symlink..." -ForegroundColor DarkGray
+        } else {
+            Write-Host "  Removing existing file/directory..." -ForegroundColor DarkGray
+        }
         Remove-Item -Path $targetPath -Force -Recurse -ErrorAction SilentlyContinue
     }
     
     # Ensure parent directory exists
     $targetParent = Split-Path -Parent $targetPath
     if (-not (Test-Path $targetParent)) {
-        Write-Host "Creating parent directory: $targetParent" -ForegroundColor DarkGray
-        New-Item -ItemType Directory -Path $targetParent -Force | Out-Null
+        Write-Host "  Creating parent directory: $targetParent" -ForegroundColor DarkGray
+        try {
+            New-Item -ItemType Directory -Path $targetParent -Force -ErrorAction Stop | Out-Null
+        } catch {
+            Write-Host "  ✗ FAILED: Cannot create parent directory: $_" -ForegroundColor Red
+            $failCount++
+            continue
+        }
     }
     
     # Create symbolic link
     try {
-        Write-Host "Linking: $targetPath -> $sourcePath" -ForegroundColor Green
-        New-Item -ItemType SymbolicLink -Path $targetPath -Target $sourcePath -Force -ErrorAction Stop | Out-Null
+        New-Item -ItemType SymbolicLink -Path $targetPath -Target $resolvedSource -Force -ErrorAction Stop | Out-Null
+        Write-Host "  ✓ SUCCESS: Symlink created" -ForegroundColor Green
+        $successCount++
     } catch {
-        Write-Host "Error creating symlink: $_" -ForegroundColor Red
-        Write-Host "You may need to run PowerShell as Administrator or enable Developer Mode" -ForegroundColor Yellow
+        Write-Host "  ✗ FAILED: $_" -ForegroundColor Red
+        $failCount++
     }
 }
 
-Write-Host "Symbolic links setup complete!" -ForegroundColor Green
+# Summary
+Write-Host ""
+Write-Host "=== Symlink Setup Summary ===" -ForegroundColor Cyan
+Write-Host "  Success: $successCount" -ForegroundColor Green
+if ($skipCount -gt 0) {
+    Write-Host "  Skipped: $skipCount (source missing)" -ForegroundColor Yellow
+}
+if ($failCount -gt 0) {
+    Write-Host "  Failed:  $failCount" -ForegroundColor Red
+}
+Write-Host ""
+
+if ($failCount -gt 0) {
+    Write-Host "Some symlinks failed to create. Check errors above." -ForegroundColor Yellow
+    exit 1
+} elseif ($skipCount -gt 0) {
+    Write-Host "Some symlinks were skipped due to missing source files." -ForegroundColor Yellow
+} else {
+    Write-Host "All symbolic links created successfully!" -ForegroundColor Green
+}
 {{- end }}
