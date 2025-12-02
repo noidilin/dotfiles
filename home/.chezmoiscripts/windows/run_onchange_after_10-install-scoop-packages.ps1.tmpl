@@ -22,12 +22,20 @@ if (!(Get-Command scoop -ErrorAction SilentlyContinue)) {
 # NOTE: Bucket setup removed - should be handled during bootstrap before chezmoi
 # This script assumes buckets (extras, nerd-fonts, wezterm-alt-icon) are already added
 
+# Helper to check installed packages quickly via scoop prefix
+function Test-ScoopPackageInstalled {
+    param([string]$Package)
+
+    & scoop prefix $Package *> $null
+    return $LASTEXITCODE -eq 0
+}
+
 # Function to install package if not already installed
 function Install-ScoopPackage {
     param([string]$Package)
     
     # Check if already installed
-    if (scoop list $Package 2>$null | Select-String -Pattern "^\s*$Package\s") {
+    if (Test-ScoopPackageInstalled -Package $Package) {
         Write-Host "$Package is already installed (skipping)" -ForegroundColor DarkGray
         return
     }
