@@ -1,0 +1,80 @@
+{{- if eq .chezmoi.os "windows" }}
+# =============================================================================
+# Install uv Tool Packages (Windows)
+# =============================================================================
+# Execution Order: 40 (run_onchange_after_40-*)
+# - Installs uv tool packages declared in .chezmoidata/pkg-manager/uv.yml
+# - Requires mise and uv to be available
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/uv.yml" | sha256sum }}
+# =============================================================================
+
+Write-Host "=== Installing uv tool packages ===" -ForegroundColor Cyan
+
+if (!(Get-Command mise -ErrorAction SilentlyContinue)) {
+    Write-Host "WARNING: mise is not installed (skipping uv packages)" -ForegroundColor Yellow
+    exit 0
+}
+
+$uvVersion = mise exec -- uv --version 2>$null
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "WARNING: uv is not available via mise (skipping uv packages)" -ForegroundColor Yellow
+    exit 0
+}
+
+$script:UvTools = $null
+function Get-UvInstalledTools {
+    if ($null -ne $script:UvTools) {
+        return $script:UvTools
+    }
+
+    $script:UvTools = @()
+    $rawOutput = mise exec -- uv tool list 2>$null
+    if ($LASTEXITCODE -ne 0 -or -not $rawOutput) {
+        return $script:UvTools
+    }
+
+    # Use ripgrep to extract package names: filter lines with "v<digit>", then extract first word
+    $packages = $rawOutput | rg -N '^\S+\s+v\d' | rg -o '^\S+' | rg -v '^Installed$'
+    foreach ($pkg in $packages) {
+        if ($pkg) {
+            $script:UvTools += $pkg
+        }
+    }
+
+    return $script:UvTools
+}
+
+function Test-UvToolInstalled {
+    param([string]$Package)
+    $installed = Get-UvInstalledTools
+    return $installed -contains $Package
+}
+
+function Install-UvTool {
+    param([string]$Package)
+
+    if (Test-UvToolInstalled -Package $Package) {
+        Write-Host "$Package is already installed via uv (skipping)" -ForegroundColor DarkGray
+        return
+    }
+
+    Write-Host "Installing (uv): $Package" -ForegroundColor Green
+    try {
+        mise exec -- uv tool install $Package
+    } catch {
+        Write-Host "Failed to install $Package (uv): $_" -ForegroundColor Red
+    }
+}
+
+{{- if .pkgs.uv }}
+Write-Host "`nuv version: $uvVersion" -ForegroundColor DarkGray
+Write-Host "Installing uv tools..." -ForegroundColor Yellow
+{{- range .pkgs.uv }}
+Install-UvTool "{{ . }}"
+{{- end }}
+{{- else }}
+Write-Host "No uv tools declared (skipping)" -ForegroundColor DarkGray
+{{- end }}
+
+Write-Host "`nuv tool installation complete!" -ForegroundColor Green
+{{- end }}

@@ -5,3 +5,14 @@ insert_final_newline = true
 [*.sh.tmpl]
 end_of_line = lf
 insert_final_newline = true
+
+# PowerShell scripts (prevent UTF-8 BOM encoding issues)
+[*.ps1]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+
+[*.ps1.tmpl]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true

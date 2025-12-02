@@ -1,6 +1,5 @@
 pkgs:
-  node:
-    - "tldr"
+  pnpm:
     - "rimraf"
     - "yamlresume"
     - "next-devtools-mcp"

@@ -1,0 +1,80 @@
+{{- if eq .chezmoi.os "windows" }}
+# =============================================================================
+# Install cargo Global Packages (Windows)
+# =============================================================================
+# Execution Order: 40 (run_onchange_after_40-*)
+# - Installs cargo packages declared in .chezmoidata/pkg-manager/cargo.yml
+# - Requires mise and cargo (Rust) to be available
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/cargo.yml" | sha256sum }}
+# =============================================================================
+
+Write-Host "=== Installing cargo packages ===" -ForegroundColor Cyan
+
+if (!(Get-Command mise -ErrorAction SilentlyContinue)) {
+    Write-Host "WARNING: mise is not installed (skipping cargo packages)" -ForegroundColor Yellow
+    exit 0
+}
+
+$cargoVersion = mise exec -- cargo --version 2>$null
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "WARNING: cargo is not available via mise (skipping cargo packages)" -ForegroundColor Yellow
+    exit 0
+}
+
+$script:CargoPackages = $null
+function Get-CargoInstalledPackages {
+    if ($null -ne $script:CargoPackages) {
+        return $script:CargoPackages
+    }
+
+    $script:CargoPackages = @()
+    $rawOutput = mise exec -- cargo install --list 2>$null
+    if ($LASTEXITCODE -ne 0 -or -not $rawOutput) {
+        return $script:CargoPackages
+    }
+
+    # Use ripgrep to extract package names: filter lines with "v<digit>", then extract first word
+    $packages = $rawOutput | rg -N '^\S+\s+v\d' | rg -o '^\S+'
+    foreach ($pkg in $packages) {
+        if ($pkg) {
+            $script:CargoPackages += $pkg
+        }
+    }
+
+    return $script:CargoPackages
+}
+
+function Test-CargoPackageInstalled {
+    param([string]$Package)
+    $installed = Get-CargoInstalledPackages
+    return $installed -contains $Package
+}
+
+function Install-CargoPackage {
+    param([string]$Package)
+
+    if (Test-CargoPackageInstalled -Package $Package) {
+        Write-Host "$Package is already installed via cargo (skipping)" -ForegroundColor DarkGray
+        return
+    }
+
+    Write-Host "Installing (cargo): $Package" -ForegroundColor Green
+    try {
+        mise exec -- cargo install $Package
+    } catch {
+        Write-Host "Failed to install $Package (cargo): $_" -ForegroundColor Red
+    }
+}
+
+{{- if .pkgs.cargo }}
+Write-Host "`ncargo version: $cargoVersion" -ForegroundColor DarkGray
+Write-Host "Installing cargo packages..." -ForegroundColor Yellow
+{{- range .pkgs.cargo }}
+Install-CargoPackage "{{ . }}"
+{{- end }}
+{{- else }}
+Write-Host "No cargo packages declared (skipping)" -ForegroundColor DarkGray
+{{- end }}
+
+Write-Host "`ncargo package installation complete!" -ForegroundColor Green
+{{- end }}
