@@ -1,18 +1,11 @@
-# doc
-README.md
-doc/
+# vim:ft=gitignore.chezmoitmpl
 
-# chezmoi
-.config/chezmoi/*
-.config/chezmoi/chezmoistate.boltdb
-.config/chezmoi/chezmoi.toml
+### chezmoi ###
 
-# age passphrase key for chezmoi to decryp private key
-key.txt.age
+.config/chezmoi/**
+key.txt.age # age passphrase key for chezmoi to decryp private key
 
-# Powershell
-Documents/PowerShell/Scripts/InstalledScriptInfos/*
-Documents/PowerShell/Scripts/Modules/*
+### script files ###
 
 {{- if ne .chezmoi.os "linux" }}
 .chezmoiscripts/arch/**
@@ -20,6 +13,24 @@ Documents/PowerShell/Scripts/Modules/*
 
 {{- if ne .chezmoi.os "windows" }}
 .chezmoiscripts/windows/**
+{{- end }}
+
+{{- if ne .chezmoi.os "darwin" }}
+.chezmoiscripts/darwin/**
+{{- end }}
+
+### config directory ###
+
+{{- if ne .chezmoi.os "linux" }}
+.config/fcitx5/
+.config/fcitx5/**
+.config/hypr/
+.config/hypr/**
+.config/systemd/
+.config/systemd/**
+{{- end }}
+
+{{- if ne .chezmoi.os "windows" }}
 .glzr/
 scoop/
 .config/cursor/
@@ -29,6 +40,7 @@ scoop/
 .config/setup-win/
 .config/winterm/
 FlexASIO.toml
+.wslconfig
 {{- end }}
 
 {{- if ne .chezmoi.os "darwin" }}
