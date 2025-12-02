@@ -1,0 +1,4 @@
+# Chezmoi has ensured to ignore those encrypted files, but jut for sure
+home/.zsh_history
+home/.zshenv_private
+home/dot_config/nushell/history.txt
