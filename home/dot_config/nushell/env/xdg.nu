@@ -1,4 +1,3 @@
-$env.PNPM_HOME = ($nu.home-path | path join '.dev' 'pnpm')
 $env.XDG_CACHE_HOME = ($nu.home-path | path join '.cache') # "$HOME\.cache"
 $env.XDG_CONFIG_HOME = ($nu.home-path | path join '.config') # "$HOME\.config"
 $env.XDG_DATA_HOME = ($nu.home-path | path join '.local' 'share') # "$HOME\.local\share"
