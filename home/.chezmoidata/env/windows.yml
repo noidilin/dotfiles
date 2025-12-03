@@ -28,6 +28,8 @@ symlinks:
       source: "$HOME\\.config\\rime"
     - target: "$env:APPDATA\\vivid"
       source: "$HOME\\.config\\vivid"
+    - target: "$env:APPDATA\\tealdeer\\tealdeer"
+      source: "$HOME\\.config\\tealdeer"
     - target: "$env:LOCALAPPDATA\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json"
       source: "$HOME\\.config\\winterm\\settings.json"
     - target: "$HOME\\scoop\\persist\\bat"
