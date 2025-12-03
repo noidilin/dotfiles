@@ -1,5 +1,27 @@
 [display]
 compact = true
+show_title = true
 
 [updates]
 auto_update = true
+
+[style.description]
+foreground = { rgb = { r=65, g=65, b=65 } }
+
+# the command name as part of example code
+[style.command_name]
+foreground = { rgb = { r=234, g=234, b=234 } }
+bold = true
+
+# test that describes an example
+[style.example_text]
+foreground = { rgb = { r=157, g=157, b=157 } }
+
+# example itself
+[style.example_code]
+foreground = { rgb = { r=112, g=112, b=112 } }
+
+# variables in the example
+[style.example_variable]
+foreground = { rgb = { r=85, g=85, b=85 } }
+italic = true
