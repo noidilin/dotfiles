@@ -5,6 +5,7 @@ pkgs:
     - "mingw" # C/C++ compiler for Windows (GCC)
     - "pwsh"
     - "sed"
+    - "sfsu"
     - "tectonic" # TeX/LaTeX engine
     - "vcredist2022" # system dependencies
 
@@ -35,7 +36,5 @@ pkgs:
     - "potplayer"
 
     # PowerShell modules (via scoop extras)
-    - "posh-git"
     - "psreadline"
     - "psfzf"
-    - "sfsu"

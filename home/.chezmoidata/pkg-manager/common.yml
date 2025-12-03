@@ -7,7 +7,6 @@ pkgs:
   common:
     - "7zip"
     - "age"
-    - "atuin"
     - "ast-grep"
     - "bat"
     - "bottom"

@@ -2,7 +2,6 @@ mise:
   tools:
     bun: "latest"
     python: "latest"
-    carapace: "latest"
     node:
       version: "lts"
       postinstall: "corepack enable"
