@@ -3,9 +3,9 @@ type = "git-repo"
 url = "git@github.com:noidilin/nvim.git"
 refreshPeriod = "168h"
 
-[".config/yazi/flavors/color-fatigue.yazi"]
+[".config/yazi/flavors/achroma.yazi"]
 type = "git-repo"
-url = "git@github.com:noidilin/color-fatigue.yazi.git"
+url = "git@github.com:noidilin/achroma.yazi.git"
 refreshPeriod = "168h"
 
 [".config/wezterm"]
