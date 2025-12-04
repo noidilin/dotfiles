@@ -28,10 +28,10 @@
   diffFilter = delta --color-only
 
 [include]
-  path = ~/.config/delta/color-fatigue.gitconfig
+  path = ~/.config/delta/achroma.gitconfig
 
 [delta]
-  features = color-fatigue
+  features = achroma
   navigate = true # use n and N to move between diff sections
   side-by-side = true
   show-syntax-themes = true

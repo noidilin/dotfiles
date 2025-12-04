@@ -62,7 +62,7 @@
     {
         "defaults": 
         {
-            "colorScheme": "color-fatigue",
+            "colorScheme": "achroma",
             "cursorShape": "bar",
             "font": 
             {
@@ -144,7 +144,7 @@
             "cyan": "#769494",
             "foreground": "#B3B3B3",
             "green": "#778777",
-            "name": "color-fatigue",
+            "name": "achroma",
             "purple": "#797994",
             "red": "#B07878",
             "selectionBackground": "#303030",

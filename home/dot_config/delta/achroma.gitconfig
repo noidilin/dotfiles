@@ -1,6 +1,6 @@
 # color mixer: https://colordesigner.io/color-mixer/?mode=rgb#B07878%7B1%7D-788778%7B0%7D-D5C9AA%7B0%7D-7B95AD%7B0%7D-7A7A94%7B0%7D-769393%7B0%7D-1F1F1F%7B0%7D
 
-[delta "color-fatigue"]
+[delta "achroma"]
 	blame-palette = "#1e1e1e #191919 #151515 #2a2a2a #353535"
 	commit-decoration-style = box ul
 	dark = true
@@ -31,4 +31,4 @@
 		bold cyan => syntax "#353c3c", \
 		bold yellow => syntax "#4d4a42"
 	# Should match the name of the bat theme
-	syntax-theme = color-fatigue
+	syntax-theme = achroma

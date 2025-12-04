@@ -5,9 +5,9 @@
 	<key>colorSpaceName</key>
 	<string>sRGB</string>
 	<key>name</key>
-	<string>Color Fatigue</string>
+	<string>Achroma</string>
 	<key>semanticClass</key>
-	<string>theme.dark.color-fatigue</string>
+	<string>theme.dark.achroma</string>
 	<key>settings</key>
 	<array>
 		<dict>

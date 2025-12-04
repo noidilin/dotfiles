@@ -503,6 +503,7 @@ $env.UV_TOOL_BIN_DIR = ($nu.home-path | path join '.dev' 'uv' 'bin')
 The `UV_CONFIG_FILE` variable is **essential** because:
 
 **Without it:**
+
 ```
 UV looks in: %APPDATA%\uv\uv.toml
 Your config is at: ~/.config/uv/uv.toml
@@ -510,6 +511,7 @@ Result: Config NOT FOUND → Settings IGNORED ❌
 ```
 
 **With it:**
+
 ```
 UV_CONFIG_FILE = ~/.config/uv/uv.toml
 UV reads from: ~/.config/uv/uv.toml

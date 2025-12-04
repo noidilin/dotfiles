@@ -785,7 +785,7 @@
       "SeparatorDarkColor": "31, 31, 31"
     },
     {
-      "Name": "color-fatigue",
+      "Name": "achroma",
       "BackgroundColor": "25, 25, 25",
       "LightBackgroundColor": "53, 53, 53",
       "DarkBackgroundColor": "30, 30, 30",
