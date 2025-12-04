@@ -14,11 +14,10 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 
-[safe]
-	directory = C:/Users/noid/.local/share/chezmoi
-
+{{- if eq .chezmoi.os "windows" }}
 [credential "helperselector"]
 	selected = manager
+{{- end }}
 
 ; Diff
 [diff]
