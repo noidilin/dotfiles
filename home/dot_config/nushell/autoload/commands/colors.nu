@@ -51,28 +51,22 @@ def replace_mocha_palette [
 
 def stylus-update [
   accent: string = 'rosewater'
-  lib: string = 'https://noidilin.github.io/color-fatigue/lib/lib.less'
+  lib: string = 'https://noidilin.github.io/achroma/lib/lib.less'
 ] {
   let url: string = 'https://github.com/catppuccin/userstyles/releases/download/all-userstyles-export/import.json'
-  let file = ( $env.USERPROFILE | path join '.local/etc/stylus/color-fatigue.json' )
+  let file = ( $env.USERPROFILE | path join '.local/etc/stylus/achroma.json' )
   
   # First, let's see what we're working with
   let data = (http get $url | decode utf-8 | from json)
   
-  # Check if it's wrapped in an object or is a direct array
+  # Process the array and update accentColor for all styles
   let json_data = (
-    if ($data | describe) =~ "list" {
-      # It's an array, process directly
-      $data | each { |style| 
-        if ($style | get --optional usercssData.vars.accentColor) != null {
-          $style | update usercssData.vars.accentColor.value $accent
-        } else {
-          $style
-        }
+    $data | each { |style| 
+      if 'usercssData' in ($style | columns) {
+        $style | update usercssData.vars.accentColor.value $accent
+      } else {
+        $style # The first object is the setting object which doesn't contain usercssData
       }
-    } else {
-      # It might be wrapped, adjust as needed
-      $data
     }
     | to json --indent 2
   )
@@ -85,12 +79,12 @@ def stylus-update [
 }
 
 def stylus-examine [] {
-  let file_content = (open ~/.local/etc/stylus/color-fatigue.json)
+  let file_content = (open ~/.local/etc/stylus/achroma.json)
 
   print "=== Verification Summary ==="
   print $"Total styles: ($file_content | length)"
   print $"Accent colors: ($file_content | each { |s| $s.usercssData?.vars?.accentColor?.value } | uniq)"
-  print $"Custom lib URL present: ($file_content | to json | str contains 'noidilin.github.io/color-fatigue')"
+  print $"Custom lib URL present: ($file_content | to json | str contains 'noidilin.github.io/achroma')"
   print $"Old lib URL present: ($file_content | to json | str contains 'userstyles.catppuccin.com')"
 }
 
