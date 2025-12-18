@@ -1,0 +1,67 @@
+#!/bin/bash
+# vim: ft=bash
+
+{{- if eq .chezmoi.os "darwin" }}
+
+# =============================================================================
+# Install Homebrew Packages (macOS Only)
+# =============================================================================
+# Execution Order: 10 (run_onchange_after_10-*)
+# - Runs on every `chezmoi apply` when chezmoidata files change
+# - Installs packages via Homebrew
+# - Should run before mise tools (30)
+# Source: .chezmoidata/pkg-manager/{common,brew}.yml
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/common.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/brew.yml" | sha256sum }}
+# =============================================================================
+
+set -euo pipefail
+
+# Color codes
+CYAN='\033[36m'
+GREEN='\033[32m'
+YELLOW='\033[33m'
+RED='\033[31m'
+GRAY='\033[90m'
+RESET='\033[0m'
+
+echo -e "${CYAN}=== Installing Homebrew packages ===${RESET}"
+
+# Check if Homebrew is installed
+if ! command -v brew &>/dev/null; then
+    echo -e "${RED}ERROR: Homebrew is not installed!${RESET}"
+    echo -e "${YELLOW}Please install Homebrew first: https://brew.sh${RESET}"
+    exit 1
+fi
+
+# Update Homebrew
+echo -e "${YELLOW}Updating Homebrew...${RESET}"
+brew update
+
+# Function to install package if not already installed
+function install_brew_package() {
+    local package="$1"
+    
+    if brew list "$package" &>/dev/null; then
+        echo -e "${GRAY}$package is already installed (skipping)${RESET}"
+    else
+        echo -e "${GREEN}Installing: $package${RESET}"
+        brew install "$package" || \
+            echo -e "${RED}Failed to install $package${RESET}"
+    fi
+}
+
+# Install common packages (cross-platform)
+echo -e "\n${YELLOW}Installing common packages (cross-platform)...${RESET}"
+{{- range .pkgs.common }}
+install_brew_package "{{ . }}"
+{{- end }}
+
+# Install macOS-specific packages (Homebrew)
+echo -e "\n${YELLOW}Installing macOS-specific packages (Homebrew)...${RESET}"
+{{- range .pkgs.brew }}
+install_brew_package "{{ . }}"
+{{- end }}
+
+echo -e "\n${GREEN}Homebrew package installation complete!${RESET}"
+
+{{- end }}

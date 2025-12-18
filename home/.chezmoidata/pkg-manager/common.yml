@@ -23,7 +23,6 @@ pkgs:
     - "jq"
     - "lazygit"
     - "less"
-    - "mise"
     - "neovim"
     - "openssh"
     - "pastel"

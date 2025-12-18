@@ -3,6 +3,7 @@ pkgs:
     - "grep"
     - "gsudo" # system
     - "mingw" # C/C++ compiler for Windows (GCC)
+    - "mise" # version manager for dev tools
     - "pwsh"
     - "sed"
     - "sfsu"

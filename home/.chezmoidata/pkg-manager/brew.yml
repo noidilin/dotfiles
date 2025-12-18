@@ -1,0 +1,7 @@
+# macOS-specific packages (Homebrew)
+# These packages are only for macOS and use Homebrew-specific names
+
+pkgs:
+  brew:
+    # Version managers
+    - "mise"
