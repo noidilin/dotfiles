@@ -1,10 +1,11 @@
 mise:
   tools:
     bun: "latest"
-    python: "latest"
     node:
       version: "lts"
       postinstall: "corepack enable"
+    opencode: "latest"
+    python: "latest"
     rust:
       windows:
         version: "stable-gnu"
