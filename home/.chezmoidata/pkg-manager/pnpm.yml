@@ -1,5 +1,6 @@
 pkgs:
   pnpm:
+    - "opencode-ai"
     - "rimraf"
     - "yamlresume"
     - "next-devtools-mcp"
