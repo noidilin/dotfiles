@@ -58,7 +58,9 @@ Scripts run in this order during `chezmoi apply`:
 | # | Script | Platform | Purpose |
 |---|--------|----------|---------|
 | 01 | decrypt-private-key | Cross-platform | Decrypt age key and set permissions (icacls on Windows, chmod on Linux) |
+| 02 | install-yay | Arch Linux | Install yay AUR helper from source (required for AUR packages) |
 | 02 | setup-env-variables | Windows | Set XDG Base Directory variables in Registry (makes env vars available before dotfiles are applied) |
+| 03 | install-mise | Arch Linux | Install mise via official installer to ~/.local/bin (for latest versions) |
 
 #### Phase 2: run_onchange_after (Declarative Packages)
 
@@ -68,7 +70,7 @@ Scripts run in this order during `chezmoi apply`:
 | 10 | install-system-packages | Cross-platform | Scoop (Windows) or Pacman (Linux) | Package list changes |
 | 20 | install-additional-packages | Windows | WinGet packages | Package list changes |
 | 30 | install-mise-tools | Cross-platform | Runtime version managers | `mise.yml` changes |
-| 40 | install-language-packages | Cross-platform | pnpm/uv/cargo packages | Package list changes |
+| 40 | install-language-packages | Cross-platform | pnpm/uv/cargo/yay packages | Package list changes |
 
 ### Script Type Selection Guide
 
