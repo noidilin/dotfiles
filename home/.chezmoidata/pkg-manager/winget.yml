@@ -1,7 +1,6 @@
 pkgs:
   winget:
     - "Microsoft.PowerToys"
-    - "glzr-io.glazewm"
     - "Rime.Weasel"
     - "dechamps.FlexASIO"
     - "CyberPowerSystemsInc.PowerPanelPersonal"

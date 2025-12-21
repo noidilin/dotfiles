@@ -1,5 +1,6 @@
 pkgs:
   scoop:
+    - "glazewm"
     - "grep"
     - "gsudo" # system
     - "mingw" # C/C++ compiler for Windows (GCC)
@@ -9,6 +10,7 @@ pkgs:
     - "sfsu"
     - "tectonic" # TeX/LaTeX engine
     - "vcredist2022" # system dependencies
+    - "zebar"
 
     # editor
     - "wezterm-alt-icon/wezterm" # From custom bucket: wezterm-alt-icon
@@ -18,7 +20,7 @@ pkgs:
     - "CommitMono-NF-Mono"
     - "Noto-CJK-Mega-OTC"
     - "Noto-Serif-CJK-Super-OTC"
-    - "jf-open-huninn"
+    # - "jf-open-huninn"
     - "GlowSansTC-Compressed"
     - "GlowSansTC-Condensed"
     - "GlowSansTC-Extended"
@@ -26,8 +28,8 @@ pkgs:
     - "GlowSansTC-Wide"
 
     # GUI
-    - "via"
-    - "flow-launcher"
+    # - "via"
+    # - "flow-launcher"
     - "blender-launcher"
     - "crystaldiskinfo"
     - "rufus"
@@ -36,6 +38,6 @@ pkgs:
     - "obsidian"
     - "potplayer"
 
-    # PowerShell modules (via scoop extras)
+    # PowerShell modules
     - "psreadline"
     - "psfzf"
