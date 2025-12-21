@@ -3,7 +3,7 @@
   "logo": {
     // "source": "%USERPROFILE%/.config/fastfetch/logos/bear.txt",
     // "source": "%USERPROFILE%/.config/fastfetch/logos/cat-01.txt",
-    "source": "%USERPROFILE%/.config/fastfetch/logos/octocat.txt",
+    "source": "~/.config/fastfetch/logos/octocat.txt",
     "padding": {
       "top": 1,
       "left": 6
