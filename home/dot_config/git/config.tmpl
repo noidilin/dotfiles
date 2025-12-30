@@ -1,6 +1,20 @@
 [user]
 	name = noidilin
 	email = linganinja.0120@gmail.com
+{{- if eq .chezmoi.os "windows" }}
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP5HJ/RujQZBmiEdT8/8FqWxIcYLy4spBOOqWdmACWHQ # 'win11-github'
+{{- end }}
+
+[gpg]
+  format = ssh
+
+[gpg "ssh"]
+{{- if eq .chezmoi.os "windows" }}
+  program = "C:/Program Files/1Password/app/8/op-ssh-sign.exe"
+{{- end }}
+
+[commit]
+  gpgsign = true
 
 [core]
 	autocrlf = input
