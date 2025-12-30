@@ -7,6 +7,9 @@
 	eidtor = nvim -f # 'code --wait'
   pager = delta
   excludesFile = ~/.config/git/ignore
+{{- if eq .chezmoi.os "windows" }}
+  sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
+{{- end }}
 
 [filter "lfs"]
   required = true
