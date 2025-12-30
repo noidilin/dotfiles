@@ -1,5 +1,12 @@
 pkgs:
   pacman:
+    # common
+    - "nushell"
+    - "github-cli"
+    - "git-delta"
+    - "code"
+
+    # specific
     - "sudo"
     - "which"
     - "pacman-contrib"

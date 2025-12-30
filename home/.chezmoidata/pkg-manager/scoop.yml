@@ -1,5 +1,12 @@
 pkgs:
   scoop:
+    # common
+    - "nu"
+    - "gh"
+    - "delta"
+    - "vscode"
+
+    # specific
     - "glazewm"
     - "grep"
     - "gsudo" # system
