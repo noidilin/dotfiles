@@ -13,6 +13,9 @@ mise:
       linux:
         version: "stable"
         profile: "minimal"
+      darwin:
+        version: "stable"
+        profile: "minimal"
     uv: "latest"
   settings:
     experimental: true

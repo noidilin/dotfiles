@@ -3,5 +3,9 @@
 
 pkgs:
   brew:
-    # Version managers
+    # common
+    - "nushell"
+    - "gh"
+    - "git-delta"
+    - "visual-studio-code"
     - "mise"

@@ -14,6 +14,8 @@ node = { version = "{{ $config.version }}", postinstall = "{{ $config.postinstal
 rust = { version = "{{ $config.windows.version }}", profile = "{{ $config.windows.profile }}" }
 {{- else if eq $.chezmoi.os "linux" }}
 rust = { version = "{{ $config.linux.version }}", profile = "{{ $config.linux.profile }}" }
+{{- else if eq $.chezmoi.os "darwin" }}
+rust = { version = "{{ $config.darwin.version }}", profile = "{{ $config.darwin.profile }}" }
 {{- end }}
 {{- else if kindIs "string" $config }}
 {{ $name }} = "{{ $config }}"
