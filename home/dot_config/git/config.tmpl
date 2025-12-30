@@ -1,6 +1,6 @@
 [user]
-	name = noidilin
-	email = linganinja.0120@gmail.com
+  name = noidilin
+  email = linganinja.0120@gmail.com
 {{- if eq .chezmoi.os "windows" }}
   signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP5HJ/RujQZBmiEdT8/8FqWxIcYLy4spBOOqWdmACWHQ # 'win11-github'
 {{- end }}
@@ -32,14 +32,14 @@
 
 [filter "lfs"]
   required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
 
 {{- if eq .chezmoi.os "windows" }}
 
 [credential "helperselector"]
-	selected = manager
+  selected = manager
 {{- end }}
 
 ; Diff
@@ -73,7 +73,7 @@
   keepBackup = false
 
 [init]
-	defaultBranch = main
+  defaultBranch = main
 
 [remote]
   pushDefault = origin
@@ -104,7 +104,7 @@
 
 [rebase]
   # stacked branches with lazygit (https://www.youtube.com/watch?v=M6S-9Y8peDY)
-	updateRefs = true
+  updateRefs = true
   autoStash = true
 
 [rerere]
