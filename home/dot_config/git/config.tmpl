@@ -5,6 +5,20 @@
   signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP5HJ/RujQZBmiEdT8/8FqWxIcYLy4spBOOqWdmACWHQ # 'win11-github'
 {{- end }}
 
+[core]
+  autocrlf = input
+  eidtor = nvim -f # 'code --wait'
+  pager = delta
+  excludesFile = ~/.config/git/ignore
+{{- if eq .chezmoi.os "windows" }}
+  sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
+{{- end }}
+{{- if eq .chezmoi.os "linux" }}
+{{-   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+  sshCommand = ssh.exe
+{{-   end }}
+{{- end }}
+
 [gpg]
   format = ssh
 
@@ -15,15 +29,6 @@
 
 [commit]
   gpgsign = true
-
-[core]
-	autocrlf = input
-	eidtor = nvim -f # 'code --wait'
-  pager = delta
-  excludesFile = ~/.config/git/ignore
-{{- if eq .chezmoi.os "windows" }}
-  sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
-{{- end }}
 
 [filter "lfs"]
   required = true
