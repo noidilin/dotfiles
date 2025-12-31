@@ -62,6 +62,15 @@ Scripts run in this order during `chezmoi apply`:
 | 02 | setup-env-variables | Windows | Set XDG Base Directory variables in Registry (makes env vars available before dotfiles are applied) |
 | 03 | install-mise | Arch Linux | Install mise via official installer to ~/.local/bin (for latest versions) |
 
+#### Phase 1.5: run_before (SSH Setup for Externals)
+
+| # | Script | Platform | Purpose |
+|---|--------|----------|---------|
+| 05 | apply-ssh-config | macOS | Manually render SSH/git/1Password configs using `chezmoi execute-template` (needed for .chezmoiexternals SSH cloning) |
+| 05 | apply-ssh-config | Windows | Manually render git/1Password configs using `chezmoi execute-template` (needed for .chezmoiexternals SSH cloning) |
+
+**Note:** WSL2 does not need this script because it uses Windows SSH via interop (`ssh.exe`), which reads Windows SSH configuration.
+
 #### Phase 2: run_onchange_after (Declarative Packages)
 
 | # | Script | Platform | Purpose | Triggers |

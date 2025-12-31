@@ -48,15 +48,44 @@ Preparation steps required before running `chezmoi init --apply <repo>` on Windo
     - `openssh` provides SSH client utilities
     - `vivid` is referenced by shell configs applied during bootstrap
 
-6. **Provide the age key (if applicable)**
-    - Copy an existing key into `$env:USERPROFILE\.config\.age-key.txt`, or
-    - Decrypt `age-key.txt.age` from the repo using `age --decrypt` and save it with permissions restricted to your user account.
+6. **Install and configure 1Password (Required for SSH authentication)**
 
-7. **Confirm GitHub connectivity**
+   This dotfiles repo uses SSH URLs for external repositories (nvim, wezterm, yazi). You must configure 1Password SSH agent before running `chezmoi init`.
 
    ```powershell
-   ssh -T git@github.com    # or test HTTPS credentials
+   # Install 1Password desktop app
+   winget install AgileBits.1Password
    ```
+
+   After installation:
+   - Launch 1Password and sign in to your account
+   - Go to **Settings → Developer**
+   - Check ☑ **"Use the SSH agent"**
+   - (Optional) Configure authorization preferences
+
+   Verify the SSH key exists in 1Password:
+   ```powershell
+   # Check if github-win key exists
+   op item get "github-win" --fields "public key"
+   ```
+
+   If the key doesn't exist, create one:
+   ```powershell
+   op item create --category="SSH Key" --title="github-win" --vault="dev" --generate-password=ssh
+   ```
+
+   Add the public key to GitHub:
+   ```powershell
+   # First time: authenticate with GitHub CLI
+   gh auth login
+
+   # Upload SSH key to GitHub
+   op item get "github-win" --fields "public key" | gh ssh-key add - --title "$env:COMPUTERNAME"
+   ```
+
+7. **Provide the age key (if applicable)**
+    - Copy an existing key into `$env:USERPROFILE\.config\.age-key.txt`, or
+    - Decrypt `age-key.txt.age` from the repo using `age --decrypt` and save it with permissions restricted to your user account.
 
 ### Verify Developer Mode grants symlink privileges
 
@@ -81,12 +110,26 @@ Preparation steps required before running `chezmoi init --apply <repo>` on Windo
 
 ## Run Chezmoi
 
-With prerequisites in place, initialize and apply the repository:
+**IMPORTANT:** Use HTTPS (not SSH) for the initial clone:
 
 ```powershell
-chezmoi init --apply git@github.com:noidilin/dotfiles.git
-# or
+# Initialize chezmoi with HTTPS
 chezmoi init --apply https://github.com/noidilin/dotfiles.git
 ```
 
-Chezmoi will handle every subsequent action (symlink setup, Scoop/WinGet/mise installs, Nushell/Pwsh configuration, etc.), so no further manual prep is required before running the command above.
+**What happens during `chezmoi apply`:**
+
+1. **Phase 4** - `run_before_05-apply-ssh-config.ps1` runs automatically:
+   - Applies SSH configuration for 1Password agent
+   - Applies 1Password agent.toml configuration
+   - Verifies 1Password SSH agent is running
+
+2. **Phase 5** - Files and externals are applied:
+   - `.chezmoiexternals` clone via SSH (works because SSH is now configured!)
+   - All dotfiles applied to home directory
+
+3. **Phase 6** - `run_after_*` scripts run:
+   - Package installation (Scoop, WinGet, mise)
+   - Environment setup
+
+**That's it!** No manual intervention needed. The automated script handles SSH configuration before externals clone.
