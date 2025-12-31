@@ -40,6 +40,170 @@
 - **Markdown**: MD013 (line length) disabled (see `.markdownlint-cli2.yaml`)
 - **Naming**: Use descriptive function names with verb-noun pattern (e.g., `Update-Stylus`, `Delete-TempData`)
 
+## Chezmoi Template Indentation Style Guide
+
+### Core Principles
+
+1. **Template markers** (`{{-`, `{{`, `-}}`, `}}`): Indent by **2 spaces per nesting level** to show control flow structure
+2. **Content inside templates**: Align with surrounding context (ignore template nesting depth)
+3. **Preserve context alignment**: Content should maintain its natural indentation (TOML sections, PowerShell blocks, etc.)
+
+### Template Marker Indentation Rules
+
+```toml
+{{- if condition }}          ← Level 0: flush left (top-level block)
+  content here               ← Content: aligned with context (e.g., 2 spaces for TOML section)
+{{-   if nested }}            ← Level 1: 2 spaces (nested block)
+  content here               ← Content: still aligned with context (not double-indented!)
+{{-   end }}                  ← Level 1: 2 spaces (closing nested block)
+{{- else if other }}          ← Level 0: flush left (same level as opening if)
+  content here
+{{- end }}                    ← Level 0: flush left (closing top-level block)
+```
+
+**Key rules:**
+- Top-level blocks: **0 spaces** (flush left)
+- Nested blocks: **+2 spaces per level** (relative to parent block)
+- `else if` and `else`: **Same indentation as opening `if`**
+- `end`: **Same indentation as corresponding opening block**
+- **Content**: Ignores template nesting, follows target file format conventions
+
+### Whitespace Trimming
+
+- **Control flow blocks**: Use `{{-` and `-}}` for consistent output formatting
+- **Content interpolation**: Use `{{` and `}}` (no dashes) when outputting variables/content
+- **Comments**: Can use `{{/* */}}` without dashes for visual separators
+
+### Examples
+
+#### Example 1: TOML Config with Nested Conditions
+
+```toml
+[user]
+  name = noidilin
+  email = linganinja.0120@gmail.com
+{{- if eq .osId "windows" }}
+  signingkey = {{ onepasswordRead "op://dev/github-win/public key" | trim }}
+{{- else if eq .osId "linux-arch" }}
+{{-   if eq .archEnv "wsl" }}
+  signingkey = {{ onepasswordRead "op://dev/github-win/public key" | trim }}
+{{-   else }}
+  signingkey = {{ onepasswordRead "op://dev/github-arch/public key" | trim }}
+{{-   end }}
+{{- else if eq .osId "darwin" }}
+  signingkey = {{ onepasswordRead "op://dev/github-mac/public key" | trim }}
+{{- end }}
+```
+
+**Note:** `signingkey` stays at 2 spaces (TOML section indentation), regardless of template nesting.
+
+#### Example 2: PowerShell Script with Range Loop
+
+```powershell
+{{- if not .symlinks.windows }}
+Write-Host "No symlink definitions found. Skipping." -ForegroundColor Yellow
+return
+{{- else }}
+$symlinkItems = @(
+{{-   range .symlinks.windows }}
+    @{
+        Target = "{{ .target }}"
+        Source = "{{ .source }}"
+    }
+{{-   end }}
+)
+{{- end }}
+```
+
+**Note:** `range` block indented (2 spaces), but PowerShell array content uses natural 4-space indentation.
+
+#### Example 3: Complex Nested Conditions
+
+```toml
+{{- range $name, $config := .mise.tools }}      ← Level 0
+{{-   if eq $name "node" }}                     ← Level 1: 2 spaces
+node = { version = "{{ $config.version }}" }    ← Content: flush left (TOML top-level)
+{{-   else if eq $name "rust" }}                ← Level 1: 2 spaces
+{{-     if eq $.chezmoi.os "windows" }}         ← Level 2: 4 spaces
+rust = { version = "{{ $config.windows.version }}" }
+{{-     else if eq $.chezmoi.os "linux" }}      ← Level 2: 4 spaces
+rust = { version = "{{ $config.linux.version }}" }
+{{-     end }}                                  ← Level 2: 4 spaces
+{{-   end }}                                    ← Level 1: 2 spaces
+{{- end }}                                      ← Level 0
+```
+
+**Note:** Clear visual hierarchy shows nesting depth (0 → 2 → 4 spaces for markers), but content stays flush left.
+
+#### Example 4: Bash Script
+
+```bash
+{{- if .pkgs.cargo }}
+printf "Installing cargo packages...\n"
+{{-   range .pkgs.cargo }}
+install_cargo_package "{{ . }}"
+{{-   end }}
+{{- else }}
+printf "No cargo packages declared (skipping)\n"
+{{- end }}
+```
+
+**Note:** Bash commands at natural indentation (0 for top-level), template markers show structure.
+
+### Common Patterns to Avoid
+
+**❌ Incorrect: Mixing indentation styles**
+```toml
+{{- if condition }}
+{{-   if nested }}          ← Indented (good)
+  content
+{{- else if other }}        ← NOT indented (inconsistent!)
+  content
+{{-   end }}
+{{- end }}
+```
+
+**✓ Correct: Consistent indentation**
+```toml
+{{- if condition }}
+{{-   if nested }}          ← Level 1: 2 spaces
+  content
+{{-   else if other }}      ← Level 1: 2 spaces
+  content
+{{-   end }}                ← Level 1: 2 spaces
+{{- end }}
+```
+
+**❌ Incorrect: Double-indenting content**
+```toml
+[user]
+{{- if eq .osId "windows" }}
+{{-   if nested }}
+    signingkey = value      ← Wrong! (4 spaces = 2 for section + 2 for nested template)
+{{-   end }}
+{{- end }}
+```
+
+**✓ Correct: Content ignores template nesting**
+```toml
+[user]
+{{- if eq .osId "windows" }}
+{{-   if nested }}
+  signingkey = value        ← Correct! (2 spaces = TOML section indentation only)
+{{-   end }}
+{{- end }}
+```
+
+### Target File Format Conventions
+
+When writing content, follow these indentation conventions:
+
+- **TOML**: 2 spaces for sections/keys
+- **YAML**: 2 spaces per level
+- **Bash scripts**: 4 spaces per block (per `.editorconfig`)
+- **PowerShell scripts**: 4 spaces per block
+- **Nushell scripts**: 4 spaces per block
+
 ## Script Execution Order
 
 ### Execution Phases
