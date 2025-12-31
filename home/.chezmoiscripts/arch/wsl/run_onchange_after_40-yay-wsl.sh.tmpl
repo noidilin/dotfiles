@@ -7,9 +7,9 @@
 # Install AUR Packages via yay (WSL2 Arch Linux)
 # =============================================================================
 # Execution Order: 40 (run_onchange_after_40-*)
-# - Installs AUR packages declared in .chezmoidata/pkg-manager/{yay,yay-wsl}.yml
+# - Installs AUR packages declared in .chezmoidata/pkg-manager/arch/{yay,yay-wsl}.yml
 # - Requires yay to be available (installed via run_once_before_02-install-yay.sh)
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/yay.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/yay-wsl.yml" | sha256sum }}
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/arch/yay.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/arch/yay-wsl.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail

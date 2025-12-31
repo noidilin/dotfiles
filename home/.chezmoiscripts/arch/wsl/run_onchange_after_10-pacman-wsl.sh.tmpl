@@ -10,8 +10,8 @@
 # - Runs on every `chezmoi apply` when chezmoidata files change
 # - Installs system packages via pacman for WSL2 environment
 # - Should run before mise tools (30) and language packages (40)
-# Source: .chezmoidata/pkg-manager/{common,pacman,pacman-wsl}.yml
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/common.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/pacman.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/pacman-wsl.yml" | sha256sum }}
+# Source: .chezmoidata/pkg-manager/{common,arch/pacman,arch/pacman-wsl}.yml
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/common.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/arch/pacman.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/arch/pacman-wsl.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail

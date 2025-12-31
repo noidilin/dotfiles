@@ -10,8 +10,8 @@
 # - Runs on every `chezmoi apply` when chezmoidata files change
 # - Installs system packages via pacman for native Arch Linux
 # - Should run before mise tools (30) and language packages (40)
-# Source: .chezmoidata/pkg-manager/{common,pacman,pacman-native}.yml
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/common.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/pacman.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/pacman-native.yml" | sha256sum }}
+# Source: .chezmoidata/pkg-manager/{common,arch/pacman,arch/pacman-native}.yml
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/common.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/arch/pacman.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/arch/pacman-native.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
