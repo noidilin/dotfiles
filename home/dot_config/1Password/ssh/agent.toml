@@ -1,0 +1,9 @@
+# add key for windows
+[[ssh-keys]]
+item = "github-win"
+vault = "dev"
+
+# Then add all keys from Private vault
+[[ssh-keys]]
+vault = "Private"
+account = "HOME"
