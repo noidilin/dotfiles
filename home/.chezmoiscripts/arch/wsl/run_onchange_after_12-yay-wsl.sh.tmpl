@@ -1,15 +1,16 @@
 #!/bin/bash
 # vim: ft=bash
 
-{{- if eq .archEnv "native" }}
+{{- if eq .archEnv "wsl" }}
 
 # =============================================================================
-# Install AUR Packages via yay (Native Arch Linux)
+# Install Platform-Specific AUR Packages (Arch WSL - yay)
 # =============================================================================
-# Execution Order: 40 (run_onchange_after_40-*)
-# - Installs AUR packages declared in .chezmoidata/pkg-manager/arch/{yay,yay-native}.yml
+# Execution Order: 12 (run_onchange_after_12-*)
+# - Runs after common packages (10) and pacman packages (11)
+# - Installs Arch-specific AUR packages declared in .chezmoidata/pkg-manager/arch/{yay,yay-wsl}.yml
 # - Requires yay to be available (installed via run_once_before_02-install-yay.sh)
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/arch/yay.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/arch/yay-native.yml" | sha256sum }}
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/arch/yay.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/arch/yay-wsl.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
@@ -21,7 +22,7 @@ RED='\033[31m'
 GRAY='\033[90m'
 RESET='\033[0m'
 
-printf "${CYAN}=== Installing AUR packages via yay (Native) ===${RESET}\n"
+printf "${CYAN}=== Installing platform-specific AUR packages (Arch WSL - yay) ===${RESET}\n"
 
 # Check if yay is installed
 if ! command -v yay &>/dev/null; then
@@ -97,10 +98,10 @@ install_yay_package "{{ . }}"
 {{- end }}
 {{- end }}
 
-# Install native-specific AUR packages
-{{- if .pkgs.yayNative }}
-printf "${YELLOW}Installing native Arch-specific AUR packages...${RESET}\n"
-{{- range .pkgs.yayNative }}
+# Install WSL2-specific AUR packages
+{{- if .pkgs.yayWsl }}
+printf "${YELLOW}Installing WSL2-specific AUR packages...${RESET}\n"
+{{- range .pkgs.yayWsl }}
 install_yay_package "{{ . }}"
 {{- end }}
 {{- end }}

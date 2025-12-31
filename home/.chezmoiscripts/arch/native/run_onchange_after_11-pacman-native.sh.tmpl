@@ -4,14 +4,14 @@
 {{- if eq .archEnv "native" }}
 
 # =============================================================================
-# Install System Packages for Native Arch Linux
+# Install Platform-Specific Packages (Arch Native - pacman)
 # =============================================================================
-# Execution Order: 10 (run_onchange_after_10-*)
-# - Runs on every `chezmoi apply` when chezmoidata files change
-# - Installs system packages via pacman for native Arch Linux
+# Execution Order: 11 (run_onchange_after_11-*)
+# - Runs after common packages (10)
+# - Installs Arch-specific system packages via pacman for native Arch Linux
 # - Should run before mise tools (30) and language packages (40)
-# Source: .chezmoidata/pkg-manager/{common,arch/pacman,arch/pacman-native}.yml
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/common.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/arch/pacman.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/arch/pacman-native.yml" | sha256sum }}
+# Source: .chezmoidata/pkg-manager/arch/{pacman,pacman-native}.yml
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/arch/pacman.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/arch/pacman-native.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
@@ -24,7 +24,7 @@ RED='\033[31m'
 GRAY='\033[90m'
 RESET='\033[0m'
 
-echo -e "${CYAN}=== Installing system packages for Native Arch Linux ===${RESET}"
+echo -e "${CYAN}=== Installing platform-specific packages (Arch Native - pacman) ===${RESET}"
 
 # Cache for installed packages (loaded once)
 declare -a PACMAN_INSTALLED=()
@@ -80,12 +80,6 @@ function install_pacman_package() {
 
 # Update package database
 sudo pacman -Syu --noconfirm
-
-# Install common packages (cross-platform)
-echo -e "\n${YELLOW}Installing common packages (cross-platform)...${RESET}"
-{{- range .pkgs.common }}
-install_pacman_package "{{ . }}"
-{{- end }}
 
 # Install shared Arch packages
 echo -e "\n${YELLOW}Installing shared Arch packages...${RESET}"

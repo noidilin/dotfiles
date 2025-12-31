@@ -1,0 +1,99 @@
+#!/bin/bash
+# vim: ft=bash
+
+{{- if eq .chezmoi.os "darwin" }}
+
+# =============================================================================
+# Install Platform-Specific Packages (macOS - Homebrew)
+# =============================================================================
+# Execution Order: 11 (run_onchange_after_11-*)
+# - Runs after common packages (10)
+# - Installs macOS-specific packages via Homebrew
+# - Should run before mise tools (30)
+# Source: .chezmoidata/pkg-manager/brew.yml
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/brew.yml" | sha256sum }}
+# =============================================================================
+
+set -euo pipefail
+
+# Color codes
+CYAN='\033[36m'
+GREEN='\033[32m'
+YELLOW='\033[33m'
+RED='\033[31m'
+GRAY='\033[90m'
+RESET='\033[0m'
+
+echo -e "${CYAN}=== Installing platform-specific packages (macOS - Homebrew) ===${RESET}"
+
+# Check if Homebrew is installed
+if ! command -v brew &>/dev/null; then
+    echo -e "${RED}ERROR: Homebrew is not installed!${RESET}"
+    echo -e "${YELLOW}Please install Homebrew first: https://brew.sh${RESET}"
+    exit 1
+fi
+
+# Update Homebrew
+echo -e "${YELLOW}Updating Homebrew...${RESET}"
+brew update
+
+# Cache for installed packages (loaded once)
+declare -a BREW_INSTALLED=()
+brew_cache_loaded=0
+
+load_brew_packages() {
+    if [[ $brew_cache_loaded -eq 1 ]]; then
+        return
+    fi
+    
+    brew_cache_loaded=1
+    local output
+    # Get all installed formulae
+    if ! output=$(brew list --formula 2>/dev/null); then
+        echo -e "${YELLOW}WARNING: Failed to query installed packages (skipping all)${RESET}"
+        BREW_INSTALLED=()
+        return
+    fi
+    
+    while IFS= read -r pkg; do
+        if [[ -n "$pkg" ]]; then
+            BREW_INSTALLED+=("$pkg")
+        fi
+    done <<< "$output"
+}
+
+brew_package_installed() {
+    local package="$1"
+    load_brew_packages
+    
+    for existing in "${BREW_INSTALLED[@]:-}"; do
+        if [[ "$existing" == "$package" ]]; then
+            return 0
+        fi
+    done
+    
+    return 1
+}
+
+# Function to install package if not already installed
+function install_brew_package() {
+    local package="$1"
+    
+    if brew_package_installed "$package"; then
+        echo -e "${GRAY}$package is already installed (skipping)${RESET}"
+    else
+        echo -e "${GREEN}Installing: $package${RESET}"
+        brew install "$package" || \
+            echo -e "${RED}Failed to install $package${RESET}"
+    fi
+}
+
+# Install macOS-specific packages
+echo -e "\n${YELLOW}Installing macOS-specific packages (Homebrew)...${RESET}"
+{{- range .pkgs.brew }}
+install_brew_package "{{ . }}"
+{{- end }}
+
+echo -e "\n${GREEN}Homebrew package installation complete!${RESET}"
+
+{{- end }}

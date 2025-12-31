@@ -4,14 +4,13 @@
 {{- if eq .chezmoi.os "darwin" }}
 
 # =============================================================================
-# Install Homebrew Packages (macOS Only)
+# Install Common Packages (macOS)
 # =============================================================================
 # Execution Order: 10 (run_onchange_after_10-*)
-# - Runs on every `chezmoi apply` when chezmoidata files change
-# - Installs packages via Homebrew
-# - Should run before mise tools (30)
-# Source: .chezmoidata/pkg-manager/{common,brew}.yml
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/common.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/brew.yml" | sha256sum }}
+# - Installs cross-platform common packages via Homebrew
+# - Runs before platform-specific packages (11+)
+# Source: .chezmoidata/pkg-manager/common.yml
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/common.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
@@ -24,7 +23,7 @@ RED='\033[31m'
 GRAY='\033[90m'
 RESET='\033[0m'
 
-echo -e "${CYAN}=== Installing Homebrew packages ===${RESET}"
+echo -e "${CYAN}=== Installing common packages (macOS) ===${RESET}"
 
 # Check if Homebrew is installed
 if ! command -v brew &>/dev/null; then
@@ -88,18 +87,14 @@ function install_brew_package() {
     fi
 }
 
-# Install common packages (cross-platform)
-echo -e "\n${YELLOW}Installing common packages (cross-platform)...${RESET}"
-{{- range .pkgs.common }}
-install_brew_package "{{ . }}"
+# Install common packages via Homebrew
+echo -e "\n${YELLOW}Installing common packages via Homebrew...${RESET}"
+{{- range $name, $pkg := .pkgs.common }}
+  {{- if hasKey $pkg "brew" }}
+install_brew_package "{{ $pkg.brew }}"
+  {{- end }}
 {{- end }}
 
-# Install macOS-specific packages (Homebrew)
-echo -e "\n${YELLOW}Installing macOS-specific packages (Homebrew)...${RESET}"
-{{- range .pkgs.brew }}
-install_brew_package "{{ . }}"
-{{- end }}
-
-echo -e "\n${GREEN}Homebrew package installation complete!${RESET}"
+echo -e "\n${GREEN}Common package installation complete!${RESET}"
 
 {{- end }}

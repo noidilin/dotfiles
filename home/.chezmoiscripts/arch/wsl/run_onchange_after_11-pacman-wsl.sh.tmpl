@@ -4,14 +4,14 @@
 {{- if eq .archEnv "wsl" }}
 
 # =============================================================================
-# Install System Packages for WSL2 Arch Linux
+# Install Platform-Specific Packages (Arch WSL - pacman)
 # =============================================================================
-# Execution Order: 10 (run_onchange_after_10-*)
-# - Runs on every `chezmoi apply` when chezmoidata files change
-# - Installs system packages via pacman for WSL2 environment
+# Execution Order: 11 (run_onchange_after_11-*)
+# - Runs after common packages (10)
+# - Installs Arch-specific system packages via pacman for WSL2 environment
 # - Should run before mise tools (30) and language packages (40)
-# Source: .chezmoidata/pkg-manager/{common,arch/pacman,arch/pacman-wsl}.yml
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/common.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/arch/pacman.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/arch/pacman-wsl.yml" | sha256sum }}
+# Source: .chezmoidata/pkg-manager/arch/{pacman,pacman-wsl}.yml
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/arch/pacman.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/arch/pacman-wsl.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
@@ -24,7 +24,7 @@ RED='\033[31m'
 GRAY='\033[90m'
 RESET='\033[0m'
 
-echo -e "${CYAN}=== Installing system packages for WSL2 Arch Linux ===${RESET}"
+echo -e "${CYAN}=== Installing platform-specific packages (Arch WSL - pacman) ===${RESET}"
 
 # Cache for installed packages (loaded once)
 declare -a PACMAN_INSTALLED=()
@@ -80,12 +80,6 @@ function install_pacman_package() {
 
 # Update package database
 sudo pacman -Syu --noconfirm
-
-# Install common packages (cross-platform)
-echo -e "\n${YELLOW}Installing common packages (cross-platform)...${RESET}"
-{{- range .pkgs.common }}
-install_pacman_package "{{ . }}"
-{{- end }}
 
 # Install shared Arch packages
 echo -e "\n${YELLOW}Installing shared Arch packages...${RESET}"

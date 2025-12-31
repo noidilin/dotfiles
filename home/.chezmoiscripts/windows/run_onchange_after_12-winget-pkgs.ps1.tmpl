@@ -1,16 +1,15 @@
 {{- if eq .chezmoi.os "windows" }}
 # =============================================================================
-# Install WinGet Packages (Windows Only)
+# Install Platform-Specific Packages (Windows - WinGet)
 # =============================================================================
-# Execution Order: 11 (run_onchange_after_11-*)
-# - Runs on every `chezmoi apply` when chezmoidata files change
-# - Installs GUI applications via WinGet
-# - Runs after Scoop (10) to ensure system dependencies are installed
+# Execution Order: 12 (run_onchange_after_12-*)
+# - Runs after common packages (10) and Scoop packages (11)
+# - Installs Windows-specific applications via WinGet
 # Source: .chezmoidata/pkg-manager/winget.yml
 # Hash trigger: {{ include ".chezmoidata/pkg-manager/winget.yml" | sha256sum }}
 # =============================================================================
 
-Write-Host "=== Installing WinGet packages ===" -ForegroundColor Cyan
+Write-Host "=== Installing platform-specific packages (Windows - WinGet) ===" -ForegroundColor Cyan
 
 # Check if winget is installed
 if (!(Get-Command winget -ErrorAction SilentlyContinue)) {
