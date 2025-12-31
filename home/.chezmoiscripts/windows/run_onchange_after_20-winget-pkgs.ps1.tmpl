@@ -19,12 +19,55 @@ if (!(Get-Command winget -ErrorAction SilentlyContinue)) {
     exit 1
 }
 
-# Function to check if package is installed
+# Cache for installed packages (loaded once)
+$script:WingetPackages = $null
+
+function Get-WingetInstalledPackages {
+    if ($null -ne $script:WingetPackages) {
+        return $script:WingetPackages
+    }
+    
+    $script:WingetPackages = @()
+    
+    # Create temp file for JSON export
+    $tempFile = [System.IO.Path]::GetTempFileName()
+    try {
+        # Export installed packages to JSON
+        winget export -o $tempFile --accept-source-agreements 2>$null | Out-Null
+        if ($LASTEXITCODE -ne 0 -or !(Test-Path $tempFile)) {
+            Write-Host "WARNING: Failed to query installed packages (skipping all)" -ForegroundColor Yellow
+            return $script:WingetPackages
+        }
+        
+        # Parse JSON to extract package IDs
+        $jsonContent = Get-Content $tempFile -Raw | ConvertFrom-Json
+        if ($jsonContent.Sources) {
+            foreach ($source in $jsonContent.Sources) {
+                if ($source.Packages) {
+                    foreach ($pkg in $source.Packages) {
+                        if ($pkg.PackageIdentifier) {
+                            $script:WingetPackages += $pkg.PackageIdentifier
+                        }
+                    }
+                }
+            }
+        }
+    } catch {
+        Write-Host "WARNING: Failed to parse installed packages: $_" -ForegroundColor Yellow
+    } finally {
+        if (Test-Path $tempFile) {
+            Remove-Item $tempFile -Force
+        }
+    }
+    
+    return $script:WingetPackages
+}
+
 function Test-WinGetPackage {
     param([string]$PackageId)
     
-    $result = winget list --id $PackageId --exact 2>$null
-    return $LASTEXITCODE -eq 0
+    $installed = Get-WingetInstalledPackages
+    return $installed -contains $PackageId
 }
 
 # Function to install package if not already installed

@@ -27,17 +27,56 @@ RESET='\033[0m'
 
 echo -e "${CYAN}=== Installing system packages for Arch Linux ===${RESET}"
 
+# Cache for installed packages (loaded once)
+declare -a PACMAN_INSTALLED=()
+pacman_cache_loaded=0
+
+load_pacman_packages() {
+    if [[ $pacman_cache_loaded -eq 1 ]]; then
+        return
+    fi
+    
+    pacman_cache_loaded=1
+    local output
+    # -Qq: query, quiet (package names only)
+    if ! output=$(pacman -Qq 2>/dev/null); then
+        echo -e "${YELLOW}WARNING: Failed to query installed packages (skipping all)${RESET}"
+        PACMAN_INSTALLED=()
+        return
+    fi
+    
+    while IFS= read -r pkg; do
+        if [[ -n "$pkg" ]]; then
+            PACMAN_INSTALLED+=("$pkg")
+        fi
+    done <<< "$output"
+}
+
+pacman_package_installed() {
+    local package="$1"
+    load_pacman_packages
+    
+    for existing in "${PACMAN_INSTALLED[@]:-}"; do
+        if [[ "$existing" == "$package" ]]; then
+            return 0
+        fi
+    done
+    
+    return 1
+}
+
 # Function to install package if not already installed
 function install_pacman_package() {
     local package="$1"
     
-    if ! pacman -Q "$package" &>/dev/null; then
-        echo -e "${GREEN}Installing: $package${RESET}"
-        sudo pacman -S --noconfirm "$package" || \
-            echo -e "${RED}Failed to install $package${RESET}"
-    else
+    if pacman_package_installed "$package"; then
         echo -e "${GRAY}$package is already installed (skipping)${RESET}"
+        return
     fi
+    
+    echo -e "${GREEN}Installing: $package${RESET}"
+    sudo pacman -S --noconfirm "$package" || \
+        echo -e "${RED}Failed to install $package${RESET}"
 }
 
 # Update package database

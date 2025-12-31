@@ -37,11 +37,49 @@ fi
 echo -e "${YELLOW}Updating Homebrew...${RESET}"
 brew update
 
+# Cache for installed packages (loaded once)
+declare -a BREW_INSTALLED=()
+brew_cache_loaded=0
+
+load_brew_packages() {
+    if [[ $brew_cache_loaded -eq 1 ]]; then
+        return
+    fi
+    
+    brew_cache_loaded=1
+    local output
+    # Get all installed formulae
+    if ! output=$(brew list --formula 2>/dev/null); then
+        echo -e "${YELLOW}WARNING: Failed to query installed packages (skipping all)${RESET}"
+        BREW_INSTALLED=()
+        return
+    fi
+    
+    while IFS= read -r pkg; do
+        if [[ -n "$pkg" ]]; then
+            BREW_INSTALLED+=("$pkg")
+        fi
+    done <<< "$output"
+}
+
+brew_package_installed() {
+    local package="$1"
+    load_brew_packages
+    
+    for existing in "${BREW_INSTALLED[@]:-}"; do
+        if [[ "$existing" == "$package" ]]; then
+            return 0
+        fi
+    done
+    
+    return 1
+}
+
 # Function to install package if not already installed
 function install_brew_package() {
     local package="$1"
     
-    if brew list "$package" &>/dev/null; then
+    if brew_package_installed "$package"; then
         echo -e "${GRAY}$package is already installed (skipping)${RESET}"
     else
         echo -e "${GREEN}Installing: $package${RESET}"

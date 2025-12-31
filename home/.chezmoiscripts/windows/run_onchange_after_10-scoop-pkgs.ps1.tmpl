@@ -22,12 +22,39 @@ if (!(Get-Command scoop -ErrorAction SilentlyContinue)) {
 # NOTE: Bucket setup removed - should be handled during bootstrap before chezmoi
 # This script assumes buckets (extras, nerd-fonts, wezterm-alt-icon) are already added
 
-# Helper to check installed packages quickly via scoop prefix
+# Cache for installed packages (loaded once)
+$script:ScoopPackages = $null
+
+function Get-ScoopInstalledPackages {
+    if ($null -ne $script:ScoopPackages) {
+        return $script:ScoopPackages
+    }
+    
+    $script:ScoopPackages = @()
+    
+    try {
+        # scoop list returns PowerShell objects with .Name property
+        # Extract package names directly from the objects
+        $installed = scoop list 2>$null
+        if ($LASTEXITCODE -ne 0 -or -not $installed) {
+            Write-Host "WARNING: Failed to query installed packages (skipping all)" -ForegroundColor Yellow
+            return $script:ScoopPackages
+        }
+        
+        # Extract the Name property from each package object
+        $script:ScoopPackages = @($installed.Name)
+    } catch {
+        Write-Host "WARNING: Failed to query installed packages: $_" -ForegroundColor Yellow
+    }
+    
+    return $script:ScoopPackages
+}
+
 function Test-ScoopPackageInstalled {
     param([string]$Package)
-
-    & scoop prefix $Package *> $null
-    return $LASTEXITCODE -eq 0
+    
+    $installed = Get-ScoopInstalledPackages
+    return $installed -contains $Package
 }
 
 # Function to install package if not already installed
