@@ -7,3 +7,12 @@ recipient = "age142jxxglda43ghtr5l27h06arhazze8lleu80lap0s2sfawjywgqqj9pnc2"
 
 [completion]
 custom = true # enable custom shell completion
+
+{{- if eq .chezmoi.os "linux" }}
+{{-   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+
+# WSL2: Use Windows 1Password CLI via interop
+[onepassword]
+command = "op.exe"
+{{-   end }}
+{{- end }}

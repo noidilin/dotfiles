@@ -1,0 +1,26 @@
+# 1Password SSH Agent Configuration
+# Platform-specific SSH key selection
+
+{{- if eq .chezmoi.os "windows" }}
+# Windows: Use github-win key
+[[ssh-keys]]
+item = "github-win"
+vault = "dev"
+{{- else if eq .chezmoi.os "linux" }}
+{{-   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+# WSL2: Use github-arch key
+[[ssh-keys]]
+item = "github-arch"
+vault = "dev"
+{{-   end }}
+{{- else if eq .chezmoi.os "darwin" }}
+# macOS: Use github-mac key
+[[ssh-keys]]
+item = "github-mac"
+vault = "dev"
+{{- end }}
+
+# Also load all keys from Private vault
+[[ssh-keys]]
+vault = "Private"
+account = "HOME"

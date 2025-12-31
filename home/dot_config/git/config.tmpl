@@ -2,7 +2,13 @@
   name = noidilin
   email = linganinja.0120@gmail.com
 {{- if eq .chezmoi.os "windows" }}
-  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP5HJ/RujQZBmiEdT8/8FqWxIcYLy4spBOOqWdmACWHQ # 'win11-github'
+  signingkey = {{ onepasswordRead "op://dev/github-win/public key" | trim }} # 'github-win'
+{{- else if eq .chezmoi.os "linux" }}
+{{-   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+  signingkey = {{ onepasswordRead "op://dev/github-win/public key" | trim }} # WSL2 shares 'github-win' key
+{{-   end }}
+{{- else if eq .chezmoi.os "darwin" }}
+  signingkey = {{ onepasswordRead "op://dev/github-mac/public key" | trim }} # 'github-mac'
 {{- end }}
 
 [core]
@@ -25,6 +31,12 @@
 [gpg "ssh"]
 {{- if eq .chezmoi.os "windows" }}
   program = "C:/Program Files/1Password/app/8/op-ssh-sign.exe"
+{{- else if eq .chezmoi.os "darwin" }}
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+{{- else if eq .chezmoi.os "linux" }}
+{{-   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+  program = "/mnt/c/Program Files/1Password/app/8/op-ssh-sign.exe"
+{{-   end }}
 {{- end }}
 
 [commit]
