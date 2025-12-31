@@ -1,0 +1,4 @@
+pkgs:
+  yayNative:
+    - "1password" # Password manager
+    - "1password-cli" # 1Password CLI

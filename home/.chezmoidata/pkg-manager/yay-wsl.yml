@@ -1,0 +1,4 @@
+pkgs:
+  yayWsl:
+    # Currently empty - add packages as needed
+    []

@@ -1,0 +1,4 @@
+pkgs:
+  pacmanWsl:
+    # Currently empty - add packages as needed
+    []

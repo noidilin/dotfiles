@@ -1,13 +1,18 @@
 pkgs:
   pacman:
-    # common
+    # Shared packages for BOTH WSL2 and native Arch
+
+    # Shell & CLI tools
     - "nushell"
     - "github-cli"
     - "git-delta"
-    - "code"
 
-    # specific
+    # Build essentials
     - "sudo"
     - "which"
     - "pacman-contrib"
-    - "base-devel" # gcc, make, etc. (may already be installed)
+    - "base-devel" # gcc, make, etc.
+
+    # Terminal tools
+    - "man-db"
+    - "man-pages"

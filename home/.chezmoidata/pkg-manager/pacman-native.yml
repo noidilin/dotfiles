@@ -1,0 +1,4 @@
+pkgs:
+  pacmanNative:
+    - "wezterm" # Terminal emulator
+    - "code" # VSCode
