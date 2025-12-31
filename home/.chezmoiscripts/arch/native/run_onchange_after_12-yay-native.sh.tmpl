@@ -20,13 +20,14 @@ GREEN='\033[32m'
 YELLOW='\033[33m'
 RED='\033[31m'
 GRAY='\033[90m'
+BRIGHT_WHITE='\033[97m'
 RESET='\033[0m'
 
-printf "${CYAN}=== Installing platform-specific AUR packages (Arch Native - yay) ===${RESET}\n"
+printf "${YELLOW}=== Installing platform-specific AUR packages (Arch Native - yay) ===${RESET}\n"
 
 # Check if yay is installed
 if ! command -v yay &>/dev/null; then
-  printf "${YELLOW}WARNING: yay is not installed (skipping AUR packages)${RESET}\n"
+  printf "${RED}WARNING: yay is not installed (skipping AUR packages)${RESET}\n"
   printf "${GRAY}Install yay first, then run: chezmoi apply${RESET}\n"
   exit 0
 fi
@@ -106,6 +107,6 @@ install_yay_package "{{ . }}"
 {{-   end }}
 {{- end }}
 
-printf "${GREEN}\nAUR package installation complete!${RESET}\n"
+printf "${BRIGHT_WHITE}\nAUR package installation complete!${RESET}\n"
 
 {{- end }}

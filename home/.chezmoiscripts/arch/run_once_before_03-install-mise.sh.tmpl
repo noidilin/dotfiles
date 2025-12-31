@@ -24,33 +24,34 @@ GREEN='\033[32m'
 YELLOW='\033[33m'
 RED='\033[31m'
 GRAY='\033[90m'
+BRIGHT_WHITE='\033[97m'
 RESET='\033[0m'
 
 INSTALL_PATH="$HOME/.local/bin/mise"
 
-echo -e "${CYAN}=== Installing mise via official installer ===${RESET}"
+echo -e "${YELLOW}=== Installing mise via official installer ===${RESET}"
 
 # Check if already installed
 if [ -f "$INSTALL_PATH" ]; then
   CURRENT_VERSION=$("$INSTALL_PATH" --version 2>/dev/null | head -1 || echo "unknown")
   echo -e "${GRAY}mise is already installed at $INSTALL_PATH${RESET}"
   echo -e "${GRAY}Current version: $CURRENT_VERSION${RESET}"
-  echo -e "${YELLOW}To update: mise self-update${RESET}"
-  echo -e "${YELLOW}To reinstall: rm $INSTALL_PATH && chezmoi apply${RESET}"
+  echo -e "${BRIGHT_WHITE}To update: mise self-update${RESET}"
+  echo -e "${BRIGHT_WHITE}To reinstall: rm $INSTALL_PATH && chezmoi apply${RESET}"
   exit 0
 fi
 
 # Create .local/bin if it doesn't exist
-echo -e "${YELLOW}Creating $HOME/.local/bin...${RESET}"
+echo -e "${BRIGHT_WHITE}Creating $HOME/.local/bin...${RESET}"
 mkdir -p "$HOME/.local/bin"
 
 # Install mise using official installer
-echo -e "${YELLOW}Downloading and installing mise from https://mise.run ...${RESET}"
+echo -e "${BRIGHT_WHITE}Downloading and installing mise from https://mise.run ...${RESET}"
 if curl -fsSL https://mise.run | MISE_INSTALL_PATH="$INSTALL_PATH" MISE_INSTALL_HELP=0 sh; then
-  echo -e "${GREEN}✓ mise binary installed successfully${RESET}"
+  echo -e "${BRIGHT_WHITE}✓ mise binary installed successfully${RESET}"
 else
   echo -e "${RED}✗ mise installation failed${RESET}"
-  echo -e "${YELLOW}Troubleshooting:${RESET}"
+  echo -e "${BRIGHT_WHITE}Troubleshooting:${RESET}"
   echo -e "  1. Check internet connection"
   echo -e "  2. Try manual install: curl -fsSL https://mise.run | sh"
   echo -e "  3. Check https://mise.jdx.dev for alternative installation methods"
@@ -60,7 +61,7 @@ fi
 # Verify installation
 if [ -f "$INSTALL_PATH" ]; then
   VERSION=$("$INSTALL_PATH" --version 2>/dev/null | head -1 || echo "unknown")
-  echo -e "${GREEN}✓ Verified: $VERSION${RESET}"
+  echo -e "${BRIGHT_WHITE}✓ Verified: $VERSION${RESET}"
   echo -e "${GRAY}Location: $INSTALL_PATH${RESET}"
 else
   echo -e "${RED}✗ Verification failed: mise binary not found${RESET}"
@@ -69,7 +70,7 @@ fi
 
 # Regenerate Nushell activation (if Nushell is installed)
 if command -v nu &>/dev/null; then
-  echo -e "${YELLOW}Regenerating Nushell mise activation...${RESET}"
+  echo -e "${BRIGHT_WHITE}Regenerating Nushell mise activation...${RESET}"
   MISE_NU_AUTOLOAD="$HOME/.config/nushell/autoload/tools/mise.nu"
   VENDOR_AUTOLOAD="$HOME/.local/share/nushell/vendor/autoload/mise.nu"
 
@@ -77,13 +78,13 @@ if command -v nu &>/dev/null; then
     # Regenerate vendor autoload by calling mise activate directly
     mkdir -p "$(dirname "$VENDOR_AUTOLOAD")"
     "$INSTALL_PATH" activate nu >"$VENDOR_AUTOLOAD" 2>/dev/null || true
-    echo -e "${GREEN}✓ Nushell activation updated${RESET}"
+    echo -e "${BRIGHT_WHITE}✓ Nushell activation updated${RESET}"
   fi
 fi
 
-echo -e "\n${GREEN}=== mise installation complete! ===${RESET}"
-echo -e "${CYAN}Next steps:${RESET}"
-echo -e "  1. ${YELLOW}Restart your shell${RESET} (or run: ${GRAY}exec nu${RESET})"
+echo -e "\n${BRIGHT_WHITE}=== mise installation complete! ===${RESET}"
+echo -e "${BRIGHT_WHITE}Next steps:${RESET}"
+echo -e "  1. ${BRIGHT_WHITE}Restart your shell${RESET} (or run: ${GRAY}exec nu${RESET})"
 echo -e "  2. Verify: ${GRAY}mise --version${RESET}"
 echo -e "  3. Install tools: ${GRAY}mise install${RESET}"
 echo -e "  4. Update mise: ${GRAY}mise self-update${RESET}"

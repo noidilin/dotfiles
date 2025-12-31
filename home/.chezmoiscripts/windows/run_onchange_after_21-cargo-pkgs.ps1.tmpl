@@ -8,16 +8,16 @@
 # Hash trigger: {{ include ".chezmoidata/pkg-manager/cargo.yml" | sha256sum }}
 # =============================================================================
 
-Write-Host "=== Installing cargo packages ===" -ForegroundColor Cyan
+Write-Host "=== Installing cargo packages ===" -ForegroundColor Yellow
 
 if (!(Get-Command mise -ErrorAction SilentlyContinue)) {
-    Write-Host "WARNING: mise is not installed (skipping cargo packages)" -ForegroundColor Yellow
+    Write-Host "WARNING: mise is not installed (skipping cargo packages)" -ForegroundColor Red
     exit 0
 }
 
 $cargoVersion = mise exec -- cargo --version 2>$null
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "WARNING: cargo is not available via mise (skipping cargo packages)" -ForegroundColor Yellow
+    Write-Host "WARNING: cargo is not available via mise (skipping cargo packages)" -ForegroundColor Red
     exit 0
 }
 
@@ -58,7 +58,7 @@ function Install-CargoPackage {
         return
     }
 
-    Write-Host "Installing (cargo): $Package" -ForegroundColor Green
+    Write-Host "Installing (cargo): $Package" -ForegroundColor White
     try {
         mise exec -- cargo install $Package
     } catch {
@@ -68,7 +68,7 @@ function Install-CargoPackage {
 
 {{- if .pkgs.cargo }}
 Write-Host "`ncargo version: $cargoVersion" -ForegroundColor DarkGray
-Write-Host "Installing cargo packages..." -ForegroundColor Yellow
+Write-Host "Installing cargo packages..." -ForegroundColor White
 {{-   range .pkgs.cargo }}
 Install-CargoPackage "{{ . }}"
 {{-   end }}
@@ -76,5 +76,5 @@ Install-CargoPackage "{{ . }}"
 Write-Host "No cargo packages declared (skipping)" -ForegroundColor DarkGray
 {{- end }}
 
-Write-Host "`ncargo package installation complete!" -ForegroundColor Green
+Write-Host "`ncargo package installation complete!" -ForegroundColor White
 {{- end }}

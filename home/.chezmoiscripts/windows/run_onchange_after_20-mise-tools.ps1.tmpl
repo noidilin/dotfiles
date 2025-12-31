@@ -11,12 +11,12 @@
 # Hash trigger: {{ include ".chezmoidata/mise.yml" | sha256sum }}
 # =============================================================================
 
-Write-Host "=== Installing mise tools ===" -ForegroundColor Cyan
+Write-Host "=== Installing mise tools ===" -ForegroundColor Yellow
 
 # Check if mise is installed
 if (!(Get-Command mise -ErrorAction SilentlyContinue)) {
     Write-Host "ERROR: mise is not installed!" -ForegroundColor Red
-    Write-Host "Please ensure mise is installed via Scoop first" -ForegroundColor Yellow
+    Write-Host "Please ensure mise is installed via Scoop first" -ForegroundColor White
     exit 1
 }
 
@@ -24,23 +24,23 @@ if (!(Get-Command mise -ErrorAction SilentlyContinue)) {
 $miseConfig = "$HOME\.config\mise\config.toml"
 if (-Not (Test-Path $miseConfig)) {
     Write-Host "ERROR: Mise config not found at $miseConfig" -ForegroundColor Red
-    Write-Host "Run 'chezmoi apply' to generate the mise config first" -ForegroundColor Yellow
+    Write-Host "Run 'chezmoi apply' to generate the mise config first" -ForegroundColor White
     exit 1
 }
 
 Write-Host "Using mise config: $miseConfig" -ForegroundColor DarkGray
 
 # Install all tools defined in mise config
-Write-Host "`nInstalling tools from mise config..." -ForegroundColor Yellow
+Write-Host "`nInstalling tools from mise config..." -ForegroundColor White
 try {
     mise install
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "WARNING: Some mise tools may have failed to install" -ForegroundColor Yellow
+        Write-Host "WARNING: Some mise tools may have failed to install" -ForegroundColor Red
     }
 } catch {
     Write-Host "ERROR: Failed to install mise tools: $_" -ForegroundColor Red
     exit 1
 }
 
-Write-Host "`nMise tools installation complete!" -ForegroundColor Green
+Write-Host "`nMise tools installation complete!" -ForegroundColor White
 {{- end }}

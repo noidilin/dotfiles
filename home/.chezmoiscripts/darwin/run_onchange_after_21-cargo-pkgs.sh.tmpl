@@ -18,17 +18,18 @@ GREEN='\033[32m'
 YELLOW='\033[33m'
 RED='\033[31m'
 GRAY='\033[90m'
+BRIGHT_WHITE='\033[97m'
 RESET='\033[0m'
 
-printf "${CYAN}=== Installing cargo packages ===${RESET}\n"
+printf "${YELLOW}=== Installing cargo packages ===${RESET}\n"
 
 if ! command -v mise &>/dev/null; then
-  printf "${YELLOW}WARNING: mise is not installed (skipping cargo packages)${RESET}\n"
+  printf "${RED}WARNING: mise is not installed (skipping cargo packages)${RESET}\n"
   exit 0
 fi
 
 if ! cargo_version=$(mise exec -- cargo --version 2>/dev/null); then
-  printf "${YELLOW}WARNING: cargo is not available via mise (skipping cargo packages)${RESET}\n"
+  printf "${RED}WARNING: cargo is not available via mise (skipping cargo packages)${RESET}\n"
   exit 0
 fi
 
@@ -76,7 +77,7 @@ install_cargo_package() {
     return
   fi
 
-  printf "${GREEN}Installing (cargo): %s${RESET}\n" "$package"
+  printf "${BRIGHT_WHITE}Installing (cargo): %s${RESET}\n" "$package"
   if ! mise exec -- cargo install "$package"; then
     printf "${RED}Failed to install %s (cargo)${RESET}\n" "$package"
   fi
@@ -84,7 +85,7 @@ install_cargo_package() {
 
 {{- if .pkgs.cargo }}
 printf "${GRAY}\ncargo version: %s${RESET}\n" "$cargo_version"
-printf "${YELLOW}Installing cargo packages...${RESET}\n"
+printf "${BRIGHT_WHITE}Installing cargo packages...${RESET}\n"
 {{-   range .pkgs.cargo }}
 install_cargo_package "{{ . }}"
 {{-   end }}
@@ -92,5 +93,5 @@ install_cargo_package "{{ . }}"
 printf "${GRAY}No cargo packages declared (skipping)${RESET}\n"
 {{- end }}
 
-printf "${GREEN}\ncargo package installation complete!${RESET}\n"
+printf "${BRIGHT_WHITE}\ncargo package installation complete!${RESET}\n"
 {{- end }}

@@ -11,10 +11,10 @@
 # Hash trigger: {{ include ".chezmoidata/env/windows.yml" | sha256sum }}
 # =============================================================================
 
-Write-Host "=== Setting up symbolic links (Windows) ===" -ForegroundColor Cyan
+Write-Host "=== Setting up symbolic links (Windows) ===" -ForegroundColor Yellow
 
 {{- if not .symlinks.windows }}
-Write-Host "No Windows symlink definitions found .symlinks.windows). Skipping." -ForegroundColor Yellow
+Write-Host "No Windows symlink definitions found .symlinks.windows). Skipping." -ForegroundColor White
 return
 {{- else }}
 $symlinkItems = @(
@@ -28,7 +28,7 @@ $symlinkItems = @(
 {{- end }}
 
 if ($symlinkItems.Count -eq 0) {
-    Write-Host "No Windows symlink entries were provided. Skipping." -ForegroundColor Yellow
+    Write-Host "No Windows symlink entries were provided. Skipping." -ForegroundColor White
     return
 }
 
@@ -44,7 +44,7 @@ function Ensure-ParentDirectory {
     }
 
     if (-not (Test-Path -LiteralPath $parent)) {
-        Write-Host "Creating directory: $parent" -ForegroundColor Yellow
+        Write-Host "Creating directory: $parent" -ForegroundColor White
         New-Item -ItemType Directory -Path $parent -Force | Out-Null
     }
 }
@@ -63,7 +63,7 @@ function New-SymbolicLinkSafe {
     }
 
     if (-not (Test-Path -LiteralPath $Source)) {
-        Write-Host "Source missing for target $Target - skipping. ($Source)" -ForegroundColor Yellow
+        Write-Host "Source missing for target $Target - skipping. ($Source)" -ForegroundColor White
         return $false
     }
 
@@ -81,13 +81,13 @@ function New-SymbolicLinkSafe {
             }
         }
 
-        Write-Host "Removing existing target: $Target" -ForegroundColor Yellow
+        Write-Host "Removing existing target: $Target" -ForegroundColor White
         Remove-Item -LiteralPath $Target -Force -Recurse
     }
 
     try {
         New-Item -ItemType SymbolicLink -Path $Target -Target $Source -Force | Out-Null
-        Write-Host "Linked: $Target -> $Source" -ForegroundColor Green
+        Write-Host "Linked: $Target -> $Source" -ForegroundColor White
         return $true
     } catch {
         Write-Host "Failed to create link for $Target : $_" -ForegroundColor Red
@@ -106,5 +106,5 @@ foreach ($item in $symlinkItems) {
     }
 }
 
-Write-Host "`nSymlink setup complete. Updated $updatedCount item(s)." -ForegroundColor Cyan
+Write-Host "`nSymlink setup complete. Updated $updatedCount item(s)." -ForegroundColor White
 {{- end }}

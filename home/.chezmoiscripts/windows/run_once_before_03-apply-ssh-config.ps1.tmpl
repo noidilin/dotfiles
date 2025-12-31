@@ -4,7 +4,7 @@
 # This enables HTTPS-based chezmoi init while supporting SSH-based externals
 # Note: Cannot use 'chezmoi apply' here due to persistent state lock during run_before phase
 
-Write-Host "Applying SSH configuration for 1Password agent (Windows)..." -ForegroundColor Cyan
+Write-Host "Applying SSH configuration for 1Password agent (Windows)..." -ForegroundColor Yellow
 
 # Validate 1Password CLI is available
 if (-not (Get-Command op.exe -ErrorAction SilentlyContinue)) {
@@ -22,7 +22,7 @@ if (-not (Test-Path $gitConfigDir)) {
 $templateContent = Get-Content "$HOME\.local\share\chezmoi\home\dot_config\git\config.tmpl" -Raw
 $renderedConfig = $templateContent | chezmoi execute-template
 $renderedConfig | Out-File -FilePath "$gitConfigDir\config" -Encoding UTF8 -NoNewline
-Write-Host "SUCCESS: config applied: $gitConfigDir\config" -ForegroundColor Green
+Write-Host "SUCCESS: config applied: $gitConfigDir\config" -ForegroundColor White
 
 # Manually render and apply 1Password agent configuration
 $opConfigDir = "$HOME\.config\1Password\ssh"
@@ -33,16 +33,16 @@ if (-not (Test-Path $opConfigDir)) {
 $opTemplateContent = Get-Content "$HOME\.local\share\chezmoi\home\dot_config\1Password\ssh\agent.toml.tmpl" -Raw
 $opRenderedConfig = $opTemplateContent | chezmoi execute-template
 $opRenderedConfig | Out-File -FilePath "$opConfigDir\agent.toml" -Encoding UTF8 -NoNewline
-Write-Host "SUCCESS: 1Password agent config applied: $opConfigDir\agent.toml" -ForegroundColor Green
+Write-Host "SUCCESS: 1Password agent config applied: $opConfigDir\agent.toml" -ForegroundColor White
 
 # Verify 1Password SSH agent is accessible
 $agent_pipe = "\\.\pipe\openssh-ssh-agent"
 if (Test-Path $agent_pipe) {
-    Write-Host "SUCCESS: 1Password SSH agent detected" -ForegroundColor Green
+    Write-Host "SUCCESS: 1Password SSH agent detected" -ForegroundColor White
 } else {
-    Write-Host "WARNING: 1Password SSH agent not found" -ForegroundColor Yellow
-    Write-Host "Please enable it in: 1Password -> Settings -> Developer -> Use the SSH agent" -ForegroundColor Yellow
-    Write-Host "Continuing anyway - you may be prompted to approve SSH connections..." -ForegroundColor Yellow
+    Write-Host "WARNING: 1Password SSH agent not found" -ForegroundColor Red
+    Write-Host "Please enable it in: 1Password -> Settings -> Developer -> Use the SSH agent" -ForegroundColor White
+    Write-Host "Continuing anyway - you may be prompted to approve SSH connections..." -ForegroundColor White
 }
 
-Write-Host "SUCCESS: SSH configuration applied successfully" -ForegroundColor Green
+Write-Host "SUCCESS: SSH configuration applied successfully" -ForegroundColor White

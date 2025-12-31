@@ -23,23 +23,24 @@ GREEN='\033[32m'
 YELLOW='\033[33m'
 RED='\033[31m'
 GRAY='\033[90m'
+BRIGHT_WHITE='\033[97m'
 RESET='\033[0m'
 
 BUILD_DIR="$HOME/.cache/yay-build"
 
-echo -e "${CYAN}=== Installing yay AUR Helper ===${RESET}"
+echo -e "${YELLOW}=== Installing yay AUR Helper ===${RESET}"
 
 # Check if yay is already installed
 if command -v yay &>/dev/null; then
   CURRENT_VERSION=$(yay --version 2>/dev/null | head -1 || echo "unknown")
   echo -e "${GRAY}yay is already installed${RESET}"
   echo -e "${GRAY}Current version: $CURRENT_VERSION${RESET}"
-  echo -e "${YELLOW}To reinstall: rm -rf ~/.cache/yay-build && yay -Rns yay && chezmoi apply${RESET}"
+  echo -e "${BRIGHT_WHITE}To reinstall: rm -rf ~/.cache/yay-build && yay -Rns yay && chezmoi apply${RESET}"
   exit 0
 fi
 
 # Check dependencies
-echo -e "${YELLOW}Checking dependencies...${RESET}"
+echo -e "${BRIGHT_WHITE}Checking dependencies...${RESET}"
 MISSING_DEPS=()
 
 if ! pacman -Q base-devel &>/dev/null; then
@@ -52,20 +53,20 @@ fi
 
 if [ ${#MISSING_DEPS[@]} -gt 0 ]; then
   echo -e "${RED}✗ Missing required dependencies: ${MISSING_DEPS[*]}${RESET}"
-  echo -e "${YELLOW}Installing dependencies...${RESET}"
+  echo -e "${BRIGHT_WHITE}Installing dependencies...${RESET}"
   sudo pacman -S --noconfirm "${MISSING_DEPS[@]}" || {
     echo -e "${RED}Failed to install dependencies${RESET}"
     exit 1
   }
-  echo -e "${GREEN}✓ Dependencies installed${RESET}"
+  echo -e "${BRIGHT_WHITE}✓ Dependencies installed${RESET}"
 fi
 
 # Create build directory
-echo -e "${YELLOW}Creating build directory...${RESET}"
+echo -e "${BRIGHT_WHITE}Creating build directory...${RESET}"
 mkdir -p "$BUILD_DIR"
 
 # Clone yay repository
-echo -e "${YELLOW}Cloning yay repository...${RESET}"
+echo -e "${BRIGHT_WHITE}Cloning yay repository...${RESET}"
 if [ -d "$BUILD_DIR/yay" ]; then
   echo -e "${GRAY}Build directory exists, cleaning...${RESET}"
   rm -rf "$BUILD_DIR/yay"
@@ -73,7 +74,7 @@ fi
 
 if ! git clone https://aur.archlinux.org/yay.git "$BUILD_DIR/yay"; then
   echo -e "${RED}✗ Failed to clone yay repository${RESET}"
-  echo -e "${YELLOW}Troubleshooting:${RESET}"
+  echo -e "${BRIGHT_WHITE}Troubleshooting:${RESET}"
   echo -e "  1. Check internet connection"
   echo -e "  2. Verify git is installed: pacman -Q git"
   echo -e "  3. Try manual clone: git clone https://aur.archlinux.org/yay.git"
@@ -81,12 +82,12 @@ if ! git clone https://aur.archlinux.org/yay.git "$BUILD_DIR/yay"; then
 fi
 
 # Build and install yay
-echo -e "${YELLOW}Building and installing yay...${RESET}"
+echo -e "${BRIGHT_WHITE}Building and installing yay...${RESET}"
 cd "$BUILD_DIR/yay"
 
 if ! makepkg -si --noconfirm; then
   echo -e "${RED}✗ Failed to build/install yay${RESET}"
-  echo -e "${YELLOW}Troubleshooting:${RESET}"
+  echo -e "${BRIGHT_WHITE}Troubleshooting:${RESET}"
   echo -e "  1. Check if base-devel is installed: pacman -Q base-devel"
   echo -e "  2. Try manual build: cd ~/.cache/yay-build/yay && makepkg -si"
   echo -e "  3. Check build logs for specific errors"
@@ -96,8 +97,8 @@ fi
 # Verify installation
 if command -v yay &>/dev/null; then
   VERSION=$(yay --version 2>/dev/null | head -1 || echo "unknown")
-  echo -e "${GREEN}✓ yay installed successfully${RESET}"
-  echo -e "${GREEN}✓ Verified: $VERSION${RESET}"
+  echo -e "${BRIGHT_WHITE}✓ yay installed successfully${RESET}"
+  echo -e "${BRIGHT_WHITE}✓ Verified: $VERSION${RESET}"
   echo -e "${GRAY}Location: $(which yay)${RESET}"
 else
   echo -e "${RED}✗ Verification failed: yay command not found${RESET}"
@@ -105,15 +106,15 @@ else
 fi
 
 # Clean up build directory (optional)
-echo -e "${YELLOW}Cleaning up build directory...${RESET}"
+echo -e "${BRIGHT_WHITE}Cleaning up build directory...${RESET}"
 rm -rf "$BUILD_DIR/yay"
-echo -e "${GREEN}✓ Build directory cleaned${RESET}"
+echo -e "${BRIGHT_WHITE}✓ Build directory cleaned${RESET}"
 
-echo -e "\n${GREEN}=== yay installation complete! ===${RESET}"
-echo -e "${CYAN}Next steps:${RESET}"
-echo -e "  1. ${YELLOW}Install AUR packages${RESET}: ${GRAY}yay -S <package>${RESET}"
-echo -e "  2. ${YELLOW}Search AUR${RESET}: ${GRAY}yay -Ss <search-term>${RESET}"
-echo -e "  3. ${YELLOW}Update AUR packages${RESET}: ${GRAY}yay -Syu${RESET}"
-echo -e "  4. ${YELLOW}AUR packages from yay.yml will be installed automatically${RESET}"
+echo -e "\n${BRIGHT_WHITE}=== yay installation complete! ===${RESET}"
+echo -e "${BRIGHT_WHITE}Next steps:${RESET}"
+echo -e "  1. ${BRIGHT_WHITE}Install AUR packages${RESET}: ${GRAY}yay -S <package>${RESET}"
+echo -e "  2. ${BRIGHT_WHITE}Search AUR${RESET}: ${GRAY}yay -Ss <search-term>${RESET}"
+echo -e "  3. ${BRIGHT_WHITE}Update AUR packages${RESET}: ${GRAY}yay -Syu${RESET}"
+echo -e "  4. ${BRIGHT_WHITE}AUR packages from yay.yml will be installed automatically${RESET}"
 
 {{- end }}

@@ -9,7 +9,7 @@
 # Source: .chezmoidata/env/windows.yml
 # =============================================================================
 
-Write-Host "=== Setting up environment variables ===" -ForegroundColor Cyan
+Write-Host "=== Setting up environment variables ===" -ForegroundColor Yellow
 
 # Environment variables from .chezmoidata.toml
 $NamedEnv = @{
@@ -34,5 +34,5 @@ foreach ($Key in $NamedEnv.Keys) {
     }
 }
 
-Write-Host "Environment variables setup complete!" -ForegroundColor Green
+Write-Host "Environment variables setup complete!" -ForegroundColor White
 {{- end }}

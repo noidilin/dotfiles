@@ -10,12 +10,12 @@
 # Hash trigger: {{ include ".chezmoidata/pkg-manager/scoop.yml" | sha256sum }}
 # =============================================================================
 
-Write-Host "=== Installing platform-specific packages (Windows - Scoop) ===" -ForegroundColor Cyan
+Write-Host "=== Installing platform-specific packages (Windows - Scoop) ===" -ForegroundColor Yellow
 
 # Check if scoop is installed
 if (!(Get-Command scoop -ErrorAction SilentlyContinue)) {
     Write-Host "ERROR: Scoop is not installed!" -ForegroundColor Red
-    Write-Host "Please install Scoop first: https://scoop.sh" -ForegroundColor Yellow
+    Write-Host "Please install Scoop first: https://scoop.sh" -ForegroundColor White
     exit 1
 }
 
@@ -37,14 +37,14 @@ function Get-ScoopInstalledPackages {
         # Extract package names directly from the objects
         $installed = scoop list 2>$null
         if ($LASTEXITCODE -ne 0 -or -not $installed) {
-            Write-Host "WARNING: Failed to query installed packages (skipping all)" -ForegroundColor Yellow
+            Write-Host "WARNING: Failed to query installed packages (skipping all)" -ForegroundColor Red
             return $script:ScoopPackages
         }
         
         # Extract the Name property from each package object
         $script:ScoopPackages = @($installed.Name)
     } catch {
-        Write-Host "WARNING: Failed to query installed packages: $_" -ForegroundColor Yellow
+        Write-Host "WARNING: Failed to query installed packages: $_" -ForegroundColor Red
     }
     
     return $script:ScoopPackages
@@ -67,7 +67,7 @@ function Install-ScoopPackage {
         return
     }
     
-    Write-Host "Installing: $Package" -ForegroundColor Green
+    Write-Host "Installing: $Package" -ForegroundColor White
     try {
         scoop install $Package
     } catch {
@@ -76,10 +76,10 @@ function Install-ScoopPackage {
 }
 
 # Install Windows-specific packages
-Write-Host "`nInstalling Windows-specific packages (Scoop)..." -ForegroundColor Yellow
+Write-Host "`nInstalling Windows-specific packages (Scoop)..." -ForegroundColor White
 {{- range .pkgs.scoop }}
 Install-ScoopPackage "{{ . }}"
 {{- end }}
 
-Write-Host "`nScoop package installation complete!" -ForegroundColor Green
+Write-Host "`nScoop package installation complete!" -ForegroundColor White
 {{- end }}

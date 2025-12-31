@@ -22,9 +22,10 @@ GREEN='\033[32m'
 YELLOW='\033[33m'
 RED='\033[31m'
 GRAY='\033[90m'
+BRIGHT_WHITE='\033[97m'
 RESET='\033[0m'
 
-echo -e "${CYAN}=== Installing mise tools ===${RESET}"
+echo -e "${YELLOW}=== Installing mise tools ===${RESET}"
 
 # Check if mise is installed
 if ! command -v mise &>/dev/null; then
@@ -46,8 +47,8 @@ echo -e "${GRAY}Using mise config: $MISE_CONFIG${RESET}"
 # Install all tools defined in mise config
 echo -e "\n${YELLOW}Installing tools from mise config...${RESET}"
 if ! mise install; then
-  echo -e "${YELLOW}WARNING: Some mise tools may have failed to install${RESET}"
+  echo -e "${RED}WARNING: Some mise tools may have failed to install${RESET}"
 fi
 
-echo -e "\n${GREEN}Mise tools installation complete!${RESET}"
+echo -e "\n${BRIGHT_WHITE}Mise tools installation complete!${RESET}"
 {{- end }}

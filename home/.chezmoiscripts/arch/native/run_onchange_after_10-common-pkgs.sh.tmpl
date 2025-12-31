@@ -22,9 +22,10 @@ GREEN='\033[32m'
 YELLOW='\033[33m'
 RED='\033[31m'
 GRAY='\033[90m'
+BRIGHT_WHITE='\033[97m'
 RESET='\033[0m'
 
-echo -e "${CYAN}=== Installing common packages (Arch Native) ===${RESET}"
+echo -e "${YELLOW}=== Installing common packages (Arch Native) ===${RESET}"
 
 # Cache for installed packages (loaded once)
 declare -a PACMAN_INSTALLED=()
@@ -39,7 +40,7 @@ load_pacman_packages() {
   local output
   # -Qq: query, quiet (package names only)
   if ! output=$(pacman -Qq 2>/dev/null); then
-    echo -e "${YELLOW}WARNING: Failed to query installed packages (skipping all)${RESET}"
+    echo -e "${RED}WARNING: Failed to query installed packages (skipping all)${RESET}"
     PACMAN_INSTALLED=()
     return
   fi
@@ -156,6 +157,6 @@ else
   echo -e "${YELLOW}yay not installed, skipping AUR packages${RESET}"
 fi
 
-echo -e "\n${GREEN}Common package installation complete!${RESET}"
+echo -e "\n${BRIGHT_WHITE}Common package installation complete!${RESET}"
 
 {{- end }}

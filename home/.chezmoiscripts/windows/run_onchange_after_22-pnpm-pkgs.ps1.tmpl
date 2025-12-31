@@ -8,22 +8,22 @@
 # Hash trigger: {{ include ".chezmoidata/pkg-manager/pnpm.yml" | sha256sum }}
 # =============================================================================
 
-Write-Host "=== Installing pnpm global packages ===" -ForegroundColor Cyan
+Write-Host "=== Installing pnpm global packages ===" -ForegroundColor Yellow
 
 if (!(Get-Command mise -ErrorAction SilentlyContinue)) {
-    Write-Host "WARNING: mise is not installed (skipping pnpm packages)" -ForegroundColor Yellow
+    Write-Host "WARNING: mise is not installed (skipping pnpm packages)" -ForegroundColor Red
     exit 0
 }
 
 $nodeVersion = mise exec -- node --version 2>$null
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "WARNING: Node.js is not available via mise (skipping pnpm packages)" -ForegroundColor Yellow
+    Write-Host "WARNING: Node.js is not available via mise (skipping pnpm packages)" -ForegroundColor Red
     exit 0
 }
 
 $pnpmVersion = mise exec -- pnpm --version 2>$null
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "WARNING: pnpm is not available via mise (skipping pnpm packages)" -ForegroundColor Yellow
+    Write-Host "WARNING: pnpm is not available via mise (skipping pnpm packages)" -ForegroundColor Red
     exit 0
 }
 
@@ -64,7 +64,7 @@ function Install-PnpmPackage {
         return
     }
 
-    Write-Host "Installing (pnpm): $Package" -ForegroundColor Green
+    Write-Host "Installing (pnpm): $Package" -ForegroundColor White
     try {
         mise exec -- pnpm add -g $Package
     } catch {
@@ -74,7 +74,7 @@ function Install-PnpmPackage {
 
 {{- if .pkgs.pnpm }}
 Write-Host "`nNode.js version: $nodeVersion" -ForegroundColor DarkGray
-Write-Host "Installing pnpm packages..." -ForegroundColor Yellow
+Write-Host "Installing pnpm packages..." -ForegroundColor White
 {{-   range .pkgs.pnpm }}
 Install-PnpmPackage "{{ . }}"
 {{-   end }}
@@ -82,5 +82,5 @@ Install-PnpmPackage "{{ . }}"
 Write-Host "No pnpm packages declared (skipping)" -ForegroundColor DarkGray
 {{- end }}
 
-Write-Host "`npnpm package installation complete!" -ForegroundColor Green
+Write-Host "`npnpm package installation complete!" -ForegroundColor White
 {{- end }}

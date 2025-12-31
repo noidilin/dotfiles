@@ -23,7 +23,7 @@ RED='\033[31m'
 GRAY='\033[90m'
 RESET='\033[0m'
 
-echo -e "${CYAN}=== Installing common packages (macOS) ===${RESET}"
+echo -e "${YELLOW}=== Installing common packages (macOS) ===${RESET}"
 
 # Check if Homebrew is installed
 if ! command -v brew &>/dev/null; then
@@ -49,7 +49,7 @@ load_brew_packages() {
   local output
   # Get all installed formulae
   if ! output=$(brew list --formula 2>/dev/null); then
-    echo -e "${YELLOW}WARNING: Failed to query installed packages (skipping all)${RESET}"
+    echo -e "${RED}WARNING: Failed to query installed packages (skipping all)${RESET}"
     BREW_INSTALLED=()
     return
   fi
@@ -88,13 +88,13 @@ function install_brew_package() {
 }
 
 # Install common packages via Homebrew
-echo -e "\n${YELLOW}Installing common packages via Homebrew...${RESET}"
+echo -e "\n${BRIGHT_WHITE}Installing common packages via Homebrew...${RESET}"
 {{- range $name, $pkg := .pkgs.common }}
 {{-   if hasKey $pkg "brew" }}
 install_brew_package "{{ $pkg.brew }}"
 {{-   end }}
 {{- end }}
 
-echo -e "\n${GREEN}Common package installation complete!${RESET}"
+echo -e "\n${BRIGHT_WHITE}Common package installation complete!${RESET}"
 
 {{- end }}

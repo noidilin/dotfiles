@@ -18,17 +18,18 @@ GREEN='\033[32m'
 YELLOW='\033[33m'
 RED='\033[31m'
 GRAY='\033[90m'
+BRIGHT_WHITE='\033[97m'
 RESET='\033[0m'
 
-printf "${CYAN}=== Installing uv tool packages ===${RESET}\n"
+printf "${YELLOW}=== Installing uv tool packages ===${RESET}\n"
 
 if ! command -v mise &>/dev/null; then
-  printf "${YELLOW}WARNING: mise is not installed (skipping uv packages)${RESET}\n"
+  printf "${RED}WARNING: mise is not installed (skipping uv packages)${RESET}\n"
   exit 0
 fi
 
 if ! uv_version=$(mise exec -- uv --version 2>/dev/null); then
-  printf "${YELLOW}WARNING: uv is not available via mise (skipping uv packages)${RESET}\n"
+  printf "${RED}WARNING: uv is not available via mise (skipping uv packages)${RESET}\n"
   exit 0
 fi
 
@@ -76,7 +77,7 @@ install_uv_tool() {
     return
   fi
 
-  printf "${GREEN}Installing (uv): %s${RESET}\n" "$package"
+  printf "${BRIGHT_WHITE}Installing (uv): %s${RESET}\n" "$package"
   if ! mise exec -- uv tool install "$package"; then
     printf "${RED}Failed to install %s (uv)${RESET}\n" "$package"
   fi
@@ -84,7 +85,7 @@ install_uv_tool() {
 
 {{- if .pkgs.uv }}
 printf "${GRAY}\nuv version: %s${RESET}\n" "$uv_version"
-printf "${YELLOW}Installing uv tools...${RESET}\n"
+printf "${BRIGHT_WHITE}Installing uv tools...${RESET}\n"
 {{-   range .pkgs.uv }}
 install_uv_tool "{{ . }}"
 {{-   end }}
@@ -92,5 +93,5 @@ install_uv_tool "{{ . }}"
 printf "${GRAY}No uv tools declared (skipping)${RESET}\n"
 {{- end }}
 
-printf "${GREEN}\nuv tool installation complete!${RESET}\n"
+printf "${BRIGHT_WHITE}\nuv tool installation complete!${RESET}\n"
 {{- end }}
