@@ -1,48 +1,26 @@
 pkgs:
   scoop:
-    # common
-    - "nu"
-    - "gh"
-    - "delta"
-    - "vscode"
-
-    # specific
     - "glazewm"
     - "grep"
     - "gsudo" # system
     - "mingw" # C/C++ compiler for Windows (GCC)
-    - "mise" # version manager for dev tools
+    - "obs-studio"
     - "pwsh"
     - "sed"
     - "sfsu"
-    - "tectonic" # TeX/LaTeX engine
     - "vcredist2022" # system dependencies
     - "zebar"
-
-    # editor
-    - "wezterm-alt-icon/wezterm" # From custom bucket: wezterm-alt-icon
-    - "zed"
 
     # font
     - "CommitMono-NF-Mono"
     - "Noto-CJK-Mega-OTC"
     - "Noto-Serif-CJK-Super-OTC"
-    # - "jf-open-huninn"
-    - "GlowSansTC-Compressed"
-    - "GlowSansTC-Condensed"
-    - "GlowSansTC-Extended"
-    - "GlowSansTC-Normal"
-    - "GlowSansTC-Wide"
 
     # GUI
-    # - "via"
-    # - "flow-launcher"
     - "blender-launcher"
     - "crystaldiskinfo"
     - "rufus"
     - "sharex"
-    - "obs-studio"
-    - "obsidian"
     - "potplayer"
 
     # PowerShell modules

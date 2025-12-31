@@ -1,4 +1,4 @@
 pkgs:
   yayNative:
-    - "1password" # Password manager
-    - "1password-cli" # 1Password CLI
+    # Currently empty - add packages as needed
+    []

@@ -1,3 +1,4 @@
 pkgs:
   yay:
-    - "carapace-bin"
+    # Currently empty - add packages as needed
+    []

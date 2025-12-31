@@ -1,37 +1,246 @@
-# common package manager for different device
-# - windows: scoop
-# - arch: pacman
-# - darwin: brew
+# =============================================================================
+# Unified Cross-Platform Package Configuration
+# =============================================================================
+# Defines ALL packages installed across macOS, Windows, and Arch Linux.
+# Each package specifies platform-specific package names/IDs.
+#
+# Valid Platform Keys:
+#   brew:   macOS package name (Homebrew)
+#   scoop:  Windows package name (Scoop)
+#   winget: Windows package ID (WinGet)
+#   pacman: Arch Linux package name (official repos)
+#   aur:    Arch Linux package name (AUR via yay)
+#
+# Special Flags:
+#   wsl: false  - Excludes package from Arch WSL2 (for GUI apps only)
+#                 Omit for CLI tools (they're included by default)
+#
+# Examples:
+#   git:
+#     brew: "git"
+#     scoop: "git"
+#     pacman: "git"
+#
+#   nushell:
+#     brew: "nushell"
+#     scoop: "nu"
+#     pacman: "nushell"
+#
+#   vscode:
+#     wsl: false
+#     brew: "visual-studio-code"
+#     scoop: "vscode"
+#     pacman: "code"
+# =============================================================================
 
 pkgs:
   common:
-    - "7zip"
-    - "age"
-    - "ast-grep"
-    - "bat"
-    - "bottom"
-    - "chezmoi"
-    - "eza"
-    - "fastfetch"
-    - "fd"
-    - "ffmpeg"
-    - "fzf"
-    - "git" # Required before adding buckets
-    - "gnupg"
-    - "gzip"
-    - "imagemagick"
-    - "jq"
-    - "lazygit"
-    - "less"
-    - "neovim"
-    - "openssh"
-    - "pastel"
-    - "ripgrep"
-    - "sd"
-    - "starship"
-    - "unrar"
-    - "unzip"
-    - "vivid"
-    - "wget"
-    - "yazi"
-    - "zoxide"
+    # =============================================================================
+    # Bootstrap (pre-chezmoi requirements)
+    # =============================================================================
+    1password-cli:
+      wsl: false
+      brew: "1password-cli"
+      winget: "AgileBits.1Password.CLI"
+      aur: "1password-cli"
+    1password:
+      wsl: false
+      brew: "1password"
+      winget: "AgileBits.1Password"
+      aur: "1password"
+
+    # =============================================================================
+    # Chezmoi Config
+    # =============================================================================
+    age:
+      brew: "age"
+      scoop: "age"
+      pacman: "age"
+    chezmoi:
+      brew: "chezmoi"
+      scoop: "chezmoi"
+      pacman: "chezmoi"
+    git:
+      brew: "git"
+      scoop: "git"
+      pacman: "git"
+
+    # =============================================================================
+    # Shell Config (Nushell dependencies)
+    # =============================================================================
+    carapace:
+      brew: "carapace"
+      scoop: "carapace-bin"
+      aur: "carapace-bin"
+    nushell:
+      brew: "nushell"
+      scoop: "nu"
+      pacman: "nushell"
+    openssh:
+      brew: "openssh"
+      scoop: "openssh"
+      pacman: "openssh"
+    starship:
+      brew: "starship"
+      scoop: "starship"
+      pacman: "starship"
+    vivid:
+      brew: "vivid"
+      scoop: "vivid"
+      pacman: "vivid"
+    zoxide:
+      brew: "zoxide"
+      scoop: "zoxide"
+      pacman: "zoxide"
+
+    # =============================================================================
+    # CLI Tools
+    # =============================================================================
+    7zip:
+      brew: "7zip"
+      scoop: "7zip"
+      pacman: "7zip"
+    ast-grep:
+      brew: "ast-grep"
+      scoop: "ast-grep"
+      pacman: "ast-grep"
+    bat:
+      brew: "bat"
+      scoop: "bat"
+      pacman: "bat"
+    bottom:
+      brew: "bottom"
+      scoop: "bottom"
+      pacman: "bottom"
+    eza:
+      brew: "eza"
+      scoop: "eza"
+      pacman: "eza"
+    fastfetch:
+      brew: "fastfetch"
+      scoop: "fastfetch"
+      pacman: "fastfetch"
+    fd:
+      brew: "fd"
+      scoop: "fd"
+      pacman: "fd"
+    ffmpeg:
+      brew: "ffmpeg"
+      scoop: "ffmpeg"
+      pacman: "ffmpeg"
+    fzf:
+      brew: "fzf"
+      scoop: "fzf"
+      pacman: "fzf"
+    gh:
+      brew: "gh"
+      scoop: "gh"
+      pacman: "github-cli"
+    git-delta:
+      brew: "git-delta"
+      scoop: "delta"
+      pacman: "git-delta"
+    gnupg:
+      brew: "gnupg"
+      scoop: "gnupg"
+      pacman: "gnupg"
+    gzip:
+      brew: "gzip"
+      scoop: "gzip"
+      pacman: "gzip"
+    imagemagick:
+      brew: "imagemagick"
+      scoop: "imagemagick"
+      pacman: "imagemagick"
+    jq:
+      brew: "jq"
+      scoop: "jq"
+      pacman: "jq"
+    lazygit:
+      brew: "lazygit"
+      scoop: "lazygit"
+      pacman: "lazygit"
+    less:
+      brew: "less"
+      scoop: "less"
+      pacman: "less"
+    localsend:
+      brew: "localsend"
+      scoop: "localsend"
+      aur: "localsend-bin"
+      wsl: false
+    # mise:
+    #   brew: "mise"
+    #   scoop: "mise"
+    #   pacman: "mise"
+    neovim:
+      brew: "neovim"
+      scoop: "neovim"
+      pacman: "neovim"
+    pastel:
+      brew: "pastel"
+      scoop: "pastel"
+      pacman: "pastel"
+    ripgrep:
+      brew: "ripgrep"
+      scoop: "ripgrep"
+      pacman: "ripgrep"
+    sd:
+      brew: "sd"
+      scoop: "sd"
+      pacman: "sd"
+    tectonic:
+      brew: "tectonic"
+      scoop: "tectonic"
+      pacman: "tectonic"
+    unrar:
+      brew: "rar"
+      scoop: "unrar"
+      pacman: "unrar"
+    unzip:
+      brew: "unzip"
+      scoop: "unzip"
+      pacman: "unzip"
+    wget:
+      brew: "wget"
+      scoop: "wget"
+      pacman: "wget"
+    yazi:
+      brew: "yazi"
+      scoop: "yazi"
+      pacman: "yazi"
+
+    # =============================================================================
+    # GUI Apps (Cross-Platform Daily Use)
+    # =============================================================================
+    helium:
+      wsl: false
+      scoop: "helium"
+      brew: "helium-browser"
+      aur: "helium-browser-bin"
+    obsidian:
+      wsl: false
+      brew: "obsidian"
+      scoop: "obsidian"
+      pacman: "obsidian"
+    vscode:
+      wsl: false
+      brew: "visual-studio-code"
+      scoop: "vscode"
+      pacman: "code"
+    wezterm:
+      wsl: false
+      brew: "wezterm"
+      scoop: "wezterm-alt-icon/wezterm"
+      pacman: "wezterm"
+    zed:
+      wsl: false
+      brew: "zed"
+      scoop: "zed"
+      pacman: "zed"
+    zen:
+      wsl: false
+      brew: "zen"
+      winget: "Zen-Team.Zen-Browser"
+      # scoop: "zen-browser"
+      aur: "zen-browser-bin"

@@ -1,7 +1,5 @@
 pkgs:
   winget:
-    - "AgileBits.1Password"
-    - "AgileBits.1Password.CLI"
     - "Microsoft.PowerToys"
     - "Rime.Weasel"
     - "dechamps.FlexASIO"
@@ -9,4 +7,3 @@ pkgs:
     - "Wacom.WacomTabletDriver"
     - "ogdesign.Eagle"
     - "WavesAudio.WavesCentral"
-    - "Zen-Team.Zen-Browser"

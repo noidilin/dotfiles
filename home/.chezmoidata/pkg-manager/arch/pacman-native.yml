@@ -1,4 +1,4 @@
 pkgs:
   pacmanNative:
-    - "wezterm" # Terminal emulator
-    - "code" # VSCode
+    # Currently empty - add packages as needed
+    []
