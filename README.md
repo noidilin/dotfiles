@@ -1,7 +1,16 @@
 # dotfile
 
-> [!CAUTION]
-> currently only works on windows
+Multi-platform dotfiles managed with chezmoi.
+
+## Supported Platforms
+
+- **Windows**: Primary platform with full configuration
+- **Arch Linux (WSL2)**: CLI tools only, uses Windows interop for SSH/GPG
+  - See: [docs/arch-wsl-setup.md](docs/arch-wsl-setup.md)
+- **Arch Linux (Native)**: Planned support with desktop environment (minimal setup for now)
+- **macOS**: Configured but not actively used
+
+Configs are automatically filtered based on platform and environment detection via chezmoi templates.
 
 ## Install Scripts
 

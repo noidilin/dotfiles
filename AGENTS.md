@@ -9,7 +9,8 @@
 
 ## Supported Platforms
 - **Windows**: Primary platform with full configuration
-- **Linux (Arch)**: Selective sync via WSL2, excludes Windows-specific tools
+- **Linux (Arch WSL2)**: CLI tools only, uses Windows interop for SSH/GPG
+- **Linux (Arch Native)**: Planned support with desktop environment (minimal setup for now)
 - **macOS**: Configured but not actively used (see `.chezmoiignore` for exclusions)
 
 ## Commands
