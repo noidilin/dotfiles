@@ -36,3 +36,5 @@ symlinks:
       source: "$HOME\\.config\\bat"
     - target: "$env:LOCALAPPDATA\\nvim"
       source: "$HOME\\.config\\nvim"
+    - target: "$env:LOCALAPPDATA\\1Password\\config\\ssh\\agent.toml"
+      source: "$HOME\\.config\\1Password\\ssh\\agent.toml"
