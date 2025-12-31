@@ -169,10 +169,10 @@ pkgs:
       scoop: "localsend"
       aur: "localsend-bin"
       wsl: false
-    # mise:
-    #   brew: "mise"
-    #   scoop: "mise"
-    #   pacman: "mise"
+    mise:
+      brew: "mise"
+      scoop: "mise"
+    #   pacman: "mise" # currently often outdated under rapid development
     neovim:
       brew: "neovim"
       scoop: "neovim"
