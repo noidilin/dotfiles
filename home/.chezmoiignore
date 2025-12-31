@@ -8,6 +8,19 @@ key.txt.age # age passphrase key for chezmoi to decryp private key
 ### script files ###
 
 {{- if ne .chezmoi.os "linux" }}
+# Non-Linux: Ignore all Arch scripts
+.chezmoiscripts/arch/**
+{{- else if eq .osId "linux-arch" }}
+# Arch Linux: Filter based on environment
+{{-   if eq .archEnv "wsl" }}
+# WSL2: Ignore native scripts
+.chezmoiscripts/arch/native/**
+{{-   else if eq .archEnv "native" }}
+# Native: Ignore WSL scripts
+.chezmoiscripts/arch/wsl/**
+{{-   end }}
+{{- else }}
+# Other Linux distros: Ignore all Arch scripts
 .chezmoiscripts/arch/**
 {{- end }}
 

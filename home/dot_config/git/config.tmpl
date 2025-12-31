@@ -1,13 +1,15 @@
 [user]
   name = noidilin
   email = linganinja.0120@gmail.com
-{{- if eq .chezmoi.os "windows" }}
+{{- if eq .osId "windows" }}
   signingkey = {{ onepasswordRead "op://dev/github-win/public key" | trim }} # 'github-win'
-{{- else if eq .chezmoi.os "linux" }}
-{{-   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{- else if eq .osId "linux-arch" }}
+{{-   if eq .archEnv "wsl" }}
   signingkey = {{ onepasswordRead "op://dev/github-win/public key" | trim }} # WSL2 shares 'github-win' key
+{{-   else }}
+  signingkey = {{ onepasswordRead "op://dev/github-arch/public key" | trim }} # Native Arch 'github-arch'
 {{-   end }}
-{{- else if eq .chezmoi.os "darwin" }}
+{{- else if eq .osId "darwin" }}
   signingkey = {{ onepasswordRead "op://dev/github-mac/public key" | trim }} # 'github-mac'
 {{- end }}
 
@@ -16,27 +18,24 @@
   eidtor = nvim -f # 'code --wait'
   pager = delta
   excludesFile = ~/.config/git/ignore
-{{- if eq .chezmoi.os "windows" }}
+{{- if eq .osId "windows" }}
   sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
-{{- end }}
-{{- if eq .chezmoi.os "linux" }}
-{{-   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{- else if eq .archEnv "wsl" }}
   sshCommand = ssh.exe
-{{-   end }}
 {{- end }}
 
 [gpg]
   format = ssh
 
 [gpg "ssh"]
-{{- if eq .chezmoi.os "windows" }}
+{{- if eq .osId "windows" }}
   program = "C:/Program Files/1Password/app/8/op-ssh-sign.exe"
-{{- else if eq .chezmoi.os "darwin" }}
+{{- else if eq .osId "darwin" }}
   program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
-{{- else if eq .chezmoi.os "linux" }}
-{{-   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{- else if eq .archEnv "wsl" }}
   program = "/mnt/c/Program Files/1Password/app/8/op-ssh-sign.exe"
-{{-   end }}
+{{- else if eq .archEnv "native" }}
+  program = "op-ssh-sign"  # Native Arch uses Linux 1Password
 {{- end }}
 
 [commit]
