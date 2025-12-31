@@ -1,11 +1,10 @@
 #!/bin/bash
 # vim: ft=bash
 
-{{- if eq .chezmoi.os "linux" }}
-{{- if eq .chezmoi.osRelease.id "arch" }}
+{{- if eq .osId "linux-arch" }}
 
 # =============================================================================
-# Install mise via Official Installer (Linux Only)
+# Install mise via Official Installer (Arch Linux - Both WSL2 and Native)
 # =============================================================================
 # Execution Order: 03 (run_once_before_03-*)
 # - Runs once during initial setup or after manual deletion
@@ -89,5 +88,4 @@ echo -e "  2. Verify: ${GRAY}mise --version${RESET}"
 echo -e "  3. Install tools: ${GRAY}mise install${RESET}"
 echo -e "  4. Update mise: ${GRAY}mise self-update${RESET}"
 
-{{- end }}
 {{- end }}

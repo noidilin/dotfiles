@@ -1,18 +1,17 @@
 #!/bin/bash
 # vim: ft=bash
 
-{{- if eq .chezmoi.os "linux" }}
-{{- if eq .chezmoi.osRelease.id "arch" }}
+{{- if eq .archEnv "native" }}
 
 # =============================================================================
-# Install System Packages for Arch Linux
+# Install System Packages for Native Arch Linux
 # =============================================================================
 # Execution Order: 10 (run_onchange_after_10-*)
 # - Runs on every `chezmoi apply` when chezmoidata files change
-# - Installs system packages via pacman
-# - Should run before mise tools (12) and language packages (13)
-# Source: .chezmoidata/pkg-manager/{common,pacman}.yml
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/common.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/pacman.yml" | sha256sum }}
+# - Installs system packages via pacman for native Arch Linux
+# - Should run before mise tools (30) and language packages (40)
+# Source: .chezmoidata/pkg-manager/{common,pacman,pacman-native}.yml
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/common.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/pacman.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/pacman-native.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
@@ -25,7 +24,7 @@ RED='\033[31m'
 GRAY='\033[90m'
 RESET='\033[0m'
 
-echo -e "${CYAN}=== Installing system packages for Arch Linux ===${RESET}"
+echo -e "${CYAN}=== Installing system packages for Native Arch Linux ===${RESET}"
 
 # Cache for installed packages (loaded once)
 declare -a PACMAN_INSTALLED=()
@@ -88,13 +87,20 @@ echo -e "\n${YELLOW}Installing common packages (cross-platform)...${RESET}"
 install_pacman_package "{{ . }}"
 {{- end }}
 
-# Install Linux-specific packages (pacman)
-echo -e "\n${YELLOW}Installing Linux-specific packages (Pacman)...${RESET}"
+# Install shared Arch packages
+echo -e "\n${YELLOW}Installing shared Arch packages...${RESET}"
 {{- range .pkgs.pacman }}
 install_pacman_package "{{ . }}"
 {{- end }}
 
+# Install native-specific packages
+{{- if .pkgs.pacmanNative }}
+echo -e "\n${YELLOW}Installing native Arch-specific packages...${RESET}"
+{{- range .pkgs.pacmanNative }}
+install_pacman_package "{{ . }}"
+{{- end }}
+{{- end }}
+
 echo -e "\n${GREEN}Package installation complete!${RESET}"
 
-{{- end }}
 {{- end }}

@@ -1,16 +1,15 @@
 #!/bin/bash
 # vim: ft=bash
 
-{{- if eq .chezmoi.os "linux" }}
-{{- if eq .chezmoi.osRelease.id "arch" }}
+{{- if eq .archEnv "wsl" }}
 
 # =============================================================================
-# Install AUR Packages via yay (Arch Linux)
+# Install AUR Packages via yay (WSL2 Arch Linux)
 # =============================================================================
 # Execution Order: 40 (run_onchange_after_40-*)
-# - Installs AUR packages declared in .chezmoidata/pkg-manager/yay.yml
+# - Installs AUR packages declared in .chezmoidata/pkg-manager/{yay,yay-wsl}.yml
 # - Requires yay to be available (installed via run_once_before_02-install-yay.sh)
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/yay.yml" | sha256sum }}
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/yay.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/yay-wsl.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
@@ -22,7 +21,7 @@ RED='\033[31m'
 GRAY='\033[90m'
 RESET='\033[0m'
 
-printf "${CYAN}=== Installing AUR packages via yay ===${RESET}\n"
+printf "${CYAN}=== Installing AUR packages via yay (WSL2) ===${RESET}\n"
 
 # Check if yay is installed
 if ! command -v yay &>/dev/null; then
@@ -88,17 +87,24 @@ install_yay_package() {
     fi
 }
 
-{{- if .pkgs.yay }}
 printf "${GRAY}\nyay version: %s${RESET}\n" "$yay_version"
-printf "${YELLOW}Installing AUR packages...${RESET}\n"
+
+# Install shared AUR packages
+{{- if .pkgs.yay }}
+printf "${YELLOW}Installing shared AUR packages...${RESET}\n"
 {{- range .pkgs.yay }}
 install_yay_package "{{ . }}"
 {{- end }}
-{{- else }}
-printf "${GRAY}No AUR packages declared (skipping)${RESET}\n"
+{{- end }}
+
+# Install WSL2-specific AUR packages
+{{- if .pkgs.yayWsl }}
+printf "${YELLOW}Installing WSL2-specific AUR packages...${RESET}\n"
+{{- range .pkgs.yayWsl }}
+install_yay_package "{{ . }}"
+{{- end }}
 {{- end }}
 
 printf "${GREEN}\nAUR package installation complete!${RESET}\n"
 
-{{- end }}
 {{- end }}

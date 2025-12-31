@@ -1,11 +1,10 @@
 #!/bin/bash
 # vim: ft=bash
 
-{{- if eq .chezmoi.os "linux" }}
-{{- if eq .chezmoi.osRelease.id "arch" }}
+{{- if eq .osId "linux-arch" }}
 
 # =============================================================================
-# Install yay AUR Helper (Arch Linux Only)
+# Install yay AUR Helper (Arch Linux - Both WSL2 and Native)
 # =============================================================================
 # Execution Order: 02 (run_once_before_02-*)
 # - Runs once during initial setup or after manual deletion
@@ -117,5 +116,4 @@ echo -e "  2. ${YELLOW}Search AUR${RESET}: ${GRAY}yay -Ss <search-term>${RESET}"
 echo -e "  3. ${YELLOW}Update AUR packages${RESET}: ${GRAY}yay -Syu${RESET}"
 echo -e "  4. ${YELLOW}AUR packages from yay.yml will be installed automatically${RESET}"
 
-{{- end }}
 {{- end }}

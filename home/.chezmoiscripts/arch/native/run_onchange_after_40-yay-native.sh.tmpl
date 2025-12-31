@@ -1,0 +1,110 @@
+#!/bin/bash
+# vim: ft=bash
+
+{{- if eq .archEnv "native" }}
+
+# =============================================================================
+# Install AUR Packages via yay (Native Arch Linux)
+# =============================================================================
+# Execution Order: 40 (run_onchange_after_40-*)
+# - Installs AUR packages declared in .chezmoidata/pkg-manager/{yay,yay-native}.yml
+# - Requires yay to be available (installed via run_once_before_02-install-yay.sh)
+# Hash trigger: {{ include ".chezmoidata/pkg-manager/yay.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/yay-native.yml" | sha256sum }}
+# =============================================================================
+
+set -euo pipefail
+
+CYAN='\033[36m'
+GREEN='\033[32m'
+YELLOW='\033[33m'
+RED='\033[31m'
+GRAY='\033[90m'
+RESET='\033[0m'
+
+printf "${CYAN}=== Installing AUR packages via yay (Native) ===${RESET}\n"
+
+# Check if yay is installed
+if ! command -v yay &>/dev/null; then
+    printf "${YELLOW}WARNING: yay is not installed (skipping AUR packages)${RESET}\n"
+    printf "${GRAY}Install yay first, then run: chezmoi apply${RESET}\n"
+    exit 0
+fi
+
+# Get yay version for logging
+yay_version=$(yay --version 2>/dev/null | head -1 || echo "unknown")
+
+declare -a YAY_INSTALLED=()
+yay_cache_loaded=0
+
+load_yay_packages() {
+    if [[ $yay_cache_loaded -eq 1 ]]; then
+        return
+    fi
+
+    yay_cache_loaded=1
+    local output
+    # Query foreign packages (AUR packages only)
+    if ! output=$(yay -Qm 2>/dev/null); then
+        YAY_INSTALLED=()
+        return
+    fi
+
+    # Extract package names (first word of each line)
+    while IFS= read -r line; do
+        if [[ -n "$line" ]]; then
+            pkg=$(echo "$line" | awk '{print $1}')
+            if [[ -n "$pkg" ]]; then
+                YAY_INSTALLED+=("$pkg")
+            fi
+        fi
+    done <<< "$output"
+}
+
+yay_package_installed() {
+    local package="$1"
+    load_yay_packages
+
+    for existing in "${YAY_INSTALLED[@]:-}"; do
+        if [[ "$existing" == "$package" ]]; then
+            return 0
+        fi
+    done
+
+    return 1
+}
+
+install_yay_package() {
+    local package="$1"
+
+    if yay_package_installed "$package"; then
+        printf "${GRAY}%s is already installed via yay (skipping)${RESET}\n" "$package"
+        return
+    fi
+
+    printf "${GREEN}Installing (yay): %s${RESET}\n" "$package"
+    if ! yay -S --noconfirm "$package"; then
+        printf "${RED}Failed to install %s (yay)${RESET}\n" "$package"
+    fi
+}
+
+printf "${GRAY}\nyay version: %s${RESET}\n" "$yay_version"
+
+# Install shared AUR packages
+{{- if .pkgs.yay }}
+printf "${YELLOW}Installing shared AUR packages...${RESET}\n"
+{{- range .pkgs.yay }}
+install_yay_package "{{ . }}"
+{{- end }}
+{{- end }}
+
+# Install native-specific AUR packages
+{{- if .pkgs.yayNative }}
+printf "${YELLOW}Installing native Arch-specific AUR packages...${RESET}\n"
+{{- range .pkgs.yayNative }}
+install_yay_package "{{ . }}"
+{{- end }}
+{{- end }}
+
+printf "${GREEN}\nAUR package installation complete!${RESET}\n"
+
+{{- end }}
