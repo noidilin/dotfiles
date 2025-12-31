@@ -31,51 +31,51 @@ declare -a PACMAN_INSTALLED=()
 pacman_cache_loaded=0
 
 load_pacman_packages() {
-    if [[ $pacman_cache_loaded -eq 1 ]]; then
-        return
+  if [[ $pacman_cache_loaded -eq 1 ]]; then
+    return
+  fi
+
+  pacman_cache_loaded=1
+  local output
+  # -Qq: query, quiet (package names only)
+  if ! output=$(pacman -Qq 2>/dev/null); then
+    echo -e "${YELLOW}WARNING: Failed to query installed packages (skipping all)${RESET}"
+    PACMAN_INSTALLED=()
+    return
+  fi
+
+  while IFS= read -r pkg; do
+    if [[ -n "$pkg" ]]; then
+      PACMAN_INSTALLED+=("$pkg")
     fi
-    
-    pacman_cache_loaded=1
-    local output
-    # -Qq: query, quiet (package names only)
-    if ! output=$(pacman -Qq 2>/dev/null); then
-        echo -e "${YELLOW}WARNING: Failed to query installed packages (skipping all)${RESET}"
-        PACMAN_INSTALLED=()
-        return
-    fi
-    
-    while IFS= read -r pkg; do
-        if [[ -n "$pkg" ]]; then
-            PACMAN_INSTALLED+=("$pkg")
-        fi
-    done <<< "$output"
+  done <<<"$output"
 }
 
 pacman_package_installed() {
-    local package="$1"
-    load_pacman_packages
-    
-    for existing in "${PACMAN_INSTALLED[@]:-}"; do
-        if [[ "$existing" == "$package" ]]; then
-            return 0
-        fi
-    done
-    
-    return 1
+  local package="$1"
+  load_pacman_packages
+
+  for existing in "${PACMAN_INSTALLED[@]:-}"; do
+    if [[ "$existing" == "$package" ]]; then
+      return 0
+    fi
+  done
+
+  return 1
 }
 
 # Function to install package if not already installed
 function install_pacman_package() {
-    local package="$1"
-    
-    if pacman_package_installed "$package"; then
-        echo -e "${GRAY}$package is already installed (skipping)${RESET}"
-        return
-    fi
-    
-    echo -e "${GREEN}Installing: $package${RESET}"
-    sudo pacman -S --noconfirm "$package" || \
-        echo -e "${RED}Failed to install $package${RESET}"
+  local package="$1"
+
+  if pacman_package_installed "$package"; then
+    echo -e "${GRAY}$package is already installed (skipping)${RESET}"
+    return
+  fi
+
+  echo -e "${GREEN}Installing: $package${RESET}"
+  sudo pacman -S --noconfirm "$package" ||
+    echo -e "${RED}Failed to install $package${RESET}"
 }
 
 # AUR package installation functions
@@ -83,54 +83,54 @@ declare -a YAY_INSTALLED=()
 yay_cache_loaded=0
 
 load_yay_packages() {
-    if [[ $yay_cache_loaded -eq 1 ]]; then
-        return
-    fi
+  if [[ $yay_cache_loaded -eq 1 ]]; then
+    return
+  fi
 
-    yay_cache_loaded=1
-    local output
-    # Query foreign packages (AUR packages only)
-    if ! output=$(yay -Qm 2>/dev/null); then
-        YAY_INSTALLED=()
-        return
-    fi
+  yay_cache_loaded=1
+  local output
+  # Query foreign packages (AUR packages only)
+  if ! output=$(yay -Qm 2>/dev/null); then
+    YAY_INSTALLED=()
+    return
+  fi
 
-    # Extract package names (first word of each line)
-    while IFS= read -r line; do
-        if [[ -n "$line" ]]; then
-            pkg=$(echo "$line" | awk '{print $1}')
-            if [[ -n "$pkg" ]]; then
-                YAY_INSTALLED+=("$pkg")
-            fi
-        fi
-    done <<< "$output"
+  # Extract package names (first word of each line)
+  while IFS= read -r line; do
+    if [[ -n "$line" ]]; then
+      pkg=$(echo "$line" | awk '{print $1}')
+      if [[ -n "$pkg" ]]; then
+        YAY_INSTALLED+=("$pkg")
+      fi
+    fi
+  done <<<"$output"
 }
 
 yay_package_installed() {
-    local package="$1"
-    load_yay_packages
+  local package="$1"
+  load_yay_packages
 
-    for existing in "${YAY_INSTALLED[@]:-}"; do
-        if [[ "$existing" == "$package" ]]; then
-            return 0
-        fi
-    done
+  for existing in "${YAY_INSTALLED[@]:-}"; do
+    if [[ "$existing" == "$package" ]]; then
+      return 0
+    fi
+  done
 
-    return 1
+  return 1
 }
 
 install_yay_package() {
-    local package="$1"
+  local package="$1"
 
-    if yay_package_installed "$package"; then
-        echo -e "${GRAY}$package is already installed via yay (skipping)${RESET}"
-        return
-    fi
+  if yay_package_installed "$package"; then
+    echo -e "${GRAY}$package is already installed via yay (skipping)${RESET}"
+    return
+  fi
 
-    echo -e "${GREEN}Installing (yay): $package${RESET}"
-    if ! yay -S --noconfirm "$package"; then
-        echo -e "${RED}Failed to install $package (yay)${RESET}"
-    fi
+  echo -e "${GREEN}Installing (yay): $package${RESET}"
+  if ! yay -S --noconfirm "$package"; then
+    echo -e "${RED}Failed to install $package (yay)${RESET}"
+  fi
 }
 
 # Update package database
@@ -139,21 +139,21 @@ sudo pacman -Syu --noconfirm
 # Install common packages via pacman (includes GUI apps)
 echo -e "\n${YELLOW}Installing common packages via pacman...${RESET}"
 {{- range $name, $pkg := .pkgs.common }}
-  {{- if hasKey $pkg "pacman" }}
+{{-   if hasKey $pkg "pacman" }}
 install_pacman_package "{{ $pkg.pacman }}"
-  {{- end }}
+{{-   end }}
 {{- end }}
 
 # Install common packages via yay/AUR (includes GUI apps)
 if command -v yay &>/dev/null; then
-    echo -e "\n${YELLOW}Installing common packages via yay...${RESET}"
-    {{- range $name, $pkg := .pkgs.common }}
-      {{- if hasKey $pkg "aur" }}
-    install_yay_package "{{ $pkg.aur }}"
-      {{- end }}
-    {{- end }}
+  echo -e "\n${YELLOW}Installing common packages via yay...${RESET}"
+{{-   range $name, $pkg := .pkgs.common }}
+{{-     if hasKey $pkg "aur" }}
+  install_yay_package "{{ $pkg.aur }}"
+{{-     end }}
+{{-   end }}
 else
-    echo -e "${YELLOW}yay not installed, skipping AUR packages${RESET}"
+  echo -e "${YELLOW}yay not installed, skipping AUR packages${RESET}"
 fi
 
 echo -e "\n${GREEN}Common package installation complete!${RESET}"

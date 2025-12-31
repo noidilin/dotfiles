@@ -11,7 +11,7 @@
 # - Installs yay from AUR if not already installed
 # - Required for installing AUR packages from yay.yml
 # - Requires base-devel and git to be installed
-# 
+#
 # Reinstall: rm -rf ~/.cache/yay-build && yay -Rns yay && chezmoi apply
 # =============================================================================
 
@@ -31,11 +31,11 @@ echo -e "${CYAN}=== Installing yay AUR Helper ===${RESET}"
 
 # Check if yay is already installed
 if command -v yay &>/dev/null; then
-    CURRENT_VERSION=$(yay --version 2>/dev/null | head -1 || echo "unknown")
-    echo -e "${GRAY}yay is already installed${RESET}"
-    echo -e "${GRAY}Current version: $CURRENT_VERSION${RESET}"
-    echo -e "${YELLOW}To reinstall: rm -rf ~/.cache/yay-build && yay -Rns yay && chezmoi apply${RESET}"
-    exit 0
+  CURRENT_VERSION=$(yay --version 2>/dev/null | head -1 || echo "unknown")
+  echo -e "${GRAY}yay is already installed${RESET}"
+  echo -e "${GRAY}Current version: $CURRENT_VERSION${RESET}"
+  echo -e "${YELLOW}To reinstall: rm -rf ~/.cache/yay-build && yay -Rns yay && chezmoi apply${RESET}"
+  exit 0
 fi
 
 # Check dependencies
@@ -43,21 +43,21 @@ echo -e "${YELLOW}Checking dependencies...${RESET}"
 MISSING_DEPS=()
 
 if ! pacman -Q base-devel &>/dev/null; then
-    MISSING_DEPS+=("base-devel")
+  MISSING_DEPS+=("base-devel")
 fi
 
 if ! pacman -Q git &>/dev/null; then
-    MISSING_DEPS+=("git")
+  MISSING_DEPS+=("git")
 fi
 
 if [ ${#MISSING_DEPS[@]} -gt 0 ]; then
-    echo -e "${RED}✗ Missing required dependencies: ${MISSING_DEPS[*]}${RESET}"
-    echo -e "${YELLOW}Installing dependencies...${RESET}"
-    sudo pacman -S --noconfirm "${MISSING_DEPS[@]}" || {
-        echo -e "${RED}Failed to install dependencies${RESET}"
-        exit 1
-    }
-    echo -e "${GREEN}✓ Dependencies installed${RESET}"
+  echo -e "${RED}✗ Missing required dependencies: ${MISSING_DEPS[*]}${RESET}"
+  echo -e "${YELLOW}Installing dependencies...${RESET}"
+  sudo pacman -S --noconfirm "${MISSING_DEPS[@]}" || {
+    echo -e "${RED}Failed to install dependencies${RESET}"
+    exit 1
+  }
+  echo -e "${GREEN}✓ Dependencies installed${RESET}"
 fi
 
 # Create build directory
@@ -67,17 +67,17 @@ mkdir -p "$BUILD_DIR"
 # Clone yay repository
 echo -e "${YELLOW}Cloning yay repository...${RESET}"
 if [ -d "$BUILD_DIR/yay" ]; then
-    echo -e "${GRAY}Build directory exists, cleaning...${RESET}"
-    rm -rf "$BUILD_DIR/yay"
+  echo -e "${GRAY}Build directory exists, cleaning...${RESET}"
+  rm -rf "$BUILD_DIR/yay"
 fi
 
 if ! git clone https://aur.archlinux.org/yay.git "$BUILD_DIR/yay"; then
-    echo -e "${RED}✗ Failed to clone yay repository${RESET}"
-    echo -e "${YELLOW}Troubleshooting:${RESET}"
-    echo -e "  1. Check internet connection"
-    echo -e "  2. Verify git is installed: pacman -Q git"
-    echo -e "  3. Try manual clone: git clone https://aur.archlinux.org/yay.git"
-    exit 1
+  echo -e "${RED}✗ Failed to clone yay repository${RESET}"
+  echo -e "${YELLOW}Troubleshooting:${RESET}"
+  echo -e "  1. Check internet connection"
+  echo -e "  2. Verify git is installed: pacman -Q git"
+  echo -e "  3. Try manual clone: git clone https://aur.archlinux.org/yay.git"
+  exit 1
 fi
 
 # Build and install yay
@@ -85,23 +85,23 @@ echo -e "${YELLOW}Building and installing yay...${RESET}"
 cd "$BUILD_DIR/yay"
 
 if ! makepkg -si --noconfirm; then
-    echo -e "${RED}✗ Failed to build/install yay${RESET}"
-    echo -e "${YELLOW}Troubleshooting:${RESET}"
-    echo -e "  1. Check if base-devel is installed: pacman -Q base-devel"
-    echo -e "  2. Try manual build: cd ~/.cache/yay-build/yay && makepkg -si"
-    echo -e "  3. Check build logs for specific errors"
-    exit 1
+  echo -e "${RED}✗ Failed to build/install yay${RESET}"
+  echo -e "${YELLOW}Troubleshooting:${RESET}"
+  echo -e "  1. Check if base-devel is installed: pacman -Q base-devel"
+  echo -e "  2. Try manual build: cd ~/.cache/yay-build/yay && makepkg -si"
+  echo -e "  3. Check build logs for specific errors"
+  exit 1
 fi
 
 # Verify installation
 if command -v yay &>/dev/null; then
-    VERSION=$(yay --version 2>/dev/null | head -1 || echo "unknown")
-    echo -e "${GREEN}✓ yay installed successfully${RESET}"
-    echo -e "${GREEN}✓ Verified: $VERSION${RESET}"
-    echo -e "${GRAY}Location: $(which yay)${RESET}"
+  VERSION=$(yay --version 2>/dev/null | head -1 || echo "unknown")
+  echo -e "${GREEN}✓ yay installed successfully${RESET}"
+  echo -e "${GREEN}✓ Verified: $VERSION${RESET}"
+  echo -e "${GRAY}Location: $(which yay)${RESET}"
 else
-    echo -e "${RED}✗ Verification failed: yay command not found${RESET}"
-    exit 1
+  echo -e "${RED}✗ Verification failed: yay command not found${RESET}"
+  exit 1
 fi
 
 # Clean up build directory (optional)

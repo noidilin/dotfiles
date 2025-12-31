@@ -23,71 +23,71 @@ RESET='\033[0m'
 printf "${CYAN}=== Installing cargo packages ===${RESET}\n"
 
 if ! command -v mise &>/dev/null; then
-    printf "${YELLOW}WARNING: mise is not installed (skipping cargo packages)${RESET}\n"
-    exit 0
+  printf "${YELLOW}WARNING: mise is not installed (skipping cargo packages)${RESET}\n"
+  exit 0
 fi
 
 if ! cargo_version=$(mise exec -- cargo --version 2>/dev/null); then
-    printf "${YELLOW}WARNING: cargo is not available via mise (skipping cargo packages)${RESET}\n"
-    exit 0
+  printf "${YELLOW}WARNING: cargo is not available via mise (skipping cargo packages)${RESET}\n"
+  exit 0
 fi
 
 declare -a CARGO_PACKAGES=()
 cargo_cache_loaded=0
 
 load_cargo_packages() {
-    if [[ $cargo_cache_loaded -eq 1 ]]; then
-        return
-    fi
+  if [[ $cargo_cache_loaded -eq 1 ]]; then
+    return
+  fi
 
-    cargo_cache_loaded=1
-    local output
-    if ! output=$(mise exec -- cargo install --list 2>/dev/null); then
-        CARGO_PACKAGES=()
-        return
-    fi
+  cargo_cache_loaded=1
+  local output
+  if ! output=$(mise exec -- cargo install --list 2>/dev/null); then
+    CARGO_PACKAGES=()
+    return
+  fi
 
-    # Use ripgrep to extract package names: filter lines with "v<digit>", then extract first word
-    while IFS= read -r pkg; do
-        if [[ -n "$pkg" ]]; then
-            CARGO_PACKAGES+=("$pkg")
-        fi
-    done < <(echo "$output" | rg -N '^\S+\s+v\d' | rg -o '^\S+')
+  # Use ripgrep to extract package names: filter lines with "v<digit>", then extract first word
+  while IFS= read -r pkg; do
+    if [[ -n "$pkg" ]]; then
+      CARGO_PACKAGES+=("$pkg")
+    fi
+  done < <(echo "$output" | rg -N '^\S+\s+v\d' | rg -o '^\S+')
 }
 
 cargo_package_installed() {
-    local package="$1"
-    load_cargo_packages
+  local package="$1"
+  load_cargo_packages
 
-    for existing in "${CARGO_PACKAGES[@]:-}"; do
-        if [[ "$existing" == "$package" ]]; then
-            return 0
-        fi
-    done
+  for existing in "${CARGO_PACKAGES[@]:-}"; do
+    if [[ "$existing" == "$package" ]]; then
+      return 0
+    fi
+  done
 
-    return 1
+  return 1
 }
 
 install_cargo_package() {
-    local package="$1"
+  local package="$1"
 
-    if cargo_package_installed "$package"; then
-        printf "${GRAY}%s is already installed via cargo (skipping)${RESET}\n" "$package"
-        return
-    fi
+  if cargo_package_installed "$package"; then
+    printf "${GRAY}%s is already installed via cargo (skipping)${RESET}\n" "$package"
+    return
+  fi
 
-    printf "${GREEN}Installing (cargo): %s${RESET}\n" "$package"
-    if ! mise exec -- cargo install "$package"; then
-        printf "${RED}Failed to install %s (cargo)${RESET}\n" "$package"
-    fi
+  printf "${GREEN}Installing (cargo): %s${RESET}\n" "$package"
+  if ! mise exec -- cargo install "$package"; then
+    printf "${RED}Failed to install %s (cargo)${RESET}\n" "$package"
+  fi
 }
 
 {{- if .pkgs.cargo }}
 printf "${GRAY}\ncargo version: %s${RESET}\n" "$cargo_version"
 printf "${YELLOW}Installing cargo packages...${RESET}\n"
-{{- range .pkgs.cargo }}
+{{-   range .pkgs.cargo }}
 install_cargo_package "{{ . }}"
-{{- end }}
+{{-   end }}
 {{- else }}
 printf "${GRAY}No cargo packages declared (skipping)${RESET}\n"
 {{- end }}

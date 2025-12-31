@@ -23,76 +23,76 @@ RESET='\033[0m'
 printf "${CYAN}=== Installing pnpm global packages ===${RESET}\n"
 
 if ! command -v mise &>/dev/null; then
-    printf "${YELLOW}WARNING: mise is not installed (skipping pnpm packages)${RESET}\n"
-    exit 0
+  printf "${YELLOW}WARNING: mise is not installed (skipping pnpm packages)${RESET}\n"
+  exit 0
 fi
 
 if ! node_version=$(mise exec -- node --version 2>/dev/null); then
-    printf "${YELLOW}WARNING: Node.js is not available via mise (skipping pnpm packages)${RESET}\n"
-    exit 0
+  printf "${YELLOW}WARNING: Node.js is not available via mise (skipping pnpm packages)${RESET}\n"
+  exit 0
 fi
 
 if ! pnpm_version=$(mise exec -- pnpm --version 2>/dev/null); then
-    printf "${YELLOW}WARNING: pnpm is not available via mise (skipping pnpm packages)${RESET}\n"
-    exit 0
+  printf "${YELLOW}WARNING: pnpm is not available via mise (skipping pnpm packages)${RESET}\n"
+  exit 0
 fi
 
 declare -a PNPM_INSTALLED=()
 pnpm_cache_loaded=0
 
 load_pnpm_packages() {
-    if [[ $pnpm_cache_loaded -eq 1 ]]; then
-        return
-    fi
+  if [[ $pnpm_cache_loaded -eq 1 ]]; then
+    return
+  fi
 
-    pnpm_cache_loaded=1
-    local output
-    if ! output=$(mise exec -- pnpm ls -g --depth=0 2>/dev/null); then
-        PNPM_INSTALLED=()
-        return
-    fi
+  pnpm_cache_loaded=1
+  local output
+  if ! output=$(mise exec -- pnpm ls -g --depth=0 2>/dev/null); then
+    PNPM_INSTALLED=()
+    return
+  fi
 
-    # Use ripgrep to extract package names: filter lines starting with @ or lowercase, exclude "dependencies:"
-    while IFS= read -r pkg; do
-        if [[ -n "$pkg" ]]; then
-            PNPM_INSTALLED+=("$pkg")
-        fi
-    done < <(echo "$output" | rg -N '^[@a-z]' | rg -o '^\S+' | rg -v '^dependencies:$')
+  # Use ripgrep to extract package names: filter lines starting with @ or lowercase, exclude "dependencies:"
+  while IFS= read -r pkg; do
+    if [[ -n "$pkg" ]]; then
+      PNPM_INSTALLED+=("$pkg")
+    fi
+  done < <(echo "$output" | rg -N '^[@a-z]' | rg -o '^\S+' | rg -v '^dependencies:$')
 }
 
 pnpm_package_installed() {
-    local package="$1"
-    load_pnpm_packages
+  local package="$1"
+  load_pnpm_packages
 
-    for existing in "${PNPM_INSTALLED[@]:-}"; do
-        if [[ "$existing" == "$package" ]]; then
-            return 0
-        fi
-    done
+  for existing in "${PNPM_INSTALLED[@]:-}"; do
+    if [[ "$existing" == "$package" ]]; then
+      return 0
+    fi
+  done
 
-    return 1
+  return 1
 }
 
 install_pnpm_package() {
-    local package="$1"
+  local package="$1"
 
-    if pnpm_package_installed "$package"; then
-        printf "${GRAY}%s is already installed via pnpm (skipping)${RESET}\n" "$package"
-        return
-    fi
+  if pnpm_package_installed "$package"; then
+    printf "${GRAY}%s is already installed via pnpm (skipping)${RESET}\n" "$package"
+    return
+  fi
 
-    printf "${GREEN}Installing (pnpm): %s${RESET}\n" "$package"
-    if ! mise exec -- pnpm add -g "$package"; then
-        printf "${RED}Failed to install %s (pnpm)${RESET}\n" "$package"
-    fi
+  printf "${GREEN}Installing (pnpm): %s${RESET}\n" "$package"
+  if ! mise exec -- pnpm add -g "$package"; then
+    printf "${RED}Failed to install %s (pnpm)${RESET}\n" "$package"
+  fi
 }
 
 {{- if .pkgs.pnpm }}
 printf "${GRAY}\nNode.js version: %s${RESET}\n" "$node_version"
 printf "${YELLOW}Installing pnpm packages...${RESET}\n"
-{{- range .pkgs.pnpm }}
+{{-   range .pkgs.pnpm }}
 install_pnpm_package "{{ . }}"
-{{- end }}
+{{-   end }}
 {{- else }}
 printf "${GRAY}No pnpm packages declared (skipping)${RESET}\n"
 {{- end }}

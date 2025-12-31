@@ -20,8 +20,10 @@
   excludesFile = ~/.config/git/ignore
 {{- if eq .osId "windows" }}
   sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
-{{- else if eq .archEnv "wsl" }}
+{{- else if eq .osId "linux-arch" }}
+{{-   if eq .archEnv "wsl" }}
   sshCommand = ssh.exe
+{{-   end }}
 {{- end }}
 
 [gpg]
@@ -32,10 +34,12 @@
   program = "C:/Program Files/1Password/app/8/op-ssh-sign.exe"
 {{- else if eq .osId "darwin" }}
   program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
-{{- else if eq .archEnv "wsl" }}
+{{- else if eq .osId "linux-arch" }}
+{{-   if eq .archEnv "wsl" }}
   program = "/mnt/c/Program Files/1Password/app/8/op-ssh-sign.exe"
-{{- else if eq .archEnv "native" }}
+{{-   else if eq .archEnv "native" }}
   program = "op-ssh-sign"  # Native Arch uses Linux 1Password
+{{-   end }}
 {{- end }}
 
 [commit]

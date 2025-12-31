@@ -28,17 +28,17 @@ echo -e "${CYAN}=== Installing mise tools ===${RESET}"
 
 # Check if mise is installed
 if ! command -v mise &>/dev/null; then
-    echo -e "${RED}ERROR: mise is not installed!${RESET}"
-    echo -e "${YELLOW}Please ensure mise is installed via pacman first${RESET}"
-    exit 1
+  echo -e "${RED}ERROR: mise is not installed!${RESET}"
+  echo -e "${YELLOW}Please ensure mise is installed via pacman first${RESET}"
+  exit 1
 fi
 
 # Verify mise config exists (should be created by chezmoi apply)
 MISE_CONFIG="$HOME/.config/mise/config.toml"
 if [ ! -f "$MISE_CONFIG" ]; then
-    echo -e "${RED}ERROR: Mise config not found at $MISE_CONFIG${RESET}"
-    echo -e "${YELLOW}Run 'chezmoi apply' to generate the mise config first${RESET}"
-    exit 1
+  echo -e "${RED}ERROR: Mise config not found at $MISE_CONFIG${RESET}"
+  echo -e "${YELLOW}Run 'chezmoi apply' to generate the mise config first${RESET}"
+  exit 1
 fi
 
 echo -e "${GRAY}Using mise config: $MISE_CONFIG${RESET}"
@@ -46,7 +46,7 @@ echo -e "${GRAY}Using mise config: $MISE_CONFIG${RESET}"
 # Install all tools defined in mise config
 echo -e "\n${YELLOW}Installing tools from mise config...${RESET}"
 if ! mise install; then
-    echo -e "${YELLOW}WARNING: Some mise tools may have failed to install${RESET}"
+  echo -e "${YELLOW}WARNING: Some mise tools may have failed to install${RESET}"
 fi
 
 echo -e "\n${GREEN}Mise tools installation complete!${RESET}"

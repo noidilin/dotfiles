@@ -26,9 +26,9 @@ printf "${CYAN}=== Installing platform-specific AUR packages (Arch WSL - yay) ==
 
 # Check if yay is installed
 if ! command -v yay &>/dev/null; then
-    printf "${YELLOW}WARNING: yay is not installed (skipping AUR packages)${RESET}\n"
-    printf "${GRAY}Install yay first, then run: chezmoi apply${RESET}\n"
-    exit 0
+  printf "${YELLOW}WARNING: yay is not installed (skipping AUR packages)${RESET}\n"
+  printf "${GRAY}Install yay first, then run: chezmoi apply${RESET}\n"
+  exit 0
 fi
 
 # Get yay version for logging
@@ -38,54 +38,54 @@ declare -a YAY_INSTALLED=()
 yay_cache_loaded=0
 
 load_yay_packages() {
-    if [[ $yay_cache_loaded -eq 1 ]]; then
-        return
-    fi
+  if [[ $yay_cache_loaded -eq 1 ]]; then
+    return
+  fi
 
-    yay_cache_loaded=1
-    local output
-    # Query foreign packages (AUR packages only)
-    if ! output=$(yay -Qm 2>/dev/null); then
-        YAY_INSTALLED=()
-        return
-    fi
+  yay_cache_loaded=1
+  local output
+  # Query foreign packages (AUR packages only)
+  if ! output=$(yay -Qm 2>/dev/null); then
+    YAY_INSTALLED=()
+    return
+  fi
 
-    # Extract package names (first word of each line)
-    while IFS= read -r line; do
-        if [[ -n "$line" ]]; then
-            pkg=$(echo "$line" | awk '{print $1}')
-            if [[ -n "$pkg" ]]; then
-                YAY_INSTALLED+=("$pkg")
-            fi
-        fi
-    done <<< "$output"
+  # Extract package names (first word of each line)
+  while IFS= read -r line; do
+    if [[ -n "$line" ]]; then
+      pkg=$(echo "$line" | awk '{print $1}')
+      if [[ -n "$pkg" ]]; then
+        YAY_INSTALLED+=("$pkg")
+      fi
+    fi
+  done <<<"$output"
 }
 
 yay_package_installed() {
-    local package="$1"
-    load_yay_packages
+  local package="$1"
+  load_yay_packages
 
-    for existing in "${YAY_INSTALLED[@]:-}"; do
-        if [[ "$existing" == "$package" ]]; then
-            return 0
-        fi
-    done
+  for existing in "${YAY_INSTALLED[@]:-}"; do
+    if [[ "$existing" == "$package" ]]; then
+      return 0
+    fi
+  done
 
-    return 1
+  return 1
 }
 
 install_yay_package() {
-    local package="$1"
+  local package="$1"
 
-    if yay_package_installed "$package"; then
-        printf "${GRAY}%s is already installed via yay (skipping)${RESET}\n" "$package"
-        return
-    fi
+  if yay_package_installed "$package"; then
+    printf "${GRAY}%s is already installed via yay (skipping)${RESET}\n" "$package"
+    return
+  fi
 
-    printf "${GREEN}Installing (yay): %s${RESET}\n" "$package"
-    if ! yay -S --noconfirm "$package"; then
-        printf "${RED}Failed to install %s (yay)${RESET}\n" "$package"
-    fi
+  printf "${GREEN}Installing (yay): %s${RESET}\n" "$package"
+  if ! yay -S --noconfirm "$package"; then
+    printf "${RED}Failed to install %s (yay)${RESET}\n" "$package"
+  fi
 }
 
 printf "${GRAY}\nyay version: %s${RESET}\n" "$yay_version"
@@ -93,17 +93,17 @@ printf "${GRAY}\nyay version: %s${RESET}\n" "$yay_version"
 # Install shared AUR packages
 {{- if .pkgs.yay }}
 printf "${YELLOW}Installing shared AUR packages...${RESET}\n"
-{{- range .pkgs.yay }}
+{{-   range .pkgs.yay }}
 install_yay_package "{{ . }}"
-{{- end }}
+{{-   end }}
 {{- end }}
 
 # Install WSL2-specific AUR packages
 {{- if .pkgs.yayWsl }}
 printf "${YELLOW}Installing WSL2-specific AUR packages...${RESET}\n"
-{{- range .pkgs.yayWsl }}
+{{-   range .pkgs.yayWsl }}
 install_yay_package "{{ . }}"
-{{- end }}
+{{-   end }}
 {{- end }}
 
 printf "${GREEN}\nAUR package installation complete!${RESET}\n"

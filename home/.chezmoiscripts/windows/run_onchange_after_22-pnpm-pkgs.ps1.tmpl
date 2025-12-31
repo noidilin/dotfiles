@@ -75,9 +75,9 @@ function Install-PnpmPackage {
 {{- if .pkgs.pnpm }}
 Write-Host "`nNode.js version: $nodeVersion" -ForegroundColor DarkGray
 Write-Host "Installing pnpm packages..." -ForegroundColor Yellow
-{{- range .pkgs.pnpm }}
+{{-   range .pkgs.pnpm }}
 Install-PnpmPackage "{{ . }}"
-{{- end }}
+{{-   end }}
 {{- else }}
 Write-Host "No pnpm packages declared (skipping)" -ForegroundColor DarkGray
 {{- end }}

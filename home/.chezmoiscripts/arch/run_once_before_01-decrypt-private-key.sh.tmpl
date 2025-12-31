@@ -17,20 +17,20 @@ SOURCE_FILE="{{ .chezmoi.sourceDir }}/age-key.txt.age"
 
 # Check if the decrypted key file exists
 if [ ! -f "$KEY_PATH" ]; then
-    echo "Decrypting age private key..."
-    
-    # Ensure the .config directory exists
-    mkdir -p "$(dirname "$KEY_PATH")"
-    
-    # Decrypt the private key using chezmoi and Age
-    chezmoi age decrypt --output "$KEY_PATH" --passphrase "$SOURCE_FILE"
-    
-    # Set permissions to restrict access (chmod 600)
-    chmod 600 "$KEY_PATH"
-    
-    echo "Age private key decrypted and permissions set to 600"
+  echo "Decrypting age private key..."
+
+  # Ensure the .config directory exists
+  mkdir -p "$(dirname "$KEY_PATH")"
+
+  # Decrypt the private key using chezmoi and Age
+  chezmoi age decrypt --output "$KEY_PATH" --passphrase "$SOURCE_FILE"
+
+  # Set permissions to restrict access (chmod 600)
+  chmod 600 "$KEY_PATH"
+
+  echo "Age private key decrypted and permissions set to 600"
 else
-    echo "Age private key already exists (skipping)"
+  echo "Age private key already exists (skipping)"
 fi
 
 {{- end }}

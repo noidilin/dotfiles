@@ -69,9 +69,9 @@ function Install-UvTool {
 {{- if .pkgs.uv }}
 Write-Host "`nuv version: $uvVersion" -ForegroundColor DarkGray
 Write-Host "Installing uv tools..." -ForegroundColor Yellow
-{{- range .pkgs.uv }}
+{{-   range .pkgs.uv }}
 Install-UvTool "{{ . }}"
-{{- end }}
+{{-   end }}
 {{- else }}
 Write-Host "No uv tools declared (skipping)" -ForegroundColor DarkGray
 {{- end }}

@@ -18,12 +18,12 @@ Write-Host "No Windows symlink definitions found .symlinks.windows). Skipping." 
 return
 {{- else }}
 $symlinkItems = @(
-{{- range .symlinks.windows }}
+{{-   range .symlinks.windows }}
     @{
         Target = "{{ .target }}"
         Source = "{{ .source }}"
     }
-{{- end }}
+{{-   end }}
 )
 {{- end }}
 

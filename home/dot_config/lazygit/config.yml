@@ -35,7 +35,5 @@ keybinding:
   commits:
     moveDownCommit: <c-d>
     moveUpCommit: <c-u>
-# git:
-#   pagers:
-#     - colorArg: always
-#       pager: delta --dark --paging=never
+git:
+  overrideGpg: true # If true, do not spawn a separate process when using GPG

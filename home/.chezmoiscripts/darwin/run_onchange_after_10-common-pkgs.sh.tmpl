@@ -27,9 +27,9 @@ echo -e "${CYAN}=== Installing common packages (macOS) ===${RESET}"
 
 # Check if Homebrew is installed
 if ! command -v brew &>/dev/null; then
-    echo -e "${RED}ERROR: Homebrew is not installed!${RESET}"
-    echo -e "${YELLOW}Please install Homebrew first: https://brew.sh${RESET}"
-    exit 1
+  echo -e "${RED}ERROR: Homebrew is not installed!${RESET}"
+  echo -e "${YELLOW}Please install Homebrew first: https://brew.sh${RESET}"
+  exit 1
 fi
 
 # Update Homebrew
@@ -41,58 +41,58 @@ declare -a BREW_INSTALLED=()
 brew_cache_loaded=0
 
 load_brew_packages() {
-    if [[ $brew_cache_loaded -eq 1 ]]; then
-        return
+  if [[ $brew_cache_loaded -eq 1 ]]; then
+    return
+  fi
+
+  brew_cache_loaded=1
+  local output
+  # Get all installed formulae
+  if ! output=$(brew list --formula 2>/dev/null); then
+    echo -e "${YELLOW}WARNING: Failed to query installed packages (skipping all)${RESET}"
+    BREW_INSTALLED=()
+    return
+  fi
+
+  while IFS= read -r pkg; do
+    if [[ -n "$pkg" ]]; then
+      BREW_INSTALLED+=("$pkg")
     fi
-    
-    brew_cache_loaded=1
-    local output
-    # Get all installed formulae
-    if ! output=$(brew list --formula 2>/dev/null); then
-        echo -e "${YELLOW}WARNING: Failed to query installed packages (skipping all)${RESET}"
-        BREW_INSTALLED=()
-        return
-    fi
-    
-    while IFS= read -r pkg; do
-        if [[ -n "$pkg" ]]; then
-            BREW_INSTALLED+=("$pkg")
-        fi
-    done <<< "$output"
+  done <<<"$output"
 }
 
 brew_package_installed() {
-    local package="$1"
-    load_brew_packages
-    
-    for existing in "${BREW_INSTALLED[@]:-}"; do
-        if [[ "$existing" == "$package" ]]; then
-            return 0
-        fi
-    done
-    
-    return 1
+  local package="$1"
+  load_brew_packages
+
+  for existing in "${BREW_INSTALLED[@]:-}"; do
+    if [[ "$existing" == "$package" ]]; then
+      return 0
+    fi
+  done
+
+  return 1
 }
 
 # Function to install package if not already installed
 function install_brew_package() {
-    local package="$1"
-    
-    if brew_package_installed "$package"; then
-        echo -e "${GRAY}$package is already installed (skipping)${RESET}"
-    else
-        echo -e "${GREEN}Installing: $package${RESET}"
-        brew install "$package" || \
-            echo -e "${RED}Failed to install $package${RESET}"
-    fi
+  local package="$1"
+
+  if brew_package_installed "$package"; then
+    echo -e "${GRAY}$package is already installed (skipping)${RESET}"
+  else
+    echo -e "${GREEN}Installing: $package${RESET}"
+    brew install "$package" ||
+      echo -e "${RED}Failed to install $package${RESET}"
+  fi
 }
 
 # Install common packages via Homebrew
 echo -e "\n${YELLOW}Installing common packages via Homebrew...${RESET}"
 {{- range $name, $pkg := .pkgs.common }}
-  {{- if hasKey $pkg "brew" }}
+{{-   if hasKey $pkg "brew" }}
 install_brew_package "{{ $pkg.brew }}"
-  {{- end }}
+{{-   end }}
 {{- end }}
 
 echo -e "\n${GREEN}Common package installation complete!${RESET}"

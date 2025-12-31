@@ -23,71 +23,71 @@ RESET='\033[0m'
 printf "${CYAN}=== Installing uv tool packages ===${RESET}\n"
 
 if ! command -v mise &>/dev/null; then
-    printf "${YELLOW}WARNING: mise is not installed (skipping uv packages)${RESET}\n"
-    exit 0
+  printf "${YELLOW}WARNING: mise is not installed (skipping uv packages)${RESET}\n"
+  exit 0
 fi
 
 if ! uv_version=$(mise exec -- uv --version 2>/dev/null); then
-    printf "${YELLOW}WARNING: uv is not available via mise (skipping uv packages)${RESET}\n"
-    exit 0
+  printf "${YELLOW}WARNING: uv is not available via mise (skipping uv packages)${RESET}\n"
+  exit 0
 fi
 
 declare -a UV_TOOLS=()
 uv_cache_loaded=0
 
 load_uv_tools() {
-    if [[ $uv_cache_loaded -eq 1 ]]; then
-        return
-    fi
+  if [[ $uv_cache_loaded -eq 1 ]]; then
+    return
+  fi
 
-    uv_cache_loaded=1
-    local output
-    if ! output=$(mise exec -- uv tool list 2>/dev/null); then
-        UV_TOOLS=()
-        return
-    fi
+  uv_cache_loaded=1
+  local output
+  if ! output=$(mise exec -- uv tool list 2>/dev/null); then
+    UV_TOOLS=()
+    return
+  fi
 
-    # Use ripgrep to extract package names: filter lines with "v<digit>", then extract first word
-    while IFS= read -r pkg; do
-        if [[ -n "$pkg" ]]; then
-            UV_TOOLS+=("$pkg")
-        fi
-    done < <(echo "$output" | rg -N '^\S+\s+v\d' | rg -o '^\S+' | rg -v '^Installed$')
+  # Use ripgrep to extract package names: filter lines with "v<digit>", then extract first word
+  while IFS= read -r pkg; do
+    if [[ -n "$pkg" ]]; then
+      UV_TOOLS+=("$pkg")
+    fi
+  done < <(echo "$output" | rg -N '^\S+\s+v\d' | rg -o '^\S+' | rg -v '^Installed$')
 }
 
 uv_tool_installed() {
-    local package="$1"
-    load_uv_tools
+  local package="$1"
+  load_uv_tools
 
-    for existing in "${UV_TOOLS[@]:-}"; do
-        if [[ "$existing" == "$package" ]]; then
-            return 0
-        fi
-    done
+  for existing in "${UV_TOOLS[@]:-}"; do
+    if [[ "$existing" == "$package" ]]; then
+      return 0
+    fi
+  done
 
-    return 1
+  return 1
 }
 
 install_uv_tool() {
-    local package="$1"
+  local package="$1"
 
-    if uv_tool_installed "$package"; then
-        printf "${GRAY}%s is already installed via uv (skipping)${RESET}\n" "$package"
-        return
-    fi
+  if uv_tool_installed "$package"; then
+    printf "${GRAY}%s is already installed via uv (skipping)${RESET}\n" "$package"
+    return
+  fi
 
-    printf "${GREEN}Installing (uv): %s${RESET}\n" "$package"
-    if ! mise exec -- uv tool install "$package"; then
-        printf "${RED}Failed to install %s (uv)${RESET}\n" "$package"
-    fi
+  printf "${GREEN}Installing (uv): %s${RESET}\n" "$package"
+  if ! mise exec -- uv tool install "$package"; then
+    printf "${RED}Failed to install %s (uv)${RESET}\n" "$package"
+  fi
 }
 
 {{- if .pkgs.uv }}
 printf "${GRAY}\nuv version: %s${RESET}\n" "$uv_version"
 printf "${YELLOW}Installing uv tools...${RESET}\n"
-{{- range .pkgs.uv }}
+{{-   range .pkgs.uv }}
 install_uv_tool "{{ . }}"
-{{- end }}
+{{-   end }}
 {{- else }}
 printf "${GRAY}No uv tools declared (skipping)${RESET}\n"
 {{- end }}

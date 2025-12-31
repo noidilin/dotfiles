@@ -10,36 +10,36 @@ echo "Applying SSH configuration for 1Password agent (macOS)..."
 
 # Validate 1Password CLI is available
 if ! command -v op &>/dev/null; then
-    echo "ERROR: op not found - 1Password CLI is required"
-    echo "Install via: brew install 1password-cli"
-    exit 1
+  echo "ERROR: op not found - 1Password CLI is required"
+  echo "Install via: brew install 1password-cli"
+  exit 1
 fi
 
 # Manually render and apply SSH config (avoiding chezmoi apply lock)
 # This config contains IdentityAgent path for 1Password socket
 mkdir -p ~/.ssh
-chezmoi execute-template < ~/.local/share/chezmoi/home/dot_ssh/config.tmpl > ~/.ssh/config
+chezmoi execute-template <~/.local/share/chezmoi/home/dot_ssh/config.tmpl >~/.ssh/config
 chmod 600 ~/.ssh/config
 echo "SUCCESS: SSH config applied: ~/.ssh/config"
 
 # Manually render and apply git config (contains GPG SSH signing configuration)
 mkdir -p ~/.config/git
-chezmoi execute-template < ~/.local/share/chezmoi/home/dot_config/git/config.tmpl > ~/.config/git/config
+chezmoi execute-template <~/.local/share/chezmoi/home/dot_config/git/config.tmpl >~/.config/git/config
 echo "SUCCESS: Git config applied: ~/.config/git/config"
 
 # Manually render and apply 1Password agent configuration
 mkdir -p ~/.config/1Password/ssh
-chezmoi execute-template < ~/.local/share/chezmoi/home/dot_config/1Password/ssh/agent.toml.tmpl > ~/.config/1Password/ssh/agent.toml
+chezmoi execute-template <~/.local/share/chezmoi/home/dot_config/1Password/ssh/agent.toml.tmpl >~/.config/1Password/ssh/agent.toml
 echo "SUCCESS: 1Password agent config applied: ~/.config/1Password/ssh/agent.toml"
 
 # Verify 1Password SSH agent socket exists
 AGENT_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 if [ -S "$AGENT_SOCK" ]; then
-    echo "SUCCESS: 1Password SSH agent detected"
+  echo "SUCCESS: 1Password SSH agent detected"
 else
-    echo "WARNING: 1Password SSH agent not found at: $AGENT_SOCK"
-    echo "Please enable it in: 1Password -> Settings -> Developer -> Use the SSH agent"
-    echo "Continuing anyway - you may be prompted to approve SSH connections..."
+  echo "WARNING: 1Password SSH agent not found at: $AGENT_SOCK"
+  echo "Please enable it in: 1Password -> Settings -> Developer -> Use the SSH agent"
+  echo "Continuing anyway - you may be prompted to approve SSH connections..."
 fi
 
 echo "SUCCESS: SSH configuration applied successfully"
