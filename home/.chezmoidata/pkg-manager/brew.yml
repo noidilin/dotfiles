@@ -3,15 +3,18 @@
 
 pkgs:
   brew:
-    - "cleanshot" # screen capture + record, key cast
-    - "homerow" # vim mode in mac (flash, HJKL)
-    - "karabiner-elements"
-    # - "menubarusb" # display conntected usb device spec
-    # - "ogdesign-eagle" # image reference
-    # - "proxy-audio-device" # control external audio interfaces with macOS system volume control
-    # - "waves-central" # VSA plugins
+    - "--cask cleanshot" # screen capture + record, key cast
+    # - "--cask homerow" # system vim mode (flash, HJKL) (lack of support, paid)
+    - "--cask karabiner-elements"
+    # - "--cask ogdesign-eagle" # image reference
+    # - "--cask proxy-audio-device" # control external audio interfaces with macOS system volume control
+    - "--cask rodecaster" # manage rodecaster device
+    # - "--cask waves-central" # VSA plugins
 
-    # TODO: add support to these
-    # brew install --cask nikitabobko/tap/aerospace
-    # brew install --cask TheBoredTeam/boring-notch/boring-notch --no-quarantine
+    # earily testing
+    # - "--cask rafaelswi/menubarusb/menubarusb" # display conntected usb device spec
+    - "--cask TheBoredTeam/boring-notch/boring-notch --no-quarantine"
+    - "--cask nikitabobko/tap/aerospace"
+
+    # TODO: needed support
     # not in homebrew [blender launcher](https://github.com/Victor-IX/Blender-Launcher-V2)

@@ -40,12 +40,12 @@ pkgs:
     # =============================================================================
     1password-cli:
       wsl: false
-      brew: "1password-cli"
+      brew: "--cask 1password-cli"
       winget: "AgileBits.1Password.CLI"
       aur: "1password-cli"
     1password:
       wsl: false
-      brew: "1password"
+      brew: "--cask 1password"
       winget: "AgileBits.1Password"
       aur: "1password"
 
@@ -194,7 +194,7 @@ pkgs:
       scoop: "tectonic"
       pacman: "tectonic"
     unrar:
-      brew: "rar"
+      brew: "--cask rar"
       scoop: "unrar"
       pacman: "unrar"
     unzip:
@@ -216,31 +216,31 @@ pkgs:
     helium:
       wsl: false
       scoop: "helium"
-      brew: "helium-browser"
+      brew: "--cask helium-browser"
       aur: "helium-browser-bin"
     obsidian:
       wsl: false
-      brew: "obsidian"
+      brew: "--cask obsidian"
       scoop: "obsidian"
       pacman: "obsidian"
     vscode:
       wsl: false
-      brew: "visual-studio-code"
+      brew: "--cask visual-studio-code"
       scoop: "vscode"
       pacman: "code"
     wezterm:
       wsl: false
-      brew: "wezterm"
+      brew: "--cask wezterm"
       scoop: "wezterm-alt-icon/wezterm"
       pacman: "wezterm"
     zed:
       wsl: false
-      brew: "zed"
+      brew: "--cask zed"
       scoop: "zed"
       pacman: "zed"
     zen:
       wsl: false
-      brew: "zen"
+      brew: "--cask zen"
       winget: "Zen-Team.Zen-Browser"
       # scoop: "zen-browser"
       aur: "zen-browser-bin"
