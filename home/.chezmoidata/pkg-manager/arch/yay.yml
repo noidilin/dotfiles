@@ -1,4 +1,2 @@
 pkgs:
-  yay:
-    # Currently empty - add packages as needed
-    []
+  yay: "powershell-bin"
