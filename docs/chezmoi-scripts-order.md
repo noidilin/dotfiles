@@ -1,6 +1,6 @@
-# Application Order
+# Chezmoi Scripts Order
 
-## What happens during `chezmoi apply` in windows device
+## What happens during `chezmoi apply` in Windows
 
 1. **Phase 4** - `run_before_05-apply-ssh-config.ps1` runs automatically:
    - Applies SSH configuration for 1Password agent
@@ -37,7 +37,7 @@
 - 1Password SSH agent runs on Windows and is accessed via named pipe interop
 - Git config is applied automatically before externals clone
 
-## What happens during `chezmoi apply`
+## What happens during `chezmoi apply` in MacOs
 
 1. **Phase 4** - `run_before_05-apply-ssh-config.sh` runs automatically:
    - Applies `~/.ssh/config` with 1Password agent socket path
