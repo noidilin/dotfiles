@@ -35,7 +35,7 @@ Use **_Rufus_** to make iso USB drive to avoid microsoft online account validati
 ### `~/.local/etc/`
 
 - `resolve`: manually link 'Resolve Project' as database and import preference
-- `firefox`: global speed, sidebery, tampermonkey, tweaks for yt, yt subscription manager
+- `firefox`: global speed, tampermonkey, tweaks for yt
 - `stylus`: achroma.json
 - `shareX`: theme, config (manually assign config path in the app)
 - `pureref`: theme (manually import theme to app)
