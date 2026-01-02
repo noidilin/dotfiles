@@ -2,49 +2,133 @@
 
 Multi-platform dotfiles managed with chezmoi.
 
+## Quick Start
+
+Automated bootstrap scripts are available for all supported platforms. These scripts will install all prerequisites, configure 1Password, and apply your dotfiles automatically.
+
+**Prerequisites for all platforms:**
+
+- Internet access and GitHub connectivity
+- Age passphrase ready (for decrypting encrypted files)
+- 1Password account (for SSH authentication)
+
+**After bootstrap completes:**
+
+- Restart your shell to load new configurations
+- Chezmoi will automatically run remaining setup scripts
+- Check `~/.config` for your configurations
+
+---
+
+### Windows
+
+```powershell
+irm https://raw.githubusercontent.com/noidilin/dotfiles/main/init/win.ps1 | iex
+```
+
+**What it does:**
+
+- Installs Scoop package manager
+- Installs bootstrap tools (chezmoi, age, openssh, vivid, gsudo)
+- Enables Developer Mode and symlink privileges
+- Installs and configures 1Password
+- Runs `chezmoi init --apply`
+
+**Time:** ~10-15 minutes (includes manual 1Password setup and symlink configuration)
+
+---
+
+### macOS
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/noidilin/dotfiles/main/init/darwin.sh | bash
+```
+
+**What it does:**
+
+- Installs Homebrew package manager
+- Installs bootstrap tools (git, chezmoi, age, vivid)
+- Installs and configures 1Password
+- Runs `chezmoi init --apply`
+
+**Time:** ~5-10 minutes (includes Xcode CLT installation and manual 1Password setup)
+
+---
+
+### Arch Linux (WSL2)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/noidilin/dotfiles/main/init/wsl.sh | bash
+```
+
+**What it does:**
+
+- Verifies 1Password access via Windows interop
+- Updates system packages
+- Installs bootstrap tools (git, chezmoi, age, vivid, yay)
+- Runs `chezmoi init --apply`
+
+**Time:** ~5-10 minutes (includes yay AUR helper build)
+
+---
+
 ## Supported Platforms
 
 - **Windows**: Primary platform with full configuration
 - **Arch Linux (WSL2)**: CLI tools only, uses Windows interop for SSH/GPG
-  - See: [docs/arch-wsl-setup.md](docs/arch-wsl-setup.md)
 - **Arch Linux (Native)**: Planned support with desktop environment (minimal setup for now)
 - **macOS**: Configured but not actively used
 
 Configs are automatically filtered based on platform and environment detection via chezmoi templates.
 
-## Install Scripts
+## How It Works
 
-The `.install` dir contains all the installation scripts that can setup environment variables, daily used apps and symlinks. The scripts are wrote in `pwsh` since it is the modern shell language in windows, and is more verbose but clear for me.
+### Bootstrap Scripts (`init/`)
 
-- `init`: setup buckets and install `git`, `chezmoi`, `pwsh`, `nu`, `age`
-- `env`: setup environment variable and PATH
-- `symlinks`: setup symbolic links
-  - for apps that won't utilize `XDG` dir, and depends on the original config dir to work.
-- `scoop`: install apps with `scoop`
-- `pnpm`: install `pnpm` packages globally
-- `winget`: install apps with `winget`
+**Recommended:** Use the automated bootstrap scripts (see [Quick Start](#quick-start) above).
+
+- `init/win.ps1` - Windows bootstrap automation
+- `init/darwin.sh` - macOS bootstrap automation  
+- `init/wsl.sh` - Arch Linux WSL2 bootstrap automation
+
+These scripts handle initial setup before chezmoi can run.
+
+### Chezmoi Scripts (`home/.chezmoiscripts/`)
+
+After dotfiles are applied, chezmoi automatically runs platform-specific scripts to install packages and configure your system:
+
+**Execution order:**
+
+1. `run_once_before_*` - Prerequisites (decrypt keys, install package managers)
+2. `run_onchange_before_*` - Dynamic prerequisites (SSH config setup)
+3. **[Dotfiles applied to target directories]**
+4. `run_onchange_after_*` - Declarative package installation (responds to config changes)
+5. `run_once_after_*` - One-time system setup
+
+**Package installation:**
+
+- `10-*-pkgs` - System packages (Scoop/Homebrew/Pacman)
+- `20-mise-tools` - Runtime version managers (Node, Python, etc.)
+- `21-cargo-pkgs` - Rust packages
+- `22-pnpm-pkgs` - Node.js global packages
+- `23-uv-pkgs` - Python packages
+
+Package lists are defined in `home/.chezmoidata/pkg-manager/*.yml` and automatically installed when changed.
 
 > [!NOTE]
-> XDG directory
-> It will affect app storing location of config, data and cache, like neovim, lazygit...
-> Unfortunately, vs code don't utilize these env variables by default now (2024-11-27).
-> Hence, I've manually add those environment variables in the `settings.json`.
+> **XDG Base Directory Support**
 >
-> It is still not clear that whether:
+> Dotfiles follow XDG Base Directory specification:
 >
-> - it is a vs code issue
-> - it's because I install vs code with `scoop`.
+> - `XDG_CONFIG_HOME` = `~/.config` (configuration files)
+> - `XDG_DATA_HOME` = `~/.local/share` (data files)
+> - `XDG_CACHE_HOME` = `~/.cache` (cache files)
+>
+> Most modern CLI tools respect these variables. For apps that don't (like some GUI apps), symlinks are created via `run_onchange_after_05-setup-symlinks.ps1` (Windows only).
 
-### Batch Scripts
+### Legacy Setup Scripts (Deprecated)
 
-In addition, `batch` scripts streamline all the installation scripts. However, it requires setting up private `ssh` key, which is currently stored in USB flash drive, since I couldn't think of a valid way to save the private key.
-
-> [!WARNING]
-> UAC prompt
-> There will be UAC prompt asking for admin privilege during some installation, mostly from `winget install` and `scoop install neorocks-scoop/luarocks`.
-> Since UAC prompt has to be interact with the GUI manually, which makes the scripts not so automatical.
-
-- [ ] use cache feature in `gsudo` to reduce multiple UAC prompt into one.
+The `home/.local/etc/setup-win/` directory contains legacy manual setup scripts. These are now superseded by the automated bootstrap + chezmoi workflow but are kept for reference.
 
 ---
 
