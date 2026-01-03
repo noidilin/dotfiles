@@ -6,9 +6,9 @@
 # Install pnpm Global Packages (Linux)
 # =============================================================================
 # Execution Order: 40 (run_onchange_after_40-*)
-# - Installs PNPM global packages declared in .chezmoidata/pkg-manager/pnpm.yml
+# - Installs PNPM global packages declared in .chezmoidata/pm/pnpm.yml
 # - Requires mise, Node.js, and pnpm to be available
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/pnpm.yml" | sha256sum }}
+# Hash trigger: {{ include ".chezmoidata/pm/pnpm.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
@@ -91,9 +91,9 @@ install_pnpm_package() {
 {{- if .pkgs.pnpm }}
 printf "${GRAY}\nNode.js version: %s${RESET}\n" "$node_version"
 printf "${BRIGHT_WHITE}Installing pnpm packages...${RESET}\n"
-{{-   range .pkgs.pnpm }}
+{{- range .pkgs.pnpm }}
 install_pnpm_package "{{ . }}"
-{{-   end }}
+{{- end }}
 {{- else }}
 printf "${GRAY}No pnpm packages declared (skipping)${RESET}\n"
 {{- end }}

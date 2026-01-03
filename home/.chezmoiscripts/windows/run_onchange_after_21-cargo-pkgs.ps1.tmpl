@@ -5,9 +5,9 @@
 # Install cargo Global Packages (Windows)
 # =============================================================================
 # Execution Order: 40 (run_onchange_after_40-*)
-# - Installs cargo packages declared in .chezmoidata/pkg-manager/cargo.yml
+# - Installs cargo packages declared in .chezmoidata/pm/cargo.yml
 # - Requires mise and cargo (Rust) to be available
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/cargo.yml" | sha256sum }}
+# Hash trigger: {{ include ".chezmoidata/pm/cargo.yml" | sha256sum }}
 # =============================================================================
 
 Write-Host "=== Installing cargo packages ===" -ForegroundColor Yellow

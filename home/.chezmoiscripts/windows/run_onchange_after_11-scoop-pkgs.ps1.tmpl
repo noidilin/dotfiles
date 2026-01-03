@@ -8,8 +8,8 @@
 # - Runs after common packages (10)
 # - Installs Windows-specific packages via Scoop
 # - Should run before WinGet (12) to ensure dependencies are met
-# Source: .chezmoidata/pkg-manager/scoop.yml
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/scoop.yml" | sha256sum }}
+# Source: .chezmoidata/pm/scoop.yml
+# Hash trigger: {{ include ".chezmoidata/pm/scoop.yml" | sha256sum }}
 # =============================================================================
 
 Write-Host "=== Installing platform-specific packages (Windows - Scoop) ===" -ForegroundColor Yellow

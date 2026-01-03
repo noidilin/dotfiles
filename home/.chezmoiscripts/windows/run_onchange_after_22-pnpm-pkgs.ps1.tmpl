@@ -5,9 +5,9 @@
 # Install pnpm Global Packages (Windows)
 # =============================================================================
 # Execution Order: 40 (run_onchange_after_40-*)
-# - Installs PNPM global packages declared in .chezmoidata/pkg-manager/pnpm.yml
+# - Installs PNPM global packages declared in .chezmoidata/pm/pnpm.yml
 # - Requires mise, Node.js, and pnpm to be available
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/pnpm.yml" | sha256sum }}
+# Hash trigger: {{ include ".chezmoidata/pm/pnpm.yml" | sha256sum }}
 # =============================================================================
 
 Write-Host "=== Installing pnpm global packages ===" -ForegroundColor Yellow

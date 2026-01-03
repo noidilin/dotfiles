@@ -113,7 +113,7 @@ After dotfiles are applied, chezmoi automatically runs platform-specific scripts
 - `22-pnpm-pkgs` - Node.js global packages
 - `23-uv-pkgs` - Python packages
 
-Package lists are defined in `home/.chezmoidata/pkg-manager/*.yml` and automatically installed when changed.
+Package lists are defined in `home/.chezmoidata/pm/*.yml` and automatically installed when changed.
 
 > [!NOTE]
 > **XDG Base Directory Support**

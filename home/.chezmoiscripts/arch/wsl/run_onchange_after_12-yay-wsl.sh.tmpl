@@ -8,9 +8,9 @@
 # =============================================================================
 # Execution Order: 12 (run_onchange_after_12-*)
 # - Runs after common packages (10) and pacman packages (11)
-# - Installs Arch-specific AUR packages declared in .chezmoidata/pkg-manager/arch/{yay,yay-wsl}.yml
+# - Installs Arch-specific AUR packages declared in .chezmoidata/pm/arch/{yay,yay-wsl}.yml
 # - Requires yay to be available (installed via run_once_before_02-install-yay.sh)
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/arch/yay.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/arch/yay-wsl.yml" | sha256sum }}
+# Hash trigger: {{ include ".chezmoidata/pm/arch/yay.yml" | sha256sum }}{{ include ".chezmoidata/pm/arch/yay-wsl.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
@@ -94,17 +94,17 @@ printf "${GRAY}\nyay version: %s${RESET}\n" "$yay_version"
 # Install shared AUR packages
 {{- if .pkgs.yay }}
 printf "${YELLOW}Installing shared AUR packages...${RESET}\n"
-{{-   range .pkgs.yay }}
+{{- range .pkgs.yay }}
 install_yay_package "{{ . }}"
-{{-   end }}
+{{- end }}
 {{- end }}
 
 # Install WSL2-specific AUR packages
 {{- if .pkgs.yayWsl }}
 printf "${YELLOW}Installing WSL2-specific AUR packages...${RESET}\n"
-{{-   range .pkgs.yayWsl }}
+{{- range .pkgs.yayWsl }}
 install_yay_package "{{ . }}"
-{{-   end }}
+{{- end }}
 {{- end }}
 
 printf "${BRIGHT_WHITE}\nAUR package installation complete!${RESET}\n"

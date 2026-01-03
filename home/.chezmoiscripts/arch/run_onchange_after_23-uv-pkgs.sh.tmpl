@@ -6,9 +6,9 @@
 # Install uv Tool Packages (Linux)
 # =============================================================================
 # Execution Order: 40 (run_onchange_after_40-*)
-# - Installs uv tool packages declared in .chezmoidata/pkg-manager/uv.yml
+# - Installs uv tool packages declared in .chezmoidata/pm/uv.yml
 # - Requires mise and uv to be available
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/uv.yml" | sha256sum }}
+# Hash trigger: {{ include ".chezmoidata/pm/uv.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
@@ -86,9 +86,9 @@ install_uv_tool() {
 {{- if .pkgs.uv }}
 printf "${GRAY}\nuv version: %s${RESET}\n" "$uv_version"
 printf "${BRIGHT_WHITE}Installing uv tools...${RESET}\n"
-{{-   range .pkgs.uv }}
+{{- range .pkgs.uv }}
 install_uv_tool "{{ . }}"
-{{-   end }}
+{{- end }}
 {{- else }}
 printf "${GRAY}No uv tools declared (skipping)${RESET}\n"
 {{- end }}

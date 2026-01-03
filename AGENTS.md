@@ -1,6 +1,7 @@
 # Agent Guidelines for Chezmoi Dotfiles
 
 ## Repository Structure
+
 - This is a **chezmoi-managed dotfiles repository** for multi-platform use
 - Config files are in `home/dot_config/`, scripts in `home/.chezmoiscripts/`
 - Use `chezmoi` commands to manage files: `chezmoi add`, `chezmoi apply`, `chezmoi edit`
@@ -8,12 +9,14 @@
 - Platform-specific files are filtered via `home/.chezmoiignore`
 
 ## Supported Platforms
+
 - **Windows**: Primary platform with full configuration
 - **Linux (Arch WSL2)**: CLI tools only, uses Windows interop for SSH/GPG
 - **Linux (Arch Native)**: Planned support with desktop environment (minimal setup for now)
 - **macOS**: Configured but not actively used (see `.chezmoiignore` for exclusions)
 
 ## Commands
+
 - **Apply changes**: `chezmoi apply`
 - **Add encrypted file**: `chezmoi add --encrypt <file>`
 - **Test changes**: manually verify after `chezmoi apply` in target directory
@@ -22,19 +25,22 @@
   - Arch Linux: Auto-runs `.chezmoiscripts/run_onchange_install-packages-arch.sh.tmpl`
 
 ## Environment & Tools
+
 - **Platforms**: Windows (primary), Linux/Arch (WSL2)
 - **Shells**: Nushell (nu) is primary on all platforms, PowerShell (pwsh) on Windows only
-- **XDG directories**: 
+- **XDG directories**:
   - Windows: `XDG_CONFIG_HOME=$HOME\.config`, `XDG_DATA_HOME=$HOME\.local\share`, `XDG_CACHE_HOME=$HOME\.cache`
   - Linux: `XDG_CONFIG_HOME=~/.config`, `XDG_DATA_HOME=~/.local/share`, `XDG_CACHE_HOME=~/.cache`
 - **Available tools**: fd, sd, grep, ripgrep, ast-grep, imagemagick, yazi, lazygit, mise, bat, eza, fzf, bottom, delta
 
 ## Platform-Specific Configs
+
 - **Windows-only**: Flow Launcher, WinTerm, GlazeWM, Rime, PowerShell, setup-win scripts
 - **Cross-platform**: Nushell, Git, Starship, CLI tools (bat, eza, yazi, etc.), OpenCode
 - **Linux setup**: See `docs/arch-wsl-setup.md` for Arch Linux WSL2 initialization
 
 ## Code Style
+
 - **Shell scripts**: Use `.ps1` for PowerShell (Windows), `.sh` for bash (Linux), `.nu` for Nushell (all platforms)
 - **Line endings**: LF for `.sh` files (see `.editorconfig`)
 - **Markdown**: MD013 (line length) disabled (see `.markdownlint-cli2.yaml`)
@@ -62,6 +68,7 @@
 ```
 
 **Key rules:**
+
 - Top-level blocks: **0 spaces** (flush left)
 - Nested blocks: **+2 spaces per level** (relative to parent block)
 - `else if` and `else`: **Same indentation as opening `if`**
@@ -153,6 +160,7 @@ printf "No cargo packages declared (skipping)\n"
 ### Common Patterns to Avoid
 
 **❌ Incorrect: Mixing indentation styles**
+
 ```toml
 {{- if condition }}
 {{-   if nested }}          ← Indented (good)
@@ -164,6 +172,7 @@ printf "No cargo packages declared (skipping)\n"
 ```
 
 **✓ Correct: Consistent indentation**
+
 ```toml
 {{- if condition }}
 {{-   if nested }}          ← Level 1: 2 spaces
@@ -175,6 +184,7 @@ printf "No cargo packages declared (skipping)\n"
 ```
 
 **❌ Incorrect: Double-indenting content**
+
 ```toml
 [user]
 {{- if eq .osId "windows" }}
@@ -185,6 +195,7 @@ printf "No cargo packages declared (skipping)\n"
 ```
 
 **✓ Correct: Content ignores template nesting**
+
 ```toml
 [user]
 {{- if eq .osId "windows" }}
@@ -249,20 +260,24 @@ Scripts run in this order during `chezmoi apply`:
 ### Script Type Selection Guide
 
 **Use `run_once_*` when:**
+
 - System-level settings that rarely change (e.g., Registry variables)
 - Expensive operations that should only run once
 - Manual re-run is acceptable for updates
 
 **Use `run_onchange_*` when:**
+
 - Script depends on declarative config files (e.g., package lists in `.chezmoidata/`)
 - Should automatically respond to config changes
 - Script is idempotent (safe to re-run)
 
 **Use `*_before_*` when:**
+
 - Script doesn't depend on dotfiles being in target location
 - Must run before dotfiles are applied (e.g., decrypt keys)
 
 **Use `*_after_*` when:**
+
 - Script depends on dotfiles already existing in target location
 - Reads/uses dotfiles as source (e.g., symlinks, reading configs)
 
@@ -276,4 +291,4 @@ run_onchange_after_10-install-system-packages.sh.tmpl
 └── Linux: install-packages-arch.sh (pacman)
 ```
 
-Common package data is unified in `.chezmoidata/pkg-manager/common.yml` and merged with platform-specific package lists.
+Common package data is unified in `.chezmoidata/pm/common.yml` and merged with platform-specific package lists.

@@ -10,8 +10,8 @@
 # - Runs after common packages (10)
 # - Installs Arch-specific system packages via pacman for native Arch Linux
 # - Should run before mise tools (30) and language packages (40)
-# Source: .chezmoidata/pkg-manager/arch/{pacman,pacman-native}.yml
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/arch/pacman.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/arch/pacman-native.yml" | sha256sum }}
+# Source: .chezmoidata/pm/arch/{pacman,pacman-native}.yml
+# Hash trigger: {{ include ".chezmoidata/pm/arch/pacman.yml" | sha256sum }}{{ include ".chezmoidata/pm/arch/pacman-native.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
@@ -91,9 +91,9 @@ install_pacman_package "{{ . }}"
 # Install native-specific packages
 {{- if .pkgs.pacmanNative }}
 echo -e "\n${YELLOW}Installing native Arch-specific packages...${RESET}"
-{{-   range .pkgs.pacmanNative }}
+{{- range .pkgs.pacmanNative }}
 install_pacman_package "{{ . }}"
-{{-   end }}
+{{- end }}
 {{- end }}
 
 echo -e "\n${BRIGHT_WHITE}Package installation complete!${RESET}"

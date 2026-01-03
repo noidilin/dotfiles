@@ -10,8 +10,8 @@
 # - Installs cross-platform common packages via pacman and AUR (yay)
 # - Runs before platform-specific packages (11+)
 # - Includes GUI apps (no WSL filtering)
-# Source: .chezmoidata/pkg-manager/common.yml
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/common.yml" | sha256sum }}
+# Source: .chezmoidata/pm/common.yml
+# Hash trigger: {{ include ".chezmoidata/pm/common.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
@@ -140,19 +140,19 @@ sudo pacman -Syu --noconfirm
 # Install common packages via pacman (includes GUI apps)
 echo -e "\n${YELLOW}Installing common packages via pacman...${RESET}"
 {{- range $name, $pkg := .pkgs.common }}
-{{-   if hasKey $pkg "pacman" }}
+{{- if hasKey $pkg "pacman" }}
 install_pacman_package "{{ $pkg.pacman }}"
-{{-   end }}
+{{- end }}
 {{- end }}
 
 # Install common packages via yay/AUR (includes GUI apps)
 if command -v yay &>/dev/null; then
   echo -e "\n${YELLOW}Installing common packages via yay...${RESET}"
-{{-   range $name, $pkg := .pkgs.common }}
-{{-     if hasKey $pkg "aur" }}
+  {{- range $name, $pkg := .pkgs.common }}
+  {{- if hasKey $pkg "aur" }}
   install_yay_package "{{ $pkg.aur }}"
-{{-     end }}
-{{-   end }}
+  {{- end }}
+  {{- end }}
 else
   echo -e "${YELLOW}yay not installed, skipping AUR packages${RESET}"
 fi

@@ -6,9 +6,9 @@
 # Install cargo Global Packages (macOS)
 # =============================================================================
 # Execution Order: 40 (run_onchange_after_40-*)
-# - Installs cargo packages declared in .chezmoidata/pkg-manager/cargo.yml
+# - Installs cargo packages declared in .chezmoidata/pm/cargo.yml
 # - Requires mise and cargo to be available
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/cargo.yml" | sha256sum }}
+# Hash trigger: {{ include ".chezmoidata/pm/cargo.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
@@ -86,9 +86,9 @@ install_cargo_package() {
 {{- if .pkgs.cargo }}
 printf "${GRAY}\ncargo version: %s${RESET}\n" "$cargo_version"
 printf "${BRIGHT_WHITE}Installing cargo packages...${RESET}\n"
-{{-   range .pkgs.cargo }}
+{{- range .pkgs.cargo }}
 install_cargo_package "{{ . }}"
-{{-   end }}
+{{- end }}
 {{- else }}
 printf "${GRAY}No cargo packages declared (skipping)${RESET}\n"
 {{- end }}

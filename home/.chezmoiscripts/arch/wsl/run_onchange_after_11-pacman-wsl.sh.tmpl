@@ -10,8 +10,8 @@
 # - Runs after common packages (10)
 # - Installs Arch-specific system packages via pacman for WSL2 environment
 # - Should run before mise tools (30) and language packages (40)
-# Source: .chezmoidata/pkg-manager/arch/{pacman,pacman-wsl}.yml
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/arch/pacman.yml" | sha256sum }}{{ include ".chezmoidata/pkg-manager/arch/pacman-wsl.yml" | sha256sum }}
+# Source: .chezmoidata/pm/arch/{pacman,pacman-wsl}.yml
+# Hash trigger: {{ include ".chezmoidata/pm/arch/pacman.yml" | sha256sum }}{{ include ".chezmoidata/pm/arch/pacman-wsl.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
@@ -91,9 +91,9 @@ install_pacman_package "{{ . }}"
 # Install WSL2-specific packages
 {{- if .pkgs.pacmanWsl }}
 echo -e "\n${YELLOW}Installing WSL2-specific packages...${RESET}"
-{{-   range .pkgs.pacmanWsl }}
+{{- range .pkgs.pacmanWsl }}
 install_pacman_package "{{ . }}"
-{{-   end }}
+{{- end }}
 {{- end }}
 
 echo -e "\n${BRIGHT_WHITE}Package installation complete!${RESET}"

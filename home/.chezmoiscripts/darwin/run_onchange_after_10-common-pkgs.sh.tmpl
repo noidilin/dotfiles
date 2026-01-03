@@ -9,8 +9,8 @@
 # Execution Order: 10 (run_onchange_after_10-*)
 # - Installs cross-platform common packages via Homebrew
 # - Runs before platform-specific packages (11+)
-# Source: .chezmoidata/pkg-manager/common.yml
-# Hash trigger: {{ include ".chezmoidata/pkg-manager/common.yml" | sha256sum }}
+# Source: .chezmoidata/pm/common.yml
+# Hash trigger: {{ include ".chezmoidata/pm/common.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
@@ -90,9 +90,9 @@ function install_brew_package() {
 # Install common packages via Homebrew
 echo -e "\n${BRIGHT_WHITE}Installing common packages via Homebrew...${RESET}"
 {{- range $name, $pkg := .pkgs.common }}
-{{-   if hasKey $pkg "brew" }}
+{{- if hasKey $pkg "brew" }}
 install_brew_package "{{ $pkg.brew }}"
-{{-   end }}
+{{- end }}
 {{- end }}
 
 echo -e "\n${BRIGHT_WHITE}Common package installation complete!${RESET}"
