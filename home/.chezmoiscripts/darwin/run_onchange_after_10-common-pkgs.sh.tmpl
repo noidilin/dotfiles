@@ -31,7 +31,8 @@ echo -e "${YELLOW}Updating Homebrew...${RESET}"
 brew update
 
 # Cache for installed packages (loaded once)
-declare -a BREW_INSTALLED=()
+declare -a BREW_FORMULAE=()
+declare -a BREW_CASKS=()
 brew_cache_loaded=0
 
 load_brew_packages() {
@@ -41,25 +42,50 @@ load_brew_packages() {
 
   brew_cache_loaded=1
   local output
+
   # Get all installed formulae
   if ! output=$(brew list --formula 2>/dev/null); then
-    echo -e "${RED}WARNING: Failed to query installed packages (skipping all)${RESET}"
-    BREW_INSTALLED=()
-    return
+    echo -e "${RED}WARNING: Failed to query installed formulae${RESET}"
+    BREW_FORMULAE=()
+  else
+    while IFS= read -r pkg; do
+      if [[ -n "$pkg" ]]; then
+        BREW_FORMULAE+=("$pkg")
+      fi
+    done <<<"$output"
   fi
 
-  while IFS= read -r pkg; do
-    if [[ -n "$pkg" ]]; then
-      BREW_INSTALLED+=("$pkg")
-    fi
-  done <<<"$output"
+  # Get all installed casks
+  if ! output=$(brew list --cask 2>/dev/null); then
+    echo -e "${RED}WARNING: Failed to query installed casks${RESET}"
+    BREW_CASKS=()
+  else
+    while IFS= read -r pkg; do
+      if [[ -n "$pkg" ]]; then
+        BREW_CASKS+=("$pkg")
+      fi
+    done <<<"$output"
+  fi
 }
 
-brew_package_installed() {
+brew_formula_installed() {
   local package="$1"
   load_brew_packages
 
-  for existing in "${BREW_INSTALLED[@]:-}"; do
+  for existing in "${BREW_FORMULAE[@]:-}"; do
+    if [[ "$existing" == "$package" ]]; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+brew_cask_installed() {
+  local package="$1"
+  load_brew_packages
+
+  for existing in "${BREW_CASKS[@]:-}"; do
     if [[ "$existing" == "$package" ]]; then
       return 0
     fi
@@ -70,14 +96,44 @@ brew_package_installed() {
 
 # Function to install package if not already installed
 function install_brew_package() {
-  local package="$1"
+  local full_spec="$1"
+  local package_name=""
+  local is_cask=0
 
-  if brew_package_installed "$package"; then
-    echo -e "${GRAY}$package is already installed (skipping)${RESET}"
+  # Check if this is a cask (starts with --cask)
+  if [[ "$full_spec" == "--cask "* ]]; then
+    is_cask=1
+    # Extract package name (everything after "--cask ")
+    package_name="${full_spec#--cask }"
+    # Remove any additional flags to get just the package name for checking
+    # Format: "package" or "tap/package" or "package --flag"
+    local name_only="${package_name%% *}"
+    # Further extract just the package name from tap/package format
+    name_only="${name_only##*/}"
+
+    if brew_cask_installed "$name_only"; then
+      echo -e "${GRAY}$name_only (cask) is already installed (skipping)${RESET}"
+      return 0
+    fi
+
+    echo -e "${GREEN}Installing cask: $package_name${RESET}"
+    brew install --cask $package_name ||
+      echo -e "${RED}Failed to install cask $package_name${RESET}"
   else
-    echo -e "${GREEN}Installing: $package${RESET}"
-    brew install "$package" ||
-      echo -e "${RED}Failed to install $package${RESET}"
+    # Regular formula
+    package_name="$full_spec"
+    # Extract just the package name for checking (remove any flags)
+    local name_only="${package_name%% *}"
+    name_only="${name_only##*/}"
+
+    if brew_formula_installed "$name_only"; then
+      echo -e "${GRAY}$name_only is already installed (skipping)${RESET}"
+      return 0
+    fi
+
+    echo -e "${GREEN}Installing: $package_name${RESET}"
+    brew install $package_name ||
+      echo -e "${RED}Failed to install $package_name${RESET}"
   fi
 }
 
