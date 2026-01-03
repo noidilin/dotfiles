@@ -1,0 +1,19 @@
+# Parameter anchors for reusable timing configurations
+# Reference: https://karabiner-elements.pqrs.org/docs/json/
+
+x-parameters:
+  # Hyper key timing (Tab/Semicolon)
+  hyper-timing: &hyper-timing
+    basic.to_if_alone_timeout_milliseconds: 200
+    basic.to_if_held_down_threshold_milliseconds: 150
+  
+  # CapsLock timing
+  capslock-timing: &capslock-timing
+    basic.to_if_alone_timeout_milliseconds: 200
+  
+  # Space layer timing (variable-based modifier)
+  space-timing: &space-timing
+    basic.to_if_held_down_threshold_milliseconds: 150
+    basic.to_delayed_action_delay_milliseconds: 150
+
+rules: []

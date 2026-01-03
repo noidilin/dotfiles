@@ -1,0 +1,334 @@
+rules:
+  - description: Space Layer - Modifier Activation
+    manipulators:
+      # Space key sets variable when held
+      - description: 'space = space(tap) | layer(hold)'
+        type: basic
+        from:
+          key_code: spacebar
+          modifiers:
+            optional: [any]
+        to_if_held_down:
+          - set_variable:
+              name: space_layer
+              value: 1
+        to_delayed_action:
+          to_if_invoked:
+            - set_variable:
+                name: space_layer
+                value: 0
+          to_if_canceled:
+            - set_variable:
+                name: space_layer
+                value: 0
+        to_if_alone:
+          - key_code: spacebar
+            halt: true
+        to_after_key_up:
+          - set_variable:
+              name: space_layer
+              value: 0
+        parameters:
+          <<: *space-timing
+
+  - description: Space Layer - Numbers
+    manipulators:
+      # space + ` → 0
+      - description: 'space + ` = 0'
+        type: basic
+        from:
+          key_code: grave_accent_and_tilde
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: "0"
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + 1 → .
+      - description: 'space + 1 = .'
+        type: basic
+        from:
+          key_code: "1"
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: period
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + 2 → 6
+      - description: 'space + 2 = 6'
+        type: basic
+        from:
+          key_code: "2"
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: "6"
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + 3 → 7
+      - description: 'space + 3 = 7'
+        type: basic
+        from:
+          key_code: "3"
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: "7"
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + 4 → 8
+      - description: 'space + 4 = 8'
+        type: basic
+        from:
+          key_code: "4"
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: "8"
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + 5 → 9
+      - description: 'space + 5 = 9'
+        type: basic
+        from:
+          key_code: "5"
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: "9"
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+
+  - description: Space Layer - Symbols (top row)
+    manipulators:
+      # space + Q → -
+      - description: 'space + q = -'
+        type: basic
+        from:
+          key_code: q
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: hyphen
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + W → =
+      - description: 'space + w = ='
+        type: basic
+        from:
+          key_code: w
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: equal_sign
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + E → [
+      - description: 'space + e = ['
+        type: basic
+        from:
+          key_code: e
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: open_bracket
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + R → ]
+      - description: 'space + r = ]'
+        type: basic
+        from:
+          key_code: r
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: close_bracket
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + T → \
+      - description: 'space + t = \'
+        type: basic
+        from:
+          key_code: t
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: backslash
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+
+  - description: Space Layer - Vim Keys (home row)
+    manipulators:
+      # space + A → H
+      - description: 'space + a = h'
+        type: basic
+        from:
+          key_code: a
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: h
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + S → J
+      - description: 'space + s = j'
+        type: basic
+        from:
+          key_code: s
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: j
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + D → K
+      - description: 'space + d = k'
+        type: basic
+        from:
+          key_code: d
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: k
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + F → L
+      - description: 'space + f = l'
+        type: basic
+        from:
+          key_code: f
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: l
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + G → return
+      - description: 'space + g = return'
+        type: basic
+        from:
+          key_code: g
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: return_or_enter
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+
+  - description: Space Layer - Symbols (bottom row)
+    manipulators:
+      # space + Z → ;
+      - description: 'space + z = ;'
+        type: basic
+        from:
+          key_code: z
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: semicolon
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + X → '
+      - description: "space + x = '"
+        type: basic
+        from:
+          key_code: x
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: quote
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + C → ,
+      - description: 'space + c = ,'
+        type: basic
+        from:
+          key_code: c
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: comma
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + V → .
+      - description: 'space + v = .'
+        type: basic
+        from:
+          key_code: v
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: period
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + B → /
+      - description: 'space + b = /'
+        type: basic
+        from:
+          key_code: b
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: slash
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1

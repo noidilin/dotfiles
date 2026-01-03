@@ -1,0 +1,219 @@
+rules:
+  - description: Hyper Layer - Functionality
+    manipulators:
+      # hyper + space → delete
+      - description: 'hyper + space = delete'
+        type: basic
+        from:
+          key_code: spacebar
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: delete_or_backspace
+      
+      # hyper + G → return
+      - description: 'hyper + g = return'
+        type: basic
+        from:
+          key_code: g
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: return_or_enter
+
+  - description: Hyper Layer - Basic Navigation
+    manipulators:
+      # hyper + A → left
+      - description: 'hyper + a = left'
+        type: basic
+        from:
+          key_code: a
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: left_arrow
+      
+      # hyper + S → down
+      - description: 'hyper + s = down'
+        type: basic
+        from:
+          key_code: s
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: down_arrow
+      
+      # hyper + D → up
+      - description: 'hyper + d = up'
+        type: basic
+        from:
+          key_code: d
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: up_arrow
+      
+      # hyper + F → right
+      - description: 'hyper + f = right'
+        type: basic
+        from:
+          key_code: f
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: right_arrow
+
+  - description: Hyper Layer - Extended Navigation
+    manipulators:
+      # hyper + Q → page up
+      - description: 'hyper + q = page up'
+        type: basic
+        from:
+          key_code: q
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: page_up
+      
+      # hyper + W → page down
+      - description: 'hyper + w = page down'
+        type: basic
+        from:
+          key_code: w
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: page_down
+      
+      # hyper + E → home
+      - description: 'hyper + e = home'
+        type: basic
+        from:
+          key_code: e
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: home
+      
+      # hyper + R → end
+      - description: 'hyper + r = end'
+        type: basic
+        from:
+          key_code: r
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: end
+
+  - description: Hyper Layer - Vim Navigation
+    manipulators:
+      # hyper + H → ^ (shift+6)
+      - description: 'hyper + h = ^ (line start)'
+        type: basic
+        from:
+          key_code: h
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: "6"
+            modifiers: [left_shift]
+      
+      # hyper + J → $ (shift+4)
+      - description: 'hyper + j = $ (line end)'
+        type: basic
+        from:
+          key_code: j
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: "4"
+            modifiers: [left_shift]
+      
+      # hyper + K → { (shift+[)
+      - description: 'hyper + k = { (prev paragraph)'
+        type: basic
+        from:
+          key_code: k
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: open_bracket
+            modifiers: [left_shift]
+      
+      # hyper + L → } (shift+])
+      - description: 'hyper + l = } (next paragraph)'
+        type: basic
+        from:
+          key_code: l
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: close_bracket
+            modifiers: [left_shift]
+
+  - description: Hyper Layer - Vim Search & Motion
+    manipulators:
+      # hyper + Y → # (shift+3)
+      - description: 'hyper + y = # (prev match word)'
+        type: basic
+        from:
+          key_code: "y"
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: "3"
+            modifiers: [left_shift]
+      
+      # hyper + U → * (shift+8)
+      - description: 'hyper + u = * (next match word)'
+        type: basic
+        from:
+          key_code: u
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: "8"
+            modifiers: [left_shift]
+      
+      # hyper + I → , (comma)
+      - description: 'hyper + i = , (prev match char)'
+        type: basic
+        from:
+          key_code: i
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: comma
+      
+      # hyper + O → ; (semicolon)
+      - description: 'hyper + o = ; (next match char)'
+        type: basic
+        from:
+          key_code: o
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: semicolon
+
+  - description: Hyper Layer - Vim Jumps
+    manipulators:
+      # hyper + N → % (shift+5)
+      - description: 'hyper + n = % (match bracket)'
+        type: basic
+        from:
+          key_code: "n"
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: "5"
+            modifiers: [left_shift]
+      
+      # hyper + M → ` (grave_accent_and_tilde)
+      - description: 'hyper + m = ` (jump to mark)'
+        type: basic
+        from:
+          key_code: m
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: grave_accent_and_tilde

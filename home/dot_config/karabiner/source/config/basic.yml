@@ -1,0 +1,46 @@
+rules:
+  - description: Basic Key Modifications
+    manipulators:
+      # CapsLock: tap → Esc, hold → Ctrl
+      - description: 'capslock = esc(tap) | ctrl(hold)'
+        type: basic
+        from:
+          key_code: caps_lock
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: left_control
+        to_if_alone:
+          - key_code: escape
+        parameters:
+          <<: *capslock-timing
+      
+      # Tab: tap → Tab, hold → Hyper
+      - description: 'tab = tab(tap) | hyper(hold)'
+        type: basic
+        from:
+          key_code: tab
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: right_shift
+            modifiers: [right_command, right_control, right_option]
+        to_if_alone:
+          - key_code: tab
+        parameters:
+          <<: *hyper-timing
+      
+      # Semicolon: tap → ;, hold → Hyper
+      - description: 'semicolon = ;(tap) | hyper(hold)'
+        type: basic
+        from:
+          key_code: semicolon
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: right_shift
+            modifiers: [right_command, right_control, right_option]
+        to_if_alone:
+          - key_code: semicolon
+        parameters:
+          <<: *hyper-timing

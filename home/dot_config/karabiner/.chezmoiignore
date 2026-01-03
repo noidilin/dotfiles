@@ -1,0 +1,2 @@
+# Ignore compiled JSON - it's generated at runtime
+assets/
