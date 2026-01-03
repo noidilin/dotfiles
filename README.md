@@ -53,6 +53,10 @@ curl -fsSL https://raw.githubusercontent.com/noidilin/dotfiles/main/init/darwin.
 
 **Time:** ~5-10 minutes (includes Xcode CLT installation and manual 1Password setup)
 
+> [!TIP]
+> The host name displayed in terminal can be further set with
+> `sudo scutil --set HostName <new host name>`
+
 ---
 
 ### Arch Linux (WSL2)
