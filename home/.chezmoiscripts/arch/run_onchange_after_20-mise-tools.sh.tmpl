@@ -15,7 +15,7 @@ GREEN='\033[32m'
 YELLOW='\033[33m'
 RED='\033[31m'
 GRAY='\033[90m'
-BRIGHT_WHITE='\033[97m'
+WHITE='\033[97m'
 RESET='\033[0m'
 
 echo -e "${YELLOW}=== Installing mise tools ===${RESET}"
@@ -43,5 +43,5 @@ if ! mise install; then
   echo -e "${RED}WARNING: Some mise tools may have failed to install${RESET}"
 fi
 
-echo -e "\n${BRIGHT_WHITE}Mise tools installation complete!${RESET}"
+echo -e "\n${WHITE}Mise tools installation complete!${RESET}"
 {{- end }}

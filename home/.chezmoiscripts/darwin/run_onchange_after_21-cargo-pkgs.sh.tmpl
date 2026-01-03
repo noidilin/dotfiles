@@ -14,7 +14,7 @@ GREEN='\033[32m'
 YELLOW='\033[33m'
 RED='\033[31m'
 GRAY='\033[90m'
-BRIGHT_WHITE='\033[97m'
+WHITE='\033[97m'
 RESET='\033[0m'
 
 printf "${YELLOW}=== Installing cargo packages ===${RESET}\n"
@@ -73,7 +73,7 @@ install_cargo_package() {
     return
   fi
 
-  printf "${BRIGHT_WHITE}Installing (cargo): %s${RESET}\n" "$package"
+  printf "${WHITE}Installing (cargo): %s${RESET}\n" "$package"
   if ! mise exec -- cargo install "$package"; then
     printf "${RED}Failed to install %s (cargo)${RESET}\n" "$package"
   fi
@@ -81,7 +81,7 @@ install_cargo_package() {
 
 {{- if .pkgs.cargo }}
 printf "${GRAY}\ncargo version: %s${RESET}\n" "$cargo_version"
-printf "${BRIGHT_WHITE}Installing cargo packages...${RESET}\n"
+printf "${WHITE}Installing cargo packages...${RESET}\n"
 {{- range .pkgs.cargo }}
 install_cargo_package "{{ . }}"
 {{- end }}
@@ -89,5 +89,5 @@ install_cargo_package "{{ . }}"
 printf "${GRAY}No cargo packages declared (skipping)${RESET}\n"
 {{- end }}
 
-printf "${BRIGHT_WHITE}\ncargo package installation complete!${RESET}\n"
+printf "${WHITE}\ncargo package installation complete!${RESET}\n"
 {{- end }}

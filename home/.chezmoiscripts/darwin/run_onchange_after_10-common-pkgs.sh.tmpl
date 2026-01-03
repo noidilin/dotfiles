@@ -14,7 +14,7 @@ GREEN='\033[32m'
 YELLOW='\033[33m'
 RED='\033[31m'
 GRAY='\033[90m'
-BRIGHT_WHITE='\033[97m'
+WHITE='\033[97m'
 RESET='\033[0m'
 
 echo -e "${YELLOW}=== Installing common packages (macOS) ===${RESET}"
@@ -82,13 +82,13 @@ function install_brew_package() {
 }
 
 # Install common packages via Homebrew
-echo -e "\n${BRIGHT_WHITE}Installing common packages via Homebrew...${RESET}"
+echo -e "\n${WHITE}Installing common packages via Homebrew...${RESET}"
 {{- range $name, $pkg := .pkgs.common }}
 {{- if hasKey $pkg "brew" }}
 install_brew_package "{{ $pkg.brew }}"
 {{- end }}
 {{- end }}
 
-echo -e "\n${BRIGHT_WHITE}Common package installation complete!${RESET}"
+echo -e "\n${WHITE}Common package installation complete!${RESET}"
 
 {{- end }}

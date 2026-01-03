@@ -14,7 +14,7 @@ GREEN='\033[32m'
 YELLOW='\033[33m'
 RED='\033[31m'
 GRAY='\033[90m'
-BRIGHT_WHITE='\033[97m'
+WHITE='\033[97m'
 RESET='\033[0m'
 
 printf "${YELLOW}=== Installing platform-specific AUR packages (Arch WSL - yay) ===${RESET}\n"
@@ -101,6 +101,6 @@ install_yay_package "{{ . }}"
 {{- end }}
 {{- end }}
 
-printf "${BRIGHT_WHITE}\nAUR package installation complete!${RESET}\n"
+printf "${WHITE}\nAUR package installation complete!${RESET}\n"
 
 {{- end }}

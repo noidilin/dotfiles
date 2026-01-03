@@ -14,7 +14,7 @@ GREEN='\033[32m'
 YELLOW='\033[33m'
 RED='\033[31m'
 GRAY='\033[90m'
-BRIGHT_WHITE='\033[97m'
+WHITE='\033[97m'
 RESET='\033[0m'
 
 printf "${YELLOW}=== Installing uv tool packages ===${RESET}\n"
@@ -73,7 +73,7 @@ install_uv_tool() {
     return
   fi
 
-  printf "${BRIGHT_WHITE}Installing (uv): %s${RESET}\n" "$package"
+  printf "${WHITE}Installing (uv): %s${RESET}\n" "$package"
   if ! mise exec -- uv tool install "$package"; then
     printf "${RED}Failed to install %s (uv)${RESET}\n" "$package"
   fi
@@ -81,7 +81,7 @@ install_uv_tool() {
 
 {{- if .pkgs.uv }}
 printf "${GRAY}\nuv version: %s${RESET}\n" "$uv_version"
-printf "${BRIGHT_WHITE}Installing uv tools...${RESET}\n"
+printf "${WHITE}Installing uv tools...${RESET}\n"
 {{- range .pkgs.uv }}
 install_uv_tool "{{ . }}"
 {{- end }}
@@ -89,5 +89,5 @@ install_uv_tool "{{ . }}"
 printf "${GRAY}No uv tools declared (skipping)${RESET}\n"
 {{- end }}
 
-printf "${BRIGHT_WHITE}\nuv tool installation complete!${RESET}\n"
+printf "${WHITE}\nuv tool installation complete!${RESET}\n"
 {{- end }}

@@ -14,7 +14,7 @@ GREEN='\033[32m'
 YELLOW='\033[33m'
 RED='\033[31m'
 GRAY='\033[90m'
-BRIGHT_WHITE='\033[97m'
+WHITE='\033[97m'
 RESET='\033[0m'
 
 echo -e "${YELLOW}=== Installing platform-specific packages (macOS - Homebrew) ===${RESET}"
@@ -82,11 +82,11 @@ function install_brew_package() {
 }
 
 # Install macOS-specific packages
-echo -e "\n${BRIGHT_WHITE}Installing macOS-specific packages (Homebrew)...${RESET}"
+echo -e "\n${WHITE}Installing macOS-specific packages (Homebrew)...${RESET}"
 {{- range .pkgs.brew }}
 install_brew_package "{{ . }}"
 {{- end }}
 
-echo -e "\n${BRIGHT_WHITE}Homebrew package installation complete!${RESET}"
+echo -e "\n${WHITE}Homebrew package installation complete!${RESET}"
 
 {{- end }}
