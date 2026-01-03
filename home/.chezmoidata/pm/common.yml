@@ -209,6 +209,10 @@ pkgs:
       brew: "yazi"
       scoop: "yazi"
       pacman: "yazi"
+    yq:
+      brew: "yq"
+      scoop: "yq"
+      pacman: "yq"
 
     # =============================================================================
     # GUI Apps (Cross-Platform Daily Use)

@@ -64,4 +64,5 @@ FlexASIO.toml
 .config/fzfrc
 .config/skhdrc
 .config/yabairc
+.config/karabiner/
 {{- end }}

@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# =============================================================================
+# Karabiner Configuration Compiler
+# =============================================================================
+# Compiles karabiner.yml to JSON and installs to Karabiner-Elements
+# Triggers on changes to any source YAML file (run_onchange)
+
+set -euo pipefail
+
+{{- if eq .chezmoi.os "darwin" }}
+
+KARABINER_SOURCE_DIR="${HOME}/.config/karabiner/source"
+MAKEFILE="${KARABINER_SOURCE_DIR}/Makefile"
+
+# Check if yq is installed
+if ! command -v yq &> /dev/null; then
+  printf "[ERROR] yq is not installed. Please run: brew install yq\n" >&2
+  exit 1
+fi
+
+# Check if Makefile exists
+if [[ ! -f "${MAKEFILE}" ]]; then
+  printf "[ERROR] Makefile not found: %s\n" "${MAKEFILE}" >&2
+  exit 1
+fi
+
+printf "[Karabiner] Compiling configuration...\n"
+
+# Compile and install
+cd "${KARABINER_SOURCE_DIR}"
+make install
+
+# Hash triggers for run_onchange (changes when any YAML source changes)
+# main.yml: {{ include "dot_config/karabiner/source/main.yml" | sha256sum }}
+# parameters.yml: {{ include "dot_config/karabiner/source/config/parameters.yml" | sha256sum }}
+# basic.yml: {{ include "dot_config/karabiner/source/config/basic.yml" | sha256sum }}
+# hyper.yml: {{ include "dot_config/karabiner/source/config/hyper.yml" | sha256sum }}
+# space.yml: {{ include "dot_config/karabiner/source/config/space.yml" | sha256sum }}
+
+printf "[Karabiner] ✓ Configuration updated\n"
+
+{{- else }}
+
+printf "[Karabiner] Skipping (macOS only)\n"
+
+{{- end }}
