@@ -4,13 +4,6 @@
 {{- if eq .archEnv "native" }}
 
 # =============================================================================
-# Install Common Packages (Arch Native)
-# =============================================================================
-# Execution Order: 10 (run_onchange_after_10-*)
-# - Installs cross-platform common packages via pacman and AUR (yay)
-# - Runs before platform-specific packages (11+)
-# - Includes GUI apps (no WSL filtering)
-# Source: .chezmoidata/pm/common.yml
 # Hash trigger: {{ include ".chezmoidata/pm/common.yml" | sha256sum }}
 # =============================================================================
 

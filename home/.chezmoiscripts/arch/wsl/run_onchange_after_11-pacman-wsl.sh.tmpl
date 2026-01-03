@@ -4,14 +4,7 @@
 {{- if eq .archEnv "wsl" }}
 
 # =============================================================================
-# Install Platform-Specific Packages (Arch WSL - pacman)
-# =============================================================================
-# Execution Order: 11 (run_onchange_after_11-*)
-# - Runs after common packages (10)
-# - Installs Arch-specific system packages via pacman for WSL2 environment
-# - Should run before mise tools (30) and language packages (40)
-# Source: .chezmoidata/pm/arch/{pacman,pacman-wsl}.yml
-# Hash trigger: {{ include ".chezmoidata/pm/arch/pacman.yml" | sha256sum }}{{ include ".chezmoidata/pm/arch/pacman-wsl.yml" | sha256sum }}
+# Hash trigger: {{ include ".chezmoidata/pm/pacman.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
@@ -84,14 +77,14 @@ sudo pacman -Syu --noconfirm
 
 # Install shared Arch packages
 echo -e "\n${YELLOW}Installing shared Arch packages...${RESET}"
-{{- range .pkgs.pacman }}
+{{- range .pkgs.pacman.common }}
 install_pacman_package "{{ . }}"
 {{- end }}
 
 # Install WSL2-specific packages
-{{- if .pkgs.pacmanWsl }}
+{{- if .pkgs.pacman.wsl }}
 echo -e "\n${YELLOW}Installing WSL2-specific packages...${RESET}"
-{{- range .pkgs.pacmanWsl }}
+{{- range .pkgs.pacman.wsl }}
 install_pacman_package "{{ . }}"
 {{- end }}
 {{- end }}

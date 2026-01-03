@@ -1,4 +1,0 @@
-pkgs:
-  pacmanNative:
-    # Currently empty - add packages as needed
-    []

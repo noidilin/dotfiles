@@ -4,14 +4,7 @@
 {{- if eq .archEnv "native" }}
 
 # =============================================================================
-# Install Platform-Specific Packages (Arch Native - pacman)
-# =============================================================================
-# Execution Order: 11 (run_onchange_after_11-*)
-# - Runs after common packages (10)
-# - Installs Arch-specific system packages via pacman for native Arch Linux
-# - Should run before mise tools (30) and language packages (40)
-# Source: .chezmoidata/pm/arch/{pacman,pacman-native}.yml
-# Hash trigger: {{ include ".chezmoidata/pm/arch/pacman.yml" | sha256sum }}{{ include ".chezmoidata/pm/arch/pacman-native.yml" | sha256sum }}
+# Hash trigger: {{ include ".chezmoidata/pm/pacman.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
@@ -84,14 +77,14 @@ sudo pacman -Syu --noconfirm
 
 # Install shared Arch packages
 echo -e "\n${YELLOW}Installing shared Arch packages...${RESET}"
-{{- range .pkgs.pacman }}
+{{- range .pkgs.pacman.common }}
 install_pacman_package "{{ . }}"
 {{- end }}
 
 # Install native-specific packages
-{{- if .pkgs.pacmanNative }}
+{{- if .pkgs.pacman.native }}
 echo -e "\n${YELLOW}Installing native Arch-specific packages...${RESET}"
-{{- range .pkgs.pacmanNative }}
+{{- range .pkgs.pacman.native }}
 install_pacman_package "{{ . }}"
 {{- end }}
 {{- end }}

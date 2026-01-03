@@ -1,0 +1,13 @@
+pkgs:
+  pacman:
+    common:
+      - "sudo"
+      - "which"
+      - "pacman-contrib"
+      - "base-devel" # gcc, make, etc.
+
+      # tools
+      - "man-db"
+      - "man-pages"
+    native: [] # Currently empty - add packages as needed
+    wsl: [] # Currently empty - add packages as needed

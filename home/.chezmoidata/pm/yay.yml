@@ -1,0 +1,5 @@
+pkgs:
+  yay:
+    common: ["powershell-bin"]
+    native: []
+    wsl: []

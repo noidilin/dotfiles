@@ -4,13 +4,7 @@
 {{- if eq .archEnv "native" }}
 
 # =============================================================================
-# Install Platform-Specific AUR Packages (Arch Native - yay)
-# =============================================================================
-# Execution Order: 12 (run_onchange_after_12-*)
-# - Runs after common packages (10) and pacman packages (11)
-# - Installs Arch-specific AUR packages declared in .chezmoidata/pm/arch/{yay,yay-native}.yml
-# - Requires yay to be available (installed via run_once_before_02-install-yay.sh)
-# Hash trigger: {{ include ".chezmoidata/pm/arch/yay.yml" | sha256sum }}{{ include ".chezmoidata/pm/arch/yay-native.yml" | sha256sum }}
+# Hash trigger: {{ include ".chezmoidata/pm/yay.yml" | sha256sum }}
 # =============================================================================
 
 set -euo pipefail
@@ -92,17 +86,17 @@ install_yay_package() {
 printf "${GRAY}\nyay version: %s${RESET}\n" "$yay_version"
 
 # Install shared AUR packages
-{{- if .pkgs.yay }}
+{{- if .pkgs.yay.common }}
 printf "${YELLOW}Installing shared AUR packages...${RESET}\n"
-{{- range .pkgs.yay }}
+{{- range .pkgs.yay.common }}
 install_yay_package "{{ . }}"
 {{- end }}
 {{- end }}
 
 # Install native-specific AUR packages
-{{- if .pkgs.yayNative }}
+{{- if .pkgs.yay.native }}
 printf "${YELLOW}Installing native Arch-specific AUR packages...${RESET}\n"
-{{- range .pkgs.yayNative }}
+{{- range .pkgs.yay.native }}
 install_yay_package "{{ . }}"
 {{- end }}
 {{- end }}
