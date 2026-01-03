@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # macOS Bootstrap Script
-# Execute via: curl -fsSL https://raw.githubusercontent.com/noidilin/dotfiles/main/init/darwin.sh | bash
+# Execute via:
+#   curl -fsSL https://raw.githubusercontent.com/noidilin/dotfiles/main/init/darwin.sh > init.sh
+#   bash init.sh
 
 set -euo pipefail
 
@@ -50,7 +52,18 @@ manual_step() {
 		echo -e "$line"
 	done
 	echo ""
-	read -r -p "Press Enter when ready to continue..."
+	
+	# Ensure we're reading from the terminal, not stdin pipe
+	if [ -t 0 ]; then
+		read -r -p "Press Enter when ready to continue..."
+	else
+		# Fallback: read directly from /dev/tty if available
+		if [ -e /dev/tty ]; then
+			read -r -p "Press Enter when ready to continue..." </dev/tty
+		else
+			stop_on_error "Cannot read user input - not running in interactive terminal"
+		fi
+	fi
 }
 
 # Banner
@@ -67,6 +80,27 @@ echo -e "${GRAY}  • Run chezmoi init with dotfiles repo${RESET}"
 echo ""
 echo -e "${GRAY}Note: First run may take 5-10 minutes (Xcode CLT installation)${RESET}"
 echo ""
+
+# Enforce interactive mode
+if [ ! -t 0 ]; then
+	echo -e "${RED}═══════════════════════════════════════════════════════════${RESET}"
+	echo -e "${RED}  ERROR: This script requires interactive mode${RESET}"
+	echo -e "${RED}═══════════════════════════════════════════════════════════${RESET}"
+	echo ""
+	echo -e "${YELLOW}You ran this script via pipe (curl ... | bash), which won't work.${RESET}"
+	echo ""
+	echo -e "${WHITE}Please download and run it locally instead:${RESET}"
+	echo ""
+	echo -e "  ${GRAY}curl -fsSL https://raw.githubusercontent.com/noidilin/dotfiles/main/init/darwin.sh > init.sh${RESET}"
+	echo -e "  ${GRAY}bash init.sh${RESET}"
+	echo ""
+	echo -e "${YELLOW}Why?${RESET}"
+	echo -e "  • Homebrew needs to prompt for sudo password"
+	echo -e "  • 1Password configuration requires manual steps"
+	echo -e "  • Script needs to pause and wait for your input"
+	echo ""
+	exit 1
+fi
 
 # Prerequisites Check
 manual_step "Prerequisites Check" \
@@ -86,8 +120,8 @@ if command_exists "brew"; then
 	BREW_VERSION=$(brew --version 2>/dev/null | head -1 || echo "unknown")
 	print_success "Homebrew is already installed: $BREW_VERSION"
 else
-	# Use NONINTERACTIVE mode for automated installation
-	if ! NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; then
+	# Install Homebrew (will prompt for sudo if needed)
+	if ! /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; then
 		stop_on_error "Failed to install Homebrew" "Check internet connection and try again"
 	fi
 

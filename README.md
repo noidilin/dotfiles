@@ -40,8 +40,15 @@ irm https://raw.githubusercontent.com/noidilin/dotfiles/main/init/win.ps1 | iex
 
 ### macOS
 
+> [!CAUTION]
+> This script must be run locally (not via pipe) because:
+>
+> - Homebrew installation needs to prompt for sudo password
+> - 1Password configuration requires manual steps with user interaction
+> - Script pauses at checkpoints and waits for your input
+
 ```bash
-curl -fsSL https://raw.githubusercontent.com/noidilin/dotfiles/main/init/darwin.sh | bash
+curl -fsSL https://raw.githubusercontent.com/noidilin/dotfiles/main/init/darwin.sh > init.sh && bash init.sh
 ```
 
 **What it does:**
