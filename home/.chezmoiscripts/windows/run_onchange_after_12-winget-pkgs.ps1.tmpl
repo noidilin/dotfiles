@@ -3,7 +3,7 @@
 {{- if eq .chezmoi.os "windows" }}
 
 # =============================================================================
-# Hash trigger: {{ include ".chezmoidata/pm | update/winget.yml" | sha256sum }}
+# Hash trigger: {{ include ".chezmoidata/pm/winget.yml" | sha256sum }}
 # =============================================================================
 
 Write-Host "=== Installing platform-specific packages (Windows - WinGet) ===" -ForegroundColor Yellow
