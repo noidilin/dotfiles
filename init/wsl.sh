@@ -38,21 +38,6 @@ command_exists() {
 	command -v "$1" &>/dev/null
 }
 
-manual_step() {
-	local title="$1"
-	shift
-	echo ""
-	echo -e "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
-	echo -e "${YELLOW}  MANUAL STEP REQUIRED: $title${RESET}"
-	echo -e "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
-	echo ""
-	for line in "$@"; do
-		echo -e "$line"
-	done
-	echo ""
-	read -r -p "Press Enter when ready to continue..."
-}
-
 # Banner
 clear
 echo -e "${WHITE}═══════════════════════════════════════════════════════════${RESET}"
@@ -68,28 +53,32 @@ echo -e "${GRAY}  • Run chezmoi init with dotfiles repo${RESET}"
 echo ""
 
 # Prerequisites: 1Password Verification
-manual_step "1Password Prerequisites Check" \
-	"This script requires 1Password to be installed on Windows." \
-	"" \
-	"Please verify:" \
-	"  ${WHITE}✓ 1Password desktop app is installed on Windows${RESET}" \
-	"  ${WHITE}✓ You are signed in to your 1Password account${RESET}" \
-	"  ${WHITE}✓ SSH agent is enabled (Settings → Developer → Use the SSH agent)${RESET}" \
-	"" \
-	"We will now test 1Password CLI access via Windows interop..."
+echo ""
+echo -e "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
+echo -e "${YELLOW}  Prerequisites Check: 1Password${RESET}"
+echo -e "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
+echo ""
+echo -e "${GRAY}This script requires 1Password to be installed on Windows.${RESET}"
+echo -e "${GRAY}Expected setup (should be completed via Windows init/win.ps1):${RESET}"
+echo -e "  ${WHITE}✓ 1Password desktop app is installed on Windows${RESET}"
+echo -e "  ${WHITE}✓ You are signed in to your 1Password account${RESET}"
+echo -e "  ${WHITE}✓ SSH agent is enabled (Settings → Developer → Use the SSH agent)${RESET}"
+echo ""
+echo -e "${GRAY}Verifying 1Password CLI access via Windows interop...${RESET}"
+echo ""
 
 print_step "Verifying 1Password CLI access..."
 
 # Check if op.exe exists
 if ! command_exists "op.exe"; then
 	stop_on_error "op.exe not found" \
-		"Install 1Password on Windows first, then restart WSL"
+		"Please complete Windows setup first using init/win.ps1 to install 1Password, then restart WSL"
 fi
 
 # Test authentication
 if ! op.exe whoami &>/dev/null; then
 	stop_on_error "1Password authentication failed" \
-		"Sign in to 1Password desktop app on Windows"
+		"Please sign in to 1Password desktop app on Windows (should be configured via init/win.ps1)"
 fi
 
 OP_VERSION=$(op.exe --version 2>/dev/null || echo "unknown")

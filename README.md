@@ -68,6 +68,10 @@ curl -fsSL https://raw.githubusercontent.com/noidilin/dotfiles/main/init/darwin.
 
 ### Arch Linux (WSL2)
 
+> [!NOTE]
+> **Prerequisites:** This script assumes you've already completed Windows setup using `init/win.ps1`,
+> which installs and configures 1Password. WSL2 accesses 1Password via Windows interop.
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/noidilin/dotfiles/main/init/wsl.sh | bash
 ```
