@@ -52,7 +52,7 @@ manual_step() {
 		echo -e "$line"
 	done
 	echo ""
-	
+
 	# Ensure we're reading from the terminal, not stdin pipe
 	if [ -t 0 ]; then
 		read -r -p "Press Enter when ready to continue..."
@@ -210,7 +210,8 @@ manual_step "1Password Configuration" \
 print_step "Verifying 1Password CLI access..."
 
 # Test authentication
-if ! op whoami &>/dev/null; then
+
+if ! op signin && op whoami &>/dev/null; then
 	stop_on_error "1Password authentication failed" \
 		"Sign in to 1Password desktop app and ensure SSH agent is enabled"
 fi
