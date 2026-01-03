@@ -4,13 +4,6 @@
 {{- if eq .chezmoi.os "darwin" }}
 
 # =============================================================================
-# Install Platform-Specific Packages (macOS - Homebrew)
-# =============================================================================
-# Execution Order: 11 (run_onchange_after_11-*)
-# - Runs after common packages (10)
-# - Installs macOS-specific packages via Homebrew
-# - Should run before mise tools (30)
-# Source: .chezmoidata/pm/brew.yml
 # Hash trigger: {{ include ".chezmoidata/pm/brew.yml" | sha256sum }}
 # =============================================================================
 

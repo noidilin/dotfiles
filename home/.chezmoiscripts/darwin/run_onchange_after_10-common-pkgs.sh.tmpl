@@ -4,12 +4,6 @@
 {{- if eq .chezmoi.os "darwin" }}
 
 # =============================================================================
-# Install Common Packages (macOS)
-# =============================================================================
-# Execution Order: 10 (run_onchange_after_10-*)
-# - Installs cross-platform common packages via Homebrew
-# - Runs before platform-specific packages (11+)
-# Source: .chezmoidata/pm/common.yml
 # Hash trigger: {{ include ".chezmoidata/pm/common.yml" | sha256sum }}
 # =============================================================================
 

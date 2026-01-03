@@ -1,13 +1,8 @@
 # vim: ft=powershell
 
 {{- if eq .chezmoi.os "windows" }}
+
 # =============================================================================
-# Install Common Packages (Windows)
-# =============================================================================
-# Execution Order: 10 (run_onchange_after_10-*)
-# - Installs cross-platform common packages via Scoop and WinGet
-# - Runs before platform-specific packages (11+)
-# Source: .chezmoidata/pm/common.yml
 # Hash trigger: {{ include ".chezmoidata/pm/common.yml" | sha256sum }}
 # =============================================================================
 

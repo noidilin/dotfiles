@@ -1,13 +1,6 @@
 # vim: ft=powershell
 
 {{ if eq .chezmoi.os "windows" }}
-# =============================================================================
-# Decrypt Age Private Key (Windows Only)
-# =============================================================================
-# Execution Order: FIRST (run_once_before_*)
-# - Runs once before any other scripts
-# - Required for decrypting encrypted files in the repository
-# =============================================================================
 
 $KeyPath = Join-Path -Path $HOME -ChildPath ".config/.age-key.txt"
 $SourceFile = Join-Path -Path "{{ .chezmoi.sourceDir }}" -ChildPath "age-key.txt.age"

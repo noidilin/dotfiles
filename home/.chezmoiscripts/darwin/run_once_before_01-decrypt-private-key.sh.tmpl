@@ -2,13 +2,6 @@
 # vim: ft=bash
 
 {{- if eq .chezmoi.os "darwin" }}
-# =============================================================================
-# Decrypt Age Private Key (macOS Only)
-# =============================================================================
-# Execution Order: 01 (run_once_before_01-*)
-# - Runs once before any other scripts
-# - Required for decrypting encrypted files in the repository
-# =============================================================================
 
 set -euo pipefail
 

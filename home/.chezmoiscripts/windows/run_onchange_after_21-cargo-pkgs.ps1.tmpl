@@ -1,12 +1,8 @@
 # vim: ft=powershell
 
 {{- if eq .chezmoi.os "windows" }}
+
 # =============================================================================
-# Install cargo Global Packages (Windows)
-# =============================================================================
-# Execution Order: 40 (run_onchange_after_40-*)
-# - Installs cargo packages declared in .chezmoidata/pm/cargo.yml
-# - Requires mise and cargo (Rust) to be available
 # Hash trigger: {{ include ".chezmoidata/pm/cargo.yml" | sha256sum }}
 # =============================================================================
 

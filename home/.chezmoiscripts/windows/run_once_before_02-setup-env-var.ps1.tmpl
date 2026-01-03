@@ -1,15 +1,6 @@
 # vim: ft=powershell
 
 {{- if eq .chezmoi.os "windows" }}
-# =============================================================================
-# Setup Environment Variables (Windows Only)
-# =============================================================================
-# Execution Order: 02 (run_once_before_02-*)
-# - Runs once before dotfiles are applied
-# - Sets up XDG Base Directory environment variables in Windows Registry
-# - Makes env vars available during dotfile application and for all subsequent scripts
-# Source: .chezmoidata/env/windows.yml
-# =============================================================================
 
 Write-Host "=== Setting up environment variables ===" -ForegroundColor Yellow
 

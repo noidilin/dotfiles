@@ -6,15 +6,6 @@
 # =============================================================================
 # Install mise via Official Installer (Arch Linux - Both WSL2 and Native)
 # =============================================================================
-# Execution Order: 03 (run_once_before_03-*)
-# - Runs once during initial setup or after manual deletion
-# - Installs mise to ~/.local/bin/mise using official installer
-# - Replaces package-manager version for faster updates
-# - mise activation handles PATH automatically (no manual PATH config needed)
-#
-# Update mise: mise self-update
-# Reinstall: rm ~/.local/bin/mise && chezmoi apply
-# =============================================================================
 
 set -euo pipefail
 

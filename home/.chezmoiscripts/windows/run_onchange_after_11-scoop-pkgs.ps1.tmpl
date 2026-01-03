@@ -1,14 +1,8 @@
 # vim: ft=powershell
 
 {{- if eq .chezmoi.os "windows" }}
+
 # =============================================================================
-# Install Platform-Specific Packages (Windows - Scoop)
-# =============================================================================
-# Execution Order: 11 (run_onchange_after_11-*)
-# - Runs after common packages (10)
-# - Installs Windows-specific packages via Scoop
-# - Should run before WinGet (12) to ensure dependencies are met
-# Source: .chezmoidata/pm/scoop.yml
 # Hash trigger: {{ include ".chezmoidata/pm/scoop.yml" | sha256sum }}
 # =============================================================================
 

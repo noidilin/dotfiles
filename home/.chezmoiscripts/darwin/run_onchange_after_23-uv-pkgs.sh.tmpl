@@ -2,12 +2,8 @@
 # vim: ft=bash
 
 {{- if eq .chezmoi.os "darwin" }}
+
 # =============================================================================
-# Install uv Tool Packages (macOS)
-# =============================================================================
-# Execution Order: 40 (run_onchange_after_40-*)
-# - Installs uv tool packages declared in .chezmoidata/pm/uv.yml
-# - Requires mise and uv to be available
 # Hash trigger: {{ include ".chezmoidata/pm/uv.yml" | sha256sum }}
 # =============================================================================
 
