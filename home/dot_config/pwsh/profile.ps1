@@ -26,6 +26,7 @@ $env:PATH += ";$HOME\.dev\bun\bin"
 $env:EZA_CONFIG_DIR = "$HOME\.config\eza"
 $env:BAT_CONFIG_DIR = "$HOME\.config\bat"
 $env:YAZI_CONFIG_HOME = "$HOME\.config\yazi"
+$env:YAZI_FILE_ONE = "$HOME\scoop\apps\git\current\usr\bin\file.exe"
 
 # key
 $env:ANTHROPIC_API_KEY = Get-Content -Path "$HOME\.config\api\ANTHROPIC_API_KEY"

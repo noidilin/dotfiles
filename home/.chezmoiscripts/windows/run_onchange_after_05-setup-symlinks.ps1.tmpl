@@ -3,7 +3,7 @@
 {{- if eq .chezmoi.os "windows" }}
 
 # =============================================================================
-# Hash trigger: {{ include ".chezmoidata/env/windows.yml" | sha256sum }}
+# Hash trigger: {{ include ".chezmoidata/symlinks/windows.yml" | sha256sum }}
 # =============================================================================
 
 Write-Host "=== Setting up symbolic links (Windows) ===" -ForegroundColor Yellow

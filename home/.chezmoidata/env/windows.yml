@@ -8,30 +8,4 @@ env:
     XDG_CACHE_HOME: "$HOME\\.cache"
     XDG_STATE_HOME: "$HOME\\.local\\state"
     XDG_BIN_HOME: "$HOME\\.local\\bin"
-    YAZI_FILE_ONE: "$HOME\\scoop\\apps\\git\\current\\usr\\bin\\file.exe"
     BLENDER_USER_RESOURCES: "$HOME\\.local\\etc\\blender"
-
-# -----------------------------------------------------------------------------
-# Symbolic Links
-# -----------------------------------------------------------------------------
-# Format: { target: "destination", source: "config_file" }
-symlinks:
-  windows:
-    - target: "$PROFILE.CurrentUserAllHosts"
-      source: "$HOME\\.config\\pwsh\\profile.ps1"
-    - target: "$env:APPDATA\\bottom"
-      source: "$HOME\\.config\\bottom"
-    - target: "$env:APPDATA\\Rime"
-      source: "$HOME\\.config\\rime"
-    - target: "$env:APPDATA\\vivid"
-      source: "$HOME\\.config\\vivid"
-    - target: "$env:APPDATA\\tealdeer\\tealdeer"
-      source: "$HOME\\.config\\tealdeer"
-    - target: "$env:LOCALAPPDATA\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json"
-      source: "$HOME\\.config\\winterm\\settings.json"
-    - target: "$HOME\\scoop\\persist\\bat"
-      source: "$HOME\\.config\\bat"
-    - target: "$env:LOCALAPPDATA\\nvim"
-      source: "$HOME\\.config\\nvim"
-    - target: "$env:LOCALAPPDATA\\1Password\\config\\ssh\\agent.toml"
-      source: "$HOME\\.config\\1Password\\ssh\\agent.toml"
