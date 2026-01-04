@@ -204,24 +204,51 @@ try
 
 # Step 7: Install 1Password
 Write-Step "Installing 1Password apps..."
+
+# Install/upgrade 1Password desktop app
 try
 {
-  winget install --id AgileBits.1Password --silent --accept-source-agreements --accept-package-agreements
-  if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE)
+  $desktopInstalled = winget list --id AgileBits.1Password --accept-source-agreements 2>$null | Select-String "AgileBits.1Password"
+  if ($desktopInstalled)
   {
-    Stop-OnError "Failed to install 1Password desktop app" "WinGet may not be available"
-  }
-  Write-Success "1Password desktop app installed"
-    
-  winget install --id AgileBits.1Password.CLI --silent --accept-source-agreements --accept-package-agreements
-  if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE)
+    Write-Success "1Password desktop app is already installed"
+  } else
   {
-    Stop-OnError "Failed to install 1Password CLI" "WinGet installation failed"
+    winget install --id AgileBits.1Password --silent --accept-source-agreements --accept-package-agreements
+    if ($LASTEXITCODE -eq 0 -or $LASTEXITCODE -eq -1978335189)
+    {
+      Write-Success "1Password desktop app installed"
+    } else
+    {
+      Stop-OnError "Failed to install 1Password desktop app" "WinGet exited with code $LASTEXITCODE"
+    }
   }
-  Write-Success "1Password CLI installed"
 } catch
 {
-  Stop-OnError "Failed to install 1Password apps" "Error: $_"
+  Stop-OnError "Failed to install 1Password desktop app" "Error: $_"
+}
+
+# Install/upgrade 1Password CLI
+try
+{
+  $cliInstalled = winget list --id AgileBits.1Password.CLI --accept-source-agreements 2>$null | Select-String "AgileBits.1Password.CLI"
+  if ($cliInstalled)
+  {
+    Write-Success "1Password CLI is already installed"
+  } else
+  {
+    winget install --id AgileBits.1Password.CLI --silent --accept-source-agreements --accept-package-agreements
+    if ($LASTEXITCODE -eq 0 -or $LASTEXITCODE -eq -1978335189)
+    {
+      Write-Success "1Password CLI installed"
+    } else
+    {
+      Stop-OnError "Failed to install 1Password CLI" "WinGet exited with code $LASTEXITCODE"
+    }
+  }
+} catch
+{
+  Stop-OnError "Failed to install 1Password CLI" "Error: $_"
 }
 
 # Step 8: Manual 1Password Configuration
