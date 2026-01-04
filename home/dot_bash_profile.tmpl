@@ -1,0 +1,11 @@
+{{- if eq .osId "linux-arch" -}}
+# vim: ft=bash
+# XDG Base Directory Specification
+# Managed by chezmoi
+{{- range $key, $value := .env.arch }}
+export {{ $key }}="{{ $value }}"
+{{- end }}
+
+# Source .bashrc if it exists
+[ -f "${HOME}/.bashrc" ] && source "${HOME}/.bashrc"
+{{- end -}}

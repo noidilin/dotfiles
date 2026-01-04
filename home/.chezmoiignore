@@ -57,6 +57,7 @@ FlexASIO.toml
 {{- end }}
 
 {{- if ne .chezmoi.os "darwin" }}
+.zshenv
 .zshrc
 .config/zsh/*
 .config/raycast/*
@@ -65,4 +66,8 @@ FlexASIO.toml
 .config/skhdrc
 .config/yabairc
 .config/karabiner/
+{{- end }}
+
+{{- if ne .osId "linux-arch" }}
+.bash_profile
 {{- end }}
