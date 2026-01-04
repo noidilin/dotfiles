@@ -164,10 +164,9 @@ echo -e "${GRAY}  Loading XDG directories, dev paths, and mise integration${RESE
 echo ""
 
 if ! nu -c "
-let chezmoi_src = (chezmoi source-path)
-source (\$chezmoi_src | path join 'home' 'dot_config' 'nushell' 'env' 'xdg.nu')
-source (\$chezmoi_src | path join 'home' 'dot_config' 'nushell' 'env' 'dev.nu')
-source (\$chezmoi_src | path join 'home' 'dot_config' 'nushell' 'autoload' 'tools' 'mise.nu')
+source ('$CHEZMOI_SRC' | path join 'dot_config' 'nushell' 'env' 'xdg.nu')
+source ('$CHEZMOI_SRC' | path join 'dot_config' 'nushell' 'env' 'dev.nu')
+source ('$CHEZMOI_SRC' | path join 'dot_config' 'nushell' 'autoload' 'tools' 'mise.nu')
 
 chezmoi apply
 "; then
