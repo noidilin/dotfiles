@@ -7,7 +7,7 @@
 function Write-Step
 {
   param([string]$Message)
-  Write-Host "`n▶ $Message" -ForegroundColor Yellow
+  Write-Host "`n▶ $Message" -ForegroundColor White
 }
 
 function Write-Success
@@ -327,9 +327,9 @@ chezmoi apply
 }
 
 # Final Summary
-Write-Host "`n═══════════════════════════════════════════════════════════" -ForegroundColor Gray
-Write-Host "  Bootstrap Complete!" -ForegroundColor Gray
-Write-Host "═══════════════════════════════════════════════════════════" -ForegroundColor Gray
+Write-Host "`n═══════════════════════════════════════════════════════════" -ForegroundColor White
+Write-Host "  Bootstrap Complete!" -ForegroundColor White
+Write-Host "═══════════════════════════════════════════════════════════" -ForegroundColor White
 Write-Host ""
 Write-Host "Your dotfiles have been applied successfully." -ForegroundColor White
 Write-Host ""
@@ -344,7 +344,7 @@ Write-Host "  ✓ Symlink privileges granted" -ForegroundColor DarkGray
 Write-Host "  ✓ Dotfiles applied via nushell with proper environment" -ForegroundColor DarkGray
 Write-Host ""
 Write-Host "Next steps:"
-Write-Host "  • Restart PowerShell to load new configurations" -ForegroundColor White
-Write-Host "  • Chezmoi will automatically run remaining setup scripts" -ForegroundColor White
-Write-Host "  • Check ~/.config for your configurations" -ForegroundColor White
+Write-Host "  • Restart PowerShell to load new configurations" -ForegroundColor DarkGray
+Write-Host "  • Chezmoi will automatically run remaining setup scripts" -ForegroundColor DarkGray
+Write-Host "  • Check ~/.config for your configurations" -ForegroundColor DarkGray
 Write-Host ""
