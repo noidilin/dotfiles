@@ -21,4 +21,5 @@ $env.PATH = ($env.PATH
   | prepend $env.BUN_INSTALL_BIN
   | prepend $env.PNPM_HOME
   | prepend ($nu.home-path | path join '.local' 'bin')
+  | uniq
 )

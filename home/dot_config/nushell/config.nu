@@ -1,13 +1,15 @@
 const CONFIG_DIR = ($nu.default-config-dir | path join 'config')
 const ENV_DIR = ($nu.default-config-dir | path join 'env')
 
+use $CONFIG_DIR [ 'completions' 'theme' 'menus' 'keybindings' 'os' ]
+
+load-env (os init-os-env)
 source ($ENV_DIR | path join 'xdg.nu')
 source ($ENV_DIR | path join 'dev.nu')
 source ($ENV_DIR | path join 'shell.nu')
 source ($ENV_DIR | path join 'fzf.nu')
 source ($ENV_DIR | path join 'key.nu')
 
-use $CONFIG_DIR [ 'completions' 'theme' 'menus' 'keybindings' ]
 $env.config = {
   buffer_editor: nvim
   show_banner: false
