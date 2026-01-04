@@ -4,52 +4,60 @@
 #Requires -Version 5.1
 
 # Helper Functions
-function Write-Step {
-    param([string]$Message)
-    Write-Host "`n▶ $Message" -ForegroundColor Yellow
+function Write-Step
+{
+  param([string]$Message)
+  Write-Host "`n▶ $Message" -ForegroundColor Yellow
 }
 
-function Write-Success {
-    param([string]$Message)
-    Write-Host "  ✓ $Message" -ForegroundColor DarkGray
+function Write-Success
+{
+  param([string]$Message)
+  Write-Host "  ✓ $Message" -ForegroundColor DarkGray
 }
 
-function Write-ErrorMsg {
-    param([string]$Message)
-    Write-Host "  ✗ $Message" -ForegroundColor Red
+function Write-ErrorMsg
+{
+  param([string]$Message)
+  Write-Host "  ✗ $Message" -ForegroundColor Red
 }
 
-function Stop-OnError {
-    param(
-        [string]$Message,
-        [string]$Hint = ""
-    )
-    Write-ErrorMsg $Message
-    if ($Hint) {
-        Write-Host "  Hint: $Hint" -ForegroundColor Yellow
-    }
-    exit 1
+function Stop-OnError
+{
+  param(
+    [string]$Message,
+    [string]$Hint = ""
+  )
+  Write-ErrorMsg $Message
+  if ($Hint)
+  {
+    Write-Host "  Hint: $Hint" -ForegroundColor Yellow
+  }
+  exit 1
 }
 
-function Test-CommandExists {
-    param([string]$Command)
-    $null -ne (Get-Command $Command -ErrorAction SilentlyContinue)
+function Test-CommandExists
+{
+  param([string]$Command)
+  $null -ne (Get-Command $Command -ErrorAction SilentlyContinue)
 }
 
-function Write-ManualStep {
-    param(
-        [string]$Title,
-        [string[]]$Instructions
-    )
-    Write-Host "`n═══════════════════════════════════════════════════════════" -ForegroundColor Yellow
-    Write-Host "  MANUAL STEP REQUIRED: $Title" -ForegroundColor Yellow
-    Write-Host "═══════════════════════════════════════════════════════════" -ForegroundColor Yellow
-    Write-Host ""
-    foreach ($Instruction in $Instructions) {
-        Write-Host $Instruction
-    }
-    Write-Host ""
-    Read-Host "Press Enter when ready to continue"
+function Write-ManualStep
+{
+  param(
+    [string]$Title,
+    [string[]]$Instructions
+  )
+  Write-Host "`n═══════════════════════════════════════════════════════════" -ForegroundColor Yellow
+  Write-Host "  MANUAL STEP REQUIRED: $Title" -ForegroundColor Yellow
+  Write-Host "═══════════════════════════════════════════════════════════" -ForegroundColor Yellow
+  Write-Host ""
+  foreach ($Instruction in $Instructions)
+  {
+    Write-Host $Instruction
+  }
+  Write-Host ""
+  Read-Host "Press Enter when ready to continue"
 }
 
 # Banner
@@ -62,7 +70,7 @@ Write-Host "This script will automate the following:" -ForegroundColor DarkGray
 Write-Host "  • Set execution policy" -ForegroundColor DarkGray
 Write-Host "  • Install Scoop package manager" -ForegroundColor DarkGray
 Write-Host "  • Add Scoop buckets (extras, nerd-fonts, wezterm-alt-icon)" -ForegroundColor DarkGray
-Write-Host "  • Install bootstrap tools (chezmoi, age, openssh, vivid, gsudo)" -ForegroundColor DarkGray
+Write-Host "  • Install bootstrap tools (chezmoi, age, gsudo)" -ForegroundColor DarkGray
 Write-Host "  • Enable Developer Mode (via registry)" -ForegroundColor DarkGray
 Write-Host "  • Install 1Password apps" -ForegroundColor DarkGray
 Write-Host "  • Run chezmoi init with dotfiles repo" -ForegroundColor DarkGray
@@ -70,176 +78,232 @@ Write-Host ""
 
 # Prerequisites Reminder
 Write-ManualStep "Prerequisites Check" @(
-    "Before continuing, please ensure you have:",
-    "",
-    "  ✓ Windows 10/11 with PowerShell 5.1+",
-    "  ✓ Internet access and GitHub connectivity",
-    "  ✓ Age passphrase ready (for decrypting chezmoi encrypted files)",
-    "",
-    "Note: Some steps will require manual configuration:",
-    "  • 1Password sign-in and SSH agent setup",
-    "  • Symlink privileges via secpol.msc"
+  "Before continuing, please ensure you have:",
+  "",
+  "  ✓ Windows 10/11 with PowerShell 5.1+",
+  "  ✓ Internet access and GitHub connectivity",
+  "  ✓ Age passphrase ready (for decrypting chezmoi encrypted files)",
+  "",
+  "Note: Some steps will require manual configuration:",
+  "  • 1Password sign-in and SSH agent setup",
+  "  • Symlink privileges via secpol.msc"
 )
 
 # Step 1: Set Execution Policy
 Write-Step "Setting execution policy to RemoteSigned..."
-try {
-    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force -ErrorAction Stop
-    Write-Success "Execution policy set to RemoteSigned"
-} catch {
-    Stop-OnError "Failed to set execution policy" "You may need to run PowerShell as administrator"
+try
+{
+  Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force -ErrorAction Stop
+  Write-Success "Execution policy set to RemoteSigned"
+} catch
+{
+  Stop-OnError "Failed to set execution policy" "You may need to run PowerShell as administrator"
 }
 
 # Step 2: Install Scoop
 Write-Step "Installing Scoop package manager..."
-if (Test-CommandExists "scoop") {
-    Write-Success "Scoop is already installed"
-} else {
-    try {
-        Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
-        if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE) {
-            Stop-OnError "Failed to install Scoop" "Check internet connection and try again"
-        }
-        Write-Success "Scoop installed successfully"
-    } catch {
-        Stop-OnError "Failed to install Scoop" "Error: $_"
+if (Test-CommandExists "scoop")
+{
+  Write-Success "Scoop is already installed"
+} else
+{
+  try
+  {
+    Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+    if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE)
+    {
+      Stop-OnError "Failed to install Scoop" "Check internet connection and try again"
     }
+    Write-Success "Scoop installed successfully"
+  } catch
+  {
+    Stop-OnError "Failed to install Scoop" "Error: $_"
+  }
 }
 
 # Step 3: Install Git
 Write-Step "Installing Git via Scoop..."
-try {
-    scoop install git
-    if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE) {
-        Stop-OnError "Failed to install Git" "Scoop installation may be incomplete"
-    }
-    Write-Success "Git installed successfully"
-} catch {
-    Stop-OnError "Failed to install Git" "Error: $_"
+try
+{
+  scoop install git
+  if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE)
+  {
+    Stop-OnError "Failed to install Git" "Scoop installation may be incomplete"
+  }
+  Write-Success "Git installed successfully"
+} catch
+{
+  Stop-OnError "Failed to install Git" "Error: $_"
 }
 
 # Step 4: Add Scoop Buckets
 Write-Step "Adding Scoop buckets..."
 
 $buckets = @(
-    @{Name = "extras"; Url = $null},
-    @{Name = "nerd-fonts"; Url = $null},
-    @{Name = "wezterm-alt-icon"; Url = "https://github.com/ocodo/wezterm-alt-windows-icon-builds.git"}
+  @{Name = "extras"; Url = $null},
+  @{Name = "nerd-fonts"; Url = $null},
+  @{Name = "wezterm-alt-icon"; Url = "https://github.com/ocodo/wezterm-alt-windows-icon-builds.git"}
 )
 
-foreach ($bucket in $buckets) {
-    try {
-        if ($bucket.Url) {
-            scoop bucket add $bucket.Name $bucket.Url
-        } else {
-            scoop bucket add $bucket.Name
-        }
-        Write-Success "Bucket '$($bucket.Name)' added"
-    } catch {
-        # Scoop handles duplicate buckets gracefully, so we can continue
-        Write-Success "Bucket '$($bucket.Name)' processed"
+foreach ($bucket in $buckets)
+{
+  try
+  {
+    if ($bucket.Url)
+    {
+      scoop bucket add $bucket.Name $bucket.Url
+    } else
+    {
+      scoop bucket add $bucket.Name
     }
+    Write-Success "Bucket '$($bucket.Name)' added"
+  } catch
+  {
+    # Scoop handles duplicate buckets gracefully, so we can continue
+    Write-Success "Bucket '$($bucket.Name)' processed"
+  }
 }
 
 # Step 5: Install Bootstrap Tools
 Write-Step "Installing bootstrap tools..."
-$tools = @("chezmoi", "age", "openssh", "vivid", "gsudo")
+$tools = @("nu", "chezmoi", "age", "gsudo")
 
-foreach ($tool in $tools) {
-    try {
-        scoop install $tool
-        if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE) {
-            Stop-OnError "Failed to install $tool" "Check Scoop installation"
-        }
-        Write-Success "$tool installed successfully"
-    } catch {
-        Stop-OnError "Failed to install $tool" "Error: $_"
+foreach ($tool in $tools)
+{
+  try
+  {
+    scoop install $tool
+    if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE)
+    {
+      Stop-OnError "Failed to install $tool" "Check Scoop installation"
     }
+    Write-Success "$tool installed successfully"
+  } catch
+  {
+    Stop-OnError "Failed to install $tool" "Error: $_"
+  }
 }
 
 # Step 6: Enable Developer Mode
 Write-Step "Enabling Developer Mode via registry..."
-try {
-    gsudo {
-        reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" /t REG_DWORD /f /v "AllowAllTrustedApps" /d "1" | Out-Null
-        reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" /t REG_DWORD /f /v "AllowDevelopmentWithoutDevLicense" /d "1" | Out-Null
-    }
-    if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE) {
-        Stop-OnError "Failed to enable Developer Mode" "Registry modification failed"
-    }
-    Write-Success "Developer Mode enabled successfully"
-} catch {
-    Stop-OnError "Failed to enable Developer Mode" "Error: $_"
+try
+{
+  gsudo {
+    reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" /t REG_DWORD /f /v "AllowAllTrustedApps" /d "1" | Out-Null
+    reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" /t REG_DWORD /f /v "AllowDevelopmentWithoutDevLicense" /d "1" | Out-Null
+  }
+  if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE)
+  {
+    Stop-OnError "Failed to enable Developer Mode" "Registry modification failed"
+  }
+  Write-Success "Developer Mode enabled successfully"
+} catch
+{
+  Stop-OnError "Failed to enable Developer Mode" "Error: $_"
 }
 
 # Step 7: Install 1Password
 Write-Step "Installing 1Password apps..."
-try {
-    winget install --id AgileBits.1Password --silent --accept-source-agreements --accept-package-agreements
-    if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE) {
-        Stop-OnError "Failed to install 1Password desktop app" "WinGet may not be available"
-    }
-    Write-Success "1Password desktop app installed"
+try
+{
+  winget install --id AgileBits.1Password --silent --accept-source-agreements --accept-package-agreements
+  if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE)
+  {
+    Stop-OnError "Failed to install 1Password desktop app" "WinGet may not be available"
+  }
+  Write-Success "1Password desktop app installed"
     
-    winget install --id AgileBits.1Password.CLI --silent --accept-source-agreements --accept-package-agreements
-    if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE) {
-        Stop-OnError "Failed to install 1Password CLI" "WinGet installation failed"
-    }
-    Write-Success "1Password CLI installed"
-} catch {
-    Stop-OnError "Failed to install 1Password apps" "Error: $_"
+  winget install --id AgileBits.1Password.CLI --silent --accept-source-agreements --accept-package-agreements
+  if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE)
+  {
+    Stop-OnError "Failed to install 1Password CLI" "WinGet installation failed"
+  }
+  Write-Success "1Password CLI installed"
+} catch
+{
+  Stop-OnError "Failed to install 1Password apps" "Error: $_"
 }
 
 # Step 8: Manual 1Password Configuration
 Write-ManualStep "1Password Configuration" @(
-    "1Password apps have been installed.",
-    "Please complete these steps before continuing:",
-    "",
-    "  1. Launch 1Password desktop app",
-    "  2. Sign in to your account",
-    "  3. Go to Settings → Developer",
-    "  4. Check 'Use the SSH agent'",
-    "  5. Verify github-win key exists by running:",
-    "     op item get `"github-win`" --fields `"public key`"",
-    ""
+  "1Password apps have been installed.",
+  "Please complete these steps before continuing:",
+  "",
+  "  1. Launch 1Password desktop app",
+  "  2. Sign in to your account",
+  "  3. Go to Settings → Developer",
+  "  4. Check 'Use the SSH agent'",
+  "  5. Verify github-win key exists by running:",
+  "     op item get `"github-win`" --fields `"public key`"",
+  ""
 )
 
 # Step 9: Manual Symlink Privileges Configuration
 Write-ManualStep "Symlink Privileges" @(
-    "Developer Mode has been enabled via registry.",
-    "Now you must grant symlink privileges:",
-    "",
-    "  1. Press Win+R and run: secpol.msc",
-    "  2. Navigate to: Local Policies → User Rights Assignment → Create symbolic links",
-    "  3. Click 'Add User or Group' → 'Object Types...'",
-    "  4. Check 'Groups' option",
-    "  5. Type 'Users', then press 'Check Names'",
-    "  6. Click OK → Apply → OK",
-    "  7. Sign out and sign back in (or reboot)",
-    "",
-    "After signing back in, verify with:",
-    "  whoami /priv | Select-String CreateSymbolic",
-    ""
+  "Developer Mode has been enabled via registry.",
+  "Now you must grant symlink privileges:",
+  "",
+  "  1. Press Win+R and run: secpol.msc",
+  "  2. Navigate to: Local Policies → User Rights Assignment → Create symbolic links",
+  "  3. Click 'Add User or Group' → 'Object Types...'",
+  "  4. Check 'Groups' option",
+  "  5. Type 'Users', then press 'Check Names'",
+  "  6. Click OK → Apply → OK",
+  "  7. Sign out and sign back in (or reboot)",
+  "",
+  "After signing back in, verify with:",
+  "  whoami /priv | Select-String CreateSymbolic",
+  ""
 )
 
-# Step 10: Run Chezmoi Init
-Write-Step "Running chezmoi init..."
+# Step 10: Initialize Chezmoi Repository
+Write-Step "Initializing chezmoi repository..."
 Write-Host "  Using HTTPS URL for initial clone (SSH will work after dotfiles are applied)" -ForegroundColor DarkGray
 Write-Host ""
-try {
-    chezmoi init --apply https://github.com/noidilin/dotfiles.git
-    if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE) {
-        Stop-OnError "Chezmoi init failed" "Check your age passphrase and try again"
-    }
-    Write-Success "Chezmoi init completed successfully"
-} catch {
-    Stop-OnError "Chezmoi init failed" "Error: $_"
+try
+{
+  chezmoi init https://github.com/noidilin/dotfiles.git
+  if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE)
+  {
+    Stop-OnError "Chezmoi init failed" "Check internet connection"
+  }
+  
+  $chezmoiSrc = chezmoi source-path
+  Write-Success "Repository cloned to $chezmoiSrc"
+} catch
+{
+  Stop-OnError "Chezmoi init failed" "Error: $_"
+}
+
+# Step 11: Apply Dotfiles via Nushell
+Write-Step "Applying dotfiles with nushell environment..."
+Write-Host "  Loading XDG directories, dev paths, and mise integration" -ForegroundColor DarkGray
+Write-Host ""
+
+try
+{
+  nu -c @"
+let chezmoi_src = (chezmoi source-path)
+source (`$chezmoi_src | path join 'home' 'dot_config' 'nushell' 'env' 'xdg.nu')
+source (`$chezmoi_src | path join 'home' 'dot_config' 'nushell' 'env' 'dev.nu')
+source (`$chezmoi_src | path join 'home' 'dot_config' 'nushell' 'autoload' 'tools' 'mise.nu')
+
+chezmoi apply
+"@
+  if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE)
+  {
+    Stop-OnError "Chezmoi apply failed" "Check your age passphrase and try again"
+  }
+  Write-Success "Dotfiles applied successfully"
+} catch
+{
+  Stop-OnError "Chezmoi apply failed" "Error: $_"
 }
 
 # Final Summary
-Write-Host "`n═══════════════════════════════════════════════════════════" -ForegroundColor White
-Write-Host "  Bootstrap Complete!" -ForegroundColor White
-Write-Host "═══════════════════════════════════════════════════════════" -ForegroundColor White
+Write-Host "`n═══════════════════════════════════════════════════════════" -ForegroundColor Gray
+Write-Host "  Bootstrap Complete!" -ForegroundColor Gray
+Write-Host "═══════════════════════════════════════════════════════════" -ForegroundColor Gray
 Write-Host ""
 Write-Host "Your dotfiles have been applied successfully." -ForegroundColor White
 Write-Host ""
@@ -247,11 +311,11 @@ Write-Host "What happened:"
 Write-Host "  ✓ Execution policy set to RemoteSigned" -ForegroundColor DarkGray
 Write-Host "  ✓ Scoop package manager installed" -ForegroundColor DarkGray
 Write-Host "  ✓ Scoop buckets added (extras, nerd-fonts, wezterm-alt-icon)" -ForegroundColor DarkGray
-Write-Host "  ✓ Bootstrap tools installed (chezmoi, age, openssh, vivid, gsudo)" -ForegroundColor DarkGray
+Write-Host "  ✓ Bootstrap tools installed (nushell, chezmoi, age, gsudo)" -ForegroundColor DarkGray
 Write-Host "  ✓ Developer Mode enabled" -ForegroundColor DarkGray
 Write-Host "  ✓ 1Password apps installed and configured" -ForegroundColor DarkGray
 Write-Host "  ✓ Symlink privileges granted" -ForegroundColor DarkGray
-Write-Host "  ✓ Dotfiles applied via chezmoi" -ForegroundColor DarkGray
+Write-Host "  ✓ Dotfiles applied via nushell with proper environment" -ForegroundColor DarkGray
 Write-Host ""
 Write-Host "Next steps:"
 Write-Host "  • Restart PowerShell to load new configurations" -ForegroundColor White

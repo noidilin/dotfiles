@@ -47,7 +47,7 @@ echo ""
 echo -e "${GRAY}This script will automate the following:${RESET}"
 echo -e "${GRAY}  • Verify 1Password access via Windows interop${RESET}"
 echo -e "${GRAY}  • Update system packages${RESET}"
-echo -e "${GRAY}  • Install bootstrap tools (git, base-devel, openssh, chezmoi, age, vivid, which)${RESET}"
+echo -e "${GRAY}  • Install bootstrap tools (git, base-devel, openssh, chezmoi, age)${RESET}"
 echo -e "${GRAY}  • Install yay AUR helper${RESET}"
 echo -e "${GRAY}  • Run chezmoi init with dotfiles repo${RESET}"
 echo ""
@@ -93,7 +93,7 @@ print_success "System packages updated"
 
 # Step 2: Install Bootstrap Packages
 print_step "Installing bootstrap packages..."
-PACKAGES=("git" "base-devel" "openssh" "chezmoi" "age" "vivid" "which")
+PACKAGES=("git" "base-devel" "openssh" "nushell" "chezmoi" "age")
 
 if ! sudo pacman -S --needed --noconfirm "${PACKAGES[@]}"; then
 	stop_on_error "Failed to install bootstrap packages" "Check pacman configuration"
@@ -146,16 +146,35 @@ else
 	rm -rf "$BUILD_DIR/yay"
 fi
 
-# Step 4: Run Chezmoi Init
-print_step "Running chezmoi init..."
+# Step 4: Initialize Chezmoi Repository
+print_step "Initializing chezmoi repository..."
 echo -e "${GRAY}  Using HTTPS URL for initial clone (SSH will work after dotfiles are applied)${RESET}"
 echo ""
 
-if ! chezmoi init --apply https://github.com/noidilin/dotfiles.git; then
-	stop_on_error "Chezmoi init failed" "Check your age passphrase and try again"
+if ! chezmoi init https://github.com/noidilin/dotfiles.git; then
+	stop_on_error "Chezmoi init failed" "Check internet connection"
 fi
 
-print_success "Chezmoi init completed successfully"
+CHEZMOI_SRC=$(chezmoi source-path)
+print_success "Repository cloned to $CHEZMOI_SRC"
+
+# Step 5: Apply Dotfiles via Nushell
+print_step "Applying dotfiles with nushell environment..."
+echo -e "${GRAY}  Loading XDG directories, dev paths, and mise integration${RESET}"
+echo ""
+
+if ! nu -c "
+let chezmoi_src = (chezmoi source-path)
+source (\$chezmoi_src | path join 'home' 'dot_config' 'nushell' 'env' 'xdg.nu')
+source (\$chezmoi_src | path join 'home' 'dot_config' 'nushell' 'env' 'dev.nu')
+source (\$chezmoi_src | path join 'home' 'dot_config' 'nushell' 'autoload' 'tools' 'mise.nu')
+
+chezmoi apply
+"; then
+	stop_on_error "Chezmoi apply failed" "Check your age passphrase and try again"
+fi
+
+print_success "Dotfiles applied successfully"
 
 # Final Summary
 echo ""
@@ -168,9 +187,9 @@ echo ""
 echo -e "What happened:"
 echo -e "  ${GRAY}✓ 1Password CLI access verified${RESET}"
 echo -e "  ${GRAY}✓ System packages updated${RESET}"
-echo -e "  ${GRAY}✓ Bootstrap tools installed (git, openssh, chezmoi, age, vivid, which)${RESET}"
+echo -e "  ${GRAY}✓ Bootstrap tools installed (git, openssh, nushell, chezmoi, age)${RESET}"
 echo -e "  ${GRAY}✓ yay AUR helper installed${RESET}"
-echo -e "  ${GRAY}✓ Dotfiles applied via chezmoi${RESET}"
+echo -e "  ${GRAY}✓ Dotfiles applied via nushell with proper environment${RESET}"
 echo ""
 echo -e "Next steps:"
 echo -e "  ${WHITE}• Restart your shell to load new configurations${RESET}"
