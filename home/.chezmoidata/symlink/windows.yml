@@ -1,17 +1,4 @@
 # -----------------------------------------------------------------------------
-# Environment Variables
-# -----------------------------------------------------------------------------
-env:
-  windows:
-    XDG_CONFIG_HOME: "$HOME\\.config"
-    XDG_DATA_HOME: "$HOME\\.local\\share"
-    XDG_CACHE_HOME: "$HOME\\.cache"
-    XDG_STATE_HOME: "$HOME\\.local\\state"
-    XDG_BIN_HOME: "$HOME\\.local\\bin"
-    YAZI_FILE_ONE: "$HOME\\scoop\\apps\\git\\current\\usr\\bin\\file.exe"
-    BLENDER_USER_RESOURCES: "$HOME\\.local\\etc\\blender"
-
-# -----------------------------------------------------------------------------
 # Symbolic Links
 # -----------------------------------------------------------------------------
 # Format: { target: "destination", source: "config_file" }

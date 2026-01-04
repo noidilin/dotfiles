@@ -1,0 +1,13 @@
+# -----------------------------------------------------------------------------
+# Environment Variables (Arch Linux Only)
+# -----------------------------------------------------------------------------
+# XDG Base Directory (standard on Linux, set for consistency)
+# GUI app support: Future enhancement via systemd user environment
+env:
+  arch:
+    XDG_CONFIG_HOME: "$HOME/.config"
+    XDG_DATA_HOME: "$HOME/.local/share"
+    XDG_CACHE_HOME: "$HOME/.cache"
+    XDG_STATE_HOME: "$HOME/.local/state"
+    XDG_BIN_HOME: "$HOME/.local/bin"
+    BLENDER_USER_RESOURCES: "$HOME/.local/etc/blender"
