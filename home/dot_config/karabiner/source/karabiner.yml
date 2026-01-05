@@ -32,11 +32,12 @@ x-parameters:
     basic.to_if_alone_timeout_milliseconds: 200
   
   # Space layer timing (variable-based modifier)
+  # - to_if_alone_timeout: Maximum time for a tap to register as space
   # - to_if_held_down_threshold: Time before space layer activates
-  # - to_delayed_action_delay: Delay before deactivating the layer
+  # Timing parameters for space layer activation
   space-timing: &space-timing
+    basic.to_if_alone_timeout_milliseconds: 200
     basic.to_if_held_down_threshold_milliseconds: 150
-    basic.to_delayed_action_delay_milliseconds: 150
 
 # ==============================================================================
 # RULES
@@ -375,33 +376,19 @@ rules:
   
   - description: Space Layer - Modifier Activation
     manipulators:
-      # Space key sets variable when held
+      # Space key activates layer on hold, outputs space on tap (SpaceFN pattern)
       - description: 'space = space(tap) | layer(hold)'
         type: basic
         from:
           key_code: spacebar
-          modifiers:
-            optional: [any]
+        to_if_alone:
+          - key_code: spacebar
+            halt: true
         to_if_held_down:
           - set_variable:
               name: space_layer
               value: 1
-        to_delayed_action:
-          to_if_invoked:
-            - set_variable:
-                name: space_layer
-                value: 0
-          to_if_canceled:
-            - set_variable:
-                name: space_layer
-                value: 0
-        to_if_alone:
-          - key_code: spacebar
-            halt: true
-        to_after_key_up:
-          - set_variable:
-              name: space_layer
-              value: 0
+              key_up_value: 0
         parameters:
           <<: *space-timing
 
