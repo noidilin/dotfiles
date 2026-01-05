@@ -12,15 +12,17 @@
 
 ```txt
 source/
-├── main.yml              # Metadata (title, version, author)
-├── config/
-│   ├── parameters.yml    # Timing parameters (YAML anchors)
-│   ├── basic.yml         # CapsLock/Tab/Semicolon base modifiers
-│   ├── hyper.yml         # Hyper layer (navigation, vim motions)
-│   └── space.yml         # Space layer (one-handed input)
-├── Makefile              # Build script (merge YAML → JSON)
-└── README.md             # This file
+├── karabiner.yml         # Complete configuration (metadata, parameters, rules)
+└── Makefile              # Build script (YAML → JSON conversion)
 ```
+
+The single `karabiner.yml` file is organized into sections using comments:
+- **Metadata**: Title, version, author, description
+- **Timing Parameters**: Reusable YAML anchors for timing values (`x-parameters`)
+- **Rules**: All key mapping rules organized by layer:
+  - Basic Key Modifications (CapsLock, Tab, Semicolon)
+  - Hyper Layer (navigation, Vim motions, jumps)
+  - Space Layer (one-handed input, numbers, symbols)
 
 ### Automatic Updates (via Chezmoi)
 
@@ -43,7 +45,7 @@ cd ~/.config/karabiner/source
 make compile
 ```
 
-This merges all YAML files and generates `../assets/complex_modifications/karabiner.json`.
+This converts `karabiner.yml` to JSON and generates `~/.config/karabiner/assets/complex_modifications/karabiner.json`.
 
 ### Install to Karabiner-Elements
 
@@ -51,7 +53,7 @@ This merges all YAML files and generates `../assets/complex_modifications/karabi
 make install
 ```
 
-This compiles and copies the JSON to Karabiner's configuration directory.
+This compiles the configuration (same as `make compile` since output goes directly to the final location).
 
 ### Enable Rules
 
@@ -67,7 +69,7 @@ This compiles and copies the JSON to Karabiner's configuration directory.
 
 ### Adjust Timing Parameters
 
-Edit `config/parameters.yml`:
+Edit `karabiner.yml` and find the `x-parameters` section:
 
 - Increase `to_if_alone_timeout` for slower typing
 - Decrease `to_if_held_down_threshold` for faster activation
@@ -82,10 +84,10 @@ x-parameters:
 
 ### Add New Mappings
 
-1. Edit the appropriate config file:
-   - `config/basic.yml` - Base key modifications
-   - `config/hyper.yml` - Hyper layer mappings
-   - `config/space.yml` - Space layer mappings
+1. Edit `karabiner.yml` and find the appropriate section:
+   - **Basic Key Modifications** - Base key modifications
+   - **Hyper Layer** sections - Hyper layer mappings
+   - **Space Layer** sections - Space layer mappings
 
 2. Follow existing pattern:
 
@@ -102,13 +104,22 @@ x-parameters:
 
 3. Recompile: `make install`
 
-### Split Large Rules
+### Add New Layers
 
-Add new files in `config/` directory, then update `Makefile`:
+Add new rule sections in `karabiner.yml` using the placeholder templates at the bottom of the file:
 
-```makefile
-YAML_SOURCES = main.yml config/parameters.yml config/basic.yml config/hyper.yml config/space.yml config/your_new_file.yml
+```yaml
+# ----------------------------------------------------------------------------
+# CUSTOM LAYER - [NAME]
+# ----------------------------------------------------------------------------
+# Description of what this layer provides
+
+  - description: Custom Layer - [Category]
+    manipulators:
+      # Add your custom mappings here
 ```
+
+Uncomment and customize these templates when adding new functionality.
 
 ---
 

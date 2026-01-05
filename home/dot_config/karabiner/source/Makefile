@@ -1,6 +1,5 @@
-YAML_SOURCES = main.yml config/parameters.yml config/basic.yml config/hyper.yml config/space.yml
-JSON_OUT = ../assets/complex_modifications/karabiner.json
-INSTALL_DIR = $(HOME)/.config/karabiner/assets/complex_modifications/
+YAML_SOURCE = karabiner.yml
+JSON_OUT = $(HOME)/.config/karabiner/assets/complex_modifications/karabiner.json
 
 compile:
 	@echo "Compiling YAML to JSON..."
@@ -12,17 +11,12 @@ compile:
 		echo "        Current yq: $$(which yq)"; \
 		exit 1; \
 	fi
-	@# Merge YAML files using yq
-	@yq eval-all '. as $$item ireduce ({}; . * $$item)' $(YAML_SOURCES) | \
-	 yq eval 'del(.x-parameters)' | \
-	 yq eval -o=json > $(JSON_OUT)
+	@# Convert YAML to JSON, removing x-parameters section
+	@yq eval 'del(.x-parameters)' $(YAML_SOURCE) -o=json > $(JSON_OUT)
 	@echo "✓ Compiled: $(JSON_OUT)"
 
 install: compile
-	@echo "Installing to Karabiner-Elements..."
-	@mkdir -p $(INSTALL_DIR)
-	@cp $(JSON_OUT) $(INSTALL_DIR)
-	@echo "✓ Installed: $(INSTALL_DIR)karabiner.json"
+	@echo "✓ Configuration ready at: $(JSON_OUT)"
 	@echo ""
 	@echo "Next steps:"
 	@echo "  1. Open Karabiner-Elements"

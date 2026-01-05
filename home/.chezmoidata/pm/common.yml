@@ -212,7 +212,7 @@ pkgs:
     yq:
       brew: "yq"
       scoop: "yq"
-      pacman: "yq"
+      pacman: "go-yq"
 
     # =============================================================================
     # GUI Apps (Cross-Platform Daily Use)

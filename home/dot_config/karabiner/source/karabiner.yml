@@ -1,0 +1,764 @@
+# ==============================================================================
+# Productivity Keymap for macOS
+# ==============================================================================
+# Full documentation: ~/.local/share/chezmoi/docs/karabiner.md
+#
+# This configuration provides ergonomic key mappings for terminal/Vim workflows
+# and design work, using layers and modifier keys for efficient one-handed input.
+
+title: Productivity Keymap
+version: 1.0.0
+author: noidilin
+maintainers: [noidilin]
+description: Ergonomic keymap for terminal/Vim and design workflows
+
+# ==============================================================================
+# TIMING PARAMETERS (YAML Anchors)
+# ==============================================================================
+# These anchors define reusable timing values for different key behaviors.
+# Reference: https://karabiner-elements.pqrs.org/docs/json/
+
+x-parameters:
+  # Hyper key timing (Tab/Semicolon)
+  # - to_if_alone_timeout: Maximum time for a tap to register
+  # - to_if_held_down_threshold: Minimum time to activate hold behavior
+  hyper-timing: &hyper-timing
+    basic.to_if_alone_timeout_milliseconds: 200
+    basic.to_if_held_down_threshold_milliseconds: 150
+  
+  # CapsLock timing
+  # - to_if_alone_timeout: Maximum time for a tap to register as Escape
+  capslock-timing: &capslock-timing
+    basic.to_if_alone_timeout_milliseconds: 200
+  
+  # Space layer timing (variable-based modifier)
+  # - to_if_held_down_threshold: Time before space layer activates
+  # - to_delayed_action_delay: Delay before deactivating the layer
+  space-timing: &space-timing
+    basic.to_if_held_down_threshold_milliseconds: 150
+    basic.to_delayed_action_delay_milliseconds: 150
+
+# ==============================================================================
+# RULES
+# ==============================================================================
+
+rules:
+  # ----------------------------------------------------------------------------
+  # BASIC KEY MODIFICATIONS
+  # ----------------------------------------------------------------------------
+  # Core modifier keys that serve as foundation for other layers:
+  # - CapsLock: tap → Esc, hold → Ctrl
+  # - Tab: tap → Tab, hold → Hyper (⌘⌃⇧⌥)
+  # - Semicolon: tap → ;, hold → Hyper (⌘⌃⇧⌥)
+  
+  - description: Basic Key Modifications
+    manipulators:
+      # CapsLock: tap → Esc, hold → Ctrl
+      - description: 'capslock = esc(tap) | ctrl(hold)'
+        type: basic
+        from:
+          key_code: caps_lock
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: left_control
+        to_if_alone:
+          - key_code: escape
+        parameters:
+          <<: *capslock-timing
+      
+      # Tab: tap → Tab, hold → Hyper
+      - description: 'tab = tab(tap) | hyper(hold)'
+        type: basic
+        from:
+          key_code: tab
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: right_shift
+            modifiers: [right_command, right_control, right_option]
+        to_if_alone:
+          - key_code: tab
+        parameters:
+          <<: *hyper-timing
+      
+      # Semicolon: tap → ;, hold → Hyper
+      - description: 'semicolon = ;(tap) | hyper(hold)'
+        type: basic
+        from:
+          key_code: semicolon
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: right_shift
+            modifiers: [right_command, right_control, right_option]
+        to_if_alone:
+          - key_code: semicolon
+        parameters:
+          <<: *hyper-timing
+
+  # ----------------------------------------------------------------------------
+  # HYPER LAYER - FUNCTIONALITY
+  # ----------------------------------------------------------------------------
+  # Essential functions accessed via Hyper modifier:
+  # - Space → Delete (backspace)
+  # - G → Return (enter)
+  
+  - description: Hyper Layer - Functionality
+    manipulators:
+      # hyper + space → delete
+      - description: 'hyper + space = delete'
+        type: basic
+        from:
+          key_code: spacebar
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: delete_or_backspace
+      
+      # hyper + G → return
+      - description: 'hyper + g = return'
+        type: basic
+        from:
+          key_code: g
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: return_or_enter
+
+  # ----------------------------------------------------------------------------
+  # HYPER LAYER - BASIC NAVIGATION
+  # ----------------------------------------------------------------------------
+  # Arrow key navigation on home row (Vim-style ASDF):
+  # - A → Left
+  # - S → Down
+  # - D → Up
+  # - F → Right
+  
+  - description: Hyper Layer - Basic Navigation
+    manipulators:
+      # hyper + A → left
+      - description: 'hyper + a = left'
+        type: basic
+        from:
+          key_code: a
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: left_arrow
+      
+      # hyper + S → down
+      - description: 'hyper + s = down'
+        type: basic
+        from:
+          key_code: s
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: down_arrow
+      
+      # hyper + D → up
+      - description: 'hyper + d = up'
+        type: basic
+        from:
+          key_code: d
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: up_arrow
+      
+      # hyper + F → right
+      - description: 'hyper + f = right'
+        type: basic
+        from:
+          key_code: f
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: right_arrow
+
+  # ----------------------------------------------------------------------------
+  # HYPER LAYER - EXTENDED NAVIGATION
+  # ----------------------------------------------------------------------------
+  # Page/document navigation on top row (QWER):
+  # - Q → Page Up
+  # - W → Page Down
+  # - E → Home (start of line/document)
+  # - R → End (end of line/document)
+  
+  - description: Hyper Layer - Extended Navigation
+    manipulators:
+      # hyper + Q → page up
+      - description: 'hyper + q = page up'
+        type: basic
+        from:
+          key_code: q
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: page_up
+      
+      # hyper + W → page down
+      - description: 'hyper + w = page down'
+        type: basic
+        from:
+          key_code: w
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: page_down
+      
+      # hyper + E → home
+      - description: 'hyper + e = home'
+        type: basic
+        from:
+          key_code: e
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: home
+      
+      # hyper + R → end
+      - description: 'hyper + r = end'
+        type: basic
+        from:
+          key_code: r
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: end
+
+  # ----------------------------------------------------------------------------
+  # HYPER LAYER - VIM NAVIGATION (Character-level)
+  # ----------------------------------------------------------------------------
+  # Vim line navigation on home row (HJKL):
+  # - H → ^ (shift+6, start of line)
+  # - J → $ (shift+4, end of line)
+  # - K → { (shift+[, previous paragraph)
+  # - L → } (shift+], next paragraph)
+  
+  - description: Hyper Layer - Vim Navigation
+    manipulators:
+      # hyper + H → ^ (shift+6)
+      - description: 'hyper + h = ^ (line start)'
+        type: basic
+        from:
+          key_code: h
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: "6"
+            modifiers: [left_shift]
+      
+      # hyper + J → $ (shift+4)
+      - description: 'hyper + j = $ (line end)'
+        type: basic
+        from:
+          key_code: j
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: "4"
+            modifiers: [left_shift]
+      
+      # hyper + K → { (shift+[)
+      - description: 'hyper + k = { (prev paragraph)'
+        type: basic
+        from:
+          key_code: k
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: open_bracket
+            modifiers: [left_shift]
+      
+      # hyper + L → } (shift+])
+      - description: 'hyper + l = } (next paragraph)'
+        type: basic
+        from:
+          key_code: l
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: close_bracket
+            modifiers: [left_shift]
+
+  # ----------------------------------------------------------------------------
+  # HYPER LAYER - VIM SEARCH & MOTION
+  # ----------------------------------------------------------------------------
+  # Vim search and character motion on top row (YUIO):
+  # - Y → # (shift+3, previous match word)
+  # - U → * (shift+8, next match word)
+  # - I → , (previous match char with f/t)
+  # - O → ; (next match char with f/t)
+  
+  - description: Hyper Layer - Vim Search & Motion
+    manipulators:
+      # hyper + Y → # (shift+3)
+      - description: 'hyper + y = # (prev match word)'
+        type: basic
+        from:
+          key_code: "y"
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: "3"
+            modifiers: [left_shift]
+      
+      # hyper + U → * (shift+8)
+      - description: 'hyper + u = * (next match word)'
+        type: basic
+        from:
+          key_code: u
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: "8"
+            modifiers: [left_shift]
+      
+      # hyper + I → , (comma)
+      - description: 'hyper + i = , (prev match char)'
+        type: basic
+        from:
+          key_code: i
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: comma
+      
+      # hyper + O → ; (semicolon)
+      - description: 'hyper + o = ; (next match char)'
+        type: basic
+        from:
+          key_code: o
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: semicolon
+
+  # ----------------------------------------------------------------------------
+  # HYPER LAYER - VIM JUMPS
+  # ----------------------------------------------------------------------------
+  # Vim jump commands on bottom row (NM):
+  # - N → % (shift+5, match bracket)
+  # - M → ` (grave accent, jump to mark)
+  
+  - description: Hyper Layer - Vim Jumps
+    manipulators:
+      # hyper + N → % (shift+5)
+      - description: 'hyper + n = % (match bracket)'
+        type: basic
+        from:
+          key_code: "n"
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: "5"
+            modifiers: [left_shift]
+      
+      # hyper + M → ` (grave_accent_and_tilde)
+      - description: 'hyper + m = ` (jump to mark)'
+        type: basic
+        from:
+          key_code: m
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: grave_accent_and_tilde
+
+  # ----------------------------------------------------------------------------
+  # SPACE LAYER - MODIFIER ACTIVATION
+  # ----------------------------------------------------------------------------
+  # Space key acts as a layer modifier when held:
+  # - Tap: Normal space
+  # - Hold: Activates space_layer variable for one-handed input
+  
+  - description: Space Layer - Modifier Activation
+    manipulators:
+      # Space key sets variable when held
+      - description: 'space = space(tap) | layer(hold)'
+        type: basic
+        from:
+          key_code: spacebar
+          modifiers:
+            optional: [any]
+        to_if_held_down:
+          - set_variable:
+              name: space_layer
+              value: 1
+        to_delayed_action:
+          to_if_invoked:
+            - set_variable:
+                name: space_layer
+                value: 0
+          to_if_canceled:
+            - set_variable:
+                name: space_layer
+                value: 0
+        to_if_alone:
+          - key_code: spacebar
+            halt: true
+        to_after_key_up:
+          - set_variable:
+              name: space_layer
+              value: 0
+        parameters:
+          <<: *space-timing
+
+  # ----------------------------------------------------------------------------
+  # SPACE LAYER - NUMBERS
+  # ----------------------------------------------------------------------------
+  # Number row mappings for one-handed numeric input:
+  # - ` → 0
+  # - 1 → . (period, for decimals)
+  # - 2 → 6
+  # - 3 → 7
+  # - 4 → 8
+  # - 5 → 9
+  
+  - description: Space Layer - Numbers
+    manipulators:
+      # space + ` → 0
+      - description: 'space + ` = 0'
+        type: basic
+        from:
+          key_code: grave_accent_and_tilde
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: "0"
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + 1 → .
+      - description: 'space + 1 = .'
+        type: basic
+        from:
+          key_code: "1"
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: period
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + 2 → 6
+      - description: 'space + 2 = 6'
+        type: basic
+        from:
+          key_code: "2"
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: "6"
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + 3 → 7
+      - description: 'space + 3 = 7'
+        type: basic
+        from:
+          key_code: "3"
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: "7"
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + 4 → 8
+      - description: 'space + 4 = 8'
+        type: basic
+        from:
+          key_code: "4"
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: "8"
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + 5 → 9
+      - description: 'space + 5 = 9'
+        type: basic
+        from:
+          key_code: "5"
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: "9"
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+
+  # ----------------------------------------------------------------------------
+  # SPACE LAYER - SYMBOLS (Top Row)
+  # ----------------------------------------------------------------------------
+  # Top row (QWERT) symbols for one-handed programming:
+  # - Q → - (hyphen/minus)
+  # - W → = (equals)
+  # - E → [ (open bracket)
+  # - R → ] (close bracket)
+  # - T → \ (backslash)
+  
+  - description: Space Layer - Symbols (top row)
+    manipulators:
+      # space + Q → -
+      - description: 'space + q = -'
+        type: basic
+        from:
+          key_code: q
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: hyphen
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + W → =
+      - description: 'space + w = ='
+        type: basic
+        from:
+          key_code: w
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: equal_sign
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + E → [
+      - description: 'space + e = ['
+        type: basic
+        from:
+          key_code: e
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: open_bracket
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + R → ]
+      - description: 'space + r = ]'
+        type: basic
+        from:
+          key_code: r
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: close_bracket
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + T → \
+      - description: 'space + t = \'
+        type: basic
+        from:
+          key_code: t
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: backslash
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+
+  # ----------------------------------------------------------------------------
+  # SPACE LAYER - VIM KEYS (Home Row)
+  # ----------------------------------------------------------------------------
+  # Home row (ASDFG) Vim navigation for one-handed editing:
+  # - A → H
+  # - S → J
+  # - D → K
+  # - F → L
+  # - G → Return (enter)
+  
+  - description: Space Layer - Vim Keys (home row)
+    manipulators:
+      # space + A → H
+      - description: 'space + a = h'
+        type: basic
+        from:
+          key_code: a
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: h
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + S → J
+      - description: 'space + s = j'
+        type: basic
+        from:
+          key_code: s
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: j
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + D → K
+      - description: 'space + d = k'
+        type: basic
+        from:
+          key_code: d
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: k
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + F → L
+      - description: 'space + f = l'
+        type: basic
+        from:
+          key_code: f
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: l
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + G → return
+      - description: 'space + g = return'
+        type: basic
+        from:
+          key_code: g
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: return_or_enter
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+
+  # ----------------------------------------------------------------------------
+  # SPACE LAYER - SYMBOLS (Bottom Row)
+  # ----------------------------------------------------------------------------
+  # Bottom row (ZXCVB) symbols and punctuation:
+  # - Z → ; (semicolon)
+  # - X → ' (single quote)
+  # - C → , (comma)
+  # - V → . (period)
+  # - B → / (forward slash)
+  
+  - description: Space Layer - Symbols (bottom row)
+    manipulators:
+      # space + Z → ;
+      - description: 'space + z = ;'
+        type: basic
+        from:
+          key_code: z
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: semicolon
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + X → '
+      - description: "space + x = '"
+        type: basic
+        from:
+          key_code: x
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: quote
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + C → ,
+      - description: 'space + c = ,'
+        type: basic
+        from:
+          key_code: c
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: comma
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + V → .
+      - description: 'space + v = .'
+        type: basic
+        from:
+          key_code: v
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: period
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+      
+      # space + B → /
+      - description: 'space + b = /'
+        type: basic
+        from:
+          key_code: b
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: slash
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+
+# ==============================================================================
+# PLACEHOLDER SECTIONS FOR FUTURE EXPANSION
+# ==============================================================================
+# Add additional key mapping categories below as needed.
+# Uncomment and customize these templates when adding new functionality.
+
+# # ----------------------------------------------------------------------------
+# # CUSTOM LAYER - [NAME]
+# # ----------------------------------------------------------------------------
+# # Description of what this layer provides
+# 
+#   - description: Custom Layer - [Category]
+#     manipulators:
+#       # Add your custom mappings here

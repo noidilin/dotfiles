@@ -30,12 +30,8 @@ printf "[Karabiner] Compiling configuration...\n"
 cd "${KARABINER_SOURCE_DIR}"
 make install
 
-# Hash triggers for run_onchange (changes when any YAML source changes)
-# main.yml: {{ include "dot_config/karabiner/source/main.yml" | sha256sum }}
-# parameters.yml: {{ include "dot_config/karabiner/source/config/parameters.yml" | sha256sum }}
-# basic.yml: {{ include "dot_config/karabiner/source/config/basic.yml" | sha256sum }}
-# hyper.yml: {{ include "dot_config/karabiner/source/config/hyper.yml" | sha256sum }}
-# space.yml: {{ include "dot_config/karabiner/source/config/space.yml" | sha256sum }}
+# Hash triggers for run_onchange (changes when YAML source changes)
+# karabiner.yml: {{ include "dot_config/karabiner/source/karabiner.yml" | sha256sum }}
 
 printf "[Karabiner] ✓ Configuration updated\n"
 
