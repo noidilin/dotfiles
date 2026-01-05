@@ -158,18 +158,13 @@ fi
 CHEZMOI_SRC=$(chezmoi source-path)
 print_success "Repository cloned to $CHEZMOI_SRC"
 
-# Step 5: Apply Dotfiles via Nushell
-print_step "Applying dotfiles with nushell environment..."
-echo -e "${GRAY}  Loading XDG directories, dev paths, and mise integration${RESET}"
+# Step 5: Apply Dotfiles
+print_step "Applying dotfiles..."
+echo -e "${GRAY}  Environment variables configured via chezmoi scriptEnv${RESET}"
+echo -e "${GRAY}  Mise-managed tools available via 'mise exec' in scripts${RESET}"
 echo ""
 
-if ! nu -c "
-source ('$CHEZMOI_SRC' | path join 'dot_config' 'nushell' 'env' 'xdg.nu')
-source ('$CHEZMOI_SRC' | path join 'dot_config' 'nushell' 'env' 'dev.nu')
-source ('$CHEZMOI_SRC' | path join 'dot_config' 'nushell' 'autoload' 'tools' 'mise.nu')
-
-chezmoi apply
-"; then
+if ! chezmoi apply; then
 	stop_on_error "Chezmoi apply failed" "Check your age passphrase and try again"
 fi
 

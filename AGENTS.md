@@ -33,6 +33,54 @@
   - Linux: `XDG_CONFIG_HOME=~/.config`, `XDG_DATA_HOME=~/.local/share`, `XDG_CACHE_HOME=~/.cache`
 - **Available tools**: fd, sd, grep, ripgrep, ast-grep, imagemagick, yazi, lazygit, mise, bat, eza, fzf, bottom, delta
 
+## Environment Variable Architecture
+
+Environment variables are configured in **two independent layers**:
+
+### 1. Deployment Environment (Chezmoi scriptEnv)
+
+**Location:** `.chezmoi.toml.tmpl` → `[scriptEnv]` section
+
+**Purpose:** Provides environment variables to chezmoi scripts during `chezmoi apply`
+
+**Variables Set:**
+- XDG Base Directory variables (XDG_CONFIG_HOME, XDG_DATA_HOME, etc.)
+- Development tool home directories (CARGO_HOME, GOPATH, RUSTUP_HOME, etc.)
+- Application-specific directories (BLENDER_USER_RESOURCES)
+- Minimal PATH with `.local/bin` prepended
+
+**Usage:** Automatically available to all scripts in `.chezmoiscripts/`
+
+**Note:** Scripts access mise-managed tools via `mise exec --` prefix, not PATH
+
+### 2. Interactive Shell Environment (Nushell Config)
+
+**Location:** `~/.config/nushell/env/*.nu`
+
+**Purpose:** Provides environment variables for interactive nushell sessions
+
+**Files:**
+- `xdg.nu` - XDG Base Directory variables
+- `dev.nu` - Development tool paths and PATH modifications
+- `shell.nu` - Editor, pager, and tool-specific settings
+- `fzf.nu` - FZF keybindings and preview commands
+- `key.nu` - API keys (loaded from encrypted files)
+- `mise.nu` - Mise activation for directory-based tool switching
+
+**Usage:** Loaded when launching interactive nushell shell
+
+### Why Two Layers?
+
+**Separation of Concerns:**
+- Deployment (chezmoi) and interactive shell remain independent
+- Shell configuration can be more dynamic (hooks, completions, themes)
+- Changes to shell config don't affect deployment scripts
+
+**Portability:**
+- Chezmoi scripts work regardless of user's shell preference
+- Init scripts no longer require nushell to be installed first
+- Users can customize their shell without breaking dotfile deployment
+
 ## Platform-Specific Configs
 
 - **Windows-only**: Flow Launcher, WinTerm, GlazeWM, Rime, PowerShell, setup-win scripts

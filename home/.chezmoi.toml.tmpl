@@ -51,6 +51,43 @@ custom = true # enable custom shell completion
   shell = {{ $shell | quote }} # Default shell
 
 {{/* ========================================== */}}
+{{/* Script Environment Variables              */}}
+{{/* ========================================== */}}
+
+[scriptEnv]
+{{/* XDG Base Directory Specification */}}
+  XDG_CONFIG_HOME = {{ joinPath .chezmoi.homeDir ".config" | quote }}
+  XDG_DATA_HOME = {{ joinPath .chezmoi.homeDir ".local" "share" | quote }}
+  XDG_CACHE_HOME = {{ joinPath .chezmoi.homeDir ".cache" | quote }}
+  XDG_STATE_HOME = {{ joinPath .chezmoi.homeDir ".local" "state" | quote }}
+  XDG_BIN_HOME = {{ joinPath .chezmoi.homeDir ".local" "bin" | quote }}
+
+{{/* Development Tool Directories */}}
+  PNPM_HOME = {{ joinPath .chezmoi.homeDir ".dev" "pnpm" | quote }}
+  BUN_INSTALL_GLOBAL_DIR = {{ joinPath .chezmoi.homeDir ".dev" "bun" "install" "global" | quote }}
+  BUN_INSTALL_BIN = {{ joinPath .chezmoi.homeDir ".dev" "bun" "bin" | quote }}
+  BUN_INSTALL_CACHE_DIR = {{ joinPath .chezmoi.homeDir ".dev" "bun" "install" "cache" | quote }}
+  CARGO_HOME = {{ joinPath .chezmoi.homeDir ".dev" "cargo" | quote }}
+  RUSTUP_HOME = {{ joinPath .chezmoi.homeDir ".dev" "rustup" | quote }}
+  GOPATH = {{ joinPath .chezmoi.homeDir ".dev" "go" | quote }}
+  GOBIN = {{ joinPath .chezmoi.homeDir ".dev" "go" "bin" | quote }}
+  UV_CONFIG_FILE = {{ joinPath .chezmoi.homeDir ".config" "uv" "uv.toml" | quote }}
+  UV_CACHE_DIR = {{ joinPath .chezmoi.homeDir ".dev" "uv" "cache" | quote }}
+  UV_PYTHON_INSTALL_DIR = {{ joinPath .chezmoi.homeDir ".dev" "uv" "python" | quote }}
+  UV_TOOL_DIR = {{ joinPath .chezmoi.homeDir ".dev" "uv" "tools" | quote }}
+  UV_TOOL_BIN_DIR = {{ joinPath .chezmoi.homeDir ".dev" "uv" "bin" | quote }}
+
+{{/* Application-Specific Directories */}}
+  BLENDER_USER_RESOURCES = {{ joinPath .chezmoi.homeDir ".local" "etc" "blender" | quote }}
+
+{{/* PATH: Only prepend .local/bin since scripts use 'mise exec --' for tools */}}
+{{- if eq .chezmoi.os "windows" }}
+  PATH = {{ list (joinPath .chezmoi.homeDir ".local" "bin") (env "PATH") | join ";" | quote }}
+{{- else }}
+  PATH = {{ list (joinPath .chezmoi.homeDir ".local" "bin") (env "PATH") | join ":" | quote }}
+{{- end }}
+
+{{/* ========================================== */}}
 {{/* Platform-Specific Configurations          */}}
 {{/* ========================================== */}}
 

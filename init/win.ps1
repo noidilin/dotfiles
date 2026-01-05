@@ -302,20 +302,15 @@ try
   Stop-OnError "Chezmoi init failed" "Error: $_"
 }
 
-# Step 11: Apply Dotfiles via Nushell
-Write-Step "Applying dotfiles with nushell environment..."
-Write-Host "  Loading XDG directories, dev paths, and mise integration" -ForegroundColor DarkGray
+# Step 11: Apply Dotfiles
+Write-Step "Applying dotfiles..."
+Write-Host "  Environment variables configured via chezmoi scriptEnv" -ForegroundColor DarkGray
+Write-Host "  Mise-managed tools available via 'mise exec' in scripts" -ForegroundColor DarkGray
 Write-Host ""
 
 try
 {
-  nu -c @"
-source ('$chezmoiSrc' | path join 'dot_config' 'nushell' 'env' 'xdg.nu')
-source ('$chezmoiSrc' | path join 'dot_config' 'nushell' 'env' 'dev.nu')
-source ('$chezmoiSrc' | path join 'dot_config' 'nushell' 'autoload' 'tools' 'mise.nu')
-
-chezmoi apply
-"@
+  chezmoi apply
   if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE)
   {
     Stop-OnError "Chezmoi apply failed" "Check your age passphrase and try again"
