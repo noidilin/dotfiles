@@ -4,6 +4,7 @@
 pkgs:
   brew:
     - "--cask cleanshot" # screen capture + record, key cast
+    - "--cask font-commit-mono-nerd-font"
     # - "--cask homerow" # system vim mode (flash, HJKL) (lack of support, paid)
     - "--cask karabiner-elements"
     # - "--cask ogdesign-eagle" # image reference
