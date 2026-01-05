@@ -59,12 +59,8 @@ FlexASIO.toml
 {{- if ne .chezmoi.os "darwin" }}
 .zshenv
 .zshrc
+.aerospace.toml
 .config/zsh/*
-.config/raycast/*
-.config/fzf-git.sh/*
-.config/fzfrc
-.config/skhdrc
-.config/yabairc
 .config/karabiner/
 {{- end }}
 
