@@ -10,11 +10,13 @@ pkgs:
     # - "--cask ogdesign-eagle" # image reference
     # - "--cask proxy-audio-device" # control external audio interfaces with macOS system volume control
     - "--cask rodecaster" # manage rodecaster device
+    - "--cask squirrel-app"
+    - "--cask utm"
     # - "--cask waves-central" # VSA plugins
 
     # earily testing
     # - "--cask rafaelswi/menubarusb/menubarusb" # display conntected usb device spec
-    - "--cask TheBoredTeam/boring-notch/boring-notch --no-quarantine"
+    - "--cask TheBoredTeam/boring-notch/boring-notch"
     - "--cask nikitabobko/tap/aerospace"
 
     # TODO: needed support
