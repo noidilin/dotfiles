@@ -3,7 +3,7 @@
 ### chezmoi ###
 
 .config/chezmoi/**
-key.txt.age # age passphrase key for chezmoi to decryp private key
+age-key.txt.age # age passphrase key for chezmoi to decryp private key
 
 ### script files ###
 
@@ -36,11 +36,8 @@ key.txt.age # age passphrase key for chezmoi to decryp private key
 
 {{- if ne .chezmoi.os "linux" }}
 .config/fcitx5/
-.config/fcitx5/**
 .config/hypr/
-.config/hypr/**
 .config/systemd/
-.config/systemd/**
 {{- end }}
 
 {{- if ne .chezmoi.os "windows" }}
@@ -49,7 +46,6 @@ scoop/
 .config/cursor/
 .config/flow-launcher/
 .config/pwsh/
-.config/rime/
 .config/setup-win/
 .config/winterm/
 FlexASIO.toml
