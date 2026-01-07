@@ -1,0 +1,106 @@
+#!/bin/bash
+# vim: ft=bash
+
+{{- if eq .chezmoi.os "darwin" }}
+
+# =============================================================================
+# Hash trigger: {{ include ".chezmoidata/symlinks/darwin.yml" | sha256sum }}
+# =============================================================================
+
+printf "=== Setting up symbolic links (macOS) ===\n"
+
+{{- if not .symlinks.darwin }}
+printf "No macOS symlink definitions found (.symlinks.darwin). Skipping.\n"
+exit 0
+{{- else }}
+declare -a SYMLINK_TARGETS=(
+{{-   range .symlinks.darwin }}
+  "{{ .target }}"
+{{-   end }}
+)
+
+declare -a SYMLINK_SOURCES=(
+{{-   range .symlinks.darwin }}
+  "{{ .source }}"
+{{-   end }}
+)
+{{- end }}
+
+if [ ${#SYMLINK_TARGETS[@]} -eq 0 ]; then
+  printf "No macOS symlink entries were provided. Skipping.\n"
+  exit 0
+fi
+
+ensure_parent_directory() {
+  local target_path="$1"
+  local parent_dir
+  parent_dir="$(dirname "$target_path")"
+  
+  if [ -z "$parent_dir" ] || [ "$parent_dir" = "." ]; then
+    return
+  fi
+  
+  if [ ! -d "$parent_dir" ]; then
+    printf "Creating directory: %s\n" "$parent_dir"
+    mkdir -p "$parent_dir"
+  fi
+}
+
+create_symlink_safe() {
+  local target="$1"
+  local source="$2"
+  
+  # Expand tilde and environment variables
+  target="${target/#\~/$HOME}"
+  source="${source/#\~/$HOME}"
+  target=$(eval echo "$target")
+  source=$(eval echo "$source")
+  
+  if [ -z "$source" ] || [ -z "$target" ]; then
+    printf "Invalid source/target encountered; skipping.\n" >&2
+    return 1
+  fi
+  
+  if [ ! -e "$source" ]; then
+    printf "Source missing for target %s - skipping. (%s)\n" "$target" "$source"
+    return 1
+  fi
+  
+  ensure_parent_directory "$target"
+  
+  if [ -e "$target" ] || [ -L "$target" ]; then
+    if [ -L "$target" ]; then
+      local current_target
+      current_target="$(readlink "$target")"
+      if [ "$current_target" = "$source" ]; then
+        printf "Already linked: %s\n" "$target"
+        return 1
+      fi
+    fi
+    
+    printf "Removing existing target: %s\n" "$target"
+    rm -rf "$target"
+  fi
+  
+  if ln -s "$source" "$target"; then
+    printf "Linked: %s -> %s\n" "$target" "$source"
+    return 0
+  else
+    printf "Failed to create link for %s\n" "$target" >&2
+    return 1
+  fi
+}
+
+updated_count=0
+
+for i in "${!SYMLINK_TARGETS[@]}"; do
+  target_path="${SYMLINK_TARGETS[$i]}"
+  source_path="${SYMLINK_SOURCES[$i]}"
+  
+  if create_symlink_safe "$target_path" "$source_path"; then
+    ((updated_count++))
+  fi
+done
+
+printf "\nSymlink setup complete. Updated %d item(s).\n" "$updated_count"
+{{- end }}

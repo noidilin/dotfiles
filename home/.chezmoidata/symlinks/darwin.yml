@@ -4,5 +4,5 @@
 # Format: { target: "destination", source: "config_file" }
 symlinks:
   darwin:
-    - target: ""
-      source: ""
+    - target: "$HOME/.local/share/fcitx5/rime"
+      source: "$HOME/.config/rime"
