@@ -1,9 +1,17 @@
 # vim:ft=gitignore.chezmoitmpl
 
+**/.DS_Store
+
 ### chezmoi ###
 
 .config/chezmoi/**
 age-key.txt.age # age passphrase key for chezmoi to decryp private key
+
+### rime build and userdb
+
+.config/rime/build
+.config/rime/lua/*.userdb/
+.config/rime/wanxiang-lts-zh-hans.gram
 
 ### script files ###
 
@@ -62,4 +70,9 @@ FlexASIO.toml
 
 {{- if ne .osId "linux-arch" }}
 .bash_profile
+{{- end }}
+
+{{- if eq .chezmoi.os "windows" }}
+# Windows: Exclude fcitx5 configs (not used on Windows)
+.config/fcitx5/
 {{- end }}
