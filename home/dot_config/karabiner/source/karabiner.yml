@@ -23,21 +23,21 @@ x-parameters:
   # - to_if_alone_timeout: Maximum time for a tap to register
   # - to_if_held_down_threshold: Minimum time to activate hold behavior
   hyper-timing: &hyper-timing
-    basic.to_if_alone_timeout_milliseconds: 200
-    basic.to_if_held_down_threshold_milliseconds: 150
-  
+    basic.to_if_alone_timeout_milliseconds: 150
+    basic.to_if_held_down_threshold_milliseconds: 100
+
   # CapsLock timing
   # - to_if_alone_timeout: Maximum time for a tap to register as Escape
   capslock-timing: &capslock-timing
-    basic.to_if_alone_timeout_milliseconds: 200
-  
+    basic.to_if_alone_timeout_milliseconds: 150
+
   # Space layer timing (variable-based modifier)
   # - to_if_alone_timeout: Maximum time for a tap to register as space
   # - to_if_held_down_threshold: Time before space layer activates
   # Timing parameters for space layer activation
   space-timing: &space-timing
-    basic.to_if_alone_timeout_milliseconds: 200
-    basic.to_if_held_down_threshold_milliseconds: 150
+    basic.to_if_alone_timeout_milliseconds: 150
+    basic.to_if_held_down_threshold_milliseconds: 100
 
 # ==============================================================================
 # RULES
@@ -51,11 +51,11 @@ rules:
   # - CapsLock: tap → Esc, hold → Ctrl
   # - Tab: tap → Tab, hold → Hyper (⌘⌃⇧⌥)
   # - Semicolon: tap → ;, hold → Hyper (⌘⌃⇧⌥)
-  
+
   - description: Basic Key Modifications
     manipulators:
       # CapsLock: tap → Esc, hold → Ctrl
-      - description: 'capslock = esc(tap) | ctrl(hold)'
+      - description: "capslock = esc(tap) | ctrl(hold)"
         type: basic
         from:
           key_code: caps_lock
@@ -67,9 +67,9 @@ rules:
           - key_code: escape
         parameters:
           <<: *capslock-timing
-      
+
       # Tab: tap → Tab, hold → Hyper
-      - description: 'tab = tab(tap) | hyper(hold)'
+      - description: "tab = tab(tap) | hyper(hold)"
         type: basic
         from:
           key_code: tab
@@ -82,9 +82,9 @@ rules:
           - key_code: tab
         parameters:
           <<: *hyper-timing
-      
+
       # Semicolon: tap → ;, hold → Hyper
-      - description: 'semicolon = ;(tap) | hyper(hold)'
+      - description: "semicolon = ;(tap) | hyper(hold)"
         type: basic
         from:
           key_code: semicolon
@@ -104,11 +104,11 @@ rules:
   # Essential functions accessed via Hyper modifier:
   # - Space → Delete (backspace)
   # - G → Return (enter)
-  
+
   - description: Hyper Layer - Functionality
     manipulators:
       # hyper + space → delete
-      - description: 'hyper + space = delete'
+      - description: "hyper + space = delete"
         type: basic
         from:
           key_code: spacebar
@@ -116,9 +116,9 @@ rules:
             mandatory: [right_command, right_control, right_shift, right_option]
         to:
           - key_code: delete_or_backspace
-      
+
       # hyper + G → return
-      - description: 'hyper + g = return'
+      - description: "hyper + g = return"
         type: basic
         from:
           key_code: g
@@ -130,100 +130,106 @@ rules:
   # ----------------------------------------------------------------------------
   # HYPER LAYER - BASIC NAVIGATION
   # ----------------------------------------------------------------------------
-  # Arrow key navigation on home row (Vim-style ASDF):
-  # - A → Left
-  # - S → Down
-  # - D → Up
-  # - F → Right
-  
+  # Arrow key navigation on top row (QWER):
+  # - Q → Left
+  # - W → Down
+  # - E → Up
+  # - R → Right
+
   - description: Hyper Layer - Basic Navigation
     manipulators:
-      # hyper + A → left
-      - description: 'hyper + a = left'
-        type: basic
-        from:
-          key_code: a
-          modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
-        to:
-          - key_code: left_arrow
-      
-      # hyper + S → down
-      - description: 'hyper + s = down'
-        type: basic
-        from:
-          key_code: s
-          modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
-        to:
-          - key_code: down_arrow
-      
-      # hyper + D → up
-      - description: 'hyper + d = up'
-        type: basic
-        from:
-          key_code: d
-          modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
-        to:
-          - key_code: up_arrow
-      
-      # hyper + F → right
-      - description: 'hyper + f = right'
-        type: basic
-        from:
-          key_code: f
-          modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
-        to:
-          - key_code: right_arrow
-
-  # ----------------------------------------------------------------------------
-  # HYPER LAYER - EXTENDED NAVIGATION
-  # ----------------------------------------------------------------------------
-  # Page/document navigation on top row (QWER):
-  # - Q → Page Up
-  # - W → Page Down
-  # - E → Home (start of line/document)
-  # - R → End (end of line/document)
-  
-  - description: Hyper Layer - Extended Navigation
-    manipulators:
-      # hyper + Q → page up
-      - description: 'hyper + q = page up'
+      # hyper + Q → left
+      - description: "hyper + q = left"
         type: basic
         from:
           key_code: q
           modifiers:
             mandatory: [right_command, right_control, right_shift, right_option]
         to:
-          - key_code: page_up
-      
-      # hyper + W → page down
-      - description: 'hyper + w = page down'
+          - key_code: left_arrow
+
+      # hyper + W → down
+      - description: "hyper + w = down"
         type: basic
         from:
           key_code: w
           modifiers:
             mandatory: [right_command, right_control, right_shift, right_option]
         to:
-          - key_code: page_down
-      
-      # hyper + E → home
-      - description: 'hyper + e = home'
+          - key_code: down_arrow
+
+      # hyper + E → up
+      - description: "hyper + e = up"
         type: basic
         from:
           key_code: e
           modifiers:
             mandatory: [right_command, right_control, right_shift, right_option]
         to:
-          - key_code: home
-      
-      # hyper + R → end
-      - description: 'hyper + r = end'
+          - key_code: up_arrow
+
+      # hyper + R → right
+      - description: "hyper + r = right"
         type: basic
         from:
           key_code: r
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: right_arrow
+
+      # # Reserved for future use (ASDF home row)
+      # # hyper + A → [reserved]
+      # # hyper + S → [reserved]
+      # # hyper + D → [reserved]
+      # # hyper + F → [reserved]
+
+  # ----------------------------------------------------------------------------
+  # HYPER LAYER - EXTENDED NAVIGATION
+  # ----------------------------------------------------------------------------
+  # Page/document navigation on number row (1234):
+  # - 1 → Page Up
+  # - 2 → Page Down
+  # - 3 → Home (start of line/document)
+  # - 4 → End (end of line/document)
+
+  - description: Hyper Layer - Extended Navigation
+    manipulators:
+      # hyper + 1 → page up
+      - description: "hyper + 1 = page up"
+        type: basic
+        from:
+          key_code: "1"
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: page_up
+
+      # hyper + 2 → page down
+      - description: "hyper + 2 = page down"
+        type: basic
+        from:
+          key_code: "2"
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: page_down
+
+      # hyper + 3 → home
+      - description: "hyper + 3 = home"
+        type: basic
+        from:
+          key_code: "3"
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+        to:
+          - key_code: home
+
+      # hyper + 4 → end
+      - description: "hyper + 4 = end"
+        type: basic
+        from:
+          key_code: "4"
           modifiers:
             mandatory: [right_command, right_control, right_shift, right_option]
         to:
@@ -237,11 +243,11 @@ rules:
   # - J → $ (shift+4, end of line)
   # - K → { (shift+[, previous paragraph)
   # - L → } (shift+], next paragraph)
-  
+
   - description: Hyper Layer - Vim Navigation
     manipulators:
       # hyper + H → ^ (shift+6)
-      - description: 'hyper + h = ^ (line start)'
+      - description: "hyper + h = ^ (line start)"
         type: basic
         from:
           key_code: h
@@ -250,9 +256,9 @@ rules:
         to:
           - key_code: "6"
             modifiers: [left_shift]
-      
+
       # hyper + J → $ (shift+4)
-      - description: 'hyper + j = $ (line end)'
+      - description: "hyper + j = $ (line end)"
         type: basic
         from:
           key_code: j
@@ -261,9 +267,9 @@ rules:
         to:
           - key_code: "4"
             modifiers: [left_shift]
-      
+
       # hyper + K → { (shift+[)
-      - description: 'hyper + k = { (prev paragraph)'
+      - description: "hyper + k = { (prev paragraph)"
         type: basic
         from:
           key_code: k
@@ -272,9 +278,9 @@ rules:
         to:
           - key_code: open_bracket
             modifiers: [left_shift]
-      
+
       # hyper + L → } (shift+])
-      - description: 'hyper + l = } (next paragraph)'
+      - description: "hyper + l = } (next paragraph)"
         type: basic
         from:
           key_code: l
@@ -292,11 +298,11 @@ rules:
   # - U → * (shift+8, next match word)
   # - I → , (previous match char with f/t)
   # - O → ; (next match char with f/t)
-  
+
   - description: Hyper Layer - Vim Search & Motion
     manipulators:
       # hyper + Y → # (shift+3)
-      - description: 'hyper + y = # (prev match word)'
+      - description: "hyper + y = # (prev match word)"
         type: basic
         from:
           key_code: "y"
@@ -305,9 +311,9 @@ rules:
         to:
           - key_code: "3"
             modifiers: [left_shift]
-      
+
       # hyper + U → * (shift+8)
-      - description: 'hyper + u = * (next match word)'
+      - description: "hyper + u = * (next match word)"
         type: basic
         from:
           key_code: u
@@ -316,9 +322,9 @@ rules:
         to:
           - key_code: "8"
             modifiers: [left_shift]
-      
+
       # hyper + I → , (comma)
-      - description: 'hyper + i = , (prev match char)'
+      - description: "hyper + i = , (prev match char)"
         type: basic
         from:
           key_code: i
@@ -326,9 +332,9 @@ rules:
             mandatory: [right_command, right_control, right_shift, right_option]
         to:
           - key_code: comma
-      
+
       # hyper + O → ; (semicolon)
-      - description: 'hyper + o = ; (next match char)'
+      - description: "hyper + o = ; (next match char)"
         type: basic
         from:
           key_code: o
@@ -343,11 +349,11 @@ rules:
   # Vim jump commands on bottom row (NM):
   # - N → % (shift+5, match bracket)
   # - M → ` (grave accent, jump to mark)
-  
+
   - description: Hyper Layer - Vim Jumps
     manipulators:
       # hyper + N → % (shift+5)
-      - description: 'hyper + n = % (match bracket)'
+      - description: "hyper + n = % (match bracket)"
         type: basic
         from:
           key_code: "n"
@@ -356,9 +362,9 @@ rules:
         to:
           - key_code: "5"
             modifiers: [left_shift]
-      
+
       # hyper + M → ` (grave_accent_and_tilde)
-      - description: 'hyper + m = ` (jump to mark)'
+      - description: "hyper + m = ` (jump to mark)"
         type: basic
         from:
           key_code: m
@@ -373,11 +379,11 @@ rules:
   # Space key acts as a layer modifier when held:
   # - Tap: Normal space
   # - Hold: Activates space_layer variable for one-handed input
-  
+
   - description: Space Layer - Modifier Activation
     manipulators:
       # Space key activates layer on hold, outputs space on tap (SpaceFN pattern)
-      - description: 'space = space(tap) | layer(hold)'
+      - description: "space = space(tap) | layer(hold)"
         type: basic
         from:
           key_code: spacebar
@@ -402,11 +408,11 @@ rules:
   # - 3 → 7
   # - 4 → 8
   # - 5 → 9
-  
+
   - description: Space Layer - Numbers
     manipulators:
       # space + ` → 0
-      - description: 'space + ` = 0'
+      - description: "space + ` = 0"
         type: basic
         from:
           key_code: grave_accent_and_tilde
@@ -418,9 +424,9 @@ rules:
           - type: variable_if
             name: space_layer
             value: 1
-      
+
       # space + 1 → .
-      - description: 'space + 1 = .'
+      - description: "space + 1 = ."
         type: basic
         from:
           key_code: "1"
@@ -432,9 +438,9 @@ rules:
           - type: variable_if
             name: space_layer
             value: 1
-      
+
       # space + 2 → 6
-      - description: 'space + 2 = 6'
+      - description: "space + 2 = 6"
         type: basic
         from:
           key_code: "2"
@@ -446,9 +452,9 @@ rules:
           - type: variable_if
             name: space_layer
             value: 1
-      
+
       # space + 3 → 7
-      - description: 'space + 3 = 7'
+      - description: "space + 3 = 7"
         type: basic
         from:
           key_code: "3"
@@ -460,9 +466,9 @@ rules:
           - type: variable_if
             name: space_layer
             value: 1
-      
+
       # space + 4 → 8
-      - description: 'space + 4 = 8'
+      - description: "space + 4 = 8"
         type: basic
         from:
           key_code: "4"
@@ -474,9 +480,9 @@ rules:
           - type: variable_if
             name: space_layer
             value: 1
-      
+
       # space + 5 → 9
-      - description: 'space + 5 = 9'
+      - description: "space + 5 = 9"
         type: basic
         from:
           key_code: "5"
@@ -498,11 +504,11 @@ rules:
   # - E → [ (open bracket)
   # - R → ] (close bracket)
   # - T → \ (backslash)
-  
+
   - description: Space Layer - Symbols (top row)
     manipulators:
       # space + Q → -
-      - description: 'space + q = -'
+      - description: "space + q = -"
         type: basic
         from:
           key_code: q
@@ -514,9 +520,9 @@ rules:
           - type: variable_if
             name: space_layer
             value: 1
-      
+
       # space + W → =
-      - description: 'space + w = ='
+      - description: "space + w = ="
         type: basic
         from:
           key_code: w
@@ -528,9 +534,9 @@ rules:
           - type: variable_if
             name: space_layer
             value: 1
-      
+
       # space + E → [
-      - description: 'space + e = ['
+      - description: "space + e = ["
         type: basic
         from:
           key_code: e
@@ -542,9 +548,9 @@ rules:
           - type: variable_if
             name: space_layer
             value: 1
-      
+
       # space + R → ]
-      - description: 'space + r = ]'
+      - description: "space + r = ]"
         type: basic
         from:
           key_code: r
@@ -556,7 +562,7 @@ rules:
           - type: variable_if
             name: space_layer
             value: 1
-      
+
       # space + T → \
       - description: 'space + t = \'
         type: basic
@@ -580,11 +586,11 @@ rules:
   # - D → K
   # - F → L
   # - G → Return (enter)
-  
+
   - description: Space Layer - Vim Keys (home row)
     manipulators:
       # space + A → H
-      - description: 'space + a = h'
+      - description: "space + a = h"
         type: basic
         from:
           key_code: a
@@ -596,9 +602,9 @@ rules:
           - type: variable_if
             name: space_layer
             value: 1
-      
+
       # space + S → J
-      - description: 'space + s = j'
+      - description: "space + s = j"
         type: basic
         from:
           key_code: s
@@ -610,9 +616,9 @@ rules:
           - type: variable_if
             name: space_layer
             value: 1
-      
+
       # space + D → K
-      - description: 'space + d = k'
+      - description: "space + d = k"
         type: basic
         from:
           key_code: d
@@ -624,9 +630,9 @@ rules:
           - type: variable_if
             name: space_layer
             value: 1
-      
+
       # space + F → L
-      - description: 'space + f = l'
+      - description: "space + f = l"
         type: basic
         from:
           key_code: f
@@ -638,9 +644,9 @@ rules:
           - type: variable_if
             name: space_layer
             value: 1
-      
+
       # space + G → return
-      - description: 'space + g = return'
+      - description: "space + g = return"
         type: basic
         from:
           key_code: g
@@ -662,11 +668,11 @@ rules:
   # - C → , (comma)
   # - V → . (period)
   # - B → / (forward slash)
-  
+
   - description: Space Layer - Symbols (bottom row)
     manipulators:
       # space + Z → ;
-      - description: 'space + z = ;'
+      - description: "space + z = ;"
         type: basic
         from:
           key_code: z
@@ -678,7 +684,7 @@ rules:
           - type: variable_if
             name: space_layer
             value: 1
-      
+
       # space + X → '
       - description: "space + x = '"
         type: basic
@@ -692,9 +698,9 @@ rules:
           - type: variable_if
             name: space_layer
             value: 1
-      
+
       # space + C → ,
-      - description: 'space + c = ,'
+      - description: "space + c = ,"
         type: basic
         from:
           key_code: c
@@ -706,9 +712,9 @@ rules:
           - type: variable_if
             name: space_layer
             value: 1
-      
+
       # space + V → .
-      - description: 'space + v = .'
+      - description: "space + v = ."
         type: basic
         from:
           key_code: v
@@ -720,9 +726,9 @@ rules:
           - type: variable_if
             name: space_layer
             value: 1
-      
+
       # space + B → /
-      - description: 'space + b = /'
+      - description: "space + b = /"
         type: basic
         from:
           key_code: b
@@ -745,7 +751,7 @@ rules:
 # # CUSTOM LAYER - [NAME]
 # # ----------------------------------------------------------------------------
 # # Description of what this layer provides
-# 
+#
 #   - description: Custom Layer - [Category]
 #     manipulators:
 #       # Add your custom mappings here
