@@ -97,7 +97,7 @@ pkgs:
     # CLI Tools
     # =============================================================================
     7zip:
-      brew: "7zip"
+      brew: "sevenzip"
       scoop: "7zip"
       pacman: "7zip"
     ast-grep:
@@ -165,7 +165,7 @@ pkgs:
       scoop: "less"
       pacman: "less"
     localsend:
-      brew: "localsend"
+      brew: "--cask localsend"
       scoop: "localsend"
       aur: "localsend-bin"
       wsl: false
