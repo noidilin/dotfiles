@@ -80,13 +80,6 @@ custom = true # enable custom shell completion
 {{/* Application-Specific Directories */}}
   BLENDER_USER_RESOURCES = {{ joinPath .chezmoi.homeDir ".local" "etc" "blender" | quote }}
 
-{{/* PATH: Only prepend .local/bin since scripts use 'mise exec --' for tools */}}
-{{- if eq .chezmoi.os "windows" }}
-  PATH = {{ list (joinPath .chezmoi.homeDir ".local" "bin") (env "PATH") | join ";" | quote }}
-{{- else }}
-  PATH = {{ list (joinPath .chezmoi.homeDir ".local" "bin") (env "PATH") | join ":" | quote }}
-{{- end }}
-
 {{/* ========================================== */}}
 {{/* Platform-Specific Configurations          */}}
 {{/* ========================================== */}}

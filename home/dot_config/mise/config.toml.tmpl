@@ -37,3 +37,18 @@ rust = { version = "{{ $config.darwin.version }}", profile = "{{ $config.darwin.
 {{ $key }} = {{ $value }}
 {{-   end }}
 {{- end }}
+
+# =============================================================================
+# Environment Configuration
+# =============================================================================
+# Add tool bin directories to PATH when mise is activated in the shell.
+# Scripts should continue using `mise exec --` pattern.
+
+[[env]]
+_.path = [
+  "{{`{{env.PNPM_HOME}}`}}",
+  "{{`{{env.BUN_INSTALL_BIN}}`}}",
+  "{{`{{env.CARGO_HOME}}`}}/bin",
+  "{{`{{env.GOBIN}}`}}",
+  "{{`{{env.UV_TOOL_BIN_DIR}}`}}"
+]

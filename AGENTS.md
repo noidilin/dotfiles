@@ -35,7 +35,7 @@
 
 ## Environment Variable Architecture
 
-Environment variables are configured in **two independent layers**:
+Environment variables are configured in **three independent layers**:
 
 ### 1. Deployment Environment (Chezmoi scriptEnv)
 
@@ -53,7 +53,24 @@ Environment variables are configured in **two independent layers**:
 
 **Note:** Scripts access mise-managed tools via `mise exec --` prefix, not PATH
 
-### 2. Interactive Shell Environment (Nushell Config)
+### 2. Mise Environment Management
+
+**Location:** `~/.config/mise/config.toml` → `[[env]]` section
+
+**Purpose:** Automatically adds tool bin directories to PATH when mise is activated
+
+**PATH Additions:**
+- `PNPM_HOME` - pnpm global packages
+- `BUN_INSTALL_BIN` - Bun global binaries
+- `CARGO_HOME/bin` - Rust cargo binaries
+- `GOBIN` - Go binaries
+- `UV_TOOL_BIN_DIR` - Python uv tool binaries
+
+**Usage:** Active when mise shell integration is enabled (via `mise activate`)
+
+**Note:** References environment variables from scriptEnv (e.g., `{{env.CARGO_HOME}}`)
+
+### 3. Interactive Shell Environment (Nushell Config)
 
 **Location:** `~/.config/nushell/env/*.nu`
 
@@ -69,17 +86,25 @@ Environment variables are configured in **two independent layers**:
 
 **Usage:** Loaded when launching interactive nushell shell
 
-### Why Two Layers?
+**Note:** Maintains independent PATH management as fallback for non-mise contexts
+
+### Why Three Layers?
 
 **Separation of Concerns:**
-- Deployment (chezmoi) and interactive shell remain independent
-- Shell configuration can be more dynamic (hooks, completions, themes)
-- Changes to shell config don't affect deployment scripts
+- Deployment (chezmoi), runtime (mise), and interactive shell remain independent
+- Each layer serves a specific purpose with minimal overlap
+- Changes to one layer don't affect the others
 
 **Portability:**
 - Chezmoi scripts work regardless of user's shell preference
-- Init scripts no longer require nushell to be installed first
+- Mise provides cross-shell PATH management (bash, zsh, fish, nushell, etc.)
+- Nushell config provides fallback PATH when mise is not activated
 - Users can customize their shell without breaking dotfile deployment
+
+**Flexibility:**
+- scriptEnv: Essential for chezmoi script execution
+- Mise: Automatic PATH management for mise-enabled shells
+- Nushell: Full control for nushell-specific configurations
 
 ## Platform-Specific Configs
 
