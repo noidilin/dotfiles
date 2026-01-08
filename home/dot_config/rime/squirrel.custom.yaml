@@ -5,7 +5,7 @@
 # 鼠须管作者写的图形化的皮肤设计器： https://github.com/LEOYoon-Tsaw/Squirrel-Designer
 
 # 要比共享目录的同名文件的 config_version 大才可以生效
-# config_version: 'RIME_ICE'  # config_version: '1.0.3'
+config_version: "noidilin" # config_version: '1.0.3'
 
 patch:
   # ascii_mode、inline、no_inline、vim_mode 等等设定
