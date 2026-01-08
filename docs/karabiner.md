@@ -138,6 +138,11 @@ Uncomment and customize these templates when adding new functionality.
 
 ### Hyper Layer
 
+**Modifier Pass-Through:** All hyper layer mappings support additional modifiers (Option, Command, Shift). When you press extra modifiers along with hyper combinations, they are passed through to the output. For example:
+- `option + hyper + q` → `option + left arrow` (word navigation)
+- `shift + hyper + e` → `shift + up arrow` (text selection)
+- `command + hyper + a` → `command + command + left` (still works, though redundant)
+
 #### Functionality
 
 - **Space** -> Delete
