@@ -7,12 +7,6 @@
 .config/chezmoi/**
 age-key.txt.age # age passphrase key for chezmoi to decryp private key
 
-### rime build and userdb
-
-.config/rime/build
-.config/rime/lua/*.userdb/
-.config/rime/wanxiang-lts-zh-hans.gram
-
 ### script files ###
 
 {{- if ne .chezmoi.os "linux" }}
