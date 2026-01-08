@@ -23,21 +23,21 @@ x-parameters:
   # - to_if_alone_timeout: Maximum time for a tap to register
   # - to_if_held_down_threshold: Minimum time to activate hold behavior
   hyper-timing: &hyper-timing
-    basic.to_if_alone_timeout_milliseconds: 150
-    basic.to_if_held_down_threshold_milliseconds: 200
+    basic.to_if_alone_timeout_milliseconds: 200
+    basic.to_if_held_down_threshold_milliseconds: 100
 
   # CapsLock timing
   # - to_if_alone_timeout: Maximum time for a tap to register as Escape
   capslock-timing: &capslock-timing
-    basic.to_if_alone_timeout_milliseconds: 150
+    basic.to_if_alone_timeout_milliseconds: 100
 
   # Space layer timing (variable-based modifier)
   # - to_if_alone_timeout: Maximum time for a tap to register as space
   # - to_if_held_down_threshold: Time before space layer activates
   # Timing parameters for space layer activation
   space-timing: &space-timing
-    basic.to_if_alone_timeout_milliseconds: 150
-    basic.to_if_held_down_threshold_milliseconds: 200
+    basic.to_if_alone_timeout_milliseconds: 200
+    basic.to_if_held_down_threshold_milliseconds: 100
 
 # ==============================================================================
 # RULES
