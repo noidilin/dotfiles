@@ -17,6 +17,7 @@ source/
 ```
 
 The single `karabiner.yml` file is organized into sections using comments:
+
 - **Metadata**: Title, version, author, description
 - **Timing Parameters**: Reusable YAML anchors for timing values (`x-parameters`)
 - **Rules**: All key mapping rules organized by layer:
@@ -144,21 +145,21 @@ Uncomment and customize these templates when adding new functionality.
 
 #### Navigation
 
-- **Top Row:** Extended Navigation
-  - **Q** -> Page Up
-  - **W** -> Page Down
-  - **E** -> Home
-  - **R** -> End
+- **Num Row:** Extended Navigation
+  - **1** -> Page Up
+  - **2** -> Page Down
+  - **3** -> Home
+  - **4** -> End
 - **Mid Row:** Basic Navigation
-  - **A** -> Left
-  - **S** -> Down
-  - **D** -> Up
-  - **F** -> Right
-- **Bot Row:**
-  - **Z** ->  (haven't think of good use case)
-  - **X** ->  (haven't think of good use case)
-  - **C** ->  (haven't think of good use case)
-  - **V** ->  (haven't think of good use case)
+  - **Q** -> Left
+  - **W** -> Down
+  - **E** -> Up
+  - **R** -> Right
+- **Bot Row:** Word/Line Navigation
+  - **A** -> Command + Left (beginning of line)
+  - **S** -> Command + Right (end of line)
+  - **D** -> Option + Left (word backward)
+  - **F** -> Option + Right (word forward)
 
 #### Vim navigation (char)
 
