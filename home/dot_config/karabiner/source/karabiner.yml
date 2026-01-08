@@ -29,7 +29,7 @@ x-parameters:
   # CapsLock timing
   # - to_if_alone_timeout: Maximum time for a tap to register as Escape
   capslock-timing: &capslock-timing
-    basic.to_if_alone_timeout_milliseconds: 100
+    basic.to_if_alone_timeout_milliseconds: 200
 
   # Space layer timing (variable-based modifier)
   # - to_if_alone_timeout: Maximum time for a tap to register as space
