@@ -12,3 +12,16 @@ refreshPeriod = "168h"
 type = "git-repo"
 url = "git@github.com:noidilin/wezterm.git"
 refreshPeriod = "168h"
+
+[".config/rime"]
+type = "archive"
+url = {{ gitHubReleaseAssetURL "amzxyz/rime_wanxiang" (gitHubLatestTag "amzxyz/rime_wanxiang").Name "rime-wanxiang-base.zip" | quote }}
+exact = false
+stripComponents = 0
+refreshPeriod = "168h"
+exclude = [
+  "README.md",
+  "custom/**.md",
+  "custom/**.png",
+  "custom/**.jpg"
+]
