@@ -5,8 +5,8 @@
 
 set -euo pipefail
 
-KEY_PATH="$HOME/.config/.age-key.txt"
-SOURCE_FILE="{{ .chezmoi.sourceDir }}/age-key.txt.age"
+KEY_PATH="$HOME/.config/chezmoi/.chezmoi-crypto-key.txt"
+SOURCE_FILE="{{ .chezmoi.sourceDir }}/chezmoi-crypto-key.txt.age"
 
 # Check if the decrypted key file exists
 if [ ! -f "$KEY_PATH" ]; then

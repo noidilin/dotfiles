@@ -5,7 +5,7 @@
 ### chezmoi ###
 
 .config/chezmoi/**
-age-key.txt.age # age passphrase key for chezmoi to decryp private key
+chezmoi-crypto-key.txt.age # age passphrase key for chezmoi to decryp private key
 
 ### script files ###
 
