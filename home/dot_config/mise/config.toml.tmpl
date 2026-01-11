@@ -41,14 +41,46 @@ rust = { version = "{{ $config.darwin.version }}", profile = "{{ $config.darwin.
 # =============================================================================
 # Environment Configuration
 # =============================================================================
-# Add tool bin directories to PATH when mise is activated in the shell.
-# Scripts should continue using `mise exec --` pattern.
+# Environment variables are set using mise's [[env]] section for cross-shell
+# compatibility (bash/zsh/fish/nushell). These vars are active when mise is
+# activated in the shell.
+#
+# Paths are generated from .chezmoidata/env.yml using the same template as
+# chezmoi scriptEnv to maintain single source of truth.
+#
+# Absolute paths (using chezmoi.homeDir) are used for maximum cross-platform
+# compatibility, especially on Windows where tilde expansion may not work
+# consistently across all contexts.
 
 [[env]]
+{{- /* XDG Base Directory Specification */ -}}
+{{- range $key, $pathParts := .env.xdg }}
+  {{ $key }} = {{ printf "%s/%s" $.chezmoi.homeDir (join "/" $pathParts) | quote }}
+{{- end }}
+
+{{- /* Development Tool Directories */ -}}
+{{- range $key, $pathParts := .env.dev }}
+  {{ $key }} = {{ printf "%s/%s" $.chezmoi.homeDir (join "/" $pathParts) | quote }}
+{{- end }}
+
+{{- /* Application-Specific Directories */ -}}
+{{- range $key, $pathParts := .env.other }}
+  {{ $key }} = {{ printf "%s/%s" $.chezmoi.homeDir (join "/" $pathParts) | quote }}
+{{- end }}
+
 _.path = [
-  "{{`{{env.PNPM_HOME}}`}}",
-  "{{`{{env.BUN_INSTALL_BIN}}`}}",
-  "{{`{{env.CARGO_HOME}}`}}/bin",
-  "{{`{{env.GOBIN}}`}}",
-  "{{`{{env.UV_TOOL_BIN_DIR}}`}}"
+{{- range .env.path }}
+{{-   $varName := . }}
+{{-   $pathParts := index $.env.dev $varName }}
+{{-   if not $pathParts }}
+{{-     $pathParts = index $.env.xdg $varName }}
+{{-   end }}
+{{-   if $pathParts }}
+{{-     if eq $varName "CARGO_HOME" }}
+  {{ printf "%s/%s/bin" $.chezmoi.homeDir (join "/" $pathParts) | quote }},
+{{-     else }}
+  {{ printf "%s/%s" $.chezmoi.homeDir (join "/" $pathParts) | quote }},
+{{-     end }}
+{{-   end }}
+{{- end }}
 ]
