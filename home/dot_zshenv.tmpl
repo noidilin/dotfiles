@@ -1,8 +1,8 @@
-{{- if eq .chezmoi.os "darwin" -}}
 # vim: ft=zsh
+{{- if eq .chezmoi.os "darwin" -}}
 # XDG Base Directory Specification
 # Managed by chezmoi
-{{- range $key, $value := .env.darwin }}
+{{- range $key, $value := .env.xdg }}
 export {{ $key }}="{{ $value }}"
 {{- end }}
 {{- end -}}

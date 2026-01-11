@@ -1,8 +1,8 @@
-{{- if eq .osId "linux-arch" -}}
 # vim: ft=bash
+{{- if eq .osId "linux-arch" -}}
 # XDG Base Directory Specification
 # Managed by chezmoi
-{{- range $key, $value := .env.arch }}
+{{- range $key, $value := .env.xdg }}
 export {{ $key }}="{{ $value }}"
 {{- end }}
 
