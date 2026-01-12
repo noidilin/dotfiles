@@ -166,7 +166,7 @@ foreach ($bucket in $buckets)
 
 # Step 5: Install Bootstrap Tools
 Write-Step "Installing bootstrap tools..."
-$tools = @("nu", "chezmoi", "age", "gsudo")
+$tools = @("chezmoi", "age", "gsudo")
 
 foreach ($tool in $tools)
 {
@@ -332,11 +332,10 @@ Write-Host "What happened:"
 Write-Host "  ✓ Execution policy set to RemoteSigned" -ForegroundColor DarkGray
 Write-Host "  ✓ Scoop package manager installed" -ForegroundColor DarkGray
 Write-Host "  ✓ Scoop buckets added (extras, nerd-fonts, wezterm-alt-icon)" -ForegroundColor DarkGray
-Write-Host "  ✓ Bootstrap tools installed (nushell, chezmoi, age, gsudo)" -ForegroundColor DarkGray
+Write-Host "  ✓ Bootstrap tools installed (chezmoi, age, gsudo)" -ForegroundColor DarkGray
 Write-Host "  ✓ Developer Mode enabled" -ForegroundColor DarkGray
 Write-Host "  ✓ 1Password apps installed and configured" -ForegroundColor DarkGray
 Write-Host "  ✓ Symlink privileges granted" -ForegroundColor DarkGray
-Write-Host "  ✓ Dotfiles applied via nushell with proper environment" -ForegroundColor DarkGray
 Write-Host ""
 Write-Host "Next steps:"
 Write-Host "  • Restart PowerShell to load new configurations" -ForegroundColor DarkGray

@@ -93,7 +93,7 @@ print_success "System packages updated"
 
 # Step 2: Install Bootstrap Packages
 print_step "Installing bootstrap packages..."
-PACKAGES=("git" "base-devel" "openssh" "nushell" "chezmoi" "age")
+PACKAGES=("git" "base-devel" "openssh" "chezmoi" "age")
 
 if ! sudo pacman -S --needed --noconfirm "${PACKAGES[@]}"; then
 	stop_on_error "Failed to install bootstrap packages" "Check pacman configuration"
@@ -181,9 +181,8 @@ echo ""
 echo -e "What happened:"
 echo -e "  ${GRAY}✓ 1Password CLI access verified${RESET}"
 echo -e "  ${GRAY}✓ System packages updated${RESET}"
-echo -e "  ${GRAY}✓ Bootstrap tools installed (git, openssh, nushell, chezmoi, age)${RESET}"
+echo -e "  ${GRAY}✓ Bootstrap tools installed (git, openssh, chezmoi, age)${RESET}"
 echo -e "  ${GRAY}✓ yay AUR helper installed${RESET}"
-echo -e "  ${GRAY}✓ Dotfiles applied via nushell with proper environment${RESET}"
 echo ""
 echo -e "Next steps:"
 echo -e "  ${WHITE}• Restart your shell to load new configurations${RESET}"

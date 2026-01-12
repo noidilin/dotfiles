@@ -157,7 +157,7 @@ print_success "Homebrew updated successfully"
 
 # Step 3: Install Bootstrap Packages
 print_step "Installing bootstrap packages..."
-PACKAGES=("git" "nushell" "chezmoi" "age")
+PACKAGES=("git" "chezmoi" "age")
 
 for pkg in "${PACKAGES[@]}"; do
 	if brew list "$pkg" &>/dev/null; then
