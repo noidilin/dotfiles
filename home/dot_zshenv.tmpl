@@ -2,7 +2,7 @@
 {{- if eq .chezmoi.os "darwin" -}}
 # XDG Base Directory Specification
 # Managed by chezmoi
-{{- range $key, $value := .env.xdg }}
-export {{ $key }}="{{ $value }}"
+{{- range $key, $pathParts := .env.xdg }}
+export {{ $key }}="{{ printf "%s/%s" $.chezmoi.homeDir (join "/" $pathParts) }}"
 {{- end }}
 {{- end -}}

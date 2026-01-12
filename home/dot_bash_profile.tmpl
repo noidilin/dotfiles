@@ -2,8 +2,8 @@
 {{- if eq .osId "linux-arch" -}}
 # XDG Base Directory Specification
 # Managed by chezmoi
-{{- range $key, $value := .env.xdg }}
-export {{ $key }}="{{ $value }}"
+{{- range $key, $pathParts := .env.xdg }}
+export {{ $key }}="{{ printf "%s/%s" $.chezmoi.homeDir (join "/" $pathParts) }}"
 {{- end }}
 
 # Source .bashrc if it exists
