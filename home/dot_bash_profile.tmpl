@@ -1,10 +1,6 @@
 # vim: ft=bash
 {{- if eq .osId "linux-arch" -}}
-# XDG Base Directory Specification
-# Managed by chezmoi
-{{- range $key, $pathParts := .env.xdg }}
-export {{ $key }}="{{ printf "%s/%s" $.chezmoi.homeDir (join "/" $pathParts) }}"
-{{- end }}
+  {{ template "env" . }}
 
 # Source .bashrc if it exists
 [ -f "${HOME}/.bashrc" ] && source "${HOME}/.bashrc"

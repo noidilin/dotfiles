@@ -53,20 +53,7 @@ rust = { version = "{{ $config.darwin.version }}", profile = "{{ $config.darwin.
 # consistently across all contexts.
 
 [[env]]
-{{- /* XDG Base Directory Specification */ -}}
-{{- range $key, $pathParts := .env.xdg }}
-  {{ $key }} = {{ printf "%s/%s" $.chezmoi.homeDir (join "/" $pathParts) | quote }}
-{{- end }}
-
-{{- /* Development Tool Directories */ -}}
-{{- range $key, $pathParts := .env.dev }}
-  {{ $key }} = {{ printf "%s/%s" $.chezmoi.homeDir (join "/" $pathParts) | quote }}
-{{- end }}
-
-{{- /* Application-Specific Directories */ -}}
-{{- range $key, $pathParts := .env.other }}
-  {{ $key }} = {{ printf "%s/%s" $.chezmoi.homeDir (join "/" $pathParts) | quote }}
-{{- end }}
+{{ template "env" . }}
 
 _.path = [
 {{- range .env.path }}
