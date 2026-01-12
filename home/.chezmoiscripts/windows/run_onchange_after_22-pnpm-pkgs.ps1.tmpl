@@ -19,11 +19,8 @@ if ($LASTEXITCODE -ne 0) {
     exit 0
 }
 
-$pnpmVersion = mise exec -- pnpm --version 2>$null
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "WARNING: pnpm is not available via mise (skipping pnpm packages)" -ForegroundColor Red
-    exit 0
-}
+# Corepack will prompt to install pnpm if pnpm has not been installed yet.
+$pnpmVersion = mise exec -- pnpm --version
 
 $script:PnpmPackages = $null
 function Get-PnpmInstalledPackages {

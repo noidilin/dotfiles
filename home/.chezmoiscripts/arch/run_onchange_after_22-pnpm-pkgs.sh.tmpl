@@ -29,10 +29,8 @@ if ! node_version=$(mise exec -- node --version 2>/dev/null); then
   exit 0
 fi
 
-if ! pnpm_version=$(mise exec -- pnpm --version 2>/dev/null); then
-  printf "${RED}WARNING: pnpm is not available via mise (skipping pnpm packages)${RESET}\n"
-  exit 0
-fi
+# Corepack will prompt to install pnpm if pnpm has not been installed yet.
+pnpm_version=$(mise exec -- pnpm --version)
 
 declare -a PNPM_INSTALLED=()
 pnpm_cache_loaded=0
