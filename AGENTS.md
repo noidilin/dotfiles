@@ -8,14 +8,14 @@
 - Encrypted files use age encryption (see `home/.chezmoi.toml.tmpl` for config)
 - Platform-specific files are filtered via `home/.chezmoiignore`
 
-## Supported Platforms
+### Supported Platforms
 
 - **Windows**: Primary platform with full configuration
 - **Linux (Arch WSL2)**: CLI tools only, uses Windows interop for SSH/GPG
 - **Linux (Arch Native)**: Planned support with desktop environment (minimal setup for now)
 - **macOS**: Configured but not actively used (see `.chezmoiignore` for exclusions)
 
-## Commands
+### Commands
 
 - **Apply changes**: `chezmoi apply`
 - **Add encrypted file**: `chezmoi add --encrypt <file>`
@@ -24,269 +24,47 @@
   - Windows: `pwsh home/.chezmoiscripts/run_once_before_decrypt-private-key.ps1.tmpl`
   - Arch Linux: Auto-runs `.chezmoiscripts/run_onchange_install-packages-arch.sh.tmpl`
 
-## Environment & Tools
-
-- **Platforms**: Windows (primary), Linux/Arch (WSL2)
-- **Shells**: Nushell (nu) is primary on all platforms, PowerShell (pwsh) on Windows only
-- **XDG directories**:
-  - Windows: `XDG_CONFIG_HOME=$HOME\.config`, `XDG_DATA_HOME=$HOME\.local\share`, `XDG_CACHE_HOME=$HOME\.cache`
-  - Linux: `XDG_CONFIG_HOME=~/.config`, `XDG_DATA_HOME=~/.local/share`, `XDG_CACHE_HOME=~/.cache`
-- **Available tools**: fd, sd, grep, ripgrep, ast-grep, imagemagick, yazi, lazygit, mise, bat, eza, fzf, bottom, delta
-
-## Environment Variable Architecture
-
-Environment variables are configured in **three independent layers**:
-
-### 1. Deployment Environment (Chezmoi scriptEnv)
-
-**Location:** `.chezmoi.toml.tmpl` → `[scriptEnv]` section
-
-**Purpose:** Provides environment variables to chezmoi scripts during `chezmoi apply`
-
-**Variables Set:**
-- XDG Base Directory variables (XDG_CONFIG_HOME, XDG_DATA_HOME, etc.)
-- Development tool home directories (CARGO_HOME, GOPATH, RUSTUP_HOME, etc.)
-- Application-specific directories (BLENDER_USER_RESOURCES)
-- Minimal PATH with `.local/bin` prepended
-
-**Usage:** Automatically available to all scripts in `.chezmoiscripts/`
-
-**Note:** Scripts access mise-managed tools via `mise exec --` prefix, not PATH
-
-### 2. Mise Environment Management
-
-**Location:** `~/.config/mise/config.toml` → `[[env]]` section
-
-**Purpose:** Automatically adds tool bin directories to PATH when mise is activated
-
-**PATH Additions:**
-- `PNPM_HOME` - pnpm global packages
-- `BUN_INSTALL_BIN` - Bun global binaries
-- `CARGO_HOME/bin` - Rust cargo binaries
-- `GOBIN` - Go binaries
-- `UV_TOOL_BIN_DIR` - Python uv tool binaries
-
-**Usage:** Active when mise shell integration is enabled (via `mise activate`)
-
-**Note:** References environment variables from scriptEnv (e.g., `{{env.CARGO_HOME}}`)
-
-### 3. Interactive Shell Environment (Nushell Config)
-
-**Location:** `~/.config/nushell/env/*.nu`
-
-**Purpose:** Provides environment variables for interactive nushell sessions
-
-**Files:**
-- `xdg.nu` - XDG Base Directory variables
-- `dev.nu` - Development tool paths and PATH modifications
-- `shell.nu` - Editor, pager, and tool-specific settings
-- `fzf.nu` - FZF keybindings and preview commands
-- `key.nu` - API keys (loaded from encrypted files)
-- `mise.nu` - Mise activation for directory-based tool switching
-
-**Usage:** Loaded when launching interactive nushell shell
-
-**Note:** Maintains independent PATH management as fallback for non-mise contexts
-
-### Why Three Layers?
-
-**Separation of Concerns:**
-- Deployment (chezmoi), runtime (mise), and interactive shell remain independent
-- Each layer serves a specific purpose with minimal overlap
-- Changes to one layer don't affect the others
-
-**Portability:**
-- Chezmoi scripts work regardless of user's shell preference
-- Mise provides cross-shell PATH management (bash, zsh, fish, nushell, etc.)
-- Nushell config provides fallback PATH when mise is not activated
-- Users can customize their shell without breaking dotfile deployment
-
-**Flexibility:**
-- scriptEnv: Essential for chezmoi script execution
-- Mise: Automatic PATH management for mise-enabled shells
-- Nushell: Full control for nushell-specific configurations
-
-## Platform-Specific Configs
-
-- **Windows-only**: Flow Launcher, WinTerm, GlazeWM, Rime, PowerShell, setup-win scripts
-- **Cross-platform**: Nushell, Git, Starship, CLI tools (bat, eza, yazi, etc.), OpenCode
-- **Linux setup**: See `docs/arch-wsl-setup.md` for Arch Linux WSL2 initialization
-
-## Code Style
+### Code Style
 
 - **Shell scripts**: Use `.ps1` for PowerShell (Windows), `.sh` for bash (Linux), `.nu` for Nushell (all platforms)
 - **Line endings**: LF for `.sh` files (see `.editorconfig`)
 - **Markdown**: MD013 (line length) disabled (see `.markdownlint-cli2.yaml`)
 - **Naming**: Use descriptive function names with verb-noun pattern (e.g., `Update-Stylus`, `Delete-TempData`)
 
-## Chezmoi Template Indentation Style Guide
+---
 
-### Core Principles
+## Environment & Tools
 
-1. **Template markers** (`{{-`, `{{`, `-}}`, `}}`): Indent by **2 spaces per nesting level** to show control flow structure
-2. **Content inside templates**: Align with surrounding context (ignore template nesting depth)
-3. **Preserve context alignment**: Content should maintain its natural indentation (TOML sections, PowerShell blocks, etc.)
+- **Platforms**: Windows (primary), Linux/Arch (WSL2)
+- **Shells**: Nushell (nu) is primary on all platforms, PowerShell (pwsh) on Windows only
+- **XDG directories**
+- **Available tools**: fd, sd, grep, ripgrep, ast-grep, imagemagick, yazi, lazygit, mise, bat, eza, fzf, bottom, delta
 
-### Template Marker Indentation Rules
+### Environment Variable Architecture
 
-```toml
-{{- if condition }}          ← Level 0: flush left (top-level block)
-  content here               ← Content: aligned with context (e.g., 2 spaces for TOML section)
-{{-   if nested }}            ← Level 1: 2 spaces (nested block)
-  content here               ← Content: still aligned with context (not double-indented!)
-{{-   end }}                  ← Level 1: 2 spaces (closing nested block)
-{{- else if other }}          ← Level 0: flush left (same level as opening if)
-  content here
-{{- end }}                    ← Level 0: flush left (closing top-level block)
-```
+Environment variables are configured in **three independent layers** with a **unified source of truth**:
 
-**Key rules:**
+- Single Source of Truth: `.chezmoidata/env.yml`
+- Shared Template: `.chezmoitemplates/env`
+  - This template is used by both chezmoi scriptEnv and mise config to ensure consistency.
 
-- Top-level blocks: **0 spaces** (flush left)
-- Nested blocks: **+2 spaces per level** (relative to parent block)
-- `else if` and `else`: **Same indentation as opening `if`**
-- `end`: **Same indentation as corresponding opening block**
-- **Content**: Ignores template nesting, follows target file format conventions
+### Environment Variables Definitions
 
-### Whitespace Trimming
+- chezmoi: env vars
+  - **Location:** `.chezmoi.toml.tmpl` → `[scriptEnv]` section
+  - **Usage:** Automatically available to all scripts in `.chezmoiscripts/`
+  - **Note:** Scripts access mise-managed tools via `mise exec --` prefix, not PATH
+- mise: env vars, paths
+  - **Location:** `~/.config/mise/config.toml` → `[[env]]` section
+  - **Usage:** Active when mise shell integration is enabled (via `mise activate`)
+  - **Note**: Inherit environment variables from system, not chezmoi
+- nushell: env vars, paths
+  - **Location:** `~/.config/nushell/env/*.nu`
+  - **Purpose:** Provides environment variables for interactive nushell sessions
+  - **Usage:** Loaded when launching interactive nushell shell
+  - **Note:** Maintains independent PATH management as fallback for non-mise contexts
 
-- **Control flow blocks**: Use `{{-` and `-}}` for consistent output formatting
-- **Content interpolation**: Use `{{` and `}}` (no dashes) when outputting variables/content
-- **Comments**: Can use `{{/* */}}` without dashes for visual separators
-
-### Examples
-
-#### Example 1: TOML Config with Nested Conditions
-
-```toml
-[user]
-  name = noidilin
-  email = linganinja.0120@gmail.com
-{{- if eq .osId "windows" }}
-  signingkey = {{ onepasswordRead "op://dev/github-win/public key" | trim }}
-{{- else if eq .osId "linux-arch" }}
-{{-   if eq .archEnv "wsl" }}
-  signingkey = {{ onepasswordRead "op://dev/github-win/public key" | trim }}
-{{-   else }}
-  signingkey = {{ onepasswordRead "op://dev/github-arch/public key" | trim }}
-{{-   end }}
-{{- else if eq .osId "darwin" }}
-  signingkey = {{ onepasswordRead "op://dev/github-mac/public key" | trim }}
-{{- end }}
-```
-
-**Note:** `signingkey` stays at 2 spaces (TOML section indentation), regardless of template nesting.
-
-#### Example 2: PowerShell Script with Range Loop
-
-```powershell
-{{- if not .symlinks.windows }}
-Write-Host "No symlink definitions found. Skipping." -ForegroundColor Yellow
-return
-{{- else }}
-$symlinkItems = @(
-{{-   range .symlinks.windows }}
-    @{
-        Target = "{{ .target }}"
-        Source = "{{ .source }}"
-    }
-{{-   end }}
-)
-{{- end }}
-```
-
-**Note:** `range` block indented (2 spaces), but PowerShell array content uses natural 4-space indentation.
-
-#### Example 3: Complex Nested Conditions
-
-```toml
-{{- range $name, $config := .mise.tools }}      ← Level 0
-{{-   if eq $name "node" }}                     ← Level 1: 2 spaces
-node = { version = "{{ $config.version }}" }    ← Content: flush left (TOML top-level)
-{{-   else if eq $name "rust" }}                ← Level 1: 2 spaces
-{{-     if eq $.chezmoi.os "windows" }}         ← Level 2: 4 spaces
-rust = { version = "{{ $config.windows.version }}" }
-{{-     else if eq $.chezmoi.os "linux" }}      ← Level 2: 4 spaces
-rust = { version = "{{ $config.linux.version }}" }
-{{-     end }}                                  ← Level 2: 4 spaces
-{{-   end }}                                    ← Level 1: 2 spaces
-{{- end }}                                      ← Level 0
-```
-
-**Note:** Clear visual hierarchy shows nesting depth (0 → 2 → 4 spaces for markers), but content stays flush left.
-
-#### Example 4: Bash Script
-
-```bash
-{{- if .pkgs.cargo }}
-printf "Installing cargo packages...\n"
-{{-   range .pkgs.cargo }}
-install_cargo_package "{{ . }}"
-{{-   end }}
-{{- else }}
-printf "No cargo packages declared (skipping)\n"
-{{- end }}
-```
-
-**Note:** Bash commands at natural indentation (0 for top-level), template markers show structure.
-
-### Common Patterns to Avoid
-
-**❌ Incorrect: Mixing indentation styles**
-
-```toml
-{{- if condition }}
-{{-   if nested }}          ← Indented (good)
-  content
-{{- else if other }}        ← NOT indented (inconsistent!)
-  content
-{{-   end }}
-{{- end }}
-```
-
-**✓ Correct: Consistent indentation**
-
-```toml
-{{- if condition }}
-{{-   if nested }}          ← Level 1: 2 spaces
-  content
-{{-   else if other }}      ← Level 1: 2 spaces
-  content
-{{-   end }}                ← Level 1: 2 spaces
-{{- end }}
-```
-
-**❌ Incorrect: Double-indenting content**
-
-```toml
-[user]
-{{- if eq .osId "windows" }}
-{{-   if nested }}
-    signingkey = value      ← Wrong! (4 spaces = 2 for section + 2 for nested template)
-{{-   end }}
-{{- end }}
-```
-
-**✓ Correct: Content ignores template nesting**
-
-```toml
-[user]
-{{- if eq .osId "windows" }}
-{{-   if nested }}
-  signingkey = value        ← Correct! (2 spaces = TOML section indentation only)
-{{-   end }}
-{{- end }}
-```
-
-### Target File Format Conventions
-
-When writing content, follow these indentation conventions:
-
-- **TOML**: 2 spaces for sections/keys
-- **YAML**: 2 spaces per level
-- **Bash scripts**: 4 spaces per block (per `.editorconfig`)
-- **PowerShell scripts**: 4 spaces per block
-- **Nushell scripts**: 4 spaces per block
+---
 
 ## Script Execution Order
 
@@ -329,6 +107,13 @@ Scripts run in this order during `chezmoi apply`:
 | 20 | install-additional-packages | Windows | WinGet packages | Package list changes |
 | 30 | install-mise-tools | Cross-platform | Runtime version managers | `mise.yml` changes |
 | 40 | install-language-packages | Cross-platform | pnpm/uv/cargo/yay packages | Package list changes |
+
+#### Phase 3: run_once_after (One-Time Setup)
+
+| # | Script | Platform | Purpose |
+|---|--------|----------|---------|
+| 50 | download-rime-language-model | Cross-platform | Download Rime Wanxiang language model (197MB) to ~/.config/rime |
+| 55 | install-fcitx5 | macOS | Download and install Fcitx5-Rime (manual GUI installer, not in Homebrew) |
 
 ### Script Type Selection Guide
 
