@@ -3,7 +3,7 @@ mise:
     bun: "latest"
     node:
       version: "lts"
-      postinstall: "corepack enable"
+      postinstall: "corepack enable pnpm"
     opencode: "latest"
     python: "latest"
     rust:
