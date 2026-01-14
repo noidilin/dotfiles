@@ -4,10 +4,16 @@
 
 Write-Host "=== Setting up environment variables ===" -ForegroundColor Yellow
 
-# Environment variables from .chezmoidata.toml
+# Environment variables from .chezmoidata/env.yml
 $NamedEnv = @{
-{{- range $key, $value := .env.windows }}
-    "{{ $key }}" = "{{ $value }}"
+{{- range $key, $pathParts := .env.xdg }}
+    "{{ $key }}" = "$HOME\{{ join `\` $pathParts }}"
+{{- end }}
+{{- range $key, $pathParts := .env.dev }}
+    "{{ $key }}" = "$HOME\{{ join `\` $pathParts }}"
+{{- end }}
+{{- range $key, $pathParts := .env.other }}
+    "{{ $key }}" = "$HOME\{{ join `\` $pathParts }}"
 {{- end }}
 }
 
@@ -26,6 +32,43 @@ foreach ($Key in $NamedEnv.Keys) {
         Write-Host "$Key is already set correctly (skipping)" -ForegroundColor DarkGray
     }
 }
+
+# Build PATH entries from env.path references
+$PathEntries = @(
+{{- range .env.path }}
+{{-   $varName := . }}
+{{-   $pathParts := index $.env.dev $varName }}
+{{-   if not $pathParts }}
+{{-     $pathParts = index $.env.xdg $varName }}
+{{-   end }}
+{{-   if $pathParts }}
+{{-     if eq $varName "CARGO_HOME" }}
+    "$HOME\{{ join `\` $pathParts }}\bin"
+{{-     else }}
+    "$HOME\{{ join `\` $pathParts }}"
+{{-     end }}
+{{-   end }}
+{{- end }}
+)
+
+# Add PATH entries to User PATH
+$currentPath = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User)
+$pathArray = if ($currentPath) { $currentPath -split ';' | Where-Object { $_ -ne '' } } else { @() }
+
+foreach ($entry in $PathEntries) {
+    # Expand variables like $HOME
+    $expandedEntry = $ExecutionContext.InvokeCommand.ExpandString($entry)
+    
+    if ($pathArray -notcontains $expandedEntry) {
+        Write-Host "Adding to PATH: $expandedEntry" -ForegroundColor Green
+        $pathArray += $expandedEntry
+    } else {
+        Write-Host "PATH already contains: $expandedEntry (skipping)" -ForegroundColor DarkGray
+    }
+}
+
+$newPath = ($pathArray | Where-Object { $_ -ne '' }) -join ';'
+[System.Environment]::SetEnvironmentVariable("Path", $newPath, [System.EnvironmentVariableTarget]::User)
 
 Write-Host "Environment variables setup complete!" -ForegroundColor White
 {{- end }}
