@@ -99,17 +99,16 @@ patch:
       alpha: 1 # 透明度，0~1
 
       color_space: srgb # 色彩空间： srgb | display_p3
-      label_color: 0xB8B8B8 # 序号颜色
-      text_color: 0xB3AD9F # 拼音颜色 （inline_preedit: false）
-      comment_text_color: 0x757575 # 注颜色
-      back_color: 0x2D2D2D # 底色
+      text_color: 0xb3b3b3 # 拼音颜色 （inline_preedit: false）
+      back_color: 0x2a2a2a # 底色
+      hilited_text_color: 0xeaeaea # 选中拼音颜色 （inline_preedit: false）
+      hilited_back_color: 0x4e4e4e # 选中拼音底色 （inline_preedit: false）
       border_color: 0x353535 # 外边框颜色
-      candidate_text_color: 0xB8B8B8 # 文字颜色
-      # candidate_back_color:                 # 候选项底色
-      hilited_text_color: 0xDDDDDD # 选中拼音颜色 （inline_preedit: false）
-      hilited_comment_text_color: 0x1D1D1D # 选中注颜色
-      hilited_back_color: 0x484848 # 选中拼音底色 （inline_preedit: false）
-      hilited_candidate_label_color: 0x1D1D1D # 选中序号颜色
-      hilited_candidate_text_color: 0x1D1D1D # 选中文字颜色
-      hilited_candidate_back_color: 0xB3AD9F # 选中底色
+      label_color: 0x9d9d9d # 序号颜色
+      comment_text_color: 0x707070 # 注颜色
+      candidate_text_color: 0xb3b3b3 # 文字颜色
+      hilited_comment_text_color: 0x191919 # 选中注颜色
+      hilited_candidate_label_color: 0x191919 # 选中序号颜色
+      hilited_candidate_text_color: 0x191919 # 选中文字颜色
+      hilited_candidate_back_color: 0xb3b3b3 # 选中底色
       # preedit_back_color:                   # 拼音底色 （inline_preedit: false）
