@@ -125,6 +125,108 @@ Uncomment and customize these templates when adding new functionality.
 
 ---
 
+## Troubleshooting
+
+### Special Key Combination Conflicts
+
+**Problem:** When combining two special modifier keys (like `;+h` or `space+;`), the expected layer mapping doesn't trigger.
+
+**Root Cause:**
+
+Karabiner-Elements processes rules **sequentially from top to bottom**. When a key has multiple rule definitions, the first matching rule wins and prevents subsequent rules from being evaluated.
+
+#### Example: Semicolon + H (`;+h`) fails to output `^`
+
+1. **Rule Processing Order:**
+   - Rule A (line ~86): Semicolon modifier - `tap→;, hold→Hyper` with `optional: [any]` modifiers
+   - Rule B (line ~100): H key modifier - `tap→h, hold→Ctrl` with `optional: [any]` modifiers  
+   - Rule C (line ~360): Hyper + H → `^` (requires Hyper modifiers)
+
+2. **What Happens:**
+   - You hold `;` → Semicolon rule outputs Hyper modifiers (right_shift + right_command + right_control + right_option)
+   - You press `h` while holding `;`
+   - **Rule B matches first** because it appears before Rule C and accepts `[any]` optional modifiers
+   - The H modifier rule intercepts the keypress, preventing Hyper+H rule from triggering
+
+3. **Why CapsLock + Tab works:**
+   - Tab is no longer a modifier key (removed from Basic Key Modifications)
+   - No conflicting rule exists for Tab
+   - Hyper + Tab rule matches successfully ✓
+
+#### Solutions
+
+**Solution 1: Explicit Exclusions (Recommended - Currently Implemented)**
+
+Modify the `from.modifiers` of conflicting modifier keys to exclude specific modifiers, combined with variable conditions:
+
+```yaml
+# H key modifier - only match when Hyper modifiers are NOT present
+- description: "h = h(tap) | ctrl(hold)"
+  type: basic
+  from:
+    key_code: h
+    modifiers:
+      # Explicitly list allowed modifiers (excludes all Hyper modifiers)
+      optional: [caps_lock, shift, command, control, option, fn]
+  to:
+    - key_code: left_control
+  to_if_alone:
+    - key_code: h
+  parameters:
+    <<: *hyper-timing
+
+# Semicolon modifier - exclude when Space layer is active  
+- description: "semicolon = ;(tap) | hyper(hold)"
+  type: basic
+  from:
+    key_code: semicolon
+    modifiers:
+      optional: [any]
+  to:
+    - key_code: right_shift
+      modifiers: [right_command, right_control, right_option]
+  to_if_alone:
+    - key_code: semicolon
+  conditions:
+    # Don't activate when space layer is active
+    - type: variable_unless
+      name: space_layer
+      value: 1
+  parameters:
+    <<: *hyper-timing
+```
+
+**How it works:**
+- For H key: By listing specific modifiers in `optional` (instead of `any`), we exclude the right-side Hyper modifiers, allowing the Hyper+H rule to match when Semicolon is held
+- For Semicolon: Using `variable_unless` condition prevents the modifier from activating when Space layer is active
+
+**Pros:**
+- Surgical fix targeting specific conflicts
+- Preserves all existing functionality
+- Clean and maintainable
+
+**Cons:**
+- Requires understanding of modifier precedence
+- Must be careful with `optional` modifier lists
+
+**Solution 2: Rule Reordering**
+
+Move all layer mapping rules to appear **before** Basic Key Modifications section in the file.
+
+**Pros:**
+- Simple structural change
+- Layer mappings get priority over modifier keys
+
+**Cons:**
+- May create unexpected edge cases
+- Against typical Karabiner configuration conventions
+- Could affect other key combinations
+- Would require extensive testing
+
+**Implementation:** The current configuration uses Solution 1 (Explicit Exclusions).
+
+---
+
 ## Key Mappings
 
 - **Caps Lock**:
