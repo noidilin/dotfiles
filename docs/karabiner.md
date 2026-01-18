@@ -89,6 +89,7 @@ x-parameters:
    - **Basic Key Modifications** - Base key modifications
    - **Hyper Layer** sections - Hyper layer mappings
    - **Space Layer** sections - Space layer mappings
+   - **Tab Layer** sections - Tab layer mappings
 
 2. Follow existing pattern:
 
@@ -128,61 +129,121 @@ Uncomment and customize these templates when adding new functionality.
 
 - **Caps Lock**:
   - tap -> escape
-  - hold -> left control
-- **Tab**:
-  - tap -> tab
   - hold -> hyper modifier
 - **; key**:
   - tap -> ;
   - hold -> hyper modifier
+- **h key**:
+  - tap -> h
+  - hold -> left ctrl modifier
 
 ### Hyper Layer
 
 **Modifier Pass-Through:** All hyper layer mappings support additional modifiers (Option, Command, Shift). When you press extra modifiers along with hyper combinations, they are passed through to the output. For example:
+
 - `option + hyper + q` → `option + left arrow` (word navigation)
 - `shift + hyper + e` → `shift + up arrow` (text selection)
 - `command + hyper + a` → `command + command + left` (still works, though redundant)
 
-#### Functionality
+#### Left Hand
 
-- **Space** -> Delete
-- **G** -> Return
+- Top Row:
+  - Tab -> Home
+  - Q -> H
+  - W -> J
+  - E -> K
+  - R -> L
+  - T -> End
+- Mid Row:
+  - A -> Left
+  - S -> Down
+  - D -> Up
+  - F -> Right
+  - G -> Return
+- Bot Row:
+  - Z -> Y
+  - X -> U
+  - C -> I
+  - V -> O
+  - B -> P
+- Special:
+  - Space -> Delete
 
-#### Navigation
+#### Right Hand
 
-- **Num Row:** Extended Navigation
-  - **1** -> Page Up
-  - **2** -> Page Down
-  - **3** -> Home
-  - **4** -> End
-- **Mid Row:** Basic Navigation
-  - **Q** -> Left
-  - **W** -> Down
-  - **E** -> Up
-  - **R** -> Right
-- **Bot Row:** Word/Line Navigation
-  - **A** -> Command + Left (beginning of line)
-  - **S** -> Command + Right (end of line)
-  - **D** -> Option + Left (word backward)
-  - **F** -> Option + Right (word forward)
+- Top Row:
+  - Y -> # (prev match word)
+  - U -> * (next match word)
+  - I -> %
+  - O -> @
+- Mid Row:
+  - H -> ^ (start char in line)
+  - J -> $ (end char in line)
+  - K -> { (prev paragraph)
+  - L -> } (next paragraph)
+- Bot Row:
+  - N -> ~ (match char)
+  - M -> ! (jump to mark)
 
-#### Vim navigation (char)
+### Space Layer - (symbols and functions)
 
-- **Top Row:**
-  - **Y** -> # (prev match word)
-  - **U** -> * (next match word)
-  - **I** -> , (prev match char)
-  - **O** -> ; (next match char)
-- **Mid Row:**
-  - **H** -> ^ (start char in line)
-  - **J** -> $ (end char in line)
-  - **K** -> { (prev paragraph)
-  - **L** -> } (next paragraph)
-- **Bot Row:**
-  - **N** -> % (match char)
-  - **M** -> ` (jump to mark)
-  - **,** ->  (haven't think of good use case)
-  - **.** ->  (haven't think of good use case)
+#### Left Hand
+
+- Top Row:
+  - Q -> -
+  - W -> =
+  - E -> [
+  - R -> ]
+  - T -> \
+- Mid Row:
+  - A -> ;
+  - S -> '
+  - D -> ,
+  - F -> .
+  - G -> /
+- Bot Row:
+  - Z -> F1
+  - X -> F2
+  - C -> F3
+  - V -> F4
+
+#### Right Hand
+
+- Top Row:
+  - U -> F5
+  - I -> F6
+  - O -> F7
+  - P -> F8
+- Mid Row:
+  - J -> F9
+  - K -> F10
+  - L -> F11
+  - ; -> F12
+
+### Tab Layer - numbers (not numpads)
+
+- Top Row:
+  - Q -> 1
+  - W -> 2
+  - E -> 3
+  - R -> 0
+- Mid Row:
+  - A -> 4
+  - S -> 5
+  - D -> 6
+  - F -> .
+- Bot Row:
+  - Z -> 7
+  - X -> 8
+  - C -> 9
+
+---
+
+## Reference
+
+- [Karabiner-Elements Documentation](https://karabiner-elements.pqrs.org/docs/)
+- [Complex Modifications Reference](https://karabiner-elements.pqrs.org/docs/json/complex-modifications-manipulator-definition/)
+- [Capslock Enhancement (inspiration)](https://github.com/Vonng/Capslock)
 
 ```txt
 - `a - jump to position of mark 'a'
@@ -197,42 +258,6 @@ Uncomment and customize these templates when adding new functionality.
 - g; - go to prev change location
 - g, - go to next change location
 ```
-
-#### Space Layer - (left hand keyboard + mouse)
-
-- **Num Row**:
-  - **`** -> 0
-  - **1** -> .
-  - **2** -> 6
-  - **3** -> 7
-  - **4** -> 8
-  - **5** -> 9
-- **Top Row**:
-  - **Q** -> -
-  - **W** -> =
-  - **E** -> [
-  - **R** -> ]
-  - **T** -> \
-- **Mid Row**:
-  - **A** -> H
-  - **S** -> J
-  - **D** -> K
-  - **F** -> L
-  - **G** -> Return
-- **Bot Row**:
-  - **Z** -> ;
-  - **X** -> '
-  - **C** -> ,
-  - **V** -> .
-  - **B** -> /
-
----
-
-## Reference
-
-- [Karabiner-Elements Documentation](https://karabiner-elements.pqrs.org/docs/)
-- [Complex Modifications Reference](https://karabiner-elements.pqrs.org/docs/json/complex-modifications-manipulator-definition/)
-- [Capslock Enhancement (inspiration)](https://github.com/Vonng/Capslock)
 
 ### Original Keybinds in MacOS (not related to karabiner)
 
