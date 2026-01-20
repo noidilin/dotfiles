@@ -1,6 +1,6 @@
-$env.EZA_CONFIG_DIR = ($nu.home-path | path join '.config' 'eza')
-$env.BAT_CONFIG_DIR = ($nu.home-path | path join '.config' 'bat')
-$env.YAZI_CONFIG_HOME = ($nu.home-path | path join '.config' 'yazi')
+$env.EZA_CONFIG_DIR = ($nu.home-dir | path join '.config' 'eza')
+$env.BAT_CONFIG_DIR = ($nu.home-dir | path join '.config' 'bat')
+$env.YAZI_CONFIG_HOME = ($nu.home-dir | path join '.config' 'yazi')
 
 $env.EDITOR = 'nvim'
 $env.PAGER = 'delta'
