@@ -103,19 +103,31 @@ rules:
         parameters:
           <<: *hyper-timing
 
-      # H: tap → h, hold → Ctrl
-      # Note: Excludes right-side modifiers to allow ;+h (Hyper+H) combination
-      - description: "h = h(tap) | ctrl(hold)"
+      # [: tap → [, hold → Ctrl
+      - description: "[ = [(tap) | ctrl(hold)"
         type: basic
         from:
-          key_code: h
+          key_code: open_bracket
           modifiers:
-            # Explicitly list allowed modifiers (excludes right_command, right_control, right_shift, right_option)
-            optional: [caps_lock, left_shift, left_command, left_control, left_option, fn]
+            optional: [any]
         to:
-          - key_code: left_control
+          - key_code: right_control
         to_if_alone:
-          - key_code: h
+          - key_code: open_bracket
+        parameters:
+          <<: *hyper-timing
+
+      # .: tap → ., hold → Alt
+      - description: ". = .(tap) | alt(hold)"
+        type: basic
+        from:
+          key_code: period
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: right_option
+        to_if_alone:
+          - key_code: period
         parameters:
           <<: *hyper-timing
 
@@ -447,8 +459,8 @@ rules:
           - key_code: "8"
             modifiers: [left_shift]
 
-      # hyper + I → % (shift+5)
-      - description: "hyper + i = %"
+      # hyper + I → ( (shift+9)
+      - description: "hyper + i = ("
         type: basic
         from:
           key_code: i
@@ -456,11 +468,11 @@ rules:
             mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
-          - key_code: "5"
+          - key_code: "9"
             modifiers: [left_shift]
 
-      # hyper + O → @ (shift+2)
-      - description: "hyper + o = @"
+      # hyper + O → ) (shift+0)
+      - description: "hyper + o = )"
         type: basic
         from:
           key_code: o
@@ -468,20 +480,21 @@ rules:
             mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
-          - key_code: "2"
+          - key_code: "0"
             modifiers: [left_shift]
 
   # ----------------------------------------------------------------------------
   # HYPER LAYER - RIGHT HAND (Bot Row)
   # ----------------------------------------------------------------------------
-  # Vim toggle/jump symbols:
-  # - N → ~ (shift+grave, toggle case/match char)
-  # - M → ! (shift+1, jump to mark/command)
+  # Additional symbols:
+  # - N → % (shift+5)
+  # - M → @ (shift+2)
+  # - , → & (shift+7)
 
   - description: Hyper Layer - Right Hand (bot row)
     manipulators:
-      # hyper + N → ~ (shift+grave)
-      - description: "hyper + n = ~"
+      # hyper + N → % (shift+5)
+      - description: "hyper + n = %"
         type: basic
         from:
           key_code: "n"
@@ -489,11 +502,11 @@ rules:
             mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
-          - key_code: grave_accent_and_tilde
+          - key_code: "5"
             modifiers: [left_shift]
 
-      # hyper + M → ! (shift+1)
-      - description: "hyper + m = !"
+      # hyper + M → @ (shift+2)
+      - description: "hyper + m = @"
         type: basic
         from:
           key_code: m
@@ -501,7 +514,19 @@ rules:
             mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
-          - key_code: "1"
+          - key_code: "2"
+            modifiers: [left_shift]
+
+      # hyper + , → & (shift+7)
+      - description: "hyper + , = &"
+        type: basic
+        from:
+          key_code: comma
+          modifiers:
+            mandatory: [right_command, right_control, right_shift, right_option]
+            optional: [any]
+        to:
+          - key_code: "7"
             modifiers: [left_shift]
 
   # ----------------------------------------------------------------------------
@@ -533,6 +558,7 @@ rules:
   # SPACE LAYER - SYMBOLS (Top Row)
   # ----------------------------------------------------------------------------
   # Top row (QWERT) symbols for one-handed programming:
+  # - Tab → ` (backtick)
   # - Q → - (hyphen/minus)
   # - W → = (equals)
   # - E → [ (open bracket)
@@ -541,6 +567,20 @@ rules:
 
   - description: Space Layer - Symbols (top row)
     manipulators:
+      # space + Tab → `
+      - description: "space + tab = `"
+        type: basic
+        from:
+          key_code: tab
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: grave_accent_and_tilde
+        conditions:
+          - type: variable_if
+            name: space_layer
+            value: 1
+
       # space + Q → -
       - description: "space + q = -"
         type: basic
@@ -922,19 +962,19 @@ rules:
   # ----------------------------------------------------------------------------
   # TAB LAYER - NUMBERS (Top Row)
   # ----------------------------------------------------------------------------
-  # Top row (QWER) number mappings:
-  # - Q → 1
-  # - W → 2
-  # - E → 3
-  # - R → 0
+  # Top row (WERT) number mappings:
+  # - W → 1
+  # - E → 2
+  # - R → 3
+  # - T → 4
 
   - description: Tab Layer - Numbers (top row)
     manipulators:
-      # tab + Q → 1
-      - description: "tab + q = 1"
+      # tab + W → 1
+      - description: "tab + w = 1"
         type: basic
         from:
-          key_code: q
+          key_code: w
           modifiers:
             optional: [any]
         to:
@@ -944,11 +984,11 @@ rules:
             name: tab_layer
             value: 1
 
-      # tab + W → 2
-      - description: "tab + w = 2"
+      # tab + E → 2
+      - description: "tab + e = 2"
         type: basic
         from:
-          key_code: w
+          key_code: e
           modifiers:
             optional: [any]
         to:
@@ -958,11 +998,11 @@ rules:
             name: tab_layer
             value: 1
 
-      # tab + E → 3
-      - description: "tab + e = 3"
+      # tab + R → 3
+      - description: "tab + r = 3"
         type: basic
         from:
-          key_code: e
+          key_code: r
           modifiers:
             optional: [any]
         to:
@@ -972,36 +1012,11 @@ rules:
             name: tab_layer
             value: 1
 
-      # tab + R → 0
-      - description: "tab + r = 0"
+      # tab + T → 4
+      - description: "tab + t = 4"
         type: basic
         from:
-          key_code: r
-          modifiers:
-            optional: [any]
-        to:
-          - key_code: "0"
-        conditions:
-          - type: variable_if
-            name: tab_layer
-            value: 1
-
-  # ----------------------------------------------------------------------------
-  # TAB LAYER - NUMBERS (Mid Row)
-  # ----------------------------------------------------------------------------
-  # Mid row (ASDF) number mappings:
-  # - A → 4
-  # - S → 5
-  # - D → 6
-  # - F → . (period)
-
-  - description: Tab Layer - Numbers (mid row)
-    manipulators:
-      # tab + A → 4
-      - description: "tab + a = 4"
-        type: basic
-        from:
-          key_code: a
+          key_code: t
           modifiers:
             optional: [any]
         to:
@@ -1011,6 +1026,17 @@ rules:
             name: tab_layer
             value: 1
 
+  # ----------------------------------------------------------------------------
+  # TAB LAYER - NUMBERS (Mid Row)
+  # ----------------------------------------------------------------------------
+  # Mid row (SDFG) number mappings:
+  # - S → 5
+  # - D → 6
+  # - F → 7
+  # - G → 8
+
+  - description: Tab Layer - Numbers (mid row)
+    manipulators:
       # tab + S → 5
       - description: "tab + s = 5"
         type: basic
@@ -1039,35 +1065,11 @@ rules:
             name: tab_layer
             value: 1
 
-      # tab + F → . (period)
-      - description: "tab + f = ."
+      # tab + F → 7
+      - description: "tab + f = 7"
         type: basic
         from:
           key_code: f
-          modifiers:
-            optional: [any]
-        to:
-          - key_code: period
-        conditions:
-          - type: variable_if
-            name: tab_layer
-            value: 1
-
-  # ----------------------------------------------------------------------------
-  # TAB LAYER - NUMBERS (Bot Row)
-  # ----------------------------------------------------------------------------
-  # Bottom row (ZXC) number mappings:
-  # - Z → 7
-  # - X → 8
-  # - C → 9
-
-  - description: Tab Layer - Numbers (bot row)
-    manipulators:
-      # tab + Z → 7
-      - description: "tab + z = 7"
-        type: basic
-        from:
-          key_code: z
           modifiers:
             optional: [any]
         to:
@@ -1077,11 +1079,11 @@ rules:
             name: tab_layer
             value: 1
 
-      # tab + X → 8
-      - description: "tab + x = 8"
+      # tab + G → 8
+      - description: "tab + g = 8"
         type: basic
         from:
-          key_code: x
+          key_code: g
           modifiers:
             optional: [any]
         to:
@@ -1091,15 +1093,90 @@ rules:
             name: tab_layer
             value: 1
 
-      # tab + C → 9
-      - description: "tab + c = 9"
+  # ----------------------------------------------------------------------------
+  # TAB LAYER - NUMBERS (Bot Row)
+  # ----------------------------------------------------------------------------
+  # Bottom row (XCVB) number mappings:
+  # - X → 9
+  # - C → 0
+  # - V → - (hyphen)
+  # - B → = (equals)
+
+  - description: Tab Layer - Numbers (bot row)
+    manipulators:
+      # tab + X → 9
+      - description: "tab + x = 9"
+        type: basic
+        from:
+          key_code: x
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: "9"
+        conditions:
+          - type: variable_if
+            name: tab_layer
+            value: 1
+
+      # tab + C → 0
+      - description: "tab + c = 0"
         type: basic
         from:
           key_code: c
           modifiers:
             optional: [any]
         to:
-          - key_code: "9"
+          - key_code: "0"
+        conditions:
+          - type: variable_if
+            name: tab_layer
+            value: 1
+
+      # tab + V → - (hyphen)
+      - description: "tab + v = -"
+        type: basic
+        from:
+          key_code: v
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: hyphen
+        conditions:
+          - type: variable_if
+            name: tab_layer
+            value: 1
+
+      # tab + B → = (equals)
+      - description: "tab + b = ="
+        type: basic
+        from:
+          key_code: b
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: equal_sign
+        conditions:
+          - type: variable_if
+            name: tab_layer
+            value: 1
+
+  # ----------------------------------------------------------------------------
+  # TAB LAYER - SPECIAL
+  # ----------------------------------------------------------------------------
+  # Special key mappings:
+  # - Space → . (period)
+
+  - description: Tab Layer - Special
+    manipulators:
+      # tab + Space → . (period)
+      - description: "tab + space = ."
+        type: basic
+        from:
+          key_code: spacebar
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: period
         conditions:
           - type: variable_if
             name: tab_layer

@@ -197,15 +197,18 @@ Modify the `from.modifiers` of conflicting modifier keys to exclude specific mod
 ```
 
 **How it works:**
+
 - For H key: By listing specific modifiers in `optional` (instead of `any`), we exclude the right-side Hyper modifiers, allowing the Hyper+H rule to match when Semicolon is held
 - For Semicolon: Using `variable_unless` condition prevents the modifier from activating when Space layer is active
 
 **Pros:**
+
 - Surgical fix targeting specific conflicts
 - Preserves all existing functionality
 - Clean and maintainable
 
 **Cons:**
+
 - Requires understanding of modifier precedence
 - Must be careful with `optional` modifier lists
 
@@ -214,10 +217,12 @@ Modify the `from.modifiers` of conflicting modifier keys to exclude specific mod
 Move all layer mapping rules to appear **before** Basic Key Modifications section in the file.
 
 **Pros:**
+
 - Simple structural change
 - Layer mappings get priority over modifier keys
 
 **Cons:**
+
 - May create unexpected edge cases
 - Against typical Karabiner configuration conventions
 - Could affect other key combinations
@@ -235,9 +240,12 @@ Move all layer mapping rules to appear **before** Basic Key Modifications sectio
 - **; key**:
   - tap -> ;
   - hold -> hyper modifier
-- **h key**:
-  - tap -> h
-  - hold -> left ctrl modifier
+- **[ key**:
+  - tap -> [
+  - hold -> right ctrl modifier
+- **. key**:
+  - tap -> .
+  - hold -> right alt modifier
 
 ### Hyper Layer
 
@@ -269,29 +277,31 @@ Move all layer mapping rules to appear **before** Basic Key Modifications sectio
   - V -> O
   - B -> P
 - Special:
-  - Space -> Delete
+  - Space -> backspace
 
 #### Right Hand
 
 - Top Row:
-  - Y -> # (prev match word)
-  - U -> * (next match word)
-  - I -> %
-  - O -> @
+  - Y -> #
+  - U -> *
+  - I -> (
+  - O -> )
 - Mid Row:
-  - H -> ^ (start char in line)
-  - J -> $ (end char in line)
-  - K -> { (prev paragraph)
-  - L -> } (next paragraph)
+  - H -> ^
+  - J -> $
+  - K -> {
+  - L -> }
 - Bot Row:
-  - N -> ~ (match char)
-  - M -> ! (jump to mark)
+  - N -> %
+  - M -> @
+  - , -> &
 
 ### Space Layer - (symbols and functions)
 
 #### Left Hand
 
 - Top Row:
+  - Tab -> `
   - Q -> -
   - W -> =
   - E -> [
@@ -325,19 +335,22 @@ Move all layer mapping rules to appear **before** Basic Key Modifications sectio
 ### Tab Layer - numbers (not numpads)
 
 - Top Row:
-  - Q -> 1
-  - W -> 2
-  - E -> 3
-  - R -> 0
+  - W -> 1
+  - E -> 2
+  - R -> 3
+  - T -> 4
 - Mid Row:
-  - A -> 4
   - S -> 5
   - D -> 6
-  - F -> .
+  - F -> 7
+  - G -> 8
 - Bot Row:
-  - Z -> 7
-  - X -> 8
-  - C -> 9
+  - X -> 9
+  - C -> 0
+  - V -> -
+  - B -> =
+- Special
+  - space -> .
 
 ---
 
