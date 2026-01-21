@@ -16,7 +16,7 @@ export def init-os-env [] {
         std path add '~/.local/bin'
         {
           PATH: $env.PATH
-          YAZI_FILE_ONE: ($nu.home-path | path join 'scoop' 'apps' 'git' 'current' 'usr' 'bin' 'file.exe')
+          YAZI_FILE_ONE: ($nu.home-dir | path join 'scoop' 'apps' 'git' 'current' 'usr' 'bin' 'file.exe')
         }
       }
     }
