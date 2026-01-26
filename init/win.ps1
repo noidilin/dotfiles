@@ -60,6 +60,13 @@ function Write-ManualStep
   Read-Host "Press Enter when ready to continue"
 }
 
+function Get-UserConfirmation
+{
+  param([string]$Message)
+  $response = Read-Host "$Message (y/n)"
+  return $response -match '^[Yy]'
+}
+
 # Banner
 Clear-Host
 Write-Host "═══════════════════════════════════════════════════════════" -ForegroundColor White
@@ -74,6 +81,7 @@ Write-Host "  • Install bootstrap tools (chezmoi, age, gsudo)" -ForegroundColo
 Write-Host "  • Enable Developer Mode (via registry)" -ForegroundColor DarkGray
 Write-Host "  • Install 1Password apps" -ForegroundColor DarkGray
 Write-Host "  • Run chezmoi init with dotfiles repo" -ForegroundColor DarkGray
+Write-Host "  • Download Rime language model (197MB, optional)" -ForegroundColor DarkGray
 Write-Host ""
 
 # Prerequisites Reminder
@@ -321,6 +329,42 @@ try
   Stop-OnError "Chezmoi apply failed" "Error: $_"
 }
 
+# Step 12: Download Rime Language Model (Optional)
+Write-Step "Setting up Rime language model..."
+$RIME_DIR = Join-Path $env:USERPROFILE ".config\rime"
+$GRAM_FILE = Join-Path $RIME_DIR "wanxiang-lts-zh-hans.gram"
+$GRAM_URL = "https://github.com/amzxyz/RIME-LMDG/releases/download/LTS/wanxiang-lts-zh-hans.gram"
+
+# Create directory if it doesn't exist
+if (-not (Test-Path $RIME_DIR))
+{
+  New-Item -ItemType Directory -Path $RIME_DIR -Force | Out-Null
+}
+
+if (-not (Test-Path $GRAM_FILE))
+{
+  Write-Host "  The Wanxiang language model improves Chinese input accuracy (197MB download)" -ForegroundColor DarkGray
+  if (Get-UserConfirmation "  Do you want to download the Rime language model now?")
+  {
+    Write-Host "  Downloading from GitHub..." -ForegroundColor DarkGray
+    try
+    {
+      Invoke-WebRequest -Uri $GRAM_URL -OutFile $GRAM_FILE -UseBasicParsing
+      Write-Success "Rime language model downloaded successfully"
+    } catch
+    {
+      Write-ErrorMsg "Failed to download Rime language model: $_"
+      Write-Host "  You can download it later manually from: $GRAM_URL" -ForegroundColor Yellow
+    }
+  } else
+  {
+    Write-Host "  Skipped. You can download it later from: $GRAM_URL" -ForegroundColor DarkGray
+  }
+} else
+{
+  Write-Success "Rime language model already exists"
+}
+
 # Final Summary
 Write-Host "`n═══════════════════════════════════════════════════════════" -ForegroundColor White
 Write-Host "  Bootstrap Complete!" -ForegroundColor White
@@ -336,6 +380,7 @@ Write-Host "  ✓ Bootstrap tools installed (chezmoi, age, gsudo)" -ForegroundCo
 Write-Host "  ✓ Developer Mode enabled" -ForegroundColor DarkGray
 Write-Host "  ✓ 1Password apps installed and configured" -ForegroundColor DarkGray
 Write-Host "  ✓ Symlink privileges granted" -ForegroundColor DarkGray
+Write-Host "  ✓ Rime language model setup completed" -ForegroundColor DarkGray
 Write-Host ""
 Write-Host "Next steps:"
 Write-Host "  • Restart PowerShell to load new configurations" -ForegroundColor DarkGray

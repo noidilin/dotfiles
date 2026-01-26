@@ -77,6 +77,8 @@ echo -e "${GRAY}  • Install Homebrew package manager${RESET}"
 echo -e "${GRAY}  • Install bootstrap tools (git, chezmoi, age)${RESET}"
 echo -e "${GRAY}  • Install 1Password apps (desktop + CLI)${RESET}"
 echo -e "${GRAY}  • Run chezmoi init with dotfiles repo${RESET}"
+echo -e "${GRAY}  • Install Fcitx5-Rime input method${RESET}"
+echo -e "${GRAY}  • Download Rime language model (197MB, optional)${RESET}"
 echo ""
 echo -e "${GRAY}Note: First run may take 5-10 minutes (Xcode CLT installation)${RESET}"
 echo ""
@@ -243,6 +245,113 @@ fi
 
 print_success "Dotfiles applied successfully"
 
+# ═══════════════════════════════════════════════════════════
+# Chinese Input Method Setup
+# ═══════════════════════════════════════════════════════════
+
+# Step 9: Install Fcitx5-Rime
+print_step "Installing Fcitx5-Rime input method..."
+
+FCITX5_DOWNLOAD_URL="https://github.com/fcitx-contrib/fcitx5-macos-installer/releases/download/latest/Fcitx5-Rime.zip"
+FCITX5_WORK_DIR="/tmp/fcitx5-install"
+FCITX5_ZIP_FILE="${FCITX5_WORK_DIR}/Fcitx5-Rime.zip"
+FCITX5_INSTALLER_APP="${FCITX5_WORK_DIR}/Fcitx5Installer.app"
+FCITX5_INSTALL_SUCCESS=false
+
+# Create work directory
+mkdir -p "${FCITX5_WORK_DIR}"
+cd "${FCITX5_WORK_DIR}"
+
+# Clean up any existing files
+echo -e "  ${GRAY}Preparing installation directory...${RESET}"
+rm -rf Fcitx5Installer.app Fcitx5-Rime.zip
+
+# Download installer
+echo -e "  ${GRAY}Downloading Fcitx5-Rime installer...${RESET}"
+if curl -fsSL "${FCITX5_DOWNLOAD_URL}" -o "${FCITX5_ZIP_FILE}"; then
+	print_success "Download complete"
+
+	# Extract
+	echo -e "  ${GRAY}Extracting installer...${RESET}"
+	if unzip -q "${FCITX5_ZIP_FILE}"; then
+		print_success "Extraction complete"
+		rm -f "${FCITX5_ZIP_FILE}"
+
+		# Manual installation step
+		manual_step "Fcitx5 Installation" \
+			"The Fcitx5 installer will now open." \
+			"Please complete these steps:" \
+			"" \
+			"  ${WHITE}1. Click 'Install' in the Fcitx5Installer window${RESET}" \
+			"  ${WHITE}2. Wait for installation to complete${RESET}" \
+			"  ${WHITE}3. Close the installer when finished${RESET}" \
+			"  ${WHITE}4. Configure Fcitx5 in System Settings:${RESET}" \
+			"     ${GRAY}* System Settings -> Keyboard -> Input Sources${RESET}" \
+			"     ${GRAY}* Add 'Fcitx5' as an input source${RESET}" \
+			"     ${GRAY}* Configure keyboard shortcuts as needed${RESET}" \
+			"" \
+			"${GRAY}Note: Your Rime config is already in ~/.config/rime/${RESET}"
+
+		# Open installer
+		if open "${FCITX5_INSTALLER_APP}"; then
+			print_success "Installer launched"
+			read -r -p "Press Enter once you've completed the installation to clean up temporary files..."
+
+			# Cleanup
+			echo -e "  ${GRAY}Cleaning up temporary files...${RESET}"
+			rm -rf "${FCITX5_WORK_DIR}"
+			print_success "Fcitx5 installation complete"
+			FCITX5_INSTALL_SUCCESS=true
+		else
+			print_error "Failed to open installer"
+			echo -e "  ${YELLOW}Please manually open: ${FCITX5_INSTALLER_APP}${RESET}"
+		fi
+	else
+		print_error "Failed to extract installer"
+		echo -e "  ${YELLOW}Manual download: ${FCITX5_DOWNLOAD_URL}${RESET}"
+	fi
+else
+	print_error "Failed to download Fcitx5 installer"
+	echo -e "  ${YELLOW}Manual download: ${FCITX5_DOWNLOAD_URL}${RESET}"
+fi
+
+# Return to home directory
+cd "${HOME}"
+
+# Step 10: Download Rime Language Model (Optional, only if Fcitx5 installed successfully)
+if [ "$FCITX5_INSTALL_SUCCESS" = true ]; then
+	print_step "Setting up Rime language model..."
+
+	RIME_DIR="${HOME}/.config/rime"
+	GRAM_FILE="${RIME_DIR}/wanxiang-lts-zh-hans.gram"
+	GRAM_URL="https://github.com/amzxyz/RIME-LMDG/releases/download/LTS/wanxiang-lts-zh-hans.gram"
+
+	# Create directory if it doesn't exist
+	mkdir -p "${RIME_DIR}"
+
+	if [ ! -f "${GRAM_FILE}" ]; then
+		echo -e "  ${GRAY}The Wanxiang language model improves Chinese input accuracy (197MB download)${RESET}"
+		read -r -p "  Do you want to download the Rime language model now? (y/n) " response
+
+		if [[ "$response" =~ ^[Yy]$ ]]; then
+			echo -e "  ${GRAY}Downloading from GitHub...${RESET}"
+
+			if curl -fsSL "${GRAM_URL}" -o "${GRAM_FILE}"; then
+				print_success "Rime language model downloaded successfully"
+			else
+				print_error "Failed to download Rime language model"
+				echo -e "  ${YELLOW}You can download it later from: ${GRAM_URL}${RESET}"
+			fi
+		else
+			echo -e "  ${GRAY}Skipped. You can download it later from: ${GRAM_URL}${RESET}"
+		fi
+	else
+		print_success "Rime language model already exists"
+	fi
+else
+	echo -e "\n${GRAY}Skipping Rime language model setup (Fcitx5 installation was not completed)${RESET}"
+fi
+
 # Final Summary
 echo ""
 echo -e "${WHITE}═══════════════════════════════════════════════════════════${RESET}"
@@ -255,7 +364,9 @@ echo -e "What happened:"
 echo -e "  ${GRAY}✓ Homebrew package manager installed${RESET}"
 echo -e "  ${GRAY}✓ Bootstrap tools installed (git, nushell, chezmoi, age)${RESET}"
 echo -e "  ${GRAY}✓ 1Password apps installed and configured${RESET}"
-echo -e "  ${GRAY}✓ Dotfiles applied via nushell with proper environment${RESET}"
+echo -e "  ${GRAY}✓ Dotfiles applied via chezmoi${RESET}"
+echo -e "  ${GRAY}✓ Fcitx5-Rime input method installed${RESET}"
+echo -e "  ${GRAY}✓ Rime language model setup completed${RESET}"
 echo ""
 echo -e "Next steps:"
 echo -e "  ${WHITE}• Restart your shell to load new configurations${RESET}"

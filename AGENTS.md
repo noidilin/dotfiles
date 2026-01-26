@@ -112,8 +112,9 @@ Scripts run in this order during `chezmoi apply`:
 
 | # | Script | Platform | Purpose |
 |---|--------|----------|---------|
-| 50 | download-rime-language-model | Cross-platform | Download Rime Wanxiang language model (197MB) to ~/.config/rime |
-| 55 | install-fcitx5 | macOS | Download and install Fcitx5-Rime (manual GUI installer, not in Homebrew) |
+| 50 | download-rime-language-model | Arch Native | Download Rime Wanxiang language model (197MB) to ~/.config/rime (for future desktop setup) |
+
+**Note:** Windows and macOS Rime/Fcitx5 setup has been migrated to their respective init scripts (`init/win.ps1` and `init/darwin.sh`) for better bootstrap experience. Arch Linux retains the chezmoi script for potential future native desktop setup.
 
 ### Script Type Selection Guide
 
