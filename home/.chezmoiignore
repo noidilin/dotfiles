@@ -42,6 +42,12 @@ chezmoi-crypto-key.txt.age # age passphrase key for chezmoi to decryp private ke
 .config/systemd/
 {{- end }}
 
+{{- if eq .archEnv "wsl" }}
+# WSL2: Ignore configs not needed in WSL environment
+.local/etc/keyboard/
+.config/rime/
+{{- end }}
+
 {{- if ne .chezmoi.os "windows" }}
 .glzr/
 scoop/

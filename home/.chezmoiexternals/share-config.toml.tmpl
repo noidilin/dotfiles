@@ -8,6 +8,8 @@ type = "git-repo"
 url = "git@github.com:noidilin/achroma.yazi.git"
 refreshPeriod = "168h"
 
+{{- if ne .archEnv "wsl" }}
+
 [".config/wezterm"]
 type = "git-repo"
 url = "git@github.com:noidilin/wezterm.git"
@@ -25,3 +27,5 @@ exclude = [
   "custom/**.png",
   "custom/**.jpg"
 ]
+
+{{- end }}
