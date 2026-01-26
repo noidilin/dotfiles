@@ -551,6 +551,11 @@ rules:
               name: space_layer
               value: 1
               key_up_value: 0
+        conditions:
+          # Don't activate when tab layer is active (for tab+space → . combination)
+          - type: variable_unless
+            name: tab_layer
+            value: 1
         parameters:
           <<: *space-timing
 
