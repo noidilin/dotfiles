@@ -201,6 +201,10 @@ pkgs:
       brew: "unzip"
       scoop: "unzip"
       pacman: "unzip"
+    wakatime:
+      brew: "wakatime-cli"
+      scoop: "wakatime-cli"
+      pacman: "wakatime"
     wget:
       brew: "wget"
       scoop: "wget"

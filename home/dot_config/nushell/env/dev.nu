@@ -15,6 +15,10 @@ $env.UV_PYTHON_INSTALL_DIR = ($nu.home-dir | path join '.dev' 'uv' 'python')
 $env.UV_TOOL_DIR = ($nu.home-dir | path join '.dev' 'uv' 'tools')
 $env.UV_TOOL_BIN_DIR = ($nu.home-dir | path join '.dev' 'uv' 'bin')
 
+# other tools
+$env.WAKATIME_HOME = ($env.XDG_CONFIG_HOME | path join 'wakatime')
+$env.BLENDER_USER_RESOURCES = ($nu.home-dir | path join '.local' 'etc' 'blender')
+
 $env.PATH = ($env.PATH
   | prepend $env.GOBIN
   | prepend $env.UV_TOOL_BIN_DIR
