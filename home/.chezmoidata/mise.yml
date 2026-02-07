@@ -1,11 +1,12 @@
 mise:
   tools:
+    opencode: "latest"
     bun: "latest"
     node:
       version: "lts"
       postinstall: "corepack enable pnpm"
-    opencode: "latest"
     python: "latest"
+    uv: "latest"
     rust:
       windows:
         version: "stable-gnu"
@@ -16,7 +17,7 @@ mise:
       darwin:
         version: "stable"
         profile: "minimal"
-    uv: "latest"
+    go: "latest"
   settings:
     experimental: true
     python.uv_venv_auto: true
