@@ -1164,19 +1164,19 @@ rules:
   # TAB LAYER - SPECIAL
   # ----------------------------------------------------------------------------
   # Special key mappings:
-  # - Space → . (period)
+  # - Space → Delete (backspace)
 
   - description: Tab Layer - Special
     manipulators:
-      # tab + Space → . (period)
-      - description: "tab + space = ."
+      # tab + Space → delete
+      - description: "tab + space = delete"
         type: basic
         from:
           key_code: spacebar
           modifiers:
             optional: [any]
         to:
-          - key_code: period
+          - key_code: delete_or_backspace
         conditions:
           - type: variable_if
             name: tab_layer
