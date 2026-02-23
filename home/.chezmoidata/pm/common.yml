@@ -238,7 +238,7 @@ pkgs:
       pacman: "code"
     wezterm:
       wsl: false
-      brew: "--cask wezterm"
+      brew: "--cask wezterm@nightly"
       scoop: "wezterm-alt-icon/wezterm"
       pacman: "wezterm"
     zed:
