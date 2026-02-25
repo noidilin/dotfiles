@@ -7,7 +7,8 @@
 # and design work, using layers and modifier keys for efficient one-handed input.
 #
 # Layer System:
-# - Hyper Layer (CapsLock/Semicolon): Vim navigation, arrow keys, symbols
+# - Caps Layer (CapsLock hold): left-hand Vim navigation, arrows, symbols
+# - Semicolon Layer (Semicolon hold): right-hand Vim navigation and symbols
 # - Space Layer (Space): One-handed symbols and function keys
 # - Tab Layer (Tab): One-handed number input
 
@@ -55,39 +56,43 @@ rules:
   # ----------------------------------------------------------------------------
   # BASIC KEY MODIFICATIONS
   # ----------------------------------------------------------------------------
-  # Core modifier keys that serve as foundation for other layers:
-  # - CapsLock: tap → Esc, hold → Hyper (⌘⌃⇧⌥)
-  # - Semicolon: tap → ;, hold → Hyper (⌘⌃⇧⌥)
+  # Core dual-role keys that serve as foundation for other layers:
+  # - CapsLock: tap → Esc, hold → Caps layer
+  # - Semicolon: tap → ;, hold → Semicolon layer
   # - H: tap → h, hold → Ctrl
 
   - description: Basic Key Modifications
     manipulators:
-      # CapsLock: tap → Esc, hold → Hyper
-      - description: "capslock = esc(tap) | hyper(hold)"
+      # CapsLock: tap → Esc, hold → Caps layer
+      - description: "capslock = esc(tap) | caps_layer(hold)"
         type: basic
         from:
           key_code: caps_lock
           modifiers:
             optional: [any]
-        to:
-          - key_code: right_shift
-            modifiers: [right_command, right_control, right_option]
+        to_if_held_down:
+          - set_variable:
+              name: caps_layer
+              value: 1
+              key_up_value: 0
         to_if_alone:
           - key_code: escape
         parameters:
           <<: *capslock-timing
 
-      # Semicolon: tap → ;, hold → Hyper
+      # Semicolon: tap → ;, hold → Semicolon layer
       # Note: Excludes activation when Space layer is active to allow space+; combination
-      - description: "semicolon = ;(tap) | hyper(hold)"
+      - description: "semicolon = ;(tap) | semicolon_layer(hold)"
         type: basic
         from:
           key_code: semicolon
           modifiers:
             optional: [any]
-        to:
-          - key_code: right_shift
-            modifiers: [right_command, right_control, right_option]
+        to_if_held_down:
+          - set_variable:
+              name: semicolon_layer
+              value: 1
+              key_up_value: 0
         to_if_alone:
           - key_code: semicolon
         conditions:
@@ -127,38 +132,72 @@ rules:
           <<: *hyper-timing
 
   # ----------------------------------------------------------------------------
-  # HYPER LAYER - FUNCTIONALITY
+  # CAPS / SEMICOLON LAYERS - FUNCTIONALITY
   # ----------------------------------------------------------------------------
-  # Essential functions accessed via Hyper modifier:
+  # Essential functions available in both layer triggers:
   # - Space → Delete (backspace)
   # - G → Return (enter)
 
-  - description: Hyper Layer - Functionality
+  - description: Caps / Semicolon Layers - Functionality
     manipulators:
-      # hyper + space → delete
-      - description: "hyper + space = delete"
+      # caps + space → delete
+      - description: "caps + space = delete"
         type: basic
         from:
           key_code: spacebar
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: delete_or_backspace
+        conditions:
+          - type: variable_if
+            name: caps_layer
+            value: 1
 
-      # hyper + G → return
-      - description: "hyper + g = return"
+      # semicolon + space → delete
+      - description: "semicolon + space = delete"
+        type: basic
+        from:
+          key_code: spacebar
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: delete_or_backspace
+        conditions:
+          - type: variable_if
+            name: semicolon_layer
+            value: 1
+
+      # caps + G → return
+      - description: "caps + g = return"
         type: basic
         from:
           key_code: g
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: return_or_enter
+        conditions:
+          - type: variable_if
+            name: caps_layer
+            value: 1
+
+      # semicolon + G → return
+      - description: "semicolon + g = return"
+        type: basic
+        from:
+          key_code: g
+          modifiers:
+            optional: [any]
+        to:
+          - key_code: return_or_enter
+        conditions:
+          - type: variable_if
+            name: semicolon_layer
+            value: 1
 
   # ----------------------------------------------------------------------------
-  # HYPER LAYER - LEFT HAND (Bot Row)
+  # CAPS LAYER - LEFT HAND (Bot Row)
   # ----------------------------------------------------------------------------
   # Vim character keys (continued):
   # - Z → Y
@@ -167,67 +206,82 @@ rules:
   # - V → O
   # - B → P
 
-  - description: Hyper Layer - Left Hand (bot row)
+  - description: Caps Layer - Left Hand (bot row)
     manipulators:
-      # hyper + Z → y
-      - description: "hyper + z = y"
+      # caps + Z → y
+      - description: "caps + z = y"
         type: basic
         from:
           key_code: z
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: "y"
+        conditions:
+          - type: variable_if
+            name: caps_layer
+            value: 1
 
-      # hyper + X → u
-      - description: "hyper + x = u"
+      # caps + X → u
+      - description: "caps + x = u"
         type: basic
         from:
           key_code: x
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: u
+        conditions:
+          - type: variable_if
+            name: caps_layer
+            value: 1
 
-      # hyper + C → i
-      - description: "hyper + c = i"
+      # caps + C → i
+      - description: "caps + c = i"
         type: basic
         from:
           key_code: c
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: i
+        conditions:
+          - type: variable_if
+            name: caps_layer
+            value: 1
 
-      # hyper + V → o
-      - description: "hyper + v = o"
+      # caps + V → o
+      - description: "caps + v = o"
         type: basic
         from:
           key_code: v
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: o
+        conditions:
+          - type: variable_if
+            name: caps_layer
+            value: 1
 
-      # hyper + B → p
-      - description: "hyper + b = p"
+      # caps + B → p
+      - description: "caps + b = p"
         type: basic
         from:
           key_code: b
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: p
+        conditions:
+          - type: variable_if
+            name: caps_layer
+            value: 1
 
   # ----------------------------------------------------------------------------
-  # HYPER LAYER - EXTENDED NAVIGATION
+  # CAPS LAYER - EXTENDED NAVIGATION
   # ----------------------------------------------------------------------------
-  # HYPER LAYER - LEFT HAND (Top Row)
+  # CAPS LAYER - LEFT HAND (Top Row)
   # ----------------------------------------------------------------------------
   # Vim character keys and document navigation:
   # - Tab → Home
@@ -237,76 +291,94 @@ rules:
   # - R → L
   # - T → End
 
-  - description: Hyper Layer - Left Hand (top row)
+  - description: Caps Layer - Left Hand (top row)
     manipulators:
-      # hyper + Tab → home
-      - description: "hyper + tab = home"
+      # caps + Tab → home
+      - description: "caps + tab = home"
         type: basic
         from:
           key_code: tab
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: home
+        conditions:
+          - type: variable_if
+            name: caps_layer
+            value: 1
 
-      # hyper + Q → h
-      - description: "hyper + q = h"
+      # caps + Q → h
+      - description: "caps + q = h"
         type: basic
         from:
           key_code: q
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: h
+        conditions:
+          - type: variable_if
+            name: caps_layer
+            value: 1
 
-      # hyper + W → j
-      - description: "hyper + w = j"
+      # caps + W → j
+      - description: "caps + w = j"
         type: basic
         from:
           key_code: w
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: j
+        conditions:
+          - type: variable_if
+            name: caps_layer
+            value: 1
 
-      # hyper + E → k
-      - description: "hyper + e = k"
+      # caps + E → k
+      - description: "caps + e = k"
         type: basic
         from:
           key_code: e
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: k
+        conditions:
+          - type: variable_if
+            name: caps_layer
+            value: 1
 
-      # hyper + R → l
-      - description: "hyper + r = l"
+      # caps + R → l
+      - description: "caps + r = l"
         type: basic
         from:
           key_code: r
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: l
+        conditions:
+          - type: variable_if
+            name: caps_layer
+            value: 1
 
-      # hyper + T → end
-      - description: "hyper + t = end"
+      # caps + T → end
+      - description: "caps + t = end"
         type: basic
         from:
           key_code: t
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: end
+        conditions:
+          - type: variable_if
+            name: caps_layer
+            value: 1
 
   # ----------------------------------------------------------------------------
-  # HYPER LAYER - LEFT HAND (Mid Row)
+  # CAPS LAYER - LEFT HAND (Mid Row)
   # ----------------------------------------------------------------------------
   # Arrow key navigation:
   # - A → Left
@@ -314,54 +386,66 @@ rules:
   # - D → Up
   # - F → Right
 
-  - description: Hyper Layer - Left Hand (mid row)
+  - description: Caps Layer - Left Hand (mid row)
     manipulators:
-      # hyper + A → left
-      - description: "hyper + a = left"
+      # caps + A → left
+      - description: "caps + a = left"
         type: basic
         from:
           key_code: a
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: left_arrow
+        conditions:
+          - type: variable_if
+            name: caps_layer
+            value: 1
 
-      # hyper + S → down
-      - description: "hyper + s = down"
+      # caps + S → down
+      - description: "caps + s = down"
         type: basic
         from:
           key_code: s
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: down_arrow
+        conditions:
+          - type: variable_if
+            name: caps_layer
+            value: 1
 
-      # hyper + D → up
-      - description: "hyper + d = up"
+      # caps + D → up
+      - description: "caps + d = up"
         type: basic
         from:
           key_code: d
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: up_arrow
+        conditions:
+          - type: variable_if
+            name: caps_layer
+            value: 1
 
-      # hyper + F → right
-      - description: "hyper + f = right"
+      # caps + F → right
+      - description: "caps + f = right"
         type: basic
         from:
           key_code: f
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: right_arrow
+        conditions:
+          - type: variable_if
+            name: caps_layer
+            value: 1
 
   # ----------------------------------------------------------------------------
-  # HYPER LAYER - RIGHT HAND (Mid Row)
+  # SEMICOLON LAYER - RIGHT HAND (Mid Row)
   # ----------------------------------------------------------------------------
   # Vim line navigation symbols (HJKL):
   # - H → ^ (shift+6, start of line)
@@ -369,58 +453,70 @@ rules:
   # - K → { (shift+[, previous paragraph)
   # - L → } (shift+], next paragraph)
 
-  - description: Hyper Layer - Right Hand (mid row)
+  - description: Semicolon Layer - Right Hand (mid row)
     manipulators:
-      # hyper + H → ^ (shift+6)
-      - description: "hyper + h = ^ (line start)"
+      # semicolon + H → ^ (shift+6)
+      - description: "semicolon + h = ^ (line start)"
         type: basic
         from:
           key_code: h
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: "6"
             modifiers: [left_shift]
+        conditions:
+          - type: variable_if
+            name: semicolon_layer
+            value: 1
 
-      # hyper + J → $ (shift+4)
-      - description: "hyper + j = $ (line end)"
+      # semicolon + J → $ (shift+4)
+      - description: "semicolon + j = $ (line end)"
         type: basic
         from:
           key_code: j
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: "4"
             modifiers: [left_shift]
+        conditions:
+          - type: variable_if
+            name: semicolon_layer
+            value: 1
 
-      # hyper + K → { (shift+[)
-      - description: "hyper + k = { (prev paragraph)"
+      # semicolon + K → { (shift+[)
+      - description: "semicolon + k = { (prev paragraph)"
         type: basic
         from:
           key_code: k
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: open_bracket
             modifiers: [left_shift]
+        conditions:
+          - type: variable_if
+            name: semicolon_layer
+            value: 1
 
-      # hyper + L → } (shift+])
-      - description: "hyper + l = } (next paragraph)"
+      # semicolon + L → } (shift+])
+      - description: "semicolon + l = } (next paragraph)"
         type: basic
         from:
           key_code: l
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: close_bracket
             modifiers: [left_shift]
+        conditions:
+          - type: variable_if
+            name: semicolon_layer
+            value: 1
 
   # ----------------------------------------------------------------------------
-  # HYPER LAYER - RIGHT HAND (Top Row)
+  # SEMICOLON LAYER - RIGHT HAND (Top Row)
   # ----------------------------------------------------------------------------
   # Vim search symbols:
   # - Y → # (shift+3, previous match word)
@@ -428,101 +524,122 @@ rules:
   # - I → % (shift+5, match bracket)
   # - O → @ (shift+2, at symbol)
 
-  - description: Hyper Layer - Right Hand (top row)
+  - description: Semicolon Layer - Right Hand (top row)
     manipulators:
-      # hyper + Y → # (shift+3)
-      - description: "hyper + y = # (prev match word)"
+      # semicolon + Y → # (shift+3)
+      - description: "semicolon + y = # (prev match word)"
         type: basic
         from:
           key_code: "y"
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: "3"
             modifiers: [left_shift]
+        conditions:
+          - type: variable_if
+            name: semicolon_layer
+            value: 1
 
-      # hyper + U → * (shift+8)
-      - description: "hyper + u = * (next match word)"
+      # semicolon + U → * (shift+8)
+      - description: "semicolon + u = * (next match word)"
         type: basic
         from:
           key_code: u
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: "8"
             modifiers: [left_shift]
+        conditions:
+          - type: variable_if
+            name: semicolon_layer
+            value: 1
 
-      # hyper + I → ( (shift+9)
-      - description: "hyper + i = ("
+      # semicolon + I → ( (shift+9)
+      - description: "semicolon + i = ("
         type: basic
         from:
           key_code: i
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: "9"
             modifiers: [left_shift]
+        conditions:
+          - type: variable_if
+            name: semicolon_layer
+            value: 1
 
-      # hyper + O → ) (shift+0)
-      - description: "hyper + o = )"
+      # semicolon + O → ) (shift+0)
+      - description: "semicolon + o = )"
         type: basic
         from:
           key_code: o
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: "0"
             modifiers: [left_shift]
+        conditions:
+          - type: variable_if
+            name: semicolon_layer
+            value: 1
 
   # ----------------------------------------------------------------------------
-  # HYPER LAYER - RIGHT HAND (Bot Row)
+  # SEMICOLON LAYER - RIGHT HAND (Bot Row)
   # ----------------------------------------------------------------------------
   # Additional symbols:
   # - N → % (shift+5)
   # - M → @ (shift+2)
   # - , → & (shift+7)
 
-  - description: Hyper Layer - Right Hand (bot row)
+  - description: Semicolon Layer - Right Hand (bot row)
     manipulators:
-      # hyper + N → % (shift+5)
-      - description: "hyper + n = %"
+      # semicolon + N → % (shift+5)
+      - description: "semicolon + n = %"
         type: basic
         from:
           key_code: "n"
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: "5"
             modifiers: [left_shift]
+        conditions:
+          - type: variable_if
+            name: semicolon_layer
+            value: 1
 
-      # hyper + M → @ (shift+2)
-      - description: "hyper + m = @"
+      # semicolon + M → @ (shift+2)
+      - description: "semicolon + m = @"
         type: basic
         from:
           key_code: m
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: "2"
             modifiers: [left_shift]
+        conditions:
+          - type: variable_if
+            name: semicolon_layer
+            value: 1
 
-      # hyper + , → & (shift+7)
-      - description: "hyper + , = &"
+      # semicolon + , → & (shift+7)
+      - description: "semicolon + , = &"
         type: basic
         from:
           key_code: comma
           modifiers:
-            mandatory: [right_command, right_control, right_shift, right_option]
             optional: [any]
         to:
           - key_code: "7"
             modifiers: [left_shift]
+        conditions:
+          - type: variable_if
+            name: semicolon_layer
+            value: 1
 
   # ----------------------------------------------------------------------------
   # SPACE LAYER - MODIFIER ACTIVATION
