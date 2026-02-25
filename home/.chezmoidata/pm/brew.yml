@@ -22,6 +22,7 @@ pkgs:
 
     # earily testing
     # - "--cask rafaelswi/menubarusb/menubarusb" # display conntected usb device spec
+    - "--cask kamillobinski/thock/thock"
     - "--cask TheBoredTeam/boring-notch/boring-notch"
     - "--cask nikitabobko/tap/aerospace"
 
