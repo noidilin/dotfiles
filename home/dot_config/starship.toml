@@ -11,6 +11,7 @@ $package$mise\
 $fill\
 $cmd_duration\
 $os\
+$memory_usage\
 $time\
 $line_break\
 [╰─](bold mono07)\
@@ -129,6 +130,11 @@ format = ' on [$symbol$health]($style)'
 style = 'mono09 bold'
 
 # right
+[memory_usage]
+disabled = false
+threshold = 0
+format = '[ ${ram_pct}](fg:mono11)'
+
 [cmd_duration]
 disabled = false
 min_time = 500
