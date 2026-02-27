@@ -4,6 +4,7 @@
 pkgs:
   brew:
     - "git-lfs"
+    - "mas" # mac app store CLI
     - "yamlresume"
     - "--cask appcleaner"
     - "--cask cleanshot" # screen capture + record, key cast
