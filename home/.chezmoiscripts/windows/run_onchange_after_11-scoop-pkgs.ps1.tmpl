@@ -8,6 +8,38 @@
 
 Write-Host "=== Installing platform-specific packages (Windows - Scoop) ===" -ForegroundColor Yellow
 
+$script:InstalledCount = 0
+$script:SkippedCount = 0
+$script:FailedCount = 0
+$script:FailedItems = @()
+
+function Add-Installed {
+    $script:InstalledCount += 1
+}
+
+function Add-Skipped {
+    $script:SkippedCount += 1
+}
+
+function Add-Failure {
+    param(
+        [string]$Manager,
+        [string]$Package
+    )
+    $script:FailedCount += 1
+    $script:FailedItems += "$Manager`:$Package"
+}
+
+function Write-InstallSummary {
+    Write-Host "`nSummary: installed=$($script:InstalledCount) skipped=$($script:SkippedCount) failed=$($script:FailedCount)" -ForegroundColor White
+    if ($script:FailedCount -gt 0) {
+        Write-Host "Failed items:" -ForegroundColor Red
+        foreach ($item in $script:FailedItems) {
+            Write-Host "- $item" -ForegroundColor Red
+        }
+    }
+}
+
 # Check if scoop is installed
 if (!(Get-Command scoop -ErrorAction SilentlyContinue)) {
     Write-Host "ERROR: Scoop is not installed!" -ForegroundColor Red
@@ -60,14 +92,22 @@ function Install-ScoopPackage {
     # Check if already installed
     if (Test-ScoopPackageInstalled -Package $Package) {
         Write-Host "$Package is already installed (skipping)" -ForegroundColor DarkGray
+        Add-Skipped
         return
     }
     
     Write-Host "Installing: $Package" -ForegroundColor White
     try {
         scoop install $Package
+        if ($LASTEXITCODE -eq 0 -or $null -eq $LASTEXITCODE) {
+            Add-Installed
+        } else {
+            Write-Host "Failed to install $Package (exit code: $LASTEXITCODE)" -ForegroundColor Red
+            Add-Failure -Manager "scoop" -Package $Package
+        }
     } catch {
         Write-Host "Failed to install $Package : $_" -ForegroundColor Red
+        Add-Failure -Manager "scoop" -Package $Package
     }
 }
 
@@ -78,4 +118,5 @@ Install-ScoopPackage "{{ . }}"
 {{- end }}
 
 Write-Host "`nScoop package installation complete!" -ForegroundColor White
+Write-InstallSummary
 {{- end }}

@@ -19,6 +19,36 @@ RESET='\033[0m'
 
 echo -e "${YELLOW}=== Installing platform-specific packages (macOS - Homebrew) ===${RESET}"
 
+installed_count=0
+skipped_count=0
+failed_count=0
+declare -a FAILED_ITEMS=()
+
+record_installed() {
+  ((installed_count+=1))
+}
+
+record_skipped() {
+  ((skipped_count+=1))
+}
+
+record_failed() {
+  local manager="$1"
+  local package="$2"
+  ((failed_count+=1))
+  FAILED_ITEMS+=("${manager}:${package}")
+}
+
+print_summary() {
+  printf "\n${WHITE}Summary: installed=%d skipped=%d failed=%d${RESET}\n" "$installed_count" "$skipped_count" "$failed_count"
+  if [[ $failed_count -gt 0 ]]; then
+    printf "${RED}Failed items:${RESET}\n"
+    for item in "${FAILED_ITEMS[@]}"; do
+      printf "${RED}- %s${RESET}\n" "$item"
+    done
+  fi
+}
+
 # Check if Homebrew is installed
 if ! command -v brew &>/dev/null; then
   echo -e "${RED}ERROR: Homebrew is not installed!${RESET}"
@@ -113,12 +143,17 @@ function install_brew_package() {
 
     if brew_cask_installed "$name_only"; then
       echo -e "${GRAY}$name_only (cask) is already installed (skipping)${RESET}"
+      record_skipped
       return 0
     fi
 
     echo -e "${GREEN}Installing cask: $package_name${RESET}"
-    brew install --cask $package_name ||
+    if brew install --cask $package_name; then
+      record_installed
+    else
       echo -e "${RED}Failed to install cask $package_name${RESET}"
+      record_failed "brew" "$name_only"
+    fi
   else
     # Regular formula
     package_name="$full_spec"
@@ -128,12 +163,17 @@ function install_brew_package() {
 
     if brew_formula_installed "$name_only"; then
       echo -e "${GRAY}$name_only is already installed (skipping)${RESET}"
+      record_skipped
       return 0
     fi
 
     echo -e "${GREEN}Installing: $package_name${RESET}"
-    brew install $package_name ||
+    if brew install $package_name; then
+      record_installed
+    else
       echo -e "${RED}Failed to install $package_name${RESET}"
+      record_failed "brew" "$name_only"
+    fi
   fi
 }
 
@@ -144,5 +184,6 @@ install_brew_package "{{ . }}"
 {{- end }}
 
 echo -e "\n${WHITE}Homebrew package installation complete!${RESET}"
+print_summary
 
 {{- end }}

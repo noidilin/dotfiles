@@ -20,6 +20,36 @@ RESET='\033[0m'
 
 echo -e "${YELLOW}=== Installing common packages (Arch Native) ===${RESET}"
 
+installed_count=0
+skipped_count=0
+failed_count=0
+declare -a FAILED_ITEMS=()
+
+record_installed() {
+  ((installed_count+=1))
+}
+
+record_skipped() {
+  ((skipped_count+=1))
+}
+
+record_failed() {
+  local manager="$1"
+  local package="$2"
+  ((failed_count+=1))
+  FAILED_ITEMS+=("${manager}:${package}")
+}
+
+print_summary() {
+  printf "\n${WHITE}Summary: installed=%d skipped=%d failed=%d${RESET}\n" "$installed_count" "$skipped_count" "$failed_count"
+  if [[ $failed_count -gt 0 ]]; then
+    printf "${RED}Failed items:${RESET}\n"
+    for item in "${FAILED_ITEMS[@]}"; do
+      printf "${RED}- %s${RESET}\n" "$item"
+    done
+  fi
+}
+
 # Cache for installed packages (loaded once)
 declare -a PACMAN_INSTALLED=()
 pacman_cache_loaded=0
@@ -64,12 +94,17 @@ function install_pacman_package() {
 
   if pacman_package_installed "$package"; then
     echo -e "${GRAY}$package is already installed (skipping)${RESET}"
+    record_skipped
     return
   fi
 
   echo -e "${GREEN}Installing: $package${RESET}"
-  sudo pacman -S --noconfirm "$package" ||
+  if sudo pacman -S --noconfirm "$package"; then
+    record_installed
+  else
     echo -e "${RED}Failed to install $package${RESET}"
+    record_failed "pacman" "$package"
+  fi
 }
 
 # AUR package installation functions
@@ -118,12 +153,16 @@ install_yay_package() {
 
   if yay_package_installed "$package"; then
     echo -e "${GRAY}$package is already installed via yay (skipping)${RESET}"
+    record_skipped
     return
   fi
 
   echo -e "${GREEN}Installing (yay): $package${RESET}"
   if ! yay -S --noconfirm "$package"; then
     echo -e "${RED}Failed to install $package (yay)${RESET}"
+    record_failed "yay" "$package"
+  else
+    record_installed
   fi
 }
 
@@ -151,5 +190,6 @@ else
 fi
 
 echo -e "\n${WHITE}Common package installation complete!${RESET}"
+print_summary
 
 {{- end }}

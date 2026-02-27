@@ -8,6 +8,38 @@
 
 Write-Host "=== Installing platform-specific packages (Windows - WinGet) ===" -ForegroundColor Yellow
 
+$script:InstalledCount = 0
+$script:SkippedCount = 0
+$script:FailedCount = 0
+$script:FailedItems = @()
+
+function Add-Installed {
+    $script:InstalledCount += 1
+}
+
+function Add-Skipped {
+    $script:SkippedCount += 1
+}
+
+function Add-Failure {
+    param(
+        [string]$Manager,
+        [string]$Package
+    )
+    $script:FailedCount += 1
+    $script:FailedItems += "$Manager`:$Package"
+}
+
+function Write-InstallSummary {
+    Write-Host "`nSummary: installed=$($script:InstalledCount) skipped=$($script:SkippedCount) failed=$($script:FailedCount)" -ForegroundColor White
+    if ($script:FailedCount -gt 0) {
+        Write-Host "Failed items:" -ForegroundColor Red
+        foreach ($item in $script:FailedItems) {
+            Write-Host "- $item" -ForegroundColor Red
+        }
+    }
+}
+
 # Check if winget is installed
 if (!(Get-Command winget -ErrorAction SilentlyContinue)) {
     Write-Host "ERROR: WinGet is not installed!" -ForegroundColor Red
@@ -72,6 +104,7 @@ function Install-WinGetPackage {
     
     if (Test-WinGetPackage $PackageId) {
         Write-Host "$PackageId is already installed (skipping)" -ForegroundColor DarkGray
+        Add-Skipped
         return
     }
     
@@ -80,9 +113,13 @@ function Install-WinGetPackage {
         winget install --id $PackageId --silent --accept-source-agreements --accept-package-agreements
         if ($LASTEXITCODE -ne 0) {
             Write-Host "Failed to install $PackageId (exit code: $LASTEXITCODE)" -ForegroundColor Red
+            Add-Failure -Manager "winget" -Package $PackageId
+        } else {
+            Add-Installed
         }
     } catch {
         Write-Host "Failed to install $PackageId : $_" -ForegroundColor Red
+        Add-Failure -Manager "winget" -Package $PackageId
     }
 }
 
@@ -93,4 +130,5 @@ Install-WinGetPackage "{{ . }}"
 {{- end }}
 
 Write-Host "`nWinGet package installation complete!" -ForegroundColor White
+Write-InstallSummary
 {{- end }}

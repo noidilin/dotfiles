@@ -19,6 +19,36 @@ RESET='\033[0m'
 
 printf "${YELLOW}=== Installing uv tool packages ===${RESET}\n"
 
+installed_count=0
+skipped_count=0
+failed_count=0
+declare -a FAILED_ITEMS=()
+
+record_installed() {
+  ((installed_count+=1))
+}
+
+record_skipped() {
+  ((skipped_count+=1))
+}
+
+record_failed() {
+  local manager="$1"
+  local package="$2"
+  ((failed_count+=1))
+  FAILED_ITEMS+=("${manager}:${package}")
+}
+
+print_summary() {
+  printf "\n${WHITE}Summary: installed=%d skipped=%d failed=%d${RESET}\n" "$installed_count" "$skipped_count" "$failed_count"
+  if [[ $failed_count -gt 0 ]]; then
+    printf "${RED}Failed items:${RESET}\n"
+    for item in "${FAILED_ITEMS[@]}"; do
+      printf "${RED}- %s${RESET}\n" "$item"
+    done
+  fi
+}
+
 if ! command -v mise &>/dev/null; then
   printf "${RED}WARNING: mise is not installed (skipping uv packages)${RESET}\n"
   exit 0
@@ -70,12 +100,16 @@ install_uv_tool() {
 
   if uv_tool_installed "$package"; then
     printf "${GRAY}%s is already installed via uv (skipping)${RESET}\n" "$package"
+    record_skipped
     return
   fi
 
   printf "${WHITE}Installing (uv): %s${RESET}\n" "$package"
   if ! mise exec -- uv tool install "$package"; then
     printf "${RED}Failed to install %s (uv)${RESET}\n" "$package"
+    record_failed "uv" "$package"
+  else
+    record_installed
   fi
 }
 
@@ -90,4 +124,5 @@ printf "${GRAY}No uv tools declared (skipping)${RESET}\n"
 {{- end }}
 
 printf "${WHITE}\nuv tool installation complete!${RESET}\n"
+print_summary
 {{- end }}

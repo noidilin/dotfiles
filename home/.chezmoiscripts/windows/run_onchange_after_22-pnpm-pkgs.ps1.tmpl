@@ -8,6 +8,38 @@
 
 Write-Host "=== Installing pnpm global packages ===" -ForegroundColor Yellow
 
+$script:InstalledCount = 0
+$script:SkippedCount = 0
+$script:FailedCount = 0
+$script:FailedItems = @()
+
+function Add-Installed {
+    $script:InstalledCount += 1
+}
+
+function Add-Skipped {
+    $script:SkippedCount += 1
+}
+
+function Add-Failure {
+    param(
+        [string]$Manager,
+        [string]$Package
+    )
+    $script:FailedCount += 1
+    $script:FailedItems += "$Manager`:$Package"
+}
+
+function Write-InstallSummary {
+    Write-Host "`nSummary: installed=$($script:InstalledCount) skipped=$($script:SkippedCount) failed=$($script:FailedCount)" -ForegroundColor White
+    if ($script:FailedCount -gt 0) {
+        Write-Host "Failed items:" -ForegroundColor Red
+        foreach ($item in $script:FailedItems) {
+            Write-Host "- $item" -ForegroundColor Red
+        }
+    }
+}
+
 if (!(Get-Command mise -ErrorAction SilentlyContinue)) {
     Write-Host "WARNING: mise is not installed (skipping pnpm packages)" -ForegroundColor Red
     exit 0
@@ -56,14 +88,22 @@ function Install-PnpmPackage {
 
     if (Test-PnpmPackageInstalled -Package $Package) {
         Write-Host "$Package is already installed via pnpm (skipping)" -ForegroundColor DarkGray
+        Add-Skipped
         return
     }
 
     Write-Host "Installing (pnpm): $Package" -ForegroundColor White
     try {
         mise exec -- pnpm add -g $Package
+        if ($LASTEXITCODE -eq 0 -or $null -eq $LASTEXITCODE) {
+            Add-Installed
+        } else {
+            Write-Host "Failed to install $Package (pnpm, exit code: $LASTEXITCODE)" -ForegroundColor Red
+            Add-Failure -Manager "pnpm" -Package $Package
+        }
     } catch {
         Write-Host "Failed to install $Package (pnpm): $_" -ForegroundColor Red
+        Add-Failure -Manager "pnpm" -Package $Package
     }
 }
 
@@ -78,4 +118,5 @@ Write-Host "No pnpm packages declared (skipping)" -ForegroundColor DarkGray
 {{- end }}
 
 Write-Host "`npnpm package installation complete!" -ForegroundColor White
+Write-InstallSummary
 {{- end }}
