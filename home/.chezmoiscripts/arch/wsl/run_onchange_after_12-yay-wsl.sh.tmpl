@@ -19,35 +19,7 @@ RESET='\033[0m'
 
 printf "${YELLOW}=== Installing platform-specific AUR packages (Arch WSL - yay) ===${RESET}\n"
 
-installed_count=0
-skipped_count=0
-failed_count=0
-declare -a FAILED_ITEMS=()
-
-record_installed() {
-  ((installed_count+=1))
-}
-
-record_skipped() {
-  ((skipped_count+=1))
-}
-
-record_failed() {
-  local manager="$1"
-  local package="$2"
-  ((failed_count+=1))
-  FAILED_ITEMS+=("${manager}:${package}")
-}
-
-print_summary() {
-  printf "\n${WHITE}Summary: installed=%d skipped=%d failed=%d${RESET}\n" "$installed_count" "$skipped_count" "$failed_count"
-  if [[ $failed_count -gt 0 ]]; then
-    printf "${RED}Failed items:${RESET}\n"
-    for item in "${FAILED_ITEMS[@]}"; do
-      printf "${RED}- %s${RESET}\n" "$item"
-    done
-  fi
-}
+{{ include ".chezmoitemplates/scripts/error-policy.sh" }}
 
 # Check if yay is installed
 if ! command -v yay &>/dev/null; then
