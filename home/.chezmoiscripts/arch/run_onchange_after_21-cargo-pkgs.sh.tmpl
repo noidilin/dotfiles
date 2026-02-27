@@ -9,92 +9,31 @@
 
 set -euo pipefail
 
-CYAN='\033[36m'
-GREEN='\033[32m'
-YELLOW='\033[33m'
-RED='\033[31m'
-GRAY='\033[90m'
-WHITE='\033[97m'
-RESET='\033[0m'
-
-printf "${YELLOW}=== Installing cargo packages ===${RESET}\n"
-
+{{ include ".chezmoitemplates/scripts/lib/bash/common.sh" }}
 {{ include ".chezmoitemplates/scripts/error-policy.sh" }}
+{{ include ".chezmoitemplates/scripts/lib/bash/cargo.sh" }}
 
-if ! command -v mise &>/dev/null; then
-  printf "${RED}WARNING: mise is not installed (skipping cargo packages)${RESET}\n"
-  exit 0
-fi
+print_header "Installing cargo packages"
+
+require_command_or_skip "mise" "WARNING: mise is not installed (skipping cargo packages)"
 
 if ! cargo_version=$(mise exec -- cargo --version 2>/dev/null); then
-  printf "${RED}WARNING: cargo is not available via mise (skipping cargo packages)${RESET}\n"
+  print_error "WARNING: cargo is not available via mise (skipping cargo packages)"
   exit 0
 fi
 
-declare -a CARGO_PACKAGES=()
-cargo_cache_loaded=0
-
-load_cargo_packages() {
-  if [[ $cargo_cache_loaded -eq 1 ]]; then
-    return
-  fi
-
-  cargo_cache_loaded=1
-  local output
-  if ! output=$(mise exec -- cargo install --list 2>/dev/null); then
-    CARGO_PACKAGES=()
-    return
-  fi
-
-  # Use ripgrep to extract package names: filter lines with "v<digit>", then extract first word
-  while IFS= read -r pkg; do
-    if [[ -n "$pkg" ]]; then
-      CARGO_PACKAGES+=("$pkg")
-    fi
-  done < <(echo "$output" | rg -N '^\S+\s+v\d' | rg -o '^\S+')
-}
-
-cargo_package_installed() {
-  local package="$1"
-  load_cargo_packages
-
-  for existing in "${CARGO_PACKAGES[@]:-}"; do
-    if [[ "$existing" == "$package" ]]; then
-      return 0
-    fi
-  done
-
-  return 1
-}
-
-install_cargo_package() {
-  local package="$1"
-
-  if cargo_package_installed "$package"; then
-    printf "${GRAY}%s is already installed via cargo (skipping)${RESET}\n" "$package"
-    record_skipped
-    return
-  fi
-
-  printf "${WHITE}Installing (cargo): %s${RESET}\n" "$package"
-  if ! mise exec -- cargo install "$package"; then
-    printf "${RED}Failed to install %s (cargo)${RESET}\n" "$package"
-    record_failed "cargo" "$package"
-  else
-    record_installed
-  fi
-}
-
 {{- if .pkgs.cargo }}
-printf "${GRAY}\ncargo version: %s${RESET}\n" "$cargo_version"
-printf "${WHITE}Installing cargo packages...${RESET}\n"
+print_skip ""
+print_skip "cargo version: $cargo_version"
+print_info "Installing cargo packages..."
 {{- range .pkgs.cargo }}
-install_cargo_package "{{ . }}"
+cargo_install_package "{{ . }}"
 {{- end }}
 {{- else }}
-printf "${GRAY}No cargo packages declared (skipping)${RESET}\n"
+print_skip "No cargo packages declared (skipping)"
 {{- end }}
 
-printf "${WHITE}\ncargo package installation complete!${RESET}\n"
+print_info ""
+print_info "cargo package installation complete!"
 print_summary
 {{- end }}

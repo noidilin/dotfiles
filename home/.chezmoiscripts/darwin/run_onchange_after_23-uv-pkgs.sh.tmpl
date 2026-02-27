@@ -9,92 +9,31 @@
 
 set -euo pipefail
 
-CYAN='\033[36m'
-GREEN='\033[32m'
-YELLOW='\033[33m'
-RED='\033[31m'
-GRAY='\033[90m'
-WHITE='\033[97m'
-RESET='\033[0m'
-
-printf "${YELLOW}=== Installing uv tool packages ===${RESET}\n"
-
+{{ include ".chezmoitemplates/scripts/lib/bash/common.sh" }}
 {{ include ".chezmoitemplates/scripts/error-policy.sh" }}
+{{ include ".chezmoitemplates/scripts/lib/bash/uv.sh" }}
 
-if ! command -v mise &>/dev/null; then
-  printf "${RED}WARNING: mise is not installed (skipping uv packages)${RESET}\n"
-  exit 0
-fi
+print_header "Installing uv tool packages"
+
+require_command_or_skip "mise" "WARNING: mise is not installed (skipping uv packages)"
 
 if ! uv_version=$(mise exec -- uv --version 2>/dev/null); then
-  printf "${RED}WARNING: uv is not available via mise (skipping uv packages)${RESET}\n"
+  print_error "WARNING: uv is not available via mise (skipping uv packages)"
   exit 0
 fi
 
-declare -a UV_TOOLS=()
-uv_cache_loaded=0
-
-load_uv_tools() {
-  if [[ $uv_cache_loaded -eq 1 ]]; then
-    return
-  fi
-
-  uv_cache_loaded=1
-  local output
-  if ! output=$(mise exec -- uv tool list 2>/dev/null); then
-    UV_TOOLS=()
-    return
-  fi
-
-  # Use ripgrep to extract package names: filter lines with "v<digit>", then extract first word
-  while IFS= read -r pkg; do
-    if [[ -n "$pkg" ]]; then
-      UV_TOOLS+=("$pkg")
-    fi
-  done < <(echo "$output" | rg -N '^\S+\s+v\d' | rg -o '^\S+' | rg -v '^Installed$')
-}
-
-uv_tool_installed() {
-  local package="$1"
-  load_uv_tools
-
-  for existing in "${UV_TOOLS[@]:-}"; do
-    if [[ "$existing" == "$package" ]]; then
-      return 0
-    fi
-  done
-
-  return 1
-}
-
-install_uv_tool() {
-  local package="$1"
-
-  if uv_tool_installed "$package"; then
-    printf "${GRAY}%s is already installed via uv (skipping)${RESET}\n" "$package"
-    record_skipped
-    return
-  fi
-
-  printf "${WHITE}Installing (uv): %s${RESET}\n" "$package"
-  if ! mise exec -- uv tool install "$package"; then
-    printf "${RED}Failed to install %s (uv)${RESET}\n" "$package"
-    record_failed "uv" "$package"
-  else
-    record_installed
-  fi
-}
-
 {{- if .pkgs.uv }}
-printf "${GRAY}\nuv version: %s${RESET}\n" "$uv_version"
-printf "${WHITE}Installing uv tools...${RESET}\n"
+print_skip ""
+print_skip "uv version: $uv_version"
+print_info "Installing uv tools..."
 {{- range .pkgs.uv }}
-install_uv_tool "{{ . }}"
+uv_install_tool "{{ . }}"
 {{- end }}
 {{- else }}
-printf "${GRAY}No uv tools declared (skipping)${RESET}\n"
+print_skip "No uv tools declared (skipping)"
 {{- end }}
 
-printf "${WHITE}\nuv tool installation complete!${RESET}\n"
+print_info ""
+print_info "uv tool installation complete!"
 print_summary
 {{- end }}

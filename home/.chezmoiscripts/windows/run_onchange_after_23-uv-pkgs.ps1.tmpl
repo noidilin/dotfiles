@@ -9,70 +9,14 @@
 Write-Host "=== Installing uv tool packages ===" -ForegroundColor Yellow
 
 {{ include ".chezmoitemplates/scripts/error-policy.ps1" }}
+{{ include ".chezmoitemplates/scripts/lib/powershell/common.ps1" }}
+{{ include ".chezmoitemplates/scripts/lib/powershell/uv.ps1" }}
 
-if (!(Get-Command mise -ErrorAction SilentlyContinue)) {
-    Write-Host "WARNING: mise is not installed (skipping uv packages)" -ForegroundColor Red
+if (!(Assert-MiseToolOrSkip -Tool "uv" -MissingMiseMessage "WARNING: mise is not installed (skipping uv packages)" -MissingToolMessage "WARNING: uv is not available via mise (skipping uv packages)")) {
     exit 0
 }
 
-$uvVersion = mise exec -- uv --version 2>$null
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "WARNING: uv is not available via mise (skipping uv packages)" -ForegroundColor Red
-    exit 0
-}
-
-$script:UvTools = $null
-function Get-UvInstalledTools {
-    if ($null -ne $script:UvTools) {
-        return $script:UvTools
-    }
-
-    $script:UvTools = @()
-    $rawOutput = mise exec -- uv tool list 2>$null
-    if ($LASTEXITCODE -ne 0 -or -not $rawOutput) {
-        return $script:UvTools
-    }
-
-    # Use ripgrep to extract package names: filter lines with "v<digit>", then extract first word
-    $packages = $rawOutput | rg -N '^\S+\s+v\d' | rg -o '^\S+' | rg -v '^Installed$'
-    foreach ($pkg in $packages) {
-        if ($pkg) {
-            $script:UvTools += $pkg
-        }
-    }
-
-    return $script:UvTools
-}
-
-function Test-UvToolInstalled {
-    param([string]$Package)
-    $installed = Get-UvInstalledTools
-    return $installed -contains $Package
-}
-
-function Install-UvTool {
-    param([string]$Package)
-
-    if (Test-UvToolInstalled -Package $Package) {
-        Write-Host "$Package is already installed via uv (skipping)" -ForegroundColor DarkGray
-        Add-Skipped
-        return
-    }
-
-    Write-Host "Installing (uv): $Package" -ForegroundColor White
-    try {
-        mise exec -- uv tool install $Package
-        if ($LASTEXITCODE -eq 0 -or $null -eq $LASTEXITCODE) {
-            Add-Installed
-        } else {
-            Write-Host "Failed to install $Package (uv, exit code: $LASTEXITCODE)" -ForegroundColor Red
-            Add-Failure -Manager "uv" -Package $Package
-        }
-    } catch {
-        Write-Host "Failed to install $Package (uv): $_" -ForegroundColor Red
-        Add-Failure -Manager "uv" -Package $Package
-    }
-}
+$uvVersion = $script:MiseToolVersion
 
 {{- if .pkgs.uv }}
 Write-Host "`nuv version: $uvVersion" -ForegroundColor DarkGray

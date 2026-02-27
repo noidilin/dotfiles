@@ -9,77 +9,13 @@
 Write-Host "=== Installing platform-specific packages (Windows - Scoop) ===" -ForegroundColor Yellow
 
 {{ include ".chezmoitemplates/scripts/error-policy.ps1" }}
+{{ include ".chezmoitemplates/scripts/lib/powershell/common.ps1" }}
+{{ include ".chezmoitemplates/scripts/lib/powershell/scoop.ps1" }}
 
-# Check if scoop is installed
-if (!(Get-Command scoop -ErrorAction SilentlyContinue)) {
-    Write-Host "ERROR: Scoop is not installed!" -ForegroundColor Red
-    Write-Host "Please install Scoop first: https://scoop.sh" -ForegroundColor White
-    exit 1
-}
+Assert-CommandOrExit -CommandName "scoop" -ErrorMessage "ERROR: Scoop is not installed!" -HintMessage "Please install Scoop first: https://scoop.sh"
 
 # NOTE: Bucket setup removed - should be handled during bootstrap before chezmoi
 # This script assumes buckets (extras, nerd-fonts, wezterm-alt-icon) are already added
-
-# Cache for installed packages (loaded once)
-$script:ScoopPackages = $null
-
-function Get-ScoopInstalledPackages {
-    if ($null -ne $script:ScoopPackages) {
-        return $script:ScoopPackages
-    }
-    
-    $script:ScoopPackages = @()
-    
-    try {
-        # scoop list returns PowerShell objects with .Name property
-        # Extract package names directly from the objects
-        $installed = scoop list 2>$null
-        if ($LASTEXITCODE -ne 0 -or -not $installed) {
-            Write-Host "WARNING: Failed to query installed packages (skipping all)" -ForegroundColor Red
-            return $script:ScoopPackages
-        }
-        
-        # Extract the Name property from each package object
-        $script:ScoopPackages = @($installed.Name)
-    } catch {
-        Write-Host "WARNING: Failed to query installed packages: $_" -ForegroundColor Red
-    }
-    
-    return $script:ScoopPackages
-}
-
-function Test-ScoopPackageInstalled {
-    param([string]$Package)
-    
-    $installed = Get-ScoopInstalledPackages
-    return $installed -contains $Package
-}
-
-# Function to install package if not already installed
-function Install-ScoopPackage {
-    param([string]$Package)
-    
-    # Check if already installed
-    if (Test-ScoopPackageInstalled -Package $Package) {
-        Write-Host "$Package is already installed (skipping)" -ForegroundColor DarkGray
-        Add-Skipped
-        return
-    }
-    
-    Write-Host "Installing: $Package" -ForegroundColor White
-    try {
-        scoop install $Package
-        if ($LASTEXITCODE -eq 0 -or $null -eq $LASTEXITCODE) {
-            Add-Installed
-        } else {
-            Write-Host "Failed to install $Package (exit code: $LASTEXITCODE)" -ForegroundColor Red
-            Add-Failure -Manager "scoop" -Package $Package
-        }
-    } catch {
-        Write-Host "Failed to install $Package : $_" -ForegroundColor Red
-        Add-Failure -Manager "scoop" -Package $Package
-    }
-}
 
 # Install Windows-specific packages
 Write-Host "`nInstalling Windows-specific packages (Scoop)..." -ForegroundColor White

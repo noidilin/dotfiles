@@ -9,105 +9,41 @@
 
 set -euo pipefail
 
-CYAN='\033[36m'
-GREEN='\033[32m'
-YELLOW='\033[33m'
-RED='\033[31m'
-GRAY='\033[90m'
-WHITE='\033[97m'
-RESET='\033[0m'
-
-printf "${YELLOW}=== Installing platform-specific AUR packages (Arch WSL - yay) ===${RESET}\n"
-
+{{ include ".chezmoitemplates/scripts/lib/bash/common.sh" }}
 {{ include ".chezmoitemplates/scripts/error-policy.sh" }}
+{{ include ".chezmoitemplates/scripts/lib/bash/yay.sh" }}
 
-# Check if yay is installed
+print_header "Installing platform-specific AUR packages (Arch WSL - yay)"
+
 if ! command -v yay &>/dev/null; then
-  printf "${RED}WARNING: yay is not installed (skipping AUR packages)${RESET}\n"
-  printf "${GRAY}Install yay first, then run: chezmoi apply${RESET}\n"
+  print_error "WARNING: yay is not installed (skipping AUR packages)"
+  print_skip "Install yay first, then run: chezmoi apply"
   exit 0
 fi
 
-# Get yay version for logging
-yay_version=$(yay --version 2>/dev/null | head -1 || echo "unknown")
+yay_version=$(yay_version_line)
 
-declare -a YAY_INSTALLED=()
-yay_cache_loaded=0
-
-load_yay_packages() {
-  if [[ $yay_cache_loaded -eq 1 ]]; then
-    return
-  fi
-
-  yay_cache_loaded=1
-  local output
-  # Query foreign packages (AUR packages only)
-  if ! output=$(yay -Qm 2>/dev/null); then
-    YAY_INSTALLED=()
-    return
-  fi
-
-  # Extract package names (first word of each line)
-  while IFS= read -r line; do
-    if [[ -n "$line" ]]; then
-      pkg=$(echo "$line" | awk '{print $1}')
-      if [[ -n "$pkg" ]]; then
-        YAY_INSTALLED+=("$pkg")
-      fi
-    fi
-  done <<<"$output"
-}
-
-yay_package_installed() {
-  local package="$1"
-  load_yay_packages
-
-  for existing in "${YAY_INSTALLED[@]:-}"; do
-    if [[ "$existing" == "$package" ]]; then
-      return 0
-    fi
-  done
-
-  return 1
-}
-
-install_yay_package() {
-  local package="$1"
-
-  if yay_package_installed "$package"; then
-    printf "${GRAY}%s is already installed via yay (skipping)${RESET}\n" "$package"
-    record_skipped
-    return
-  fi
-
-  printf "${GREEN}Installing (yay): %s${RESET}\n" "$package"
-  if ! yay -S --noconfirm "$package"; then
-    printf "${RED}Failed to install %s (yay)${RESET}\n" "$package"
-    record_failed "yay" "$package"
-  else
-    record_installed
-  fi
-}
-
-printf "${GRAY}\nyay version: %s${RESET}\n" "$yay_version"
+print_skip ""
+print_skip "yay version: $yay_version"
 
 # Install shared AUR packages
 {{- if .pkgs.yay.common }}
-printf "${YELLOW}Installing shared AUR packages...${RESET}\n"
+print_warn "Installing shared AUR packages..."
 {{- range .pkgs.yay.common }}
-install_yay_package "{{ . }}"
+yay_install_package "{{ . }}"
 {{- end }}
 {{- end }}
 
 # Install WSL2-specific AUR packages
 {{- if .pkgs.yay.wsl }}
-printf "${YELLOW}Installing WSL2-specific AUR packages...${RESET}\n"
+print_warn "Installing WSL2-specific AUR packages..."
 {{- range .pkgs.yay.wsl }}
-install_yay_package "{{ . }}"
+yay_install_package "{{ . }}"
 {{- end }}
 {{- end }}
 
-printf "${WHITE}\nAUR package installation complete!${RESET}\n"
+print_info ""
+print_info "AUR package installation complete!"
 print_summary
 
 {{- end }}

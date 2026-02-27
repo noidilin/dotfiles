@@ -9,73 +9,16 @@
 Write-Host "=== Installing pnpm global packages ===" -ForegroundColor Yellow
 
 {{ include ".chezmoitemplates/scripts/error-policy.ps1" }}
+{{ include ".chezmoitemplates/scripts/lib/powershell/common.ps1" }}
+{{ include ".chezmoitemplates/scripts/lib/powershell/pnpm.ps1" }}
 
-if (!(Get-Command mise -ErrorAction SilentlyContinue)) {
-    Write-Host "WARNING: mise is not installed (skipping pnpm packages)" -ForegroundColor Red
+if (!(Assert-MiseToolOrSkip -Tool "node" -MissingMiseMessage "WARNING: mise is not installed (skipping pnpm packages)" -MissingToolMessage "WARNING: Node.js is not available via mise (skipping pnpm packages)")) {
     exit 0
 }
-
-$nodeVersion = mise exec -- node --version 2>$null
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "WARNING: Node.js is not available via mise (skipping pnpm packages)" -ForegroundColor Red
-    exit 0
-}
+$nodeVersion = $script:MiseToolVersion
 
 # Corepack will prompt to install pnpm if pnpm has not been installed yet.
 $pnpmVersion = mise exec -- pnpm --version
-
-$script:PnpmPackages = $null
-function Get-PnpmInstalledPackages {
-    if ($null -ne $script:PnpmPackages) {
-        return $script:PnpmPackages
-    }
-
-    $script:PnpmPackages = @()
-    $rawOutput = mise exec -- pnpm ls -g --depth=0 2>$null
-    if ($LASTEXITCODE -ne 0 -or -not $rawOutput) {
-        return $script:PnpmPackages
-    }
-
-    # Use ripgrep to extract package names: filter lines starting with @ or lowercase, exclude "dependencies:"
-    $packages = $rawOutput | rg -N '^[@a-z]' | rg -o '^\S+' | rg -v '^dependencies:$'
-    foreach ($pkg in $packages) {
-        if ($pkg) {
-            $script:PnpmPackages += $pkg
-        }
-    }
-
-    return $script:PnpmPackages
-}
-
-function Test-PnpmPackageInstalled {
-    param([string]$Package)
-    $installed = Get-PnpmInstalledPackages
-    return $installed -contains $Package
-}
-
-function Install-PnpmPackage {
-    param([string]$Package)
-
-    if (Test-PnpmPackageInstalled -Package $Package) {
-        Write-Host "$Package is already installed via pnpm (skipping)" -ForegroundColor DarkGray
-        Add-Skipped
-        return
-    }
-
-    Write-Host "Installing (pnpm): $Package" -ForegroundColor White
-    try {
-        mise exec -- pnpm add -g $Package
-        if ($LASTEXITCODE -eq 0 -or $null -eq $LASTEXITCODE) {
-            Add-Installed
-        } else {
-            Write-Host "Failed to install $Package (pnpm, exit code: $LASTEXITCODE)" -ForegroundColor Red
-            Add-Failure -Manager "pnpm" -Package $Package
-        }
-    } catch {
-        Write-Host "Failed to install $Package (pnpm): $_" -ForegroundColor Red
-        Add-Failure -Manager "pnpm" -Package $Package
-    }
-}
 
 {{- if .pkgs.pnpm }}
 Write-Host "`nNode.js version: $nodeVersion" -ForegroundColor DarkGray

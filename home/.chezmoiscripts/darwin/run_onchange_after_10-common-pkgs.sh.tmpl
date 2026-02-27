@@ -9,155 +9,26 @@
 
 set -euo pipefail
 
-CYAN='\033[36m'
-GREEN='\033[32m'
-YELLOW='\033[33m'
-RED='\033[31m'
-GRAY='\033[90m'
-WHITE='\033[97m'
-RESET='\033[0m'
-
-echo -e "${YELLOW}=== Installing common packages (macOS) ===${RESET}"
-
+{{ include ".chezmoitemplates/scripts/lib/bash/common.sh" }}
 {{ include ".chezmoitemplates/scripts/error-policy.sh" }}
+{{ include ".chezmoitemplates/scripts/lib/bash/brew.sh" }}
 
-# Check if Homebrew is installed
-if ! command -v brew &>/dev/null; then
-  echo -e "${RED}ERROR: Homebrew is not installed!${RESET}"
-  echo -e "${YELLOW}Please install Homebrew first: https://brew.sh${RESET}"
-  exit 1
-fi
+print_header "Installing common packages (macOS)"
 
-# Update Homebrew
-echo -e "${YELLOW}Updating Homebrew...${RESET}"
-brew update
-
-# Cache for installed packages (loaded once)
-declare -a BREW_FORMULAE=()
-declare -a BREW_CASKS=()
-brew_cache_loaded=0
-
-load_brew_packages() {
-  if [[ $brew_cache_loaded -eq 1 ]]; then
-    return
-  fi
-
-  brew_cache_loaded=1
-  local output
-
-  # Get all installed formulae
-  if ! output=$(brew list --formula 2>/dev/null); then
-    echo -e "${RED}WARNING: Failed to query installed formulae${RESET}"
-    BREW_FORMULAE=()
-  else
-    while IFS= read -r pkg; do
-      if [[ -n "$pkg" ]]; then
-        BREW_FORMULAE+=("$pkg")
-      fi
-    done <<<"$output"
-  fi
-
-  # Get all installed casks
-  if ! output=$(brew list --cask 2>/dev/null); then
-    echo -e "${RED}WARNING: Failed to query installed casks${RESET}"
-    BREW_CASKS=()
-  else
-    while IFS= read -r pkg; do
-      if [[ -n "$pkg" ]]; then
-        BREW_CASKS+=("$pkg")
-      fi
-    done <<<"$output"
-  fi
-}
-
-brew_formula_installed() {
-  local package="$1"
-  load_brew_packages
-
-  for existing in "${BREW_FORMULAE[@]:-}"; do
-    if [[ "$existing" == "$package" ]]; then
-      return 0
-    fi
-  done
-
-  return 1
-}
-
-brew_cask_installed() {
-  local package="$1"
-  load_brew_packages
-
-  for existing in "${BREW_CASKS[@]:-}"; do
-    if [[ "$existing" == "$package" ]]; then
-      return 0
-    fi
-  done
-
-  return 1
-}
-
-# Function to install package if not already installed
-function install_brew_package() {
-  local full_spec="$1"
-  local package_name=""
-  local is_cask=0
-
-  # Check if this is a cask (starts with --cask)
-  if [[ "$full_spec" == "--cask "* ]]; then
-    is_cask=1
-    # Extract package name (everything after "--cask ")
-    package_name="${full_spec#--cask }"
-    # Remove any additional flags to get just the package name for checking
-    # Format: "package" or "tap/package" or "package --flag"
-    local name_only="${package_name%% *}"
-    # Further extract just the package name from tap/package format
-    name_only="${name_only##*/}"
-
-    if brew_cask_installed "$name_only"; then
-      echo -e "${GRAY}$name_only (cask) is already installed (skipping)${RESET}"
-      record_skipped
-      return 0
-    fi
-
-    echo -e "${GREEN}Installing cask: $package_name${RESET}"
-    if brew install --cask $package_name; then
-      record_installed
-    else
-      echo -e "${RED}Failed to install cask $package_name${RESET}"
-      record_failed "brew" "$name_only"
-    fi
-  else
-    # Regular formula
-    package_name="$full_spec"
-    # Extract just the package name for checking (remove any flags)
-    local name_only="${package_name%% *}"
-    name_only="${name_only##*/}"
-
-    if brew_formula_installed "$name_only"; then
-      echo -e "${GRAY}$name_only is already installed (skipping)${RESET}"
-      record_skipped
-      return 0
-    fi
-
-    echo -e "${GREEN}Installing: $package_name${RESET}"
-    if brew install $package_name; then
-      record_installed
-    else
-      echo -e "${RED}Failed to install $package_name${RESET}"
-      record_failed "brew" "$name_only"
-    fi
-  fi
-}
+require_command_or_exit "brew" "ERROR: Homebrew is not installed!" "Please install Homebrew first: https://brew.sh"
+brew_update_once
 
 # Install common packages via Homebrew
-echo -e "\n${WHITE}Installing common packages via Homebrew...${RESET}"
+print_info ""
+print_info "Installing common packages via Homebrew..."
 {{- range $name, $pkg := .pkgs.common }}
 {{- if hasKey $pkg "brew" }}
-install_brew_package "{{ $pkg.brew }}"
+brew_install_package "{{ $pkg.brew }}"
 {{- end }}
 {{- end }}
 
-echo -e "\n${WHITE}Common package installation complete!${RESET}"
+print_info ""
+print_info "Common package installation complete!"
 print_summary
 
 {{- end }}

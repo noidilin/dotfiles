@@ -9,70 +9,14 @@
 Write-Host "=== Installing cargo packages ===" -ForegroundColor Yellow
 
 {{ include ".chezmoitemplates/scripts/error-policy.ps1" }}
+{{ include ".chezmoitemplates/scripts/lib/powershell/common.ps1" }}
+{{ include ".chezmoitemplates/scripts/lib/powershell/cargo.ps1" }}
 
-if (!(Get-Command mise -ErrorAction SilentlyContinue)) {
-    Write-Host "WARNING: mise is not installed (skipping cargo packages)" -ForegroundColor Red
+if (!(Assert-MiseToolOrSkip -Tool "cargo" -MissingMiseMessage "WARNING: mise is not installed (skipping cargo packages)" -MissingToolMessage "WARNING: cargo is not available via mise (skipping cargo packages)")) {
     exit 0
 }
 
-$cargoVersion = mise exec -- cargo --version 2>$null
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "WARNING: cargo is not available via mise (skipping cargo packages)" -ForegroundColor Red
-    exit 0
-}
-
-$script:CargoPackages = $null
-function Get-CargoInstalledPackages {
-    if ($null -ne $script:CargoPackages) {
-        return $script:CargoPackages
-    }
-
-    $script:CargoPackages = @()
-    $rawOutput = mise exec -- cargo install --list 2>$null
-    if ($LASTEXITCODE -ne 0 -or -not $rawOutput) {
-        return $script:CargoPackages
-    }
-
-    # Use ripgrep to extract package names: filter lines with "v<digit>", then extract first word
-    $packages = $rawOutput | rg -N '^\S+\s+v\d' | rg -o '^\S+'
-    foreach ($pkg in $packages) {
-        if ($pkg) {
-            $script:CargoPackages += $pkg
-        }
-    }
-
-    return $script:CargoPackages
-}
-
-function Test-CargoPackageInstalled {
-    param([string]$Package)
-    $installed = Get-CargoInstalledPackages
-    return $installed -contains $Package
-}
-
-function Install-CargoPackage {
-    param([string]$Package)
-
-    if (Test-CargoPackageInstalled -Package $Package) {
-        Write-Host "$Package is already installed via cargo (skipping)" -ForegroundColor DarkGray
-        Add-Skipped
-        return
-    }
-
-    Write-Host "Installing (cargo): $Package" -ForegroundColor White
-    try {
-        mise exec -- cargo install $Package
-        if ($LASTEXITCODE -eq 0 -or $null -eq $LASTEXITCODE) {
-            Add-Installed
-        } else {
-            Write-Host "Failed to install $Package (cargo, exit code: $LASTEXITCODE)" -ForegroundColor Red
-            Add-Failure -Manager "cargo" -Package $Package
-        }
-    } catch {
-        Write-Host "Failed to install $Package (cargo): $_" -ForegroundColor Red
-        Add-Failure -Manager "cargo" -Package $Package
-    }
-}
+$cargoVersion = $script:MiseToolVersion
 
 {{- if .pkgs.cargo }}
 Write-Host "`ncargo version: $cargoVersion" -ForegroundColor DarkGray
