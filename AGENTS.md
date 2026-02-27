@@ -2,43 +2,15 @@
 
 ## Repository Structure
 
-- This is a **chezmoi-managed dotfiles repository** for multi-platform use
-- Config files are in `home/dot_config/`, scripts in `home/.chezmoiscripts/`
-- Use `chezmoi` commands to manage files: `chezmoi add`, `chezmoi apply`, `chezmoi edit`
-- Encrypted files use age encryption (see `home/.chezmoi.toml.tmpl` for config)
-- Platform-specific files are filtered via `home/.chezmoiignore`
-
-### Supported Platforms
-
-- **Windows**: Primary platform with full configuration
-- **Linux (Arch WSL2)**: CLI tools only, uses Windows interop for SSH/GPG
-- **Linux (Arch Native)**: Planned support with desktop environment (minimal setup for now)
-- **macOS**: Configured but not actively used (see `.chezmoiignore` for exclusions)
-
-### Commands
-
-- **Apply changes**: `chezmoi apply`
-- **Add encrypted file**: `chezmoi add --encrypt <file>`
-- **Test changes**: manually verify after `chezmoi apply` in target directory
-- **Install scripts**:
-  - Windows: `pwsh home/.chezmoiscripts/run_once_before_decrypt-private-key.ps1.tmpl`
-  - Arch Linux: Auto-runs `.chezmoiscripts/run_onchange_install-packages-arch.sh.tmpl`
-
-### Code Style
-
-- **Shell scripts**: Use `.ps1` for PowerShell (Windows), `.sh` for bash (Linux), `.nu` for Nushell (all platforms)
-- **Line endings**: LF for `.sh` files (see `.editorconfig`)
-- **Markdown**: MD013 (line length) disabled (see `.markdownlint-cli2.yaml`)
-- **Naming**: Use descriptive function names with verb-noun pattern (e.g., `Update-Stylus`, `Delete-TempData`)
+- A chezmoi-managed dotfiles repo that supports windows, arch WSL2, arch linux, macOS
+- Config files are in `home/dot_config/`
+  - Encrypted files use age encryption (see `home/.chezmoi.toml.tmpl` for config)
+  - Platform-specific files are filtered via `home/.chezmoiignore`
+- Nushell (nu) is primary shell on all platforms
 
 ---
 
 ## Environment & Tools
-
-- **Platforms**: Windows (primary), Linux/Arch (WSL2)
-- **Shells**: Nushell (nu) is primary on all platforms, PowerShell (pwsh) on Windows only
-- **XDG directories**
-- **Available tools**: fd, sd, grep, ripgrep, ast-grep, imagemagick, yazi, lazygit, mise, bat, eza, fzf, bottom, delta
 
 ### Environment Variable Architecture
 
@@ -46,7 +18,7 @@ Environment variables are configured in **three independent layers** with a **un
 
 - Single Source of Truth: `.chezmoidata/env.yml`
 - Shared Template: `.chezmoitemplates/env`
-  - This template is used by both chezmoi scriptEnv and mise config to ensure consistency.
+  - used by both chezmoi scriptEnv and mise config to ensure consistency
 
 ### Environment Variables Definitions
 
@@ -67,54 +39,6 @@ Environment variables are configured in **three independent layers** with a **un
 ---
 
 ## Script Execution Order
-
-### Execution Phases
-
-Scripts run in this order during `chezmoi apply`:
-
-1. **run_once_before_*** → Prerequisites (before applying dotfiles)
-2. **run_onchange_before_*** → Dynamic prerequisites (before applying dotfiles)
-3. **[Apply dotfiles to target directories]**
-4. **run_onchange_after_*** → Declarative configs (after dotfiles exist)
-5. **run_once_after_*** → One-time system setup (after dotfiles exist)
-
-### Current Implementation
-
-#### Phase 1: run_once_before (Prerequisites)
-
-| # | Script | Platform | Purpose |
-|---|--------|----------|---------|
-| 01 | decrypt-private-key | Cross-platform | Decrypt age key and set permissions (icacls on Windows, chmod on Linux) |
-| 02 | install-yay | Arch Linux | Install yay AUR helper from source (required for AUR packages) |
-| 02 | setup-env-variables | Windows | Set XDG Base Directory variables in Registry (makes env vars available before dotfiles are applied) |
-| 03 | install-mise | Arch Linux | Install mise via official installer to ~/.local/bin (for latest versions) |
-
-#### Phase 1.5: run_before (SSH Setup for Externals)
-
-| # | Script | Platform | Purpose |
-|---|--------|----------|---------|
-| 05 | apply-ssh-config | macOS | Manually render SSH/git/1Password configs using `chezmoi execute-template` (needed for .chezmoiexternals SSH cloning) |
-| 05 | apply-ssh-config | Windows | Manually render git/1Password configs using `chezmoi execute-template` (needed for .chezmoiexternals SSH cloning) |
-
-**Note:** WSL2 does not need this script because it uses Windows SSH via interop (`ssh.exe`), which reads Windows SSH configuration.
-
-#### Phase 2: run_onchange_after (Declarative Packages)
-
-| # | Script | Platform | Purpose | Triggers |
-|---|--------|----------|---------|----------|
-| 02 | setup-symlinks | Windows | Create symlinks for non-XDG apps | `windows.yml` changes |
-| 10 | install-system-packages | Cross-platform | Scoop (Windows) or Pacman (Linux) | Package list changes |
-| 20 | install-additional-packages | Windows | WinGet packages | Package list changes |
-| 30 | install-mise-tools | Cross-platform | Runtime version managers | `mise.yml` changes |
-| 40 | install-language-packages | Cross-platform | pnpm/uv/cargo/yay packages | Package list changes |
-
-#### Phase 3: run_once_after (One-Time Setup)
-
-| # | Script | Platform | Purpose |
-|---|--------|----------|---------|
-| 50 | download-rime-language-model | Arch Native | Download Rime Wanxiang language model (197MB) to ~/.config/rime (for future desktop setup) |
-
-**Note:** Windows and macOS Rime/Fcitx5 setup has been migrated to their respective init scripts (`init/win.ps1` and `init/darwin.sh`) for better bootstrap experience. Arch Linux retains the chezmoi script for potential future native desktop setup.
 
 ### Script Type Selection Guide
 
@@ -139,6 +63,12 @@ Scripts run in this order during `chezmoi apply`:
 
 - Script depends on dotfiles already existing in target location
 - Reads/uses dotfiles as source (e.g., symlinks, reading configs)
+
+> [!NOTE]
+> WSL2 does not need setup SSH because it uses Windows SSH via interop (`ssh.exe`), which reads Windows SSH configuration.
+
+> [!NOTE]
+> Windows and macOS Rime/Fcitx5 setup has been migrated to their respective init scripts (`init/win.ps1` and `init/darwin.sh`) for better bootstrap experience. Arch Linux retains the chezmoi script for potential future native desktop setup.
 
 ### Platform-Specific Wrappers
 

@@ -29,10 +29,11 @@ irm https://raw.githubusercontent.com/noidilin/dotfiles/main/init/win.ps1 | iex
 **What it does:**
 
 - Installs Scoop package manager
-- Installs bootstrap tools (chezmoi, age, openssh, vivid, gsudo)
+- Installs bootstrap tools (git, chezmoi, age, gsudo)
 - Enables Developer Mode and symlink privileges
 - Installs and configures 1Password
 - Runs `chezmoi init --apply`
+- Downloads Rime language model (optional)
 
 **Time:** ~10-15 minutes (includes manual 1Password setup and symlink configuration)
 
@@ -54,9 +55,10 @@ curl -fsSL https://raw.githubusercontent.com/noidilin/dotfiles/main/init/darwin.
 **What it does:**
 
 - Installs Homebrew package manager
-- Installs bootstrap tools (git, chezmoi, age, vivid)
+- Installs bootstrap tools (git, chezmoi, age)
 - Installs and configures 1Password
 - Runs `chezmoi init --apply`
+- Installs Fcitx5-Rime and optionally downloads the Rime language model
 
 **Time:** ~5-10 minutes (includes Xcode CLT installation and manual 1Password setup)
 
@@ -80,7 +82,7 @@ curl -fsSL https://raw.githubusercontent.com/noidilin/dotfiles/main/init/wsl.sh 
 
 - Verifies 1Password access via Windows interop
 - Updates system packages
-- Installs bootstrap tools (git, chezmoi, age, vivid, yay)
+- Installs bootstrap tools (git, base-devel, openssh, chezmoi, age, yay)
 - Runs `chezmoi init --apply`
 
 **Time:** ~5-10 minutes (includes yay AUR helper build)
@@ -143,7 +145,9 @@ Package lists are defined in `home/.chezmoidata/pm/*.yml` and automatically inst
 
 ### Legacy Setup Scripts (Deprecated)
 
-The `home/.local/etc/setup-win/` directory contains legacy manual setup scripts. These are now superseded by the automated bootstrap + chezmoi workflow but are kept for reference.
+The `home/dot_config/setup-win/` directory (target: `~/.config/setup-win/`) contains legacy manual setup scripts. These are now superseded by the automated bootstrap + chezmoi workflow but are kept for reference.
+
+If automation cannot be used, follow `docs/bootstrap-windows.md` for a manual bootstrap sequence.
 
 ---
 
