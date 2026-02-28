@@ -33,9 +33,6 @@ dirs  = [
 	{ name = "uv", text = "", fg = "#4e4e4e" },
 	{ name = "aur", text = "󰣇", fg = "#707070" },
 	{ name = "hub", text = "", fg = "#707070" },
-	{ name = "dev", text = "", fg = "#707070" },
-	{ name = "note", text = "", fg = "#707070" },
-	{ name = "test", text = "", fg = "#707070" },
   # override default
 	{ name = "Desktop", text = "", fg = "#5d5d5d" },
 	{ name = "Documents", text = "", fg = "#5d5d5d" },
