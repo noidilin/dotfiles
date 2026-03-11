@@ -1,11 +1,18 @@
 # vim:ft=gitignore.chezmoitmpl
 
 **/.DS_Store
+**/node_modules/
 
 ### chezmoi ###
 
 .config/chezmoi/**
 chezmoi-crypto-key.txt.age # age passphrase key for chezmoi to decryp private key
+
+### opencode ###
+
+.config/opencode/bun.lock
+.config/opencode/package.json
+.config/opencode/.gitignore
 
 ### script files ###
 
