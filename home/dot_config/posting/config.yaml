@@ -1,0 +1,16 @@
+theme: achroma
+keymap:
+  send-request: ctrl+r
+  # focus-method:
+  focus-url: ctrl+u
+  save-request: ctrl+y
+  # expand-section:
+  toggle-collection: ctrl+x
+  # new-request:
+  # commands:
+  # help:
+  # quit:
+  jump: ctrl+s
+  # open-in-pager:
+  open-in-editor: ctrl+e
+  search-requests: ctrl+f

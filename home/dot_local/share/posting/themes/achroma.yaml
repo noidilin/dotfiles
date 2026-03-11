@@ -1,0 +1,37 @@
+name: achroma
+author: noid
+description: Warm monochrome dark theme inspired by opencode achroma.
+
+primary: "#dad5c8"
+secondary: "#cccccc"
+accent: "#a69f91"
+background: "#191919"
+surface: "#242424"
+
+error: "#b07878"
+success: "#778777"
+warning: "#c8a492"
+
+method:
+  get: "#7d96ad"
+  post: "#778777"
+  put: "#c8a492"
+  delete: "#b07878"
+
+text_area:
+  cursor: "reverse"
+  cursor_line: "underline #353535"
+  selection: "reverse"
+  gutter: "#555555"
+  matched_bracket: "bold #dcdcdc"
+
+url:
+  base: "#8e8e8e"
+  protocol: "bold #9a9487"
+
+syntax:
+  json_key: "#9db2cf"
+  json_number: "#eaeaea"
+  json_string: "#7f7f7f"
+  json_boolean: "#9f9fbd"
+  json_null: "italic #769494"
