@@ -21,9 +21,10 @@ The single `karabiner.yml` file is organized into sections using comments:
 - **Metadata**: Title, version, author, description
 - **Timing Parameters**: Reusable YAML anchors for timing values (`x-parameters`)
 - **Rules**: All key mapping rules organized by layer:
-  - Basic Key Modifications (CapsLock, Tab, Semicolon)
-  - Hyper Layer (navigation, Vim motions, jumps)
-  - Space Layer (one-handed input, numbers, symbols)
+  - Basic Key Modifications (CapsLock, `;`, `[`, `.`, Tab)
+  - Caps Layer (navigation, Vim motions, symbols)
+  - Space Layer (one-handed input, symbols, function keys)
+  - Tab Layer (one-handed numbers)
 
 ### Automatic Updates (via Chezmoi)
 
@@ -87,21 +88,25 @@ x-parameters:
 
 1. Edit `karabiner.yml` and find the appropriate section:
    - **Basic Key Modifications** - Base key modifications
-   - **Hyper Layer** sections - Hyper layer mappings
+   - **Caps Layer** sections - Caps layer mappings
    - **Space Layer** sections - Space layer mappings
    - **Tab Layer** sections - Tab layer mappings
 
 2. Follow existing pattern:
 
    ```yaml
-   - description: 'hyper + x = something'
+   - description: 'caps + x = something'
      type: basic
      from:
        key_code: x
        modifiers:
-         mandatory: [right_command, right_control, right_shift, right_option]
+         optional: [any]
      to:
        - key_code: something
+     conditions:
+       - type: variable_if
+         name: caps_layer
+         value: 1
    ```
 
 3. Recompile: `make install`
@@ -127,108 +132,13 @@ Uncomment and customize these templates when adding new functionality.
 
 ## Troubleshooting
 
-### Special Key Combination Conflicts
+### Layer Notes
 
-**Problem:** When combining two special modifier keys (like `;+h` or `space+;`), the expected layer mapping doesn't trigger.
-
-**Root Cause:**
-
-Karabiner-Elements processes rules **sequentially from top to bottom**. When a key has multiple rule definitions, the first matching rule wins and prevents subsequent rules from being evaluated.
-
-#### Example: Semicolon + H (`;+h`) fails to output `^`
-
-1. **Rule Processing Order:**
-   - Rule A (line ~86): Semicolon modifier - `tap→;, hold→Hyper` with `optional: [any]` modifiers
-   - Rule B (line ~100): H key modifier - `tap→h, hold→Ctrl` with `optional: [any]` modifiers  
-   - Rule C (line ~360): Hyper + H → `^` (requires Hyper modifiers)
-
-2. **What Happens:**
-   - You hold `;` → Semicolon rule outputs Hyper modifiers (right_shift + right_command + right_control + right_option)
-   - You press `h` while holding `;`
-   - **Rule B matches first** because it appears before Rule C and accepts `[any]` optional modifiers
-   - The H modifier rule intercepts the keypress, preventing Hyper+H rule from triggering
-
-3. **Why CapsLock + Tab works:**
-   - Tab is no longer a modifier key (removed from Basic Key Modifications)
-   - No conflicting rule exists for Tab
-   - Hyper + Tab rule matches successfully ✓
-
-#### Solutions
-
-**Solution 1: Explicit Exclusions (Recommended - Currently Implemented)**
-
-Modify the `from.modifiers` of conflicting modifier keys to exclude specific modifiers, combined with variable conditions:
-
-```yaml
-# H key modifier - only match when Hyper modifiers are NOT present
-- description: "h = h(tap) | ctrl(hold)"
-  type: basic
-  from:
-    key_code: h
-    modifiers:
-      # Explicitly list allowed modifiers (excludes all Hyper modifiers)
-      optional: [caps_lock, shift, command, control, option, fn]
-  to:
-    - key_code: left_control
-  to_if_alone:
-    - key_code: h
-  parameters:
-    <<: *hyper-timing
-
-# Semicolon modifier - exclude when Space layer is active  
-- description: "semicolon = ;(tap) | hyper(hold)"
-  type: basic
-  from:
-    key_code: semicolon
-    modifiers:
-      optional: [any]
-  to:
-    - key_code: right_shift
-      modifiers: [right_command, right_control, right_option]
-  to_if_alone:
-    - key_code: semicolon
-  conditions:
-    # Don't activate when space layer is active
-    - type: variable_unless
-      name: space_layer
-      value: 1
-  parameters:
-    <<: *hyper-timing
-```
-
-**How it works:**
-
-- For H key: By listing specific modifiers in `optional` (instead of `any`), we exclude the right-side Hyper modifiers, allowing the Hyper+H rule to match when Semicolon is held
-- For Semicolon: Using `variable_unless` condition prevents the modifier from activating when Space layer is active
-
-**Pros:**
-
-- Surgical fix targeting specific conflicts
-- Preserves all existing functionality
-- Clean and maintainable
-
-**Cons:**
-
-- Requires understanding of modifier precedence
-- Must be careful with `optional` modifier lists
-
-**Solution 2: Rule Reordering**
-
-Move all layer mapping rules to appear **before** Basic Key Modifications section in the file.
-
-**Pros:**
-
-- Simple structural change
-- Layer mappings get priority over modifier keys
-
-**Cons:**
-
-- May create unexpected edge cases
-- Against typical Karabiner configuration conventions
-- Could affect other key combinations
-- Would require extensive testing
-
-**Implementation:** The current configuration uses Solution 1 (Explicit Exclusions).
+- The old semicolon layer has been merged into the Caps Lock hold layer.
+- `caps_lock` now exposes both the original left-hand caps mappings and the old right-hand semicolon mappings.
+- `;` is now a plain dual-role control key.
+- `[` is now the dual-role option key.
+- `.` is back to a plain period key.
 
 ---
 
@@ -236,24 +146,24 @@ Move all layer mapping rules to appear **before** Basic Key Modifications sectio
 
 - **Caps Lock**:
   - tap -> escape
-  - hold -> hyper modifier
+  - hold -> merged caps layer
 - **; key**:
   - tap -> ;
-  - hold -> hyper modifier
+  - hold -> control modifier
 - **[ key**:
   - tap -> [
-  - hold -> right ctrl modifier
+  - hold -> left option modifier
 - **. key**:
   - tap -> .
-  - hold -> right alt modifier
+  - hold -> no special behavior
 
-### Hyper Layer
+### Caps Layer
 
-**Modifier Pass-Through:** All hyper layer mappings support additional modifiers (Option, Command, Shift). When you press extra modifiers along with hyper combinations, they are passed through to the output. For example:
+**Modifier Pass-Through:** Caps layer mappings support additional modifiers (Option, Command, Shift). When you press extra modifiers along with caps combinations, they are passed through to the output. For example:
 
-- `option + hyper + q` → `option + left arrow` (word navigation)
-- `shift + hyper + e` → `shift + up arrow` (text selection)
-- `command + hyper + a` → `command + command + left` (still works, though redundant)
+- `option + caps + q` → `option + h`
+- `shift + caps + e` → `shift + k`
+- `command + caps + a` → `command + left arrow`
 
 #### Left Hand
 
@@ -350,7 +260,7 @@ Move all layer mapping rules to appear **before** Basic Key Modifications sectio
   - V -> -
   - B -> =
 - Special
-  - space -> .
+  - space -> backspace
 
 ---
 

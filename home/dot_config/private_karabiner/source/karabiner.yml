@@ -7,8 +7,7 @@
 # and design work, using layers and modifier keys for efficient one-handed input.
 #
 # Layer System:
-# - Caps Layer (CapsLock hold): left-hand Vim navigation, arrows, symbols
-# - Semicolon Layer (Semicolon hold): right-hand Vim navigation and symbols
+# - Caps Layer (CapsLock hold): left/right-hand Vim navigation, arrows, symbols
 # - Space Layer (Space): One-handed symbols and function keys
 # - Tab Layer (Tab): One-handed number input
 
@@ -28,7 +27,7 @@ x-parameters:
   # - to_if_alone_timeout: Maximum time for a tap to register
   # - to_if_held_down_threshold: Minimum time to activate hold behavior
 
-  # Hyper key timing (Tab/Semicolon)
+  # Hyper key timing (symbol modifiers)
   hyper-timing: &hyper-timing
     basic.to_if_alone_timeout_milliseconds: 200
     basic.to_if_held_down_threshold_milliseconds: 50
@@ -58,8 +57,8 @@ rules:
   # ----------------------------------------------------------------------------
   # Core dual-role keys that serve as foundation for other layers:
   # - CapsLock: tap → Esc, hold → Caps layer
-  # - Semicolon: tap → ;, hold → Semicolon layer
-  # - H: tap → h, hold → Ctrl
+  # - Semicolon: tap → ;, hold → Ctrl
+  # - [: tap → [, hold → Option
 
   - description: Basic Key Modifications
     manipulators:
@@ -80,65 +79,54 @@ rules:
         parameters:
           <<: *capslock-timing
 
-      # Semicolon: tap → ;, hold → Semicolon layer
-      # Note: Excludes activation when Space layer is active to allow space+; combination
-      - description: "semicolon = ;(tap) | semicolon_layer(hold)"
+      # Semicolon: tap → ;, hold → Ctrl
+      - description: "semicolon = ;(tap) | ctrl(hold)"
         type: basic
         from:
           key_code: semicolon
           modifiers:
             optional: [any]
-        to_if_held_down:
-          - set_variable:
-              name: semicolon_layer
-              value: 1
-              key_up_value: 0
+        to:
+          - key_code: right_control
         to_if_alone:
           - key_code: semicolon
-        conditions:
-          # Don't activate when space layer is active (for space+; → F12 combination)
-          - type: variable_unless
-            name: space_layer
-            value: 1
         parameters:
           <<: *hyper-timing
 
-      # [: tap → [, hold → Ctrl
-      - description: "[ = [(tap) | ctrl(hold)"
+      # [: tap → [, hold → Option
+      - description: "[ = [(tap) | option(hold)"
         type: basic
         from:
           key_code: open_bracket
           modifiers:
             optional: [any]
         to:
-          - key_code: right_control
+          - key_code: left_option
         to_if_alone:
           - key_code: open_bracket
         parameters:
           <<: *hyper-timing
 
-      # .: tap → ., hold → Alt
-      - description: ". = .(tap) | alt(hold)"
+      # .: tap → .
+      - description: ". = ."
         type: basic
         from:
           key_code: period
           modifiers:
             optional: [any]
         to:
-          - key_code: left_option
-        to_if_alone:
           - key_code: period
         parameters:
           <<: *hyper-timing
 
   # ----------------------------------------------------------------------------
-  # CAPS / SEMICOLON LAYERS - FUNCTIONALITY
+  # CAPS LAYER - FUNCTIONALITY
   # ----------------------------------------------------------------------------
-  # Essential functions available in both layer triggers:
+  # Essential functions available in caps layer:
   # - Space → Delete (backspace)
   # - G → Return (enter)
 
-  - description: Caps / Semicolon Layers - Functionality
+  - description: Caps Layer - Functionality
     manipulators:
       # caps + space → delete
       - description: "caps + space = delete"
@@ -154,20 +142,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # semicolon + space → delete
-      - description: "semicolon + space = delete"
-        type: basic
-        from:
-          key_code: spacebar
-          modifiers:
-            optional: [any]
-        to:
-          - key_code: delete_or_backspace
-        conditions:
-          - type: variable_if
-            name: semicolon_layer
-            value: 1
-
       # caps + G → return
       - description: "caps + g = return"
         type: basic
@@ -180,20 +154,6 @@ rules:
         conditions:
           - type: variable_if
             name: caps_layer
-            value: 1
-
-      # semicolon + G → return
-      - description: "semicolon + g = return"
-        type: basic
-        from:
-          key_code: g
-          modifiers:
-            optional: [any]
-        to:
-          - key_code: return_or_enter
-        conditions:
-          - type: variable_if
-            name: semicolon_layer
             value: 1
 
   # ----------------------------------------------------------------------------
@@ -445,7 +405,7 @@ rules:
             value: 1
 
   # ----------------------------------------------------------------------------
-  # SEMICOLON LAYER - RIGHT HAND (Mid Row)
+  # CAPS LAYER - RIGHT HAND (Mid Row)
   # ----------------------------------------------------------------------------
   # Vim line navigation symbols (HJKL):
   # - H → ^ (shift+6, start of line)
@@ -453,10 +413,10 @@ rules:
   # - K → { (shift+[, previous paragraph)
   # - L → } (shift+], next paragraph)
 
-  - description: Semicolon Layer - Right Hand (mid row)
+  - description: Caps Layer - Right Hand (mid row)
     manipulators:
-      # semicolon + H → ^ (shift+6)
-      - description: "semicolon + h = ^ (line start)"
+      # caps + H → ^ (shift+6)
+      - description: "caps + h = ^ (line start)"
         type: basic
         from:
           key_code: h
@@ -467,11 +427,11 @@ rules:
             modifiers: [left_shift]
         conditions:
           - type: variable_if
-            name: semicolon_layer
+            name: caps_layer
             value: 1
 
-      # semicolon + J → $ (shift+4)
-      - description: "semicolon + j = $ (line end)"
+      # caps + J → $ (shift+4)
+      - description: "caps + j = $ (line end)"
         type: basic
         from:
           key_code: j
@@ -482,11 +442,11 @@ rules:
             modifiers: [left_shift]
         conditions:
           - type: variable_if
-            name: semicolon_layer
+            name: caps_layer
             value: 1
 
-      # semicolon + K → { (shift+[)
-      - description: "semicolon + k = { (prev paragraph)"
+      # caps + K → { (shift+[)
+      - description: "caps + k = { (prev paragraph)"
         type: basic
         from:
           key_code: k
@@ -497,11 +457,11 @@ rules:
             modifiers: [left_shift]
         conditions:
           - type: variable_if
-            name: semicolon_layer
+            name: caps_layer
             value: 1
 
-      # semicolon + L → } (shift+])
-      - description: "semicolon + l = } (next paragraph)"
+      # caps + L → } (shift+])
+      - description: "caps + l = } (next paragraph)"
         type: basic
         from:
           key_code: l
@@ -512,11 +472,11 @@ rules:
             modifiers: [left_shift]
         conditions:
           - type: variable_if
-            name: semicolon_layer
+            name: caps_layer
             value: 1
 
   # ----------------------------------------------------------------------------
-  # SEMICOLON LAYER - RIGHT HAND (Top Row)
+  # CAPS LAYER - RIGHT HAND (Top Row)
   # ----------------------------------------------------------------------------
   # Vim search symbols:
   # - Y → # (shift+3, previous match word)
@@ -524,10 +484,10 @@ rules:
   # - I → % (shift+5, match bracket)
   # - O → @ (shift+2, at symbol)
 
-  - description: Semicolon Layer - Right Hand (top row)
+  - description: Caps Layer - Right Hand (top row)
     manipulators:
-      # semicolon + Y → # (shift+3)
-      - description: "semicolon + y = # (prev match word)"
+      # caps + Y → # (shift+3)
+      - description: "caps + y = # (prev match word)"
         type: basic
         from:
           key_code: "y"
@@ -538,11 +498,11 @@ rules:
             modifiers: [left_shift]
         conditions:
           - type: variable_if
-            name: semicolon_layer
+            name: caps_layer
             value: 1
 
-      # semicolon + U → * (shift+8)
-      - description: "semicolon + u = * (next match word)"
+      # caps + U → * (shift+8)
+      - description: "caps + u = * (next match word)"
         type: basic
         from:
           key_code: u
@@ -553,11 +513,11 @@ rules:
             modifiers: [left_shift]
         conditions:
           - type: variable_if
-            name: semicolon_layer
+            name: caps_layer
             value: 1
 
-      # semicolon + I → ( (shift+9)
-      - description: "semicolon + i = ("
+      # caps + I → ( (shift+9)
+      - description: "caps + i = ("
         type: basic
         from:
           key_code: i
@@ -568,11 +528,11 @@ rules:
             modifiers: [left_shift]
         conditions:
           - type: variable_if
-            name: semicolon_layer
+            name: caps_layer
             value: 1
 
-      # semicolon + O → ) (shift+0)
-      - description: "semicolon + o = )"
+      # caps + O → ) (shift+0)
+      - description: "caps + o = )"
         type: basic
         from:
           key_code: o
@@ -583,21 +543,21 @@ rules:
             modifiers: [left_shift]
         conditions:
           - type: variable_if
-            name: semicolon_layer
+            name: caps_layer
             value: 1
 
   # ----------------------------------------------------------------------------
-  # SEMICOLON LAYER - RIGHT HAND (Bot Row)
+  # CAPS LAYER - RIGHT HAND (Bot Row)
   # ----------------------------------------------------------------------------
   # Additional symbols:
   # - N → % (shift+5)
   # - M → @ (shift+2)
   # - , → & (shift+7)
 
-  - description: Semicolon Layer - Right Hand (bot row)
+  - description: Caps Layer - Right Hand (bot row)
     manipulators:
-      # semicolon + N → % (shift+5)
-      - description: "semicolon + n = %"
+      # caps + N → % (shift+5)
+      - description: "caps + n = %"
         type: basic
         from:
           key_code: "n"
@@ -608,11 +568,11 @@ rules:
             modifiers: [left_shift]
         conditions:
           - type: variable_if
-            name: semicolon_layer
+            name: caps_layer
             value: 1
 
-      # semicolon + M → @ (shift+2)
-      - description: "semicolon + m = @"
+      # caps + M → @ (shift+2)
+      - description: "caps + m = @"
         type: basic
         from:
           key_code: m
@@ -623,11 +583,11 @@ rules:
             modifiers: [left_shift]
         conditions:
           - type: variable_if
-            name: semicolon_layer
+            name: caps_layer
             value: 1
 
-      # semicolon + , → & (shift+7)
-      - description: "semicolon + , = &"
+      # caps + , → & (shift+7)
+      - description: "caps + , = &"
         type: basic
         from:
           key_code: comma
@@ -638,7 +598,7 @@ rules:
             modifiers: [left_shift]
         conditions:
           - type: variable_if
-            name: semicolon_layer
+            name: caps_layer
             value: 1
 
   # ----------------------------------------------------------------------------
