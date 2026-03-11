@@ -8,6 +8,7 @@ export def init-os-env [] {
         std path add '/usr/local/bin'
         std path add '/usr/bin'
         std path add '/bin'
+        std path add '/opt/homebrew/opt/postgresql@18/bin'
         { PATH: $env.PATH }
       }
     }
