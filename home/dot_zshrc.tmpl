@@ -1,0 +1,11 @@
+# vim: ft=zsh
+{{- if eq .chezmoi.os "darwin" }}
+for file in \
+  "$HOME/.config/zsh/env.zsh" \
+  "$HOME/.config/zsh/aliases.zsh" \
+  "$HOME/.config/zsh/functions.zsh" \
+  "$HOME/.config/zsh/integrations.zsh"
+do
+  [ -r "$file" ] && source "$file"
+done
+{{- end }}
