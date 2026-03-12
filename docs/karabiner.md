@@ -21,7 +21,7 @@ The single `karabiner.yml` file is organized into sections using comments:
 - **Metadata**: Title, version, author, description
 - **Timing Parameters**: Reusable YAML anchors for timing values (`x-parameters`)
 - **Rules**: All key mapping rules organized by layer:
-  - Basic Key Modifications (CapsLock, `;`, `[`, `.`, Tab)
+  - Basic Key Modifications (CapsLock, `;`, `'`, `[`, `.`, Tab)
   - Caps Layer (navigation, Vim motions, symbols)
   - Space Layer (one-handed input, symbols, function keys)
   - Tab Layer (one-handed numbers)
@@ -136,8 +136,9 @@ Uncomment and customize these templates when adding new functionality.
 
 - The old semicolon layer has been merged into the Caps Lock hold layer.
 - `caps_lock` now exposes both the original left-hand caps mappings and the old right-hand semicolon mappings.
-- `;` is now a plain dual-role control key.
-- `[` is now the dual-role option key.
+- `;` is now the dual-role right shift key.
+- `'` is now the dual-role option key.
+- `[` is now the dual-role control key.
 - `.` is back to a plain period key.
 
 ---
@@ -149,10 +150,13 @@ Uncomment and customize these templates when adding new functionality.
   - hold -> merged caps layer
 - **; key**:
   - tap -> ;
-  - hold -> control modifier
+  - hold -> right shift modifier
+- **' key**:
+  - tap -> '
+  - hold -> left option modifier
 - **[ key**:
   - tap -> [
-  - hold -> left option modifier
+  - hold -> control modifier
 - **. key**:
   - tap -> .
   - hold -> no special behavior
