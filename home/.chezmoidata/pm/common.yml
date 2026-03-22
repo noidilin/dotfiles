@@ -112,6 +112,10 @@ pkgs:
       brew: "bottom"
       scoop: "bottom"
       pacman: "bottom"
+    docker:
+      brew: "docker"
+      scoop: "docker"
+      pacman: "docker"
     eza:
       brew: "eza"
       scoop: "eza"
@@ -156,6 +160,14 @@ pkgs:
       brew: "jq"
       scoop: "jq"
       pacman: "jq"
+    k9s:
+      brew: "derailed/k9s/k9s"
+      scoop: "k9s"
+      pacman: "k9s"
+    kubectl:
+      brew: "kubectl"
+      scoop: "kubectl"
+      pacman: "kubectl"
     lazygit:
       brew: "lazygit"
       scoop: "lazygit"
@@ -181,6 +193,10 @@ pkgs:
       brew: "pastel"
       scoop: "pastel"
       pacman: "pastel"
+    postgresql:
+      brew: "postgresql"
+      scoop: "postgresql"
+      pacman: "postgresql"
     ripgrep:
       brew: "ripgrep"
       scoop: "ripgrep"
