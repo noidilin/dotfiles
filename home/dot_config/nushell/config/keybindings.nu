@@ -103,10 +103,10 @@ export def main [] {
       }
     }
     {
-        name: fzf_dirs
-        modifier: alt
-        keycode: char_c
-        mode: [emacs, vi_normal, vi_insert]
+      name: fzf_dirs
+      modifier: alt
+      keycode: char_c
+      mode: [emacs, vi_normal, vi_insert]
         event: {
           send: executehostcommand
           cmd: "
@@ -115,6 +115,16 @@ export def main [] {
             cd $result;
           "
         }
+    }
+    {
+      name: paste_bash_command
+      modifier: alt
+      keycode: char_v
+      mode: [emacs, vi_normal, vi_insert]
+      event: {
+        send: ExecuteHostCommand
+        cmd: "paste-bash-command"
+      }
     }
 
     # custom menu
