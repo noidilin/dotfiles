@@ -1,0 +1,117 @@
+# Warm monochrome skin aligned with lazygit/lazydocker achroma theme.
+
+foreground: &foreground "#878787"
+background: &background "#191919"
+accent: &accent "#dad5c8"
+highlight: &highlight "#faf5eb"
+focus: &focus "#9d9d9d"
+muted: &muted "#5d5d5d"
+selection: &selection "#2a2a2a"
+surface: &surface "#414141"
+success: &success "#778777"
+warning: &warning "#c8a492"
+error: &error "#b07878"
+info: &info "#7d96ad"
+
+k9s:
+  body:
+    fgColor: *foreground
+    bgColor: *background
+    logoColor: *accent
+  prompt:
+    fgColor: *foreground
+    bgColor: *background
+    suggestColor: *highlight
+    border:
+      command: *accent
+      default: *focus
+  info:
+    fgColor: *accent
+    sectionColor: *highlight
+  help:
+    fgColor: *foreground
+    bgColor: *background
+    keyColor: *accent
+    numKeyColor: *highlight
+    sectionColor: *focus
+  dialog:
+    fgColor: *foreground
+    bgColor: *background
+    buttonFgColor: *foreground
+    buttonBgColor: *selection
+    buttonFocusFgColor: *highlight
+    buttonFocusBgColor: *surface
+    labelFgColor: *accent
+    fieldFgColor: *focus
+  frame:
+    border:
+      fgColor: *muted
+      focusColor: *focus
+    menu:
+      fgColor: *foreground
+      keyColor: *accent
+      numKeyColor: *highlight
+    crumbs:
+      fgColor: *foreground
+      bgColor: *selection
+      activeColor: *highlight
+    status:
+      newColor: *foreground
+      modifyColor: *accent
+      addColor: *success
+      pendingColor: *warning
+      errorColor: *error
+      highlightColor: *highlight
+      killColor: *muted
+      completedColor: *muted
+    title:
+      fgColor: *foreground
+      bgColor: *background
+      highlightColor: *highlight
+      counterColor: *accent
+      filterColor: *focus
+  views:
+    charts:
+      bgColor: *background
+      defaultDialColors:
+        - *accent
+        - *error
+      defaultChartColors:
+        - *accent
+        - *info
+    table:
+      fgColor: *foreground
+      bgColor: *background
+      cursorFgColor: *highlight
+      cursorBgColor: *surface
+      markColor: *focus
+      header:
+        fgColor: *focus
+        bgColor: *background
+        sorterColor: *highlight
+    xray:
+      fgColor: *foreground
+      bgColor: *background
+      cursorColor: *selection
+      graphicColor: *accent
+      showIcons: false
+    yaml:
+      keyColor: *accent
+      colonColor: *focus
+      valueColor: *foreground
+    logs:
+      fgColor: *foreground
+      bgColor: *background
+      indicator:
+        fgColor: *foreground
+        bgColor: *background
+        toggleOnColor: *success
+        toggleOffColor: *warning
+    help:
+      fgColor: *foreground
+      bgColor: *background
+      keyColor: *accent
+      numKeyColor: *highlight
+      sectionColor: *focus
+      indicator:
+        fgColor: *focus
