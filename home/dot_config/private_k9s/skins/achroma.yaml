@@ -18,6 +18,10 @@ k9s:
     fgColor: *foreground
     bgColor: *background
     logoColor: *accent
+    logoColorMsg: *highlight
+    logoColorInfo: *info
+    logoColorWarn: *warning
+    logoColorError: *error
   prompt:
     fgColor: *foreground
     bgColor: *background
@@ -28,6 +32,9 @@ k9s:
   info:
     fgColor: *accent
     sectionColor: *highlight
+    cpuColor: *success
+    memColor: *info
+    k9sRevColor: *accent
   help:
     fgColor: *foreground
     bgColor: *background
@@ -73,12 +80,23 @@ k9s:
   views:
     charts:
       bgColor: *background
+      dialBgColor: *background
+      chartBgColor: *background
       defaultDialColors:
         - *accent
         - *error
       defaultChartColors:
         - *accent
         - *info
+      resourceColors:
+        cpu:
+          - *success
+          - *muted
+        mem:
+          - *info
+          - *surface
+      focusFgColor: *highlight
+      focusBgColor: *surface
     table:
       fgColor: *foreground
       bgColor: *background
@@ -89,10 +107,12 @@ k9s:
         fgColor: *focus
         bgColor: *background
         sorterColor: *highlight
+        selectedSortColumnColor: *accent
     xray:
       fgColor: *foreground
       bgColor: *background
       cursorColor: *selection
+      cursorTextColor: *highlight
       graphicColor: *accent
       showIcons: false
     yaml:
@@ -115,3 +135,7 @@ k9s:
       sectionColor: *focus
       indicator:
         fgColor: *focus
+    picker:
+      mainColor: *foreground
+      focusColor: *accent
+      shortcutColor: *highlight
