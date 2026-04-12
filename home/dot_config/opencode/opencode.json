@@ -1,5 +1,13 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "plan": {
+      "color": "#5d5d5d"
+    },
+    "build": {
+      "color": "#dad5c8"
+    }
+  },
   "mcp": {
     "next-devtools": {
       "type": "local",
