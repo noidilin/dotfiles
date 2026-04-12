@@ -13,10 +13,10 @@ mise:
         profile: "minimal"
       linux:
         version: "stable"
-        profile: "minimal"
+        profile: "default"
       darwin:
         version: "stable"
-        profile: "minimal"
+        profile: "default"
     go: "latest"
   settings:
     experimental: true
