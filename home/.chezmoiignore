@@ -73,6 +73,7 @@ FlexASIO.toml
 .aerospace.toml
 .config/zsh/*
 .config/karabiner/
+.local/etc/antinote/
 {{- end }}
 
 {{- if ne .osId "linux-arch" }}
