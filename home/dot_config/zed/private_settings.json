@@ -1,0 +1,175 @@
+// https://gist.github.com/oca159/596dc2030c8593045e97a8d8509ff996
+{
+  "vim_mode": true,
+  // Use zed commit editor
+  "terminal": {
+    "env": {
+      "EDITOR": "zed --wait",
+    },
+    "line_height": {
+      "custom": 1.2,
+    },
+    "cursor_shape": "bar",
+    "blinking": "on",
+    "copy_on_select": true,
+    "font_family": "CommitMono Nerd Font Mono",
+    "detect_venv": {
+      "on": {
+        // Default directories to search for virtual environments, relative
+        // to the current working directory. We recommend overriding this
+        // in your project's settings, rather than globally.
+        "directories": [".venv", "venv"],
+        // Can also be `csh`, `fish`, and `nushell`
+        "activate_script": "default",
+      },
+    },
+    "button": false,
+  },
+  // "base_keymap": "Emacs",
+  "tab_bar": {
+    "show": true,
+    "show_tab_bar_buttons": false,
+  },
+  "relative_line_numbers": "enabled",
+  "gutter": {
+    "line_numbers": true,
+  },
+  "minimap": {
+    "show": "never",
+  },
+  "cursor_blink": true,
+  "ui_font_family": "CommitMono Nerd Font Mono",
+  "buffer_font_family": "CommitMono Nerd Font Mono",
+  "buffer_font_fallbacks": ["Menlo", "Monaco"],
+  // File syntax highlighting
+  "file_types": {
+    "tailwindcss": ["*.css", "*.scss"],
+    "Dockerfile": ["Dockerfile", "Dockerfile.*"],
+    "JSON": ["json", "jsonc", "*.code-snippets"],
+  },
+  "colorize_brackets": true,
+  "linked_edits": true,
+  "soft_wrap": "editor_width",
+  "tab_size": 2,
+  "scrollbar": {
+    "show": "never",
+  },
+  "tabs": {
+    "file_icons": true,
+    "git_status": true,
+  },
+  // Indentation, rainbow indentation
+  "indent_guides": {
+    "enabled": true,
+    "coloring": "indent_aware",
+  },
+  "ui_font_size": 16,
+  "buffer_font_size": 13.5,
+  "theme": {
+    "mode": "dark",
+    "light": "Gruvbox Light Hard",
+    "dark": "achroma-dark",
+  },
+  "edit_predictions": {
+    "disabled_globs": [
+      "**/.git",
+      "**/.svn",
+      "**/.hg",
+      "**/CVS",
+      "**/.DS_Store",
+      "**/Thumbs.db",
+      "**/.classpath",
+      "**/.settings",
+      "**/.vscode",
+      "**/.idea",
+      "**/node_modules",
+      "**/.serverless",
+      "**/build",
+      "**/dist",
+      "**/coverage",
+      "**/.venv",
+      "**/__pycache__",
+      "**/.ropeproject",
+      "**/.pytest_cache",
+      "**/.ruff_cache",
+    ],
+    "mode": "eager",
+    "copilot": {
+      "proxy": null,
+      "proxy_no_verify": null,
+    },
+  },
+  "show_edit_predictions": true,
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false,
+  },
+  // NOTE: Zen mode, refer https://github.com/zed-industries/zed/issues/4382 when it's resolved
+  "centered_layout": {
+    "left_padding": 0.15,
+    "right_padding": 0.15,
+  },
+  "file_scan_exclusions": [
+    "**/.git",
+    "**/.svn",
+    "**/.hg",
+    "**/CVS",
+    "**/.DS_Store",
+    "**/Thumbs.db",
+    "**/.classpath",
+    "**/.settings",
+    "**/.vscode",
+    "**/.idea",
+    "**/node_modules",
+    "**/.serverless",
+    "**/build",
+    "**/dist",
+    "**/coverage",
+    "**/.venv",
+    "**/__pycache__",
+    "**/.ropeproject",
+    "**/.pytest_cache",
+    "**/.ruff_cache",
+  ],
+  "file_scan_inclusions": [".env"],
+  "outline_panel": {
+    "dock": "right",
+    "button": false,
+  },
+  "notification_panel": {
+    "button": false,
+  },
+  // Move all panel to the right
+  "project_panel": {
+    "button": false,
+    "default_width": 300,
+    "dock": "left",
+    "file_icons": true,
+    "folder_icons": true,
+    "git_status": true,
+    "scrollbar": {
+      "show": "never",
+    },
+  },
+  "collaboration_panel": {
+    "dock": "left",
+    "button": false,
+  },
+  "autosave": "on_focus_change",
+  "search": {
+    "whole_word": false,
+    "case_sensitive": true,
+    "include_ignored": false,
+    "regex": false,
+  },
+  "preferred_line_length": 120,
+  "formatter": {
+    "language_server": {
+      "name": "biome",
+    },
+  },
+  "code_actions_on_format": {
+    "source.fixAll.biome": true,
+    "source.organizeImports.biome": true,
+  },
+}
