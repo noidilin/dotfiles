@@ -18,6 +18,23 @@
       ],
       "enabled": true,
     },
+    "figma": {
+      "type": "remote",
+      "url": "https://mcp.figma.com/mcp",
+      "enabled": false,
+    },
+    "awslabs-core-mcp-server": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "awslabs.core-mcp-server@latest",
+        "--readonly"
+      ],
+      "environment": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "enabled": true,
+    },
     "chrome-devtools": {
       "type": "local",
       "command": [
@@ -30,13 +47,8 @@
     "context7": {
       "type": "remote",
       "url": "https://mcp.context7.com/mcp",
-      "enabled": false
+      "enabled": false,
     },
-    "figma": {
-      "type": "remote",
-      "url": "https://mcp.figma.com/mcp",
-      "enabled": true
-    }
   },
   "provider": {
     "openai": {
