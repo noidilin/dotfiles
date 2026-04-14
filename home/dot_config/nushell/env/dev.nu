@@ -1,3 +1,6 @@
+# dev path - set up provider cache dir in terraform config
+$env.TF_CLI_CONFIG_FILE = ($nu.home-dir | path join ".config" "terraform" "config.tfrc")
+
 # dev path - npm, pnpm, yarn, bun
 $env.NPM_CONFIG_CACHE = ($nu.home-dir | path join ".dev" "npm" "cache")
 $env.NPM_CONFIG_USERCONFIG = ($nu.home-dir | path join ".dev" "npm" "npmrc")
