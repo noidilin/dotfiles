@@ -4,7 +4,7 @@
 
 - A chezmoi-managed dotfiles repo that supports windows, arch WSL2, arch linux, macOS
 - Config files are in `home/dot_config/`
-  - Encrypted files use age encryption (see `home/.chezmoi.toml.tmpl` for config)
+  - `age` encryption support is configured in `home/.chezmoi.toml.tmpl`, but there are currently no repo-managed encrypted secrets in this repository
   - Platform-specific files are filtered via `home/.chezmoiignore`
 - Nushell (nu) is primary shell on all platforms
 

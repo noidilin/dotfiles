@@ -151,47 +151,31 @@ If automation cannot be used, follow `docs/bootstrap-windows.md` for a manual bo
 
 ---
 
-## Setup age Keys
+## Age Bootstrap Status
 
-Since I stored some api keys for AI chat bot in my dotfiles, I encrypted it with `chezmoi` using `age` encryption. However, `chezmoi` needs to setup a `age` private key first to encrypt and decrypt the secret files.
+> [!CAUTION]
+> This repo currently contains no repo-managed encrypted secrets. The existing `age` bootstrap/config/scripts remain in place as legacy support for a previous secret-management workflow and for possible future use. Normal `chezmoi` setup should not require these files unless encrypted secrets are added back to the repo.
 
-reference: [Encryption - chezmoi](https://www.chezmoi.io/user-guide/frequently-asked-questions/encryption/)
+Reference: [Encryption - chezmoi](https://www.chezmoi.io/user-guide/frequently-asked-questions/encryption/)
 
-The strategy:
+The current `age` bootstrap stack is still present in the repo:
 
-### 1. Generate an age private key, which will be used to encrypt and decrypt secrets
+1. `home/.chezmoi.toml.tmpl`
+   Configures `chezmoi` to use `age` with a local identity file.
+2. `home/chezmoi-crypto-key.txt.age`
+   Stores a passphrase-protected bootstrap copy of the `age` identity.
+3. `home/.chezmoiscripts/*/run_once_before_01-decrypt-private-key.*`
+   Restores the local identity file on a fresh machine before normal `chezmoi` processing.
 
-```sh
-chezmoi cd ~
-age-keygen | age --armor --passphrase > key.txt.age
-```
+This setup only matters if encrypted files are added back to the repo with `chezmoi add --encrypt`.
 
-> [!TIP]
-> The mysterious key.txt
-> The 'key.txt' will be the private key to encrypt and decrypt files processed with `chezmoi add --encrypt {file}`
-> I can further encrypt this private key with a passphrase to safely save it to remote repo.
-> The passphrase will be used to decrypt the private key when setting up a new device.
+### Historical Workflow
 
-### 2. Setup `chezmoi` script template to decrypt the private key if needed
+The old workflow was:
 
-```sh
-# pseudo code
-# check if the key exist
-# `mkdir` for the key's parent dir
-# `chezmoi age decrypt --output {private-key} --passphrase {encrypted-private-key}`
-# set private key permission `chmod 600 {private-key}`
-```
+1. Generate an `age` private key for `chezmoi` secret encryption.
+2. Save an encrypted bootstrap copy of that key in the repo.
+3. Use bootstrap scripts to restore the key on a new machine.
+4. Add encrypted files with `chezmoi add --encrypt {file}`.
 
-### 3. Configure `chezmoi.toml` to use the private key, and `age` encryption
-
-```toml
-encryption = "age"
-[age.identity]: private key path
-[age.recipient]: public key of the private key
-```
-
-### 4. Add my secret files with encryption
-
-```sh
-chezmoi add --encrypt {file}
-```
+In other words, the bootstrap remains documented here so the existing config and scripts are understandable, but it is not currently needed for any checked-in secret files.
