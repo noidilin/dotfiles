@@ -29,9 +29,8 @@ $env:YAZI_CONFIG_HOME = "$HOME\.config\yazi"
 $env:YAZI_FILE_ONE = "$HOME\scoop\apps\git\current\usr\bin\file.exe"
 
 # key
-$env:ANTHROPIC_API_KEY = Get-Content -Path "$HOME\.config\api\ANTHROPIC_API_KEY"
-$env:TAVILY_API_KEY = Get-Content -Path "$HOME\.config\api\TAVILY_API_KEY"
-$env:OPENAI_API_KEY = Get-Content -Path "$HOME\.config\api\OPENAI_API_KEY"
+# $env:ANTHROPIC_API_KEY = Get-Content -Path "$HOME\.config\api\ANTHROPIC_API_KEY"
+# $env:OPENAI_API_KEY = Get-Content -Path "$HOME\.config\api\OPENAI_API_KEY"
 
 Import-Module PSReadLine
 
