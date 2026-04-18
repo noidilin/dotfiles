@@ -54,7 +54,7 @@ def stylus-update [
   lib: string = 'https://noidilin.github.io/achroma/lib/lib.less'
 ] {
   let url: string = 'https://github.com/catppuccin/userstyles/releases/download/all-userstyles-export/import.json'
-  let file = ( $env.USERPROFILE | path join '.local/etc/stylus/achroma.json' )
+  let file = ( $env.HOME | path join '.local/etc/stylus/achroma.json' )
   
   # First, let's see what we're working with
   let data = (http get $url | decode utf-8 | from json)
