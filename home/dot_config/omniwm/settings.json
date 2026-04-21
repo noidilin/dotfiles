@@ -1,0 +1,213 @@
+{
+  "appRules" : [
+    {
+      "assignToWorkspace" : "3",
+      "bundleId" : "com.apple.Safari",
+      "id" : "81426D13-C1A5-475E-AFBC-00BBA05042D0"
+    },
+    {
+      "bundleId" : "com.apple.MobileSMS",
+      "id" : "552FB77D-BF0E-4737-90A6-B5BC6986C579",
+      "minHeight" : 320,
+      "minWidth" : 660
+    },
+    {
+      "assignToWorkspace" : "1",
+      "bundleId" : "app.zen-browser.zen",
+      "id" : "99676620-FEDE-4BF7-8C9D-F33AF8FA0ADF"
+    },
+    {
+      "assignToWorkspace" : "9",
+      "bundleId" : "kike.Calflow",
+      "id" : "36059525-C1D0-4ED1-A4C6-95A4F2D245C2"
+    },
+    {
+      "assignToWorkspace" : "9",
+      "bundleId" : "com.linear",
+      "id" : "FB388545-D89D-4454-A790-44422E27B2E2"
+    },
+    {
+      "assignToWorkspace" : "1",
+      "bundleId" : "QReader.MarginStudy.easy",
+      "id" : "A6CCF280-5D40-41F5-BFE2-0F1103B59D9C"
+    },
+    {
+      "assignToWorkspace" : "3",
+      "bundleId" : "net.imput.helium",
+      "id" : "33933382-922F-4831-A0B5-9300FF0511C0"
+    },
+    {
+      "assignToWorkspace" : "2",
+      "bundleId" : "com.github.wez.wezterm",
+      "id" : "08A60555-4B22-490A-8A7B-CBA2B2604C53"
+    }
+  ],
+  "borderColorBlue" : 0.20784313725490194,
+  "borderColorGreen" : 0.20784313725490194,
+  "borderColorRed" : 0.20784313725490194,
+  "bordersEnabled" : false,
+  "borderWidth" : 1.5,
+  "gapSize" : 5,
+  "gestureFingerCount" : 4,
+  "hotkeyBindings" : [
+    {
+      "binding" : "Option+Tab",
+      "id" : "workspaceBackAndForth"
+    },
+    {
+      "binding" : "Option+H",
+      "id" : "focus.left"
+    },
+    {
+      "binding" : "Option+J",
+      "id" : "focus.down"
+    },
+    {
+      "binding" : "Option+K",
+      "id" : "focus.up"
+    },
+    {
+      "binding" : "Option+L",
+      "id" : "focus.right"
+    },
+    {
+      "binding" : "Unassigned",
+      "id" : "focusPrevious"
+    },
+    {
+      "binding" : "Unassigned",
+      "id" : "moveWindowToWorkspaceUp"
+    },
+    {
+      "binding" : "Unassigned",
+      "id" : "moveWindowToWorkspaceDown"
+    },
+    {
+      "binding" : "Unassigned",
+      "id" : "moveColumnToWorkspaceUp"
+    },
+    {
+      "binding" : "Unassigned",
+      "id" : "moveColumnToWorkspaceDown"
+    },
+    {
+      "binding" : "Option+Shift+H",
+      "id" : "move.left"
+    },
+    {
+      "binding" : "Option+Shift+J",
+      "id" : "move.down"
+    },
+    {
+      "binding" : "Option+Shift+K",
+      "id" : "move.up"
+    },
+    {
+      "binding" : "Option+Shift+L",
+      "id" : "move.right"
+    },
+    {
+      "binding" : "Unassigned",
+      "id" : "focusMonitorNext"
+    },
+    {
+      "binding" : "Option+Shift+,",
+      "id" : "moveColumn.left"
+    },
+    {
+      "binding" : "Option+Shift+.",
+      "id" : "moveColumn.right"
+    },
+    {
+      "binding" : "Unassigned",
+      "id" : "focusColumnFirst"
+    },
+    {
+      "binding" : "Unassigned",
+      "id" : "focusColumnLast"
+    },
+    {
+      "binding" : "Option+F",
+      "id" : "toggleColumnFullWidth"
+    },
+    {
+      "binding" : "Control+Option+Tab",
+      "id" : "toggleWorkspaceBarVisibility"
+    },
+    {
+      "binding" : "Unassigned",
+      "id" : "toggleWorkspaceLayout"
+    }
+  ],
+  "niriColumnWidthPresets" : [
+    0.33000000000000002,
+    0.5,
+    0.66000000000000003
+  ],
+  "niriMaxWindowsPerColumn" : 2,
+  "niriSingleWindowAspectRatio" : "none",
+  "outerGapBottom" : 5,
+  "outerGapLeft" : 5,
+  "outerGapRight" : 5,
+  "outerGapTop" : 5,
+  "quakeTerminalEnabled" : false,
+  "scrollGestureEnabled" : false,
+  "statusBarShowAppNames" : true,
+  "statusBarShowWorkspaceName" : true,
+  "statusBarUseWorkspaceId" : true,
+  "updateChecksEnabled" : false,
+  "version" : 4,
+  "workspaceBarAccentColorBlue" : 0.4392156862745098,
+  "workspaceBarAccentColorGreen" : 0.4392156862745098,
+  "workspaceBarAccentColorRed" : 0.4392156862745098,
+  "workspaceBarBackgroundOpacity" : 0,
+  "workspaceBarHeight" : 40,
+  "workspaceBarHideEmptyWorkspaces" : true,
+  "workspaceBarShowFloatingWindows" : true,
+  "workspaceBarTextColorBlue" : 0.91764705882352937,
+  "workspaceBarTextColorGreen" : 0.91764705882352937,
+  "workspaceBarTextColorRed" : 0.91764705882352937,
+  "workspaceBarYOffset" : -20,
+  "workspaceConfigurations" : [
+    {
+      "id" : "AD36F001-C57E-41A5-AC1D-DF5249D007F0",
+      "layoutType" : "niri",
+      "monitorAssignment" : {
+        "type" : "main"
+      },
+      "name" : "1"
+    },
+    {
+      "id" : "454CECD4-5E9D-4ED1-95D7-979D48817F5F",
+      "layoutType" : "niri",
+      "monitorAssignment" : {
+        "type" : "main"
+      },
+      "name" : "2"
+    },
+    {
+      "id" : "BEB842B5-E894-4791-9FD1-397C3CDD3538",
+      "layoutType" : "niri",
+      "monitorAssignment" : {
+        "type" : "main"
+      },
+      "name" : "3"
+    },
+    {
+      "id" : "248AA883-2261-4D45-943C-79C0E46A232B",
+      "layoutType" : "niri",
+      "monitorAssignment" : {
+        "type" : "main"
+      },
+      "name" : "4"
+    },
+    {
+      "id" : "273ED2C9-EBC3-4898-BE0F-E75978B29B6D",
+      "layoutType" : "niri",
+      "monitorAssignment" : {
+        "type" : "secondary"
+      },
+      "name" : "9"
+    }
+  ]
+}
