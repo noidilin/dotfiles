@@ -5,6 +5,8 @@ pkgs:
   brew:
     - "git-lfs"
     - "mas" # mac app store CLI
+    - "zsh-syntax-highlighting"
+    - "--cask antinote"
     - "--cask appcleaner"
     - "--cask cleanshot" # screen capture + record, key cast
     - "--cask font-commit-mono-nerd-font"
@@ -17,17 +19,20 @@ pkgs:
     # - "--cask squirrel-app"
     - "--cask utm"
     # - "--cask waves-central" # VSA plugins
+    - "--cask omniwm"
+    - "--cask linear"
+    - "--cask marginnote"
+    - "--cask macwhisper"
 
     # wait to be synced with common pkgs
+    - "qpdf"
+    - "llamaindex-liteparse"
     - "diffnav" # delta powered differ that has file explorer
     - "worktrunk"
-    - "--cask docker"
 
     # earily testing
     # - "--cask rafaelswi/menubarusb/menubarusb" # display conntected usb device spec
     - "--cask kamillobinski/thock/thock"
     - "--cask TheBoredTeam/boring-notch/boring-notch"
-    - "--cask nikitabobko/tap/aerospace"
-
     # TODO: needed support
     # not in homebrew [blender launcher](https://github.com/Victor-IX/Blender-Launcher-V2)
