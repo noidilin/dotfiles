@@ -1,3 +1,4 @@
 pkgs:
   uv:
     - "bagels"
+    - "awslabs.core-mcp-server"
