@@ -209,10 +209,10 @@ pkgs:
       brew: "tectonic"
       scoop: "tectonic"
       pacman: "tectonic"
-    unrar:
-      brew: "--cask rar"
-      scoop: "unrar"
-      pacman: "unrar"
+    # unrar:
+    #   brew: "--cask rar"
+    #   scoop: "unrar"
+    #   pacman: "unrar"
     unzip:
       brew: "unzip"
       scoop: "unzip"
