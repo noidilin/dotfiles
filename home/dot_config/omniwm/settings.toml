@@ -9,7 +9,7 @@ mode = "dark"
 
 [borders]
 enabled = false
-width = 3
+width = 3.0
 
 [borders.color]
 alpha = 1.0
@@ -57,12 +57,15 @@ scrollSensitivity = 5.0
 [mouseWarp]
 axis = "horizontal"
 margin = 1
-monitorOrder = []
+
+[[mouseWarp.monitorOrder]]
+displayId = 1
+name = "Built-in Retina Display"
 
 [niri]
 alwaysCenterSingleColumn = true
 centerFocusedColumn = "never"
-columnWidthPresets = [0.33000000000000002, 0.5, 0.66000000000000003]
+columnWidthPresets = [0.33, 0.5, 0.66]
 infiniteLoop = false
 maxVisibleColumns = 2
 maxWindowsPerColumn = 2
@@ -122,12 +125,6 @@ bundleId = "com.apple.Safari"
 id = "81426D13-C1A5-475E-AFBC-00BBA05042D0"
 
 [[appRules]]
-bundleId = "com.apple.MobileSMS"
-id = "552FB77D-BF0E-4737-90A6-B5BC6986C579"
-minHeight = 320.0
-minWidth = 660.0
-
-[[appRules]]
 assignToWorkspace = "1"
 bundleId = "app.zen-browser.zen"
 id = "99676620-FEDE-4BF7-8C9D-F33AF8FA0ADF"
@@ -157,7 +154,6 @@ assignToWorkspace = "2"
 bundleId = "com.github.wez.wezterm"
 id = "08A60555-4B22-490A-8A7B-CBA2B2604C53"
 
-# --- hotkeys
 [[hotkeys]]
 binding = "Control+Option+Space"
 id = "openCommandPalette"
@@ -294,16 +290,16 @@ id = "move.up"
 binding = "Option+Shift+L"
 id = "move.right"
 
-[[hotkeys]]
-binding = "Unassigned"
-id = "focusMonitorNext"
+# [[hotkeys]]
+# binding = "Unassigned"
+# id = "focusMonitorNext"
 
 [[hotkeys]]
-binding = "Option+Shift+,"
+binding = "Control+Option+H"
 id = "moveColumn.left"
 
 [[hotkeys]]
-binding = "Option+Shift+."
+binding = "Control+Option+L"
 id = "moveColumn.right"
 
 [[hotkeys]]
@@ -365,8 +361,6 @@ id = "cycleColumnWidthBackward"
 [[hotkeys]]
 binding = "Option+Shift+B"
 id = "balanceSizes"
-
-# --- workspaces
 
 [[workspaces]]
 id = "AD36F001-C57E-41A5-AC1D-DF5249D007F0"
