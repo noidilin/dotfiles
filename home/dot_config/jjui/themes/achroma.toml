@@ -1,0 +1,61 @@
+# Warm monochrome jjui theme aligned with the achroma palette.
+
+"text" = { fg = "#878787", bg = "#191919" }
+"dimmed" = { fg = "#5d5d5d" }
+"selected" = { fg = "#dad5c8", bg = "#2a2a2a", bold = true }
+"border" = { fg = "#414141" }
+"title" = { fg = "#dad5c8", bold = true }
+"shortcut" = { fg = "#9d9d9d" }
+"matched" = { fg = "#faf5eb", bold = true, underline = true }
+
+"source_marker" = { fg = "#191919", bg = "#778777", bold = true }
+"target_marker" = { fg = "#191919", bg = "#7d96ad", bold = true }
+
+"revset" = { fg = "#878787", bg = "#191919" }
+"revset title" = { fg = "#dad5c8", bold = true }
+"revset text" = { fg = "#b3b3b3", bold = true }
+"revset completion selected" = { fg = "#dad5c8", bg = "#2a2a2a", bold = true }
+"revset completion matched" = { fg = "#faf5eb", bold = true }
+"revset completion dimmed" = { fg = "#5d5d5d" }
+
+"revisions" = { fg = "#878787", bg = "#191919" }
+"revisions selected" = { fg = "#dad5c8", bg = "#2a2a2a", bold = true }
+"revisions dimmed" = { fg = "#5d5d5d" }
+"revisions rebase source_marker" = { bold = true }
+"revisions rebase target_marker" = { bold = true }
+
+"oplog" = { fg = "#878787", bg = "#191919" }
+"oplog selected" = { fg = "#dad5c8", bg = "#2a2a2a", bold = true }
+
+"status" = { fg = "#878787", bg = "#1e1e1e" }
+"status title" = { fg = "#191919", bg = "#dad5c8", bold = true }
+"status shortcut" = { fg = "#9d9d9d" }
+"status dimmed" = { fg = "#5d5d5d" }
+
+"evolog" = { fg = "#878787", bg = "#191919" }
+"evolog selected" = { fg = "#faf5eb", bg = "#414141", bold = true }
+
+"menu" = { fg = "#878787", bg = "#191919" }
+"menu title" = { fg = "#dad5c8", bold = true }
+"menu shortcut" = { fg = "#9d9d9d" }
+"menu dimmed" = { fg = "#5d5d5d" }
+"menu border" = { fg = "#414141" }
+"menu selected" = { fg = "#dad5c8", bg = "#2a2a2a", bold = true }
+"menu matched" = { fg = "#faf5eb", bold = true, underline = true }
+
+"help" = { fg = "#878787", bg = "#191919" }
+"help title" = { fg = "#dad5c8", bold = true, underline = true }
+"help border" = { fg = "#414141" }
+
+"preview" = { fg = "#878787", bg = "#191919" }
+"preview border" = { fg = "#414141" }
+
+"confirmation" = { fg = "#878787", bg = "#191919" }
+"confirmation text" = { fg = "#b3b3b3" }
+"confirmation selected" = { fg = "#191919", bg = "#dad5c8", bold = true }
+"confirmation dimmed" = { fg = "#5d5d5d" }
+"confirmation border" = { fg = "#9d9d9d" }
+
+"undo" = { fg = "#878787", bg = "#191919" }
+"undo confirmation dimmed" = { fg = "#5d5d5d" }
+"undo confirmation selected" = { fg = "#191919", bg = "#dad5c8", bold = true }
