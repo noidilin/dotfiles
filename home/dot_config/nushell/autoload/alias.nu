@@ -18,3 +18,4 @@ alias lg = lazygit
 alias ld = lazydocker
 alias tf = terraform
 alias tg = terragrunt
+alias k = kubectl
