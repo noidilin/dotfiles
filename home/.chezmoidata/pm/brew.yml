@@ -23,6 +23,7 @@ pkgs:
     - "--cask linear"
     - "--cask marginnote"
     - "--cask macwhisper"
+    - "--cask orbstack"
 
     # wait to be synced with common pkgs
     - "qpdf"
