@@ -1,13 +1,11 @@
-"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
-
 [mgr]
 show_hidden = true
 linemode = "size_and_mtime"
 
 [opener]
 edit = [
-  { run = '$EDITOR "$@"', block = true, for = "unix" },
-  { run = "%EDITOR% %*", block = true, for = "windows" },
+  { run = "$EDITOR %s", block = true, for = "unix" },
+  { run = "%EDITOR% %s", block = true, for = "windows" },
 ]
 
 # 'spot' on a file to check it's mime-type with the default <Tab> key.
