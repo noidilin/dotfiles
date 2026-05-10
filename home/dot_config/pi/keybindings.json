@@ -1,0 +1,29 @@
+{
+  "app.exit": "",
+  "tui.editor.pageUp": "ctrl+b",
+  "tui.editor.pageDown": "ctrl+f",
+  "tui.editor.cursorLeft": "left",
+  "tui.editor.cursorRight": "right",
+  "tui.input.submit": "ctrl+s",
+  "tui.input.newLine": "enter",
+  "tui.input.tab": [
+    "tab",
+    "ctrl+y"
+  ],
+  "tui.select.confirm": "ctrl+y",
+  "tui.select.up": [
+    "up",
+    "ctrl+p"
+  ],
+  "tui.select.down": [
+    "down",
+    "ctrl+n"
+  ],
+  "tui.editor.yank": "",
+  "tui.editor.yankPop": "",
+  "app.model.select": "",
+  "app.model.cycleForward": "",
+  "app.model.cycleBackward": "",
+  "app.thinking.cycle": "ctrl+t",
+  "app.thinking.toggle": ""
+}
