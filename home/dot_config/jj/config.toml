@@ -1,0 +1,85 @@
+#:schema https://docs.jj-vcs.dev/latest/config-schema.json
+
+[user]
+"name" = "noidilin"
+"email" = "linganinja.0120@gmail.com"
+
+[template-aliases]
+'format_short_signature(signature)' = 'coalesce(signature.name(), signature.email(), name_placeholder)'
+
+[ui]
+"color" = "auto"
+
+[colors]
+"commit_id" = "#878787"
+"change_id" = "#b3ad9f"
+"prefix" = { "fg" = "#5d5d5d", "bold" = true }
+"rest" = "#414141"
+"change_offset" = { "fg" = "#707070", "bold" = true }
+"hidden prefix" = "#414141"
+
+"author" = "#9d9d9d"
+"committer" = "#9d9d9d"
+"timestamp" = "#707070"
+"working_copies" = "#a69f91"
+"workspace_name" = "#a69f91"
+
+"bookmark" = "#c0baad"
+"bookmarks" = "#c0baad"
+"local_bookmarks" = "#c0baad"
+"remote_bookmarks" = "#8e8e8e"
+"tag" = "#dad5c8"
+"tags" = "#dad5c8"
+"git_ref" = "#9d9d9d"
+"git_refs" = "#9d9d9d"
+
+"separator" = "#414141"
+"elided" = "#414141"
+"root" = "#878787"
+
+"working_copy" = { "fg" = "#cccccc", "bold" = true }
+"working_copy commit_id" = { "fg" = "#cccccc", "bold" = true }
+"working_copy change_id" = { "fg" = "#faf5eb", "bold" = true }
+"working_copy author" = "#c0c0c0"
+"working_copy committer" = "#c0c0c0"
+"working_copy timestamp" = "#9d9d9d"
+"working_copy working_copies" = { "fg" = "#dad5c8", "bold" = true }
+"working_copy workspace_name" = { "fg" = "#dad5c8", "bold" = true }
+"working_copy bookmark" = "#faf5eb"
+"working_copy bookmarks" = "#faf5eb"
+"working_copy local_bookmarks" = "#faf5eb"
+"working_copy remote_bookmarks" = "#b3b3b3"
+"working_copy tag" = "#faf5eb"
+"working_copy tags" = "#faf5eb"
+"working_copy git_ref" = "#c0c0c0"
+"working_copy git_refs" = "#c0c0c0"
+
+"diff header" = "#b3b3b3"
+"diff empty" = "#707070"
+"diff binary" = "#707070"
+"diff file_header" = { "fg" = "#cccccc", "bold" = true }
+"diff hunk_header" = "#878787"
+"diff context line_number" = { "fg" = "#414141", "dim" = true }
+"diff token" = { "underline" = true }
+"diff added" = "#cccccc"
+"diff removed" = "#414141"
+"diff modified" = "#878787"
+"diff renamed" = "#a69f91"
+"diff copied" = "#a69f91"
+"diff untracked" = "#414141"
+
+"conflict" = { "fg" = "#faf5eb", "bg" = "#b07878", "bold" = true }
+"working_copy conflict" = { "fg" = "#faf5eb", "bg" = "#b07878", "bold" = true }
+"node conflicted" = { "fg" = "#b07878", "bold" = true }
+"conflict_description" = "#c8a492"
+"conflict_description difficult" = { "fg" = "#faf5eb", "bg" = "#b07878", "bold" = true }
+
+"node elided" = "#414141"
+"node working_copy" = { "fg" = "#dad5c8", "bold" = true }
+
+"working_copy description" = "#faf5eb"
+"working_copy description placeholder" = "#b3b3b3"
+"working_copy empty description placeholder" = "#5d5d5d"
+"description" = "#707070"
+"description placeholder" = "#5d5d5d"
+"empty description placeholder" = "#414141"
