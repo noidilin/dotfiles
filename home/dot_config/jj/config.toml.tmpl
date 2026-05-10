@@ -32,9 +32,20 @@ backends.ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
   )
 '''
 
+[diff]
+tool = "delta"
+
 [ui]
 "color" = "auto"
 "show-cryptographic-signatures" = true
+
+# These options allow for `jj diff` and `jj show` to clear the output from the terminal after closing the pager.
+[[--scope]]
+--when.commands = ["diff", "show"]
+
+[--scope.ui]
+pager = "delta"
+diff-formatter = "delta"
 
 [colors]
 "commit_id" = "#878787"
