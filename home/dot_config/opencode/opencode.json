@@ -23,16 +23,15 @@
       "url": "https://mcp.figma.com/mcp",
       "enabled": false,
     },
-    "awslabs-core-mcp-server": {
+    "aws-mcp": {
       "type": "local",
       "command": [
         "uvx",
-        "awslabs.core-mcp-server@latest",
-        "--readonly"
+        "mcp-proxy-for-aws@latest",
+        "https://aws-mcp.us-east-1.api.aws/mcp",
+        "--metadata",
+        "AWS_REGION=ap-northeast-1"
       ],
-      "environment": {
-        "FASTMCP_LOG_LEVEL": "ERROR"
-      },
       "enabled": true,
     },
     "chrome-devtools": {
