@@ -4,6 +4,7 @@
 pkgs:
   brew:
     - "git-lfs"
+    - "cargo-binstall"
     - "mas" # mac app store CLI
     - "zsh-syntax-highlighting"
     - "--cask antinote"
