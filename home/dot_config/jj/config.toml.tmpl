@@ -4,11 +4,37 @@
 "name" = "noidilin"
 "email" = "linganinja.0120@gmail.com"
 
+[signing]
+"behavior" = "own"
+"backend" = "ssh"
+{{- if eq .osId "windows" }}
+"key" = {{ onepasswordRead "op://dev/github-win/public key" | trim | quote }}
+backends.ssh.program = "C:/Program Files/1Password/app/8/op-ssh-sign.exe"
+{{- else if eq .osId "linux-arch" }}
+{{-   if eq .archEnv "wsl" }}
+"key" = {{ onepasswordRead "op://dev/github-win/public key" | trim | quote }}
+backends.ssh.program = "/mnt/c/Program Files/1Password/app/8/op-ssh-sign.exe"
+{{-   else }}
+"key" = {{ onepasswordRead "op://dev/github-arch/public key" | trim | quote }}
+backends.ssh.program = "op-ssh-sign"
+{{-   end }}
+{{- else if eq .osId "darwin" }}
+"key" = {{ onepasswordRead "op://dev/github-mac/public key" | trim | quote }}
+backends.ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+{{- end }}
+
 [template-aliases]
 'format_short_signature(signature)' = 'coalesce(signature.name(), signature.email(), name_placeholder)'
+'format_short_cryptographic_signature(sig)' = '''
+  if(sig,
+    sig.status(),
+    "(no sig)",
+  )
+'''
 
 [ui]
 "color" = "auto"
+"show-cryptographic-signatures" = true
 
 [colors]
 "commit_id" = "#878787"
