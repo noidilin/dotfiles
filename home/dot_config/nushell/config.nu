@@ -41,3 +41,4 @@ source zoxide.nu
 source mise.nu
 source carapace.nu
 source starship.nu
+source navi.nu
