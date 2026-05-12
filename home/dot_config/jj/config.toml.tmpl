@@ -32,9 +32,6 @@ backends.ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
   )
 '''
 
-[diff]
-tool = "delta"
-
 [ui]
 "color" = "auto"
 "show-cryptographic-signatures" = true
@@ -44,8 +41,14 @@ tool = "delta"
 --when.commands = ["diff", "show"]
 
 [--scope.ui]
-pager = "delta"
+# stop using delta as the pager for already-delta-formatted output
+# pager = ["less", "-FR"]
+# keep delta as external diff formatter to diffs real temp files/dir and keep syntax highlighting
 diff-formatter = "delta"
+
+# pass jj's computed terminal width via $width
+[merge-tools.delta]
+diff-args = ["--width=$width", "$left", "$right"]
 
 [colors]
 "commit_id" = "#878787"
