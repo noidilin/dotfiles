@@ -1,7 +1,5 @@
 {
   "app.exit": "",
-  "tui.editor.pageUp": "ctrl+b",
-  "tui.editor.pageDown": "ctrl+f",
   "tui.editor.cursorLeft": "left",
   "tui.editor.cursorRight": "right",
   "tui.input.submit": "ctrl+s",
@@ -25,5 +23,6 @@
   "app.model.cycleForward": "",
   "app.model.cycleBackward": "",
   "app.thinking.cycle": "ctrl+t",
-  "app.thinking.toggle": ""
+  "app.thinking.toggle": "",
+  "app.session.toggleSort": "alt+s"
 }
