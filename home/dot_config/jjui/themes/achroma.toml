@@ -13,10 +13,15 @@
 
 "revset" = { fg = "#b3b3b3", bg = "#191919" }
 "revset title" = { fg = "#dad5c8", bold = true }
-"revset text" = { fg = "#b3b3b3" }
-"revset completion selected" = { fg = "#cccccc", bg = "#1e1e1e", bold = true }
-"revset completion matched" = { fg = "#dad5c8", bold = true }
-"revset completion dimmed" = { fg = "#414141" }
+"revset text" = { fg = "#cccccc", bold = true }
+"revset completion" = { fg = "#b3b3b3", bg = "#191919" }
+"revset completion text" = { fg = "#b3b3b3", bg = "#191919" }
+"revset completion matched" = { fg = "#dad5c8", bg = "#191919", bold = true, underline = true }
+"revset completion dimmed" = { fg = "#707070", bg = "#191919" }
+"revset completion selected" = { fg = "#faf5eb", bg = "#353535", bold = true }
+"revset completion selected text" = { fg = "#faf5eb", bg = "#353535", bold = true }
+"revset completion selected matched" = { fg = "#faf5eb", bg = "#353535", bold = true, underline = true }
+"revset completion selected dimmed" = { fg = "#dad5c8", bg = "#353535", bold = true }
 
 "revisions" = { fg = "#878787", bg = "#191919" }
 "revisions selected" = { fg = "#cccccc", bg = "#1e1e1e", bold = true }
@@ -43,8 +48,11 @@
 "oplog" = { fg = "#707070", bg = "#191919" }
 "oplog selected" = { fg = "#cccccc", bg = "#1e1e1e", bold = true }
 
-"status title" = { fg = "#191919", bg = "#cccccc", bold = true }
-"status shortcut" = { fg = "#878787", bold = true }
+"status" = { fg = "#707070", bg = "#191919" }
+"status title" = { fg = "#191919", bg = "#a69f91", bold = true }
+"status shortcut" = { fg = "#dad5c8", bold = true }
+"status dimmed" = { fg = "#878787", bg = "#191919" }
+"status text" = { fg = "#b3b3b3", bg = "#191919" }
 
 "evolog" = { fg = "#707070", bg = "#191919" }
 "evolog selected" = { fg = "#dad5c8", bg = "#353535", bold = true }
