@@ -21,7 +21,7 @@
     "figma": {
       "type": "remote",
       "url": "https://mcp.figma.com/mcp",
-      "enabled": false,
+      "enabled": true,
     },
     "aws-mcp": {
       "type": "local",
@@ -32,20 +32,6 @@
         "--metadata",
         "AWS_REGION=ap-northeast-1"
       ],
-      "enabled": true,
-    },
-    "chrome-devtools": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "chrome-devtools-mcp@latest"
-      ],
-      "enabled": false,
-    },
-    "context7": {
-      "type": "remote",
-      "url": "https://mcp.context7.com/mcp",
       "enabled": false,
     },
   },
