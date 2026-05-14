@@ -55,7 +55,7 @@
 "status text" = { fg = "#b3b3b3", bg = "#191919" }
 
 "evolog" = { fg = "#707070", bg = "#191919" }
-"evolog selected" = { fg = "#dad5c8", bg = "#353535", bold = true }
+"evolog selected" = { fg = "#dad5c8", bg = "#1e1e1e", bold = true }
 
 "menu title" = { fg = "#cccccc", bold = true }
 "menu shortcut" = { fg = "#878787", bold = true }

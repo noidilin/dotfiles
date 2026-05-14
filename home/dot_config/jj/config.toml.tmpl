@@ -76,6 +76,48 @@ diff-args = ["--width=$width", "$left", "$right"]
 "separator" = "#414141"
 "elided" = "#414141"
 "root" = "#878787"
+"empty" = "#878787"
+"working_copy empty" = { "fg" = "#dad5c8", "bold" = true }
+"evolog empty" = "#878787"
+"evolog working_copy empty" = { "fg" = "#dad5c8", "bold" = true }
+
+# `jj op log` (oplog) uses operation-specific labels that do not overlap much
+# with commit log labels. Keep it warm monochrome to match the achroma palette.
+"op_log" = "#707070"
+"op_log operation" = "#707070"
+"op_log operation node" = "#5d5d5d"
+"op_log operation node current_operation" = { "fg" = "#dad5c8", "bold" = true }
+"op_log operation id" = "#878787"
+"op_log operation id short" = "#878787"
+"op_log operation user" = "#9d9d9d"
+"op_log operation workspace_name" = "#a69f91"
+"op_log operation time" = "#707070"
+"op_log operation time end" = "#707070"
+"op_log operation time end ago" = "#707070"
+"op_log operation time duration" = "#707070"
+"op_log operation description" = "#b3b3b3"
+"op_log operation description first_line" = "#b3b3b3"
+"op_log operation root" = "#878787"
+"op_log operation current_operation" = { "fg" = "#cccccc", "bold" = true }
+"op_log operation current_operation id" = { "fg" = "#faf5eb", "bold" = true }
+"op_log operation current_operation id short" = { "fg" = "#faf5eb", "bold" = true }
+"op_log operation current_operation user" = { "fg" = "#c0c0c0", "bold" = true }
+"op_log operation current_operation workspace_name" = { "fg" = "#dad5c8", "bold" = true }
+"op_log operation current_operation time" = { "fg" = "#9d9d9d", "bold" = true }
+"op_log operation current_operation time end" = { "fg" = "#9d9d9d", "bold" = true }
+"op_log operation current_operation time end ago" = { "fg" = "#9d9d9d", "bold" = true }
+"op_log operation current_operation time duration" = { "fg" = "#9d9d9d", "bold" = true }
+"op_log operation current_operation description" = { "fg" = "#dad5c8", "bold" = true }
+"op_log operation current_operation description first_line" = { "fg" = "#dad5c8", "bold" = true }
+
+# `jj evolog` combines normal commit labels with operation metadata.
+"evolog" = "#707070"
+"evolog separator" = "#414141"
+"evolog operation" = "#707070"
+"evolog operation id" = "#878787"
+"evolog operation id short" = "#878787"
+"evolog operation description" = "#b3b3b3"
+"evolog operation description first_line" = "#b3b3b3"
 
 "working_copy" = { "fg" = "#cccccc", "bold" = true }
 "working_copy commit_id" = { "fg" = "#cccccc", "bold" = true }
