@@ -50,6 +50,9 @@ diff-formatter = "delta"
 [merge-tools.delta]
 diff-args = ["--width=$width", "$left", "$right"]
 
+[aliases]
+diffnav = ["diff", "--config=ui.diff-formatter=':git'", "--config=ui.pager='diffnav'"]
+
 [colors]
 "commit_id" = "#878787"
 "change_id" = "#b3ad9f"
