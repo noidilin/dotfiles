@@ -1,3 +1,6 @@
+# Use Nushell as the default shell for new Ghostty sessions.
+command = /opt/homebrew/bin/nu -l
+
 foreground = #b3b3b3
 background = #191919
 
