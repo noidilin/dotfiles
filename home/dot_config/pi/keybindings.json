@@ -1,28 +1,29 @@
 {
-  "app.exit": "",
+  "app.exit": [],
   "tui.editor.cursorLeft": "left",
   "tui.editor.cursorRight": "right",
   "tui.input.submit": "ctrl+s",
   "tui.input.newLine": "enter",
-  "tui.input.tab": [
-    "tab",
-    "ctrl+y"
-  ],
+  "tui.input.tab": "tab",
   "tui.select.confirm": "ctrl+y",
   "tui.select.up": [
-    "up",
-    "ctrl+p"
+    "ctrl+p",
+    "up"
   ],
   "tui.select.down": [
-    "down",
-    "ctrl+n"
+    "ctrl+n",
+    "down"
   ],
-  "tui.editor.yank": "",
-  "tui.editor.yankPop": "",
-  "app.model.select": "",
-  "app.model.cycleForward": "",
-  "app.model.cycleBackward": "",
+  "tui.editor.yank": [],
+  "tui.editor.yankPop": [],
+  "app.model.select": [],
+  "app.model.cycleForward": [],
+  "app.model.cycleBackward": [],
   "app.thinking.cycle": "ctrl+t",
-  "app.thinking.toggle": "",
-  "app.session.toggleSort": "alt+s"
+  "app.thinking.toggle": [],
+  "app.session.togglePath": "alt+p",
+  "app.session.toggleSort": "alt+s",
+  "app.session.toggleNamedFilter": "alt+n",
+  "app.models.save": "ctrl+shift+s",
+  "app.models.toggleProvider": "alt+m"
 }
