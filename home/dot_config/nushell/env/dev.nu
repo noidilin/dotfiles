@@ -28,7 +28,6 @@ $env.UV_TOOL_DIR = ($nu.home-dir | path join ".dev" "uv" "tools")
 $env.UV_TOOL_BIN_DIR = ($nu.home-dir | path join ".dev" "uv" "bin")
 
 # other tools
-$env.PI_CODING_AGENT_DIR = ($nu.home-dir | path join ".config" "pi")
 $env.WAKATIME_HOME = ($nu.home-dir | path join ".config" "wakatime")
 $env.BLENDER_USER_RESOURCES = ($nu.home-dir | path join ".local" "etc" "blender")
 $env.MASON_BIN_HOME = ($nu.home-dir | path join ".local" "share" "nvim" "mason" "bin")
