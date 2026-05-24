@@ -55,6 +55,7 @@ updateChecksEnabled = false
 [gestures]
 fingerCount = 4
 invertDirection = true
+mouseResizeModifierKey = "option"
 scrollEnabled = false
 scrollModifierKey = "optionShift"
 scrollSensitivity = 5.0
@@ -78,16 +79,15 @@ singleWindowAspectRatio = "none"
 animationDuration = 0.2
 autoHide = false
 enabled = true
-heightPercent = 50.0
+heightPercent = 70.0
 monitorMode = "focusedWindow"
 opacity = 1.0
 position = "center"
 useCustomFrame = false
-widthPercent = 50.0
+widthPercent = 70.0
 
 [state]
 commandPaletteLastMode = "windows"
-hiddenBarIsCollapsed = true
 
 [statusBar]
 showAppNames = true
@@ -156,6 +156,11 @@ id = "33933382-922F-4831-A0B5-9300FF0511C0"
 assignToWorkspace = "2"
 bundleId = "com.github.wez.wezterm"
 id = "08A60555-4B22-490A-8A7B-CBA2B2604C53"
+
+[[appRules]]
+assignToWorkspace = "2"
+bundleId = "com.mitchellh.ghostty"
+id = "E78C5125-D033-4AEB-9CD8-32BA93F0071D"
 
 [[hotkeys]]
 binding = "Control+Option+Space"
@@ -292,10 +297,6 @@ id = "move.up"
 [[hotkeys]]
 binding = "Option+Shift+L"
 id = "move.right"
-
-# [[hotkeys]]
-# binding = "Unassigned"
-# id = "focusMonitorNext"
 
 [[hotkeys]]
 binding = "Control+Option+H"
