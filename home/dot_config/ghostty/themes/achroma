@@ -1,0 +1,31 @@
+# achroma Ghostty theme
+# Ported from WezTerm config/theme.lua.
+
+background = #191919
+foreground = #b3b3b3
+
+cursor-color = #878787
+cursor-text = #eaeaea
+selection-background = #303030
+selection-foreground = #9d9d9d
+split-divider-color = #353535
+
+# ansi: black red green yellow blue magenta cyan white
+palette = 0=#474747
+palette = 1=#b07878
+palette = 2=#778777
+palette = 3=#d6caab
+palette = 4=#7d96ad
+palette = 5=#797994
+palette = 6=#769494
+palette = 7=#dad5c8
+
+# brights
+palette = 8=#5d5d5d
+palette = 9=#cc9393
+palette = 10=#9bb09b
+palette = 11=#ebd6b7
+palette = 12=#9db2cf
+palette = 13=#9f9fbd
+palette = 14=#92b3b3
+palette = 15=#faf5eb

@@ -1,31 +1,82 @@
-# Use Nushell as the default shell for new Ghostty sessions.
-command = /opt/homebrew/bin/nu -l
+# Ghostty draft config for migration from this WezTerm setup.
+# Install/copy as: $XDG_CONFIG_HOME/ghostty/config
+# This file intentionally lets Zellij own panes/tabs/workspaces/status.
 
-foreground = #b3b3b3
-background = #191919
+# --- shell / env -----------------------------------------------------------
+command = /opt/homebrew/bin/nu
+env = XDG_CONFIG_HOME=/Users/noid/.config
+env = TERMINAL=ghostty
+quit-after-last-window-closed = true
 
+# --- font ------------------------------------------------------------------
+font-family = "CommitMono Nerd Font Mono"
+font-size = 14
+adjust-cell-height = 30%
+adjust-underline-position = -2
+adjust-underline-thickness = 1
+adjust-box-thickness = 2
+
+# --- theme: achroma, ported from config/theme.lua + utils/palette.lua -------
+theme = achroma
+
+# --- cursor / selection / splits ------------------------------------------
+cursor-style = bar
+cursor-style-blink = true
 cursor-color = #878787
 cursor-text = #eaeaea
-
+adjust-cursor-thickness = 4
 selection-background = #303030
 selection-foreground = #9d9d9d
+split-divider-color = #353535
+unfocused-split-opacity = 0.80
+unfocused-split-fill = #191919
 
-# ANSI colors: black, red, green, yellow, blue, magenta, cyan, white
-palette = 0=#474747
-palette = 1=#b07878
-palette = 2=#778777
-palette = 3=#d6caab
-palette = 4=#7d96ad
-palette = 5=#797994
-palette = 6=#769494
-palette = 7=#dad5c8
+# --- window ----------------------------------------------------------------
+window-decoration = auto
+macos-titlebar-style = hidden
+macos-window-buttons = hidden
+window-padding-x = 8
+window-padding-y = 8
+window-padding-balance = true
+confirm-close-surface = false
+mouse-hide-while-typing = true
+scrollback-limit = 50000000
 
-# Bright ANSI colors
-palette = 8=#5d5d5d
-palette = 9=#cc9393
-palette = 10=#9bb09b
-palette = 11=#ebd6b7
-palette = 12=#9db2cf
-palette = 13=#9f9fbd
-palette = 14=#92b3b3
-palette = 15=#faf5eb
+# Optional backdrop equivalent; disabled because the WezTerm config randomizes.
+# background-image = /Users/noid/.config/wezterm/backdrops/nord-space.png
+# background-image-fit = cover
+# background-image-opacity = 0.18
+
+# --- keybinds --------------------------------------------------------------
+# Keep Ghostty bindings only for OS/window/editor-ish actions. Zellij handles
+# the WezTerm leader workflow (Ctrl-q) so smart-splits.nvim can cooperate.
+keybind = ctrl+shift+v=paste_from_clipboard
+keybind = f3=toggle_command_palette
+keybind = f11=toggle_fullscreen
+keybind = f12=inspector:toggle
+# Send Kitty keyboard protocol encodings so Zellij can distinguish these
+# from plain Tab / Shift-Tab and match `bind "Ctrl Tab"` below.
+keybind = ctrl+tab=csi:9;5u
+keybind = ctrl+shift+tab=csi:9;6u
+keybind = shift+page_up=scroll_page_fractional:-0.5
+keybind = shift+page_down=scroll_page_fractional:0.5
+
+# If you want a no-Zellij fallback, uncomment these Ghostty-native splits.
+# Warning: these will consume Ctrl-q sequences before Zellij sees them.
+# keybind = ctrl+q>-=new_split:down
+# keybind = ctrl+q>\\=new_split:right
+# keybind = ctrl+q>x=close_surface
+# keybind = ctrl+q>z=toggle_split_zoom
+# keybind = ctrl+q>c=new_tab
+# keybind = ctrl+q>&=close_tab
+# keybind = ctrl+q>1=goto_tab:1
+# keybind = ctrl+q>2=goto_tab:2
+# keybind = ctrl+q>3=goto_tab:3
+# keybind = ctrl+q>4=goto_tab:4
+# keybind = ctrl+q>5=goto_tab:5
+# keybind = ctrl+q>6=goto_tab:6
+# keybind = ctrl+q>7=goto_tab:7
+# keybind = ctrl+q>8=goto_tab:8
+# keybind = ctrl+q>9=goto_tab:9
+
+background-opacity = 1.00
