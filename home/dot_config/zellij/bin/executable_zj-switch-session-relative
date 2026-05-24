@@ -1,0 +1,44 @@
+#!/usr/bin/env sh
+# Switch to the previous/next Zellij session by lexical list order.
+set -eu
+
+dir=${1:-next}
+current=${ZELLIJ_SESSION_NAME:-}
+[ -n "$current" ] || exit 0
+
+sessions=$(zellij list-sessions --short --no-formatting 2>/dev/null | sed 's/ (current)//')
+[ -n "$sessions" ] || exit 0
+
+set -- $sessions
+count=$#
+[ "$count" -gt 1 ] || exit 0
+
+idx=1
+found=0
+for session in "$@"; do
+  if [ "$session" = "$current" ]; then
+    found=1
+    break
+  fi
+  idx=$((idx + 1))
+done
+[ "$found" -eq 1 ] || exit 0
+
+case "$dir" in
+  prev|previous|left|h)
+    target_idx=$((idx - 1))
+    [ "$target_idx" -ge 1 ] || target_idx=$count
+    ;;
+  *)
+    target_idx=$((idx + 1))
+    [ "$target_idx" -le "$count" ] || target_idx=1
+    ;;
+esac
+
+i=1
+for session in "$@"; do
+  if [ "$i" -eq "$target_idx" ]; then
+    exec zellij action switch-session "$session"
+  fi
+  i=$((i + 1))
+done

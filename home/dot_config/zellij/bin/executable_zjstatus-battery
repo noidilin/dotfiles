@@ -1,0 +1,37 @@
+#!/bin/sh
+set -eu
+
+if ! command -v pmset >/dev/null 2>&1; then
+  exit 0
+fi
+
+line=$(pmset -g batt 2>/dev/null | awk '/[0-9]+%/ {print; exit}')
+[ -n "$line" ] || exit 0
+
+pct=$(printf '%s\n' "$line" | sed -nE 's/.*[[:space:]]([0-9]+)%;.*/\1/p')
+state=$(printf '%s\n' "$line" | sed -nE 's/.*%;[[:space:]]*([^;]+);.*/\1/p')
+[ -n "$pct" ] || exit 0
+
+bucket=$(( (pct + 9) / 10 * 10 ))
+[ "$bucket" -lt 10 ] && bucket=10
+[ "$bucket" -gt 100 ] && bucket=100
+
+case "$bucket" in
+  10) dis='󰁺'; chg='󰢜' ;;
+  20) dis='󰁻'; chg='󰂆' ;;
+  30) dis='󰁼'; chg='󰂇' ;;
+  40) dis='󰁽'; chg='󰂈' ;;
+  50) dis='󰁾'; chg='󰢝' ;;
+  60) dis='󰁿'; chg='󰂉' ;;
+  70) dis='󰂀'; chg='󰢞' ;;
+  80) dis='󰂁'; chg='󰂊' ;;
+  90) dis='󰂂'; chg='󰂋' ;;
+  *)  dis='󰁹'; chg='󰂅' ;;
+esac
+
+case "$state" in
+  *charging*|*Charging*) icon=$chg ;;
+  *) icon=$dis ;;
+esac
+
+printf '%s %s%%' "$icon" "$pct"

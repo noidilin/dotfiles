@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+# Switch to (inside Zellij) or attach/create (outside Zellij) the session for cwd's git root.
+set -eu
+
+cwd=${1:-$(pwd)}
+if root=$(git -C "$cwd" rev-parse --show-toplevel 2>/dev/null); then
+  :
+else
+  root=$cwd
+fi
+name=$(basename "$root")
+[ -n "$name" ] || name=main
+
+if [ -n "${ZELLIJ:-}" ]; then
+  exec zellij action switch-session --cwd "$root" "$name"
+fi
+
+cd "$root"
+exec zellij attach --create "$name"

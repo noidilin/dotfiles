@@ -1,0 +1,293 @@
+// Zellij draft config for migration from the WezTerm mux setup.
+// Install/copy as: $XDG_CONFIG_HOME/zellij/config.kdl
+// Leader model: Ctrl-q enters a Zellij command mode, matching WezTerm LEADER.
+// Default mode is Locked. Ctrl-hjkl go through vim-zellij-navigator
+// so Neovim smart-splits.nvim and Zellij panes cooperate.
+
+keybinds clear-defaults=true {
+    locked {
+        bind "Ctrl q" { SwitchToMode "Normal"; }
+
+        // Smart pane navigation through hiasr/vim-zellij-navigator.
+        // If the focused pane is Neovim, the plugin forwards Ctrl-hjkl to
+        // smart-splits.nvim. Otherwise it moves the Zellij pane only.
+        bind "Ctrl Tab" { GoToNextTab; }
+        bind "Ctrl Shift Tab" { GoToPreviousTab; }
+        bind "Ctrl h" {
+            MessagePlugin "file:/Users/noid/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+                name "move_focus";
+                payload "left";
+            }
+        }
+        bind "Ctrl j" {
+            MessagePlugin "file:/Users/noid/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+                name "move_focus";
+                payload "down";
+            }
+        }
+        bind "Ctrl k" {
+            MessagePlugin "file:/Users/noid/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+                name "move_focus";
+                payload "up";
+            }
+        }
+        bind "Ctrl l" {
+            MessagePlugin "file:/Users/noid/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+                name "move_focus";
+                payload "right";
+            }
+        }
+    }
+
+    normal {
+        // Send literal Ctrl-q, equivalent to the WezTerm double-leader escape.
+        bind "Ctrl q" { Write 17; SwitchToMode "Locked"; }
+        bind "Esc" "Enter" { SwitchToMode "Locked"; }
+
+        // WezTerm: LEADER - / LEADER \
+        bind "-" { NewPane "Down"; SwitchToMode "Locked"; }
+        bind "\\" { NewPane "Right"; SwitchToMode "Locked"; }
+
+        // panes
+        bind "x" { CloseFocus; SwitchToMode "Locked"; }
+        bind "z" { ToggleFocusFullscreen; SwitchToMode "Locked"; }
+        bind "!" { BreakPane; SwitchToMode "Locked"; }
+
+        // float / stack workflow
+        bind "f" { TogglePaneEmbedOrFloating; ShowFloatingPanes; SwitchToMode "Locked"; }
+        bind "a" { ToggleFloatingPanes; SwitchToMode "Locked"; }
+        bind "S" { NewPane "stacked"; SwitchToMode "Locked"; }
+        bind "P" { TogglePanePinned; SwitchToMode "Locked"; }
+
+        // WezTerm: LEADER + Shift-H/J/K/L quick resize
+        bind "H" { Resize "Increase Left"; SwitchToMode "Locked"; }
+        bind "J" { Resize "Increase Down"; SwitchToMode "Locked"; }
+        bind "K" { Resize "Increase Up"; SwitchToMode "Locked"; }
+        bind "L" { Resize "Increase Right"; SwitchToMode "Locked"; }
+
+        // tabs
+        bind "c" { NewTab; SwitchToMode "Locked"; }
+        bind "&" { CloseTab; SwitchToMode "Locked"; }
+        bind "<" { MoveTab "Left"; SwitchToMode "Locked"; }
+        bind ">" { MoveTab "Right"; SwitchToMode "Locked"; }
+        bind "1" { GoToTab 1; SwitchToMode "Locked"; }
+        bind "2" { GoToTab 2; SwitchToMode "Locked"; }
+        bind "3" { GoToTab 3; SwitchToMode "Locked"; }
+        bind "4" { GoToTab 4; SwitchToMode "Locked"; }
+        bind "5" { GoToTab 5; SwitchToMode "Locked"; }
+        bind "6" { GoToTab 6; SwitchToMode "Locked"; }
+        bind "7" { GoToTab 7; SwitchToMode "Locked"; }
+        bind "8" { GoToTab 8; SwitchToMode "Locked"; }
+        bind "9" { GoToTab 9; SwitchToMode "Locked"; }
+
+        // key tables: move / resize / view-copy-search / mux / open
+        bind "m" { SwitchToMode "Move"; }
+        bind "s" { SwitchToMode "Resize"; }
+        bind "v" { SwitchToMode "Scroll"; }
+        bind "/" { SwitchToMode "EnterSearch"; SearchInput 0; }
+        bind "w" { SwitchToMode "Session"; }
+    }
+
+    resize {
+        bind "h" "Left" { Resize "Increase Left"; }
+        bind "j" "Down" { Resize "Increase Down"; }
+        bind "k" "Up" { Resize "Increase Up"; }
+        bind "l" "Right" { Resize "Increase Right"; }
+        bind "H" { Resize "Decrease Left"; }
+        bind "J" { Resize "Decrease Down"; }
+        bind "K" { Resize "Decrease Up"; }
+        bind "L" { Resize "Decrease Right"; }
+        bind "=" "+" { Resize "Increase"; }
+        bind "-" { Resize "Decrease"; }
+        bind "Esc" "Enter" "q" { SwitchToMode "Locked"; }
+    }
+
+    move {
+        bind "h" "j" "Left" "Down" { MoveTab "Left"; }
+        bind "k" "l" "Up" "Right" { MoveTab "Right"; }
+        bind "Esc" "Enter" "q" { SwitchToMode "Locked"; }
+    }
+
+    scroll {
+        // Nearest Zellij equivalent to WezTerm copy-mode: open scrollback in $EDITOR.
+        // In Neovim, use normal Vim motions/visual selection, then yank to clipboard.
+        bind "e" { EditScrollback; SwitchToMode "Locked"; }
+        bind "j" "Down" { ScrollDown; }
+        bind "k" "Up" { ScrollUp; }
+        bind "J" { PageScrollDown; }
+        bind "K" { PageScrollUp; }
+        bind "d" { HalfPageScrollDown; }
+        bind "u" { HalfPageScrollUp; }
+        bind "D" { PageScrollDown; }
+        bind "U" { PageScrollUp; }
+        bind "Home" { ScrollToTop; }
+        bind "End" { ScrollToBottom; }
+        bind "/" "f" { SwitchToMode "EnterSearch"; SearchInput 0; }
+        bind "Esc" "Enter" "q" { SwitchToMode "Locked"; }
+    }
+
+    search {
+        bind "j" "Down" { ScrollDown; }
+        bind "k" "Up" { ScrollUp; }
+        bind "n" { Search "down"; }
+        bind "p" { Search "up"; }
+        bind "c" { SearchToggleOption "CaseSensitivity"; }
+        bind "w" { SearchToggleOption "Wrap"; }
+        bind "Esc" "Enter" "q" { SwitchToMode "Locked"; }
+    }
+
+    entersearch {
+        bind "Enter" { SwitchToMode "Search"; }
+        bind "Esc" "Ctrl c" { SwitchToMode "Locked"; }
+    }
+
+    session {
+        // Ctrl-q o / Ctrl-q w: workspace + Zellij built-in tools.
+        bind "o" "w" {
+            LaunchOrFocusPlugin "session-manager" {
+                floating true
+                move_to_focused_tab true
+            }
+            SwitchToMode "Locked"
+        }
+        // WezTerm: LEADER w p => switch to current git-root project session.
+        bind "p" {
+            Run "/bin/sh" "-lc" "exec \"${XDG_CONFIG_HOME:-$HOME/.config}/zellij/bin/zj-switch-project\"" {
+                floating true
+                close_on_exit true
+                width "1"
+                height "1"
+                x "100%"
+                y "100%"
+            }
+            SwitchToMode "Locked"
+        }
+        // WezTerm: LEADER w h/l/n equivalents for previous/next/new session.
+        bind "h" {
+            Run "/bin/sh" "-lc" "exec \"${XDG_CONFIG_HOME:-$HOME/.config}/zellij/bin/zj-switch-session-relative\" prev" {
+                floating true
+                close_on_exit true
+                width "1"
+                height "1"
+                x "100%"
+                y "100%"
+            }
+            SwitchToMode "Locked"
+        }
+        bind "l" {
+            Run "/bin/sh" "-lc" "exec \"${XDG_CONFIG_HOME:-$HOME/.config}/zellij/bin/zj-switch-session-relative\" next" {
+                floating true
+                close_on_exit true
+                width "1"
+                height "1"
+                x "100%"
+                y "100%"
+            }
+            SwitchToMode "Locked"
+        }
+        // c = configuration, P = plugin manager, a = about, s = share, L = layout manager
+        bind "c" {
+            LaunchOrFocusPlugin "configuration" {
+                floating true
+                move_to_focused_tab true
+            }
+            SwitchToMode "Locked"
+        }
+        bind "P" {
+            LaunchOrFocusPlugin "plugin-manager" {
+                floating true
+                move_to_focused_tab true
+            }
+            SwitchToMode "Locked"
+        }
+        bind "a" {
+            LaunchOrFocusPlugin "about" {
+                floating true
+                move_to_focused_tab true
+            }
+            SwitchToMode "Locked"
+        }
+        bind "s" {
+            LaunchOrFocusPlugin "zellij:share" {
+                floating true
+                move_to_focused_tab true
+            }
+            SwitchToMode "Locked"
+        }
+        bind "L" {
+            LaunchOrFocusPlugin "zellij:layout-manager" {
+                floating true
+                move_to_focused_tab true
+            }
+            SwitchToMode "Locked"
+        }
+        bind "d" { Detach; }
+        bind "Esc" "Enter" "q" { SwitchToMode "Locked"; }
+    }
+
+    shared_except "locked" {
+        bind "Ctrl Tab" { GoToNextTab; }
+        bind "Ctrl Shift Tab" { GoToPreviousTab; }
+        bind "Ctrl h" {
+            MessagePlugin "file:/Users/noid/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+                name "move_focus";
+                payload "left";
+            }
+        }
+        bind "Ctrl j" {
+            MessagePlugin "file:/Users/noid/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+                name "move_focus";
+                payload "down";
+            }
+        }
+        bind "Ctrl k" {
+            MessagePlugin "file:/Users/noid/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+                name "move_focus";
+                payload "up";
+            }
+        }
+        bind "Ctrl l" {
+            MessagePlugin "file:/Users/noid/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+                name "move_focus";
+                payload "right";
+            }
+        }
+    }
+}
+
+plugins {
+    tab-bar location="zellij:tab-bar"
+    status-bar location="zellij:status-bar"
+    compact-bar location="zellij:compact-bar"
+    session-manager location="zellij:session-manager"
+    welcome-screen location="zellij:session-manager" {
+        welcome_screen true
+    }
+    configuration location="zellij:configuration"
+    plugin-manager location="zellij:plugin-manager"
+    about location="zellij:about"
+}
+
+load_plugins {
+    "zellij:link"
+}
+
+theme "achroma"
+theme_dark "achroma"
+theme_light "achroma"
+theme_dir "/Users/noid/.config/zellij/themes"
+default_mode "locked"
+default_layout "noid"
+default_shell "/opt/homebrew/bin/nu"
+pane_frames false
+auto_layout true
+mouse_mode true
+copy_on_select true
+copy_clipboard "system"
+scrollback_editor "/opt/homebrew/bin/nvim"
+scroll_buffer_size 5000
+session_serialization false
+serialize_pane_viewport false
+styled_underlines true
+support_kitty_keyboard_protocol true
+show_release_notes false

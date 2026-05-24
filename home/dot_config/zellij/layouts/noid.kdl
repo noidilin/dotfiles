@@ -1,0 +1,69 @@
+// Default Zellij layout restoring the old WezTerm status/tab experience
+// through dj95/zjstatus.
+//
+// Required plugin binary:
+//   ~/.config/zellij/plugins/zjstatus.wasm
+
+layout {
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="file:/Users/noid/.config/zellij/plugins/zjstatus.wasm" {
+                format_left "{mode}#[fg=#686868,bg=#191919]{session} #[fg=#686868,bg=#191919]local#[fg=#686868,bg=#191919,bold] | {tabs}"
+                format_center ""
+                format_right "{command_worktree}#[fg=#555555,bg=#191919,bold] 󰍛 {command_memory} #[fg=#555555,bg=#191919]{command_battery} "
+                format_space "#[bg=#191919]"
+                // Keep the right/left status segments visible when tabs would overflow.
+                // zjstatus otherwise renders all tabs in the center, making the bar wider
+                // than the terminal and causing the right status to be clipped/pushed away.
+                format_precedence "lrc"
+                format_hide_on_overlength "true"
+
+                border_enabled "false"
+                border_char "─"
+                border_format "#[fg=#353535]{char}"
+                border_position "bottom"
+
+                mode_normal "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold] lead#[fg=#2a2a2a,bg=#191919,bold] "
+                mode_locked "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold] noid#[fg=#2a2a2a,bg=#191919,bold] "
+                mode_resize "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold]󰊓 resize#[fg=#2a2a2a,bg=#191919,bold] "
+                mode_move "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold]󰆾 move#[fg=#2a2a2a,bg=#191919,bold] "
+                mode_scroll "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold]󰈙 view#[fg=#2a2a2a,bg=#191919,bold] "
+                mode_enter_search "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold]󰍉 search#[fg=#2a2a2a,bg=#191919,bold] "
+                mode_search "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold]󰍉 search#[fg=#2a2a2a,bg=#191919,bold] "
+                mode_session "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold] mux#[fg=#2a2a2a,bg=#191919,bold] "
+                mode_tab "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold] tab#[fg=#2a2a2a,bg=#191919,bold] "
+                mode_pane "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold] pane#[fg=#2a2a2a,bg=#191919,bold] "
+                mode_tmux "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold] lead#[fg=#2a2a2a,bg=#191919,bold] "
+
+                tab_normal "#[fg=#414141,bg=#191919]  #[fg=#414141,bg=#191919,bold]{name} "
+                tab_active "#[fg=#b3b3b3,bg=#191919]  #[fg=#b3b3b3,bg=#191919,bold]{name}{fullscreen_indicator}{floating_indicator} "
+                tab_separator "#[fg=#353535,bg=#191919]|"
+                tab_display_count "9"
+                tab_truncate_start_format "#[fg=#414141,bg=#191919]‹ +{count} "
+                tab_truncate_end_format "#[fg=#414141,bg=#191919] +{count} › "
+                tab_fullscreen_indicator " "
+                tab_floating_indicator " ⬚"
+
+                command_worktree_command "/bin/sh -lc /Users/noid/.config/zellij/bin/zjstatus-worktree"
+                command_worktree_format "#[fg=#555555,bg=#191919,bold] {stdout} "
+                command_worktree_interval "10"
+                command_worktree_rendermode "static"
+
+                command_memory_command "/bin/sh -lc /Users/noid/.config/zellij/bin/zjstatus-memory"
+                command_memory_format "#[fg=#555555,bg=#191919,bold]{stdout}"
+                command_memory_interval "10"
+                command_memory_rendermode "static"
+
+                command_battery_command "/bin/sh -lc /Users/noid/.config/zellij/bin/zjstatus-battery"
+                command_battery_format "#[fg=#555555,bg=#191919,bold]{stdout}"
+                command_battery_interval "60"
+                command_battery_rendermode "static"
+            }
+        }
+        children
+    }
+
+    tab name="main" focus=true {
+        pane
+    }
+}

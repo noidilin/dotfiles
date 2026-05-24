@@ -37,8 +37,13 @@ const NU_LIB_DIRS = [
   ($nu.default-config-dir | path join 'lib' 'scripts')
 ]
 
+source zellij.nu
 source zoxide.nu
 source mise.nu
 source carapace.nu
 source starship.nu
 source navi.nu
+
+use zellij-tab *
+ztab install-hooks
+zellij-shell init

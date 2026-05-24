@@ -1,0 +1,23 @@
+#!/bin/sh
+set -eu
+
+cwd=${PWD:-}
+[ -n "$cwd" ] || exit 0
+leaf=${cwd##*/}
+
+case "$leaf" in
+  *.*)
+    worktree=${leaf#*.}
+    if [ -n "$worktree" ] && [ "$worktree" != "$leaf" ]; then
+      printf ' %.25s' "$worktree"
+      exit 0
+    fi
+    ;;
+esac
+
+if command -v git >/dev/null 2>&1 && git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)
+  if [ -n "$branch" ] && [ "$branch" != HEAD ]; then
+    printf ' %.25s' "$branch"
+  fi
+fi

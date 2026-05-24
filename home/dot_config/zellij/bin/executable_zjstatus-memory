@@ -1,0 +1,27 @@
+#!/bin/sh
+set -eu
+
+if command -v starship >/dev/null 2>&1; then
+  value=$(starship module memory_usage 2>/dev/null | sed -E 's/\[[0-9;]*m//g' | tr -d '\n' | sed -E 's/^[[:space:]]+|[[:space:]]+$//g')
+  if [ -n "$value" ]; then
+    printf '%s' "$value"
+    exit 0
+  fi
+fi
+
+if command -v vm_stat >/dev/null 2>&1; then
+  page_size=$(vm_stat | awk '/page size of/ {print $8}' | tr -d '.')
+  [ -n "${page_size:-}" ] || page_size=4096
+  vm_stat | awk -v page_size="$page_size" '
+    /Pages active/ {active=$3}
+    /Pages wired down/ {wired=$4}
+    /Pages occupied by compressor/ {compressed=$5}
+    END {
+      gsub(/\./, "", active); gsub(/\./, "", wired); gsub(/\./, "", compressed);
+      used=(active+wired+compressed)*page_size/1024/1024/1024;
+      printf "%.1fGiB", used;
+    }'
+  exit 0
+fi
+
+printf 'N/A'

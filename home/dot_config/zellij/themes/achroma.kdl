@@ -1,0 +1,115 @@
+// Achroma theme for Zellij.
+// Uses explicit style groups rather than the older 11-color palette so built-in
+// plugins (eg. session-manager) and pane split/frame colors stay monochrome.
+
+themes {
+    achroma {
+        text_unselected {
+            base "#b3b3b3"
+            emphasis_0 "#dad5c8"
+            emphasis_1 "#8f8f8f"
+            emphasis_2 "#686868"
+            emphasis_3 "#555555"
+            background "#191919"
+        }
+        text_selected {
+            base "#dad5c8"
+            emphasis_0 "#dad5c8"
+            emphasis_1 "#b3b3b3"
+            emphasis_2 "#8f8f8f"
+            emphasis_3 "#686868"
+            background "#2a2a2a"
+        }
+        ribbon_unselected {
+            base "#191919"
+            emphasis_0 "#b3b3b3"
+            emphasis_1 "#dad5c8"
+            emphasis_2 "#8f8f8f"
+            emphasis_3 "#686868"
+            background "#474747"
+        }
+        ribbon_selected {
+            base "#191919"
+            emphasis_0 "#dad5c8"
+            emphasis_1 "#b3b3b3"
+            emphasis_2 "#8f8f8f"
+            emphasis_3 "#686868"
+            background "#686868"
+        }
+        table_title {
+            base "#dad5c8"
+            emphasis_0 "#dad5c8"
+            emphasis_1 "#b3b3b3"
+            emphasis_2 "#8f8f8f"
+            emphasis_3 "#686868"
+            background "#191919"
+        }
+        table_cell_unselected {
+            base "#b3b3b3"
+            emphasis_0 "#dad5c8"
+            emphasis_1 "#8f8f8f"
+            emphasis_2 "#686868"
+            emphasis_3 "#555555"
+            background "#191919"
+        }
+        table_cell_selected {
+            base "#dad5c8"
+            emphasis_0 "#dad5c8"
+            emphasis_1 "#b3b3b3"
+            emphasis_2 "#8f8f8f"
+            emphasis_3 "#686868"
+            background "#2a2a2a"
+        }
+        list_unselected {
+            base "#b3b3b3"
+            emphasis_0 "#dad5c8"
+            emphasis_1 "#8f8f8f"
+            emphasis_2 "#686868"
+            emphasis_3 "#555555"
+            background "#191919"
+        }
+        list_selected {
+            base "#dad5c8"
+            emphasis_0 "#dad5c8"
+            emphasis_1 "#b3b3b3"
+            emphasis_2 "#8f8f8f"
+            emphasis_3 "#686868"
+            background "#2a2a2a"
+        }
+        frame_unselected {
+            base "#353535"
+            emphasis_0 "#474747"
+            emphasis_1 "#555555"
+            emphasis_2 "#686868"
+            emphasis_3 "#8f8f8f"
+        }
+        frame_selected {
+            base "#686868"
+            emphasis_0 "#8f8f8f"
+            emphasis_1 "#b3b3b3"
+            emphasis_2 "#dad5c8"
+            emphasis_3 "#555555"
+        }
+        frame_highlight {
+            base "#8f8f8f"
+            emphasis_0 "#b3b3b3"
+            emphasis_1 "#dad5c8"
+            emphasis_2 "#686868"
+            emphasis_3 "#555555"
+        }
+        exit_code_success {
+            base "#8f8f8f"
+            emphasis_0 "#8f8f8f"
+            emphasis_1 "#8f8f8f"
+            emphasis_2 "#8f8f8f"
+            emphasis_3 "#8f8f8f"
+        }
+        exit_code_error {
+            base "#b07878"
+            emphasis_0 "#b07878"
+            emphasis_1 "#b07878"
+            emphasis_2 "#b07878"
+            emphasis_3 "#b07878"
+        }
+    }
+}
