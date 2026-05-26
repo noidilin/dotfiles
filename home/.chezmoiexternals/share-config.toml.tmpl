@@ -17,7 +17,9 @@ refreshPeriod = "168h"
 
 [".config/rime"]
 type = "archive"
-url = {{ gitHubReleaseAssetURL "amzxyz/rime_wanxiang" (gitHubLatestTag "amzxyz/rime_wanxiang").Name "rime-wanxiang-base.zip" | quote }}
+# Avoid gitHubLatestTag here: chezmoi evaluates templates on every status/apply,
+# which would hit GitHub even when refreshPeriod has not elapsed.
+url = "https://github.com/amzxyz/rime_wanxiang/releases/latest/download/rime-wanxiang-base.zip"
 exact = false
 stripComponents = 0
 refreshPeriod = "168h"
