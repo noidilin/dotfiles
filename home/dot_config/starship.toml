@@ -10,8 +10,8 @@ $package$mise\
 [$nodejs$bun$lua$python$c$cpp$rust$zig$golang](fg:mono11)\
 $fill\
 $cmd_duration\
+$aws$kubernetes$terraform\
 $os\
-$memory_usage\
 $time\
 $line_break\
 [╰─](bold mono07)\
@@ -143,7 +143,7 @@ format = '[ [$duration](fg:mono13)]($style)'
 style = 'fg:mono09 bold'
 
 [os]
-disabled = false
+disabled = true
 format = '[ $symbol]($style)'
 style = 'fg:mono11'
 
@@ -202,3 +202,46 @@ format = ' $symbol( $version)'
 [docker_context]
 symbol = ''
 format = '[ $symbol( $context) ](fg:acc07 bg:mono08)'
+
+# devops
+[kubernetes]
+disabled = false
+symbol = 'k8s:'
+format = '[ $symbol$context( ns:$namespace)]($style)'
+style = 'fg:mono11'
+
+[[kubernetes.contexts]]
+context_pattern = '.*prod.*|.*production.*'
+context_alias = 'prod'
+style = 'bold fg:red00'
+symbol = 'k8s:'
+
+[[kubernetes.contexts]]
+context_pattern = '.*stage.*|.*staging.*'
+context_alias = 'stage'
+style = 'fg:mono11'
+symbol = 'k8s:'
+
+[[kubernetes.contexts]]
+context_pattern = '.*dev.*|.*development.*'
+context_alias = 'dev'
+style = 'fg:mono11'
+symbol = 'k8s:'
+
+[terraform]
+symbol = 'tf:'
+format = '[ $symbol$workspace]($style)'
+style = 'fg:mono11'
+
+[aws]
+symbol = 'aws:'
+format = '[ $symbol$profile( region:$region)( expires:$duration)]($style)'
+style = 'fg:mono11'
+expiration_symbol = 'expired'
+force_display = false
+
+# [aws.profile_aliases]
+# production-admin = 'PROD-admin'
+# production-readonly = 'PROD-ro'
+# staging-admin = 'stage-admin'
+# development-admin = 'dev-admin'
