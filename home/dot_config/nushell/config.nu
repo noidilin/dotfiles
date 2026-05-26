@@ -44,6 +44,6 @@ source carapace.nu
 source starship.nu
 source navi.nu
 
-use zellij-tab *
+use zellij-status *
 ztab install-hooks
 zellij-shell init
