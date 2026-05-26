@@ -10,7 +10,7 @@ layout {
             plugin location="file:/Users/noid/.config/zellij/plugins/zjstatus.wasm" {
                 format_left "{mode}#[fg=#686868,bg=#191919]{session} #[fg=#686868,bg=#191919]local#[fg=#686868,bg=#191919,bold] | {tabs}"
                 format_center ""
-                format_right "{command_worktree}#[fg=#555555,bg=#191919,bold] 󰍛 {command_memory} #[fg=#555555,bg=#191919]{command_battery} "
+                format_right "{pipe_worktree}#[fg=#555555,bg=#191919,bold] 󰍛 {command_memory} #[fg=#555555,bg=#191919]{command_battery} "
                 format_space "#[bg=#191919]"
                 // Keep the right/left status segments visible when tabs would overflow.
                 // zjstatus otherwise renders all tabs in the center, making the bar wider
@@ -44,20 +44,19 @@ layout {
                 tab_fullscreen_indicator " "
                 tab_floating_indicator " ⬚"
 
-                command_worktree_command "/bin/sh -lc /Users/noid/.config/zellij/bin/zjstatus-worktree"
-                command_worktree_format "#[fg=#555555,bg=#191919,bold] {stdout} "
-                command_worktree_interval "10"
-                command_worktree_rendermode "static"
+                pipe_worktree_format "#[fg=#555555,bg=#191919,bold] {output} "
+                pipe_worktree_rendermode "static"
 
-                command_memory_command "/bin/sh -lc /Users/noid/.config/zellij/bin/zjstatus-memory"
+                command_memory_command "/Users/noid/.config/zellij/bin/zjstatus-memory"
                 command_memory_format "#[fg=#555555,bg=#191919,bold]{stdout}"
-                command_memory_interval "10"
+                command_memory_interval "30"
                 command_memory_rendermode "static"
 
-                command_battery_command "/bin/sh -lc /Users/noid/.config/zellij/bin/zjstatus-battery"
+                command_battery_command "/Users/noid/.config/zellij/bin/zjstatus-battery"
                 command_battery_format "#[fg=#555555,bg=#191919,bold]{stdout}"
                 command_battery_interval "60"
                 command_battery_rendermode "static"
+                command_battery_hideonemptystdout "true"
             }
         }
         children
