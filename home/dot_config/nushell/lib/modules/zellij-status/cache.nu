@@ -38,11 +38,12 @@ export def --env remember-hooks-installed [] {
     $env.ZTAB_HOOKS_INSTALLED_PID = (process-cache-id)
 }
 
-export def worktree-label-is-current [label: string] {
-    (($env.ZJSTATUS_WORKTREE_LAST_PID? | default "") == (process-cache-id)) and (($env.ZJSTATUS_WORKTREE_LAST? | default "__zjstatus_unset__") == $label)
+export def worktree-pipe-is-current [payload: string] {
+    (($env.ZJSTATUS_WORKTREE_LAST_PID? | default "") == (process-cache-id)) and (($env.ZJSTATUS_WORKTREE_LAST_PIPE? | default "__zjstatus_unset__") == $payload)
 }
 
-export def --env remember-worktree-label [label: string] {
+export def --env remember-worktree-pipe [label: string, payload: string] {
     $env.ZJSTATUS_WORKTREE_LAST = $label
+    $env.ZJSTATUS_WORKTREE_LAST_PIPE = $payload
     $env.ZJSTATUS_WORKTREE_LAST_PID = (process-cache-id)
 }

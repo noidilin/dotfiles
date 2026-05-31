@@ -23,7 +23,9 @@ export def sanitize [text: string] {
 
 # Build the zjstatus pipe payload for the worktree segment.
 export def pipe-payload [label: string] {
-    $"zjstatus::pipe::worktree::($label)"
+    # zjstatus indexes pipe widgets by the full widget key (`{pipe_worktree}`),
+    # not the suffix. This must match layouts/noid.kdl's `{pipe_worktree}`.
+    $"zjstatus::pipe::pipe_worktree::($label)"
 }
 
 # Pure decision point for duplicate suppression and payload formatting.
@@ -50,12 +52,13 @@ export def --env publish [cwd?: string] {
     let result = (^$command $cwd | complete)
     let label = if $result.exit_code == 0 { sanitize $result.stdout } else { "" }
 
-    let update = (plan-pipe-update $label (cache worktree-label-is-current $label))
+    let payload = (pipe-payload $label)
+    let update = (plan-pipe-update $label (cache worktree-pipe-is-current $payload))
 
     if not $update.should_publish { return }
 
     let pipe_result = (^zellij pipe --name zjstatus -- $update.payload | complete)
     if $pipe_result.exit_code == 0 {
-        cache remember-worktree-label $update.label
+        cache remember-worktree-pipe $update.label $update.payload
     }
 }
