@@ -18,6 +18,8 @@ mise:
         version: "stable"
         profile: "default"
     go: "latest"
+    terraform: "latest"
+    terragrunt: "latest"
   settings:
     experimental: true
     python.uv_venv_auto: true
