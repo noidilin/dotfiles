@@ -1,19 +1,17 @@
 {
-  "lastChangelogVersion": "0.75.5",
+  "lastChangelogVersion": "0.80.3",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.5",
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "high",
   "theme": "achroma",
   "hideThinkingBlock": false,
   "quietStartup": true,
   "treeFilterMode": "default",
   "packages": [
-    "npm:@juicesharp/rpiv-ask-user-question",
-    "npm:@juicesharp/rpiv-web-tools"
+    "/Users/noid/.config/pi/extensions",
+    "npm:@juicesharp/rpiv-web-tools",
+    "npm:pi-mcp-adapter",
+    "npm:@juicesharp/rpiv-ask-user-question"
   ],
-  "extensions": [
-    "/Users/noid/.config/pi/extensions/bar/index.ts",
-    "/Users/noid/.config/pi/extensions/skill-manager/index.ts",
-    "/Users/noid/.config/pi/extensions/bar-config/index.ts"
-  ]
+  "extensions": []
 }
