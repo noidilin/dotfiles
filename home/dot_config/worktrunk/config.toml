@@ -3,8 +3,8 @@ copy = "wt step copy-ignored"
 
 [projects]
 
-[pre-start]
-install = "pnpm install"
+# [pre-start]
+# install = "pnpm install"
 
 [commit.generation]
-command = "opencode run -m openai/gpt-5.4-mini-fast --variant default"
+command = "pi --provider openai-codex --model gpt-5.3-codex-spark --print"
