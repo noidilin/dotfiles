@@ -2,5 +2,7 @@ pkgs:
   pnpm:
     - "rimraf"
     - "yamlresume"
-    - "next-devtools-mcp"
     - "chrome-devtools-mcp"
+    - "firecrawl-cli"
+    - "@earendil-works/pi-coding-agent"
+    - "eas-cli"
