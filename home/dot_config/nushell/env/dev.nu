@@ -7,6 +7,7 @@ $env.NPM_CONFIG_USERCONFIG = ($nu.home-dir | path join ".dev" "npm" "npmrc")
 $env.NPM_CONFIG_PREFIX = ($nu.home-dir | path join ".dev" "npm" "prefix")
 $env.NPM_BIN_HOME = ($nu.home-dir | path join ".dev" "npm" "prefix" "bin")
 $env.PNPM_HOME = ($nu.home-dir | path join ".dev" "pnpm")
+$env.PNPM_BIN = ($nu.home-dir | path join ".dev" "pnpm" "bin")
 $env.YARN_CACHE_FOLDER = ($nu.home-dir | path join ".dev" "yarn" "cache")
 $env.YARN_GLOBAL_FOLDER = ($nu.home-dir | path join ".dev" "yarn" "global")
 $env.YARN_BIN_HOME = ($nu.home-dir | path join ".dev" "yarn" "bin")
@@ -39,6 +40,7 @@ $env.PATH = ($env.PATH
   | prepend $env.YARN_BIN_HOME
   | prepend $env.NPM_BIN_HOME
   | prepend $env.PNPM_HOME
+  | prepend $env.PNPM_BIN
   | prepend $env.MASON_BIN_HOME
   | prepend $env.XDG_BIN_HOME
 )
