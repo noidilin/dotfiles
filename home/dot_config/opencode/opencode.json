@@ -16,11 +16,19 @@
         "-y",
         "next-devtools-mcp@latest"
       ],
-      "enabled": true,
+      "enabled": false,
     },
     "figma": {
       "type": "remote",
       "url": "https://mcp.figma.com/mcp",
+      "enabled": false,
+    },
+    "cisco-pt-mcp": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "cisco-pt-mcp"
+      ],
       "enabled": true,
     },
     "aws-mcp": {
