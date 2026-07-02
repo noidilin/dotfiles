@@ -7,7 +7,7 @@ $env.NPM_CONFIG_USERCONFIG = ($nu.home-dir | path join ".dev" "npm" "npmrc")
 $env.NPM_CONFIG_PREFIX = ($nu.home-dir | path join ".dev" "npm" "prefix")
 $env.NPM_BIN_HOME = ($nu.home-dir | path join ".dev" "npm" "prefix" "bin")
 $env.PNPM_HOME = ($nu.home-dir | path join ".dev" "pnpm")
-$env.PNPM_BIN = ($nu.home-dir | path join ".dev" "pnpm" "bin")
+$env.PNPM_BIN_HOME = ($nu.home-dir | path join ".dev" "pnpm" "bin")
 $env.YARN_CACHE_FOLDER = ($nu.home-dir | path join ".dev" "yarn" "cache")
 $env.YARN_GLOBAL_FOLDER = ($nu.home-dir | path join ".dev" "yarn" "global")
 $env.YARN_BIN_HOME = ($nu.home-dir | path join ".dev" "yarn" "bin")
@@ -33,14 +33,5 @@ $env.WAKATIME_HOME = ($nu.home-dir | path join ".config" "wakatime")
 $env.BLENDER_USER_RESOURCES = ($nu.home-dir | path join ".local" "etc" "blender")
 $env.MASON_BIN_HOME = ($nu.home-dir | path join ".local" "share" "nvim" "mason" "bin")
 
-$env.PATH = ($env.PATH
-  | prepend $env.GOBIN
-  | prepend $env.UV_TOOL_BIN_DIR
-  | prepend $env.BUN_INSTALL_BIN
-  | prepend $env.YARN_BIN_HOME
-  | prepend $env.NPM_BIN_HOME
-  | prepend $env.PNPM_HOME
-  | prepend $env.PNPM_BIN
-  | prepend $env.MASON_BIN_HOME
-  | prepend $env.XDG_BIN_HOME
-)
+# Dev PATH entries are owned by mise (`[[env]]._.path`) from .chezmoidata/env.yml.
+# Keep this file limited to variable definitions so config reloads do not duplicate PATH.
