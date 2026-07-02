@@ -66,7 +66,19 @@ keybinds clear-defaults=true {
         bind "L" { Resize "Increase Right"; SwitchToMode "Locked"; }
 
         // tabs
-        bind "c" { NewTab; SwitchToMode "Locked"; }
+        // Use the helper shell's PWD so new tabs start in the focused pane's cwd.
+        // Plain `NewTab` can fall back to $HOME on some shell/process-cwd setups.
+        bind "c" {
+            Run "/bin/sh" "-lc" "zellij action new-tab --cwd \"$PWD\"" {
+                floating true
+                close_on_exit true
+                width "1"
+                height "1"
+                x "100%"
+                y "100%"
+            }
+            SwitchToMode "Locked"
+        }
         bind "&" { CloseTab; SwitchToMode "Locked"; }
         bind "<" { MoveTab "Left"; SwitchToMode "Locked"; }
         bind ">" { MoveTab "Right"; SwitchToMode "Locked"; }
