@@ -8,8 +8,8 @@
 # env fallbacks for config experiments and older/current custom setups.
 def "zellij-shell is-ghostty" [] {
     let term = ($env.TERM? | default "")
-    let term_program = ($env.TERM_PROGRAM? | default "" | str downcase)
-    let terminal = ($env.TERMINAL? | default "" | str downcase)
+    let term_program = ($env.TERM_PROGRAM? | default "" | str lowercase)
+    let terminal = ($env.TERMINAL? | default "" | str lowercase)
 
     ($term == "xterm-ghostty") or ($term_program == "ghostty") or ($terminal == "ghostty")
 }
