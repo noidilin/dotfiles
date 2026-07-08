@@ -79,6 +79,8 @@ FlexASIO.toml
 .aerospace.toml
 .config/zsh/*
 .config/karabiner/
+.config/zellij/
+.config/omniwm/
 .local/etc/antinote/
 {{- end }}
 
