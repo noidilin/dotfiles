@@ -9,38 +9,21 @@
     }
   },
   "mcp": {
-    "next-devtools": {
+    "figma": {
+      "type": "remote",
+      "url": "https://mcp.figma.com/mcp",
+      "oauth": {},
+      "enabled": true,
+    },
+    "clickup": {
       "type": "local",
       "command": [
         "npx",
         "-y",
-        "next-devtools-mcp@latest"
-      ],
-      "enabled": false,
-    },
-    "figma": {
-      "type": "remote",
-      "url": "https://mcp.figma.com/mcp",
-      "enabled": false,
-    },
-    "cisco-pt-mcp": {
-      "type": "local",
-      "command": [
-        "uvx",
-        "cisco-pt-mcp"
+        "mcp-remote",
+        "https://mcp.clickup.com/mcp"
       ],
       "enabled": true,
-    },
-    "aws-mcp": {
-      "type": "local",
-      "command": [
-        "uvx",
-        "mcp-proxy-for-aws@latest",
-        "https://aws-mcp.us-east-1.api.aws/mcp",
-        "--metadata",
-        "AWS_REGION=ap-northeast-1"
-      ],
-      "enabled": false,
     },
   },
   "provider": {

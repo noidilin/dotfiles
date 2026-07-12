@@ -1,13 +1,24 @@
 {
   "$schema": "https://opencode.ai/tui.json",
   "theme": "achroma",
+  "leader_timeout": 2000,
   "keybinds": {
+    "leader": "ctrl+x",
+    "input_submit": "ctrl+s",
+    "input_newline": "return",
+    "variant_cycle": "ctrl+t",
+    "dialog.select.prev": "up,ctrl+p",
+    "dialog.select.next": "down,ctrl+n",
+    "dialog.select.submit": "ctrl+y",
+    "prompt.autocomplete.prev": "up,ctrl+p",
+    "prompt.autocomplete.next": "down,ctrl+n",
+    "prompt.autocomplete.select": "ctrl+y",
     "messages_first": "ctrl+g",
     "messages_last": "ctrl+alt+g",
     "messages_half_page_up": "ctrl+u",
     "messages_half_page_down": "ctrl+d",
-    "input_submit": "ctrl+s",
-    "input_newline": "return",
     "command_list": "<leader>p",
-  },
+    "mcp_list": "<leader>m",
+    "model_list": "<leader>b",
+  }
 }
