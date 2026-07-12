@@ -69,7 +69,7 @@ scrollSensitivity = 5.0
 trackpadScrollStyle = "snap"
 
 [mouseWarp]
-enabled = true
+enabled = false
 margin = 1
 
 [niri]
@@ -109,11 +109,16 @@ enabled = true
 height = 40.0
 hideEmptyWorkspaces = true
 labelFontSize = 12.0
+notchActiveZoneWidth = 180.0
 notchAware = true
+notchMode = "moveBelowMenuBar"
 position = "overlappingMenuBar"
 reserveLayoutSpace = false
+revealHoldMilliseconds = 200.0
+revealModifier = "off"
 showFloatingWindows = true
 showLabels = true
+systemStatsButton = false
 windowLevel = "popup"
 xOffset = 0.0
 yOffset = -20.0
@@ -753,6 +758,10 @@ id = "toggleWorkspaceLayout"
 [[hotkeys]]
 binding = "Option+Shift+O"
 id = "toggleOverview"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "toggleSystemStats"
 
 [[workspaces]]
 id = "AD36F001-C57E-41A5-AC1D-DF5249D007F0"
