@@ -55,7 +55,6 @@ defaultLayoutType = "niri"
 hotkeysEnabled = true
 ipcEnabled = false
 preventSleepEnabled = false
-spacesTrackingEnabled = true
 systemHyperTrigger = "None"
 updateChecksEnabled = false
 
@@ -67,8 +66,17 @@ scrollEnabled = false
 scrollModifierKey = "optionShift"
 scrollSensitivity = 5.0
 trackpadScrollStyle = "snap"
+workspaceSwipeAxis = "vertical"
+workspaceSwipeEnabled = false
+workspaceSwipeFingerCount = 3
+
+[hiddenBar]
+enabled = true
+hiddenBundleIDs = []
+rehideIntervalSeconds = 5.0
 
 [mouseWarp]
+constrainToArrangement = false
 enabled = false
 margin = 1
 
@@ -80,6 +88,35 @@ defaultColumnWidth = 0.5
 infiniteLoop = false
 maxVisibleColumns = 2
 singleWindowAspectRatio = "fill"
+
+[overview]
+zoom = 1.0
+
+[overview.backdrop]
+alpha = 1.0
+blue = 0.08
+green = 0.05
+red = 0.05
+
+[overview.windowBorders]
+
+[overview.windowBorders.hovered]
+alpha = 1.0
+blue = 1.0
+green = 0.6
+red = 0.4
+
+[overview.windowBorders.normal]
+alpha = 0.5
+blue = 0.35
+green = 0.3
+red = 0.3
+
+[overview.windowBorders.selected]
+alpha = 1.0
+blue = 0.4
+green = 0.8
+red = 0.3
 
 [quakeTerminal]
 animationDuration = 0.15
@@ -94,9 +131,6 @@ widthPercent = 95.0
 [routing]
 mode = "macOS"
 
-[state]
-commandPaletteLastMode = "windows"
-
 [statusBar]
 showAppNames = true
 showWorkspaceName = true
@@ -104,13 +138,12 @@ useWorkspaceId = true
 
 [workspaceBar]
 backgroundOpacity = 0.0
-deduplicateAppIcons = false
+deduplicateAppIcons = true
 enabled = true
+excludedBundleIDs = []
 height = 40.0
 hideEmptyWorkspaces = true
-labelFontSize = 12.0
 notchActiveZoneWidth = 180.0
-notchAware = true
 notchMode = "moveBelowMenuBar"
 position = "overlappingMenuBar"
 reserveLayoutSpace = false
@@ -121,19 +154,19 @@ showLabels = true
 systemStatsButton = false
 windowLevel = "popup"
 xOffset = 0.0
-yOffset = -20.0
+yOffset = -15.0
 
 [workspaceBar.accentColor]
 alpha = 1.0
-blue = -1.0
-green = -1.0
-red = -1.0
+blue = 0.3058823529411765
+green = 0.3058823529411765
+red = 0.3058823529411765
 
 [workspaceBar.textColor]
 alpha = 1.0
-blue = -1.0
-green = -1.0
-red = -1.0
+blue = 0.7019607843137254
+green = 0.7019607843137254
+red = 0.7019607843137254
 
 [[appRules]]
 assignToWorkspace = "3"
@@ -448,6 +481,14 @@ binding = "Control+Option+L"
 id = "moveColumn.right"
 
 [[hotkeys]]
+binding = "Unassigned"
+id = "moveColumn.up"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "moveColumn.down"
+
+[[hotkeys]]
 binding = "Control+Option+Home"
 id = "moveColumnToFirst"
 
@@ -712,7 +753,7 @@ binding = "Unassigned"
 id = "preselectClear"
 
 [[hotkeys]]
-binding = "Control+Option+Space"
+binding = "Control+Option+Shift+P"
 id = "openCommandPalette"
 
 [[hotkeys]]
@@ -745,7 +786,7 @@ id = "toggleWorkspaceBarVisibility"
 
 [[hotkeys]]
 binding = "Unassigned"
-id = "toggleHiddenBar"
+id = "toggleHiddenBarPanel"
 
 [[hotkeys]]
 binding = "Option+Grave"
