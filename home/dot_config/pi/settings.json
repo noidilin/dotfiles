@@ -1,17 +1,21 @@
 {
-  "lastChangelogVersion": "0.80.3",
+  "lastChangelogVersion": "0.80.7",
   "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.5",
-  "defaultThinkingLevel": "high",
+  "defaultModel": "gpt-5.6-sol",
+  "defaultThinkingLevel": "medium",
   "theme": "achroma",
   "hideThinkingBlock": false,
   "quietStartup": true,
   "treeFilterMode": "default",
+  "npmCommand": [
+    "pnpm",
+    "--config.minimumReleaseAge=4320"
+  ],
   "packages": [
     "/Users/noid/.config/pi/extensions",
     "npm:@juicesharp/rpiv-web-tools",
-    "npm:pi-mcp-adapter",
-    "npm:@juicesharp/rpiv-ask-user-question"
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:pi-mcp-adapter"
   ],
   "extensions": []
 }
