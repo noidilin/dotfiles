@@ -3,7 +3,7 @@
 
 [flags]
 # Show memory values in the processes widget as values by default
-process_memory_as_value = true
+processes.default_memory_value = true
 
 [styles]
 # This will have the lowest precedence if a custom colour palette is set,
