@@ -59,6 +59,19 @@ keybinds clear-defaults=true {
         bind "S" { NewPane "stacked"; SwitchToMode "Locked"; }
         bind "P" { TogglePanePinned; SwitchToMode "Locked"; }
 
+        // Toggle the shared scratch session, returning to the last non-scratch session.
+        bind "g" {
+            Run "/bin/sh" "-lc" "exec \"${XDG_CONFIG_HOME:-$HOME/.config}/zellij/bin/zj-toggle-scratch\"" {
+                floating true
+                close_on_exit true
+                width "1"
+                height "1"
+                x "100%"
+                y "100%"
+            }
+            SwitchToMode "Locked"
+        }
+
         // WezTerm: LEADER + Shift-H/J/K/L quick resize
         bind "H" { Resize "Increase Left"; SwitchToMode "Locked"; }
         bind "J" { Resize "Increase Down"; SwitchToMode "Locked"; }

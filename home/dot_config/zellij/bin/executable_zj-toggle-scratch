@@ -1,0 +1,42 @@
+#!/usr/bin/env sh
+# Toggle between the shared scratch session and the last non-scratch session.
+set -eu
+
+scratch_session=${ZELLIJ_SCRATCH_SESSION:-scratch}
+current_session=${ZELLIJ_SESSION_NAME:-}
+[ -n "$current_session" ] || exit 0
+
+state_dir=${XDG_STATE_HOME:-${HOME:?HOME is required}/.local/state}/zellij
+state_file=$state_dir/scratch-previous-session
+
+session_exists() {
+  zellij list-sessions --short --no-formatting 2>/dev/null \
+    | sed 's/ (current)$//' \
+    | grep -Fqx -- "$1"
+}
+
+if [ "$current_session" = "$scratch_session" ]; then
+  previous_session=
+  if [ -r "$state_file" ]; then
+    IFS= read -r previous_session < "$state_file" || true
+  fi
+
+  if [ -z "$previous_session" ] \
+    || [ "$previous_session" = "$scratch_session" ] \
+    || ! session_exists "$previous_session"; then
+    previous_session=main
+  fi
+
+  exec zellij action switch-session "$previous_session"
+fi
+
+mkdir -p "$state_dir"
+chmod 700 "$state_dir"
+umask 077
+temporary_file=$state_file.$$
+trap 'rm -f "$temporary_file"' EXIT HUP INT TERM
+printf '%s\n' "$current_session" > "$temporary_file"
+mv "$temporary_file" "$state_file"
+trap - EXIT HUP INT TERM
+
+exec zellij action switch-session --cwd "${HOME:?HOME is required}" "$scratch_session"
