@@ -89,51 +89,51 @@ noted snaps). All files applied via targeted `chezmoi apply <path>`.
 - Subagent model overrides fail in this environment (API errors); work
   inline.
 
+## Done in the second pass (all committed on `feat/achroma-light`)
+
+- **Committed**: all phase-1/2 work plus everything below; company diffs
+  (`pm/*.yml`, `windows.toml.tmpl`) remain uncommitted on the working tree.
+- **yazi dark flavor pulled into chezmoi** (user archives the external
+  `noidilin/achroma.yazi` repo): both flavors render from
+  `yazi-achroma-flavor.toml`; external entry removed from
+  `share-config.toml.tmpl`.
+- **zellij**: switches natively — `theme_dark`/`theme_light` keys in
+  `config.kdl` (they already existed); no switcher flip. Ink: light selected
+  ribbon fill mono12, light unselected frame mono10. `#8f8f8f` snapped to
+  mono18. NOTE: zellij is darwin-only in `.chezmoiignore` — verify on mac.
+- **jjui, k9s, starship, pi, posting**: light themes rendered; `theme.nu`
+  flips their selection key in place (flip table carries per-tool names;
+  starship's palette is `noidilin`/`noidilin-light`). Snaps: pi toolErrorBg
+  `#271717`→mixRed10; starship frame gets an `frame` ink key (light mono10).
+- **vivid/LS_COLORS**: both themes rendered; `shell.nu` picks by
+  `ACHROMA_VARIANT`; `theme` regenerates LS_COLORS in-session. Dark output
+  verified byte-identical.
+- **eza**: per-variant config dirs `eza/achroma{,-light}/theme.yml`;
+  `EZA_CONFIG_DIR` selects (env flip, no file copies). `#b3b0a7`→accDim05.
+- **nushell color_config**: `config/theme.nu` renamed to `palette.nu.tmpl`
+  (the old module's `main` shadowed the `theme` switcher command!), carries
+  both variants, picked by `ACHROMA_VARIANT`; xdg/variant env sourcing moved
+  above `$env.config` in `config.nu`.
+- **Bug fixed**: `variant.nu` compared the whole `registry query` record to 1
+  — every shell resolved dark. Now `| get value`.
+
 ## Left to do
 
-Tools with no native switching — each needs: role-mapped body in
-`.chezmoitemplates/`, light theme file rendered, and a config-key flip added
-to `theme.nu`:
-
-1. **zellij** (`themes/achroma.kdl`; `theme` key in `config.kdl`)
-2. **k9s** (`skins/achroma.yaml`; skin key in `private_config.yaml`)
-3. **jjui** (`themes/achroma.toml`; theme key in `jjui/config.toml`)
-4. **pi** (`themes/achroma.json` — has defs like opencode but NO light
-   support in the format; needs a separate `achroma-light.json` + flip in
-   `pi/settings.json`)
-5. **posting** (`dot_local/share/posting/themes/achroma.yaml`)
-6. **starship** (palette inlined in `starship.toml`; add
-   `[palettes.achroma-light]` and flip the `palette =` key)
-7. **vivid / LS_COLORS** (`vivid/themes/achroma.yml`; light theme + pick by
-   `ACHROMA_VARIANT` in `nushell/env/shell.nu` line that runs
-   `vivid generate`)
-8. **eza** (`eza/theme.yml` — eza reads exactly one file; needs file swap
-   or symlink flip)
-9. **carapace** (`carapace/styles.json`)
-10. **nushell's own colors** (`nushell/config/theme.nu` — mono ramp
-    hardcoded; make `color_config` variant-aware)
-11. Deferred/optional: lazygit, lazydocker, gh-dash, bottom (colors inlined,
-    no theme indirection — worst effort/payoff); zsh/mac side of variant
-    resolution + fzf (env.zsh still dark-only); GUI apps (flow-launcher,
-    stylus, shareX, antinote, blender, fcitx5, zebar).
-12. **Known limitation**: yazi icon colors (~750 lines in `yazi/theme.toml`
-    `[icon]`) apply on top of both flavors and cannot follow the variant;
-    proper fix is moving icons into each flavor (flavor-repo restructuring).
-13. **Migration option**: move `achroma-light.yazi` into the user's flavor
-    repo family for symmetry with the external dark flavor.
-14. **Commit + merge back**: create `feat/achroma-light`, commit theme files
-    only (list = `git status --short | rg -v 'pm/|windows.toml'`), then
-    user merges toward the original dotfiles repo.
-
-## Next best task
-
-Do **zellij, jjui, and k9s** next: they follow the established pattern
-exactly (small theme files, single selection key, all hexes likely on-ramp)
-and each adds a one-line flip to `theme.nu` — highest value per effort and
-they exercise the switcher's config-flip path for the first time. Start with
-zellij. After those, starship (trivial palette block), then vivid+eza
-(introduces the file-swap pattern), then pi/posting, then decide with the
-user whether the deferred group is worth doing.
+1. **carapace** (`carapace/styles.json`).
+2. Deferred/optional: lazygit, lazydocker, gh-dash, bottom (colors inlined,
+   no theme indirection — worst effort/payoff); zsh/mac side of variant
+   resolution + fzf (env.zsh still dark-only); GUI apps (flow-launcher,
+   stylus, shareX, antinote, blender, fcitx5, zebar).
+3. **Known limitation**: yazi icon colors (~750 lines in `yazi/theme.toml`
+   `[icon]`) apply on top of both flavors and cannot follow the variant;
+   now that both flavors are chezmoi-managed, the fix is moving the icon
+   tables into each flavor's `flavor.toml.tmpl` (role-mapped, per-variant).
+4. **Config-flip drift**: `theme.nu` flips applied files for jjui, k9s,
+   starship, pi, posting; chezmoi source keeps the dark default, so
+   `chezmoi apply` while in light mode resets those keys until `theme light`
+   is rerun.
+5. **Merge back**: user merges `feat/achroma-light` toward the original
+   dotfiles repo; verify zellij + jjui + mac variant resolution on darwin.
 
 ## Verification habits used so far
 
