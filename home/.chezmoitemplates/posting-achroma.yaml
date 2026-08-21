@@ -1,0 +1,37 @@
+name: {{ .name }}
+author: noid
+description: Warm monochrome {{ .variant }} theme inspired by opencode achroma.
+
+primary: "{{ .c.acc07 }}"
+secondary: "{{ .c.mono23 }}"
+accent: "{{ .c.acc04 }}"
+background: "{{ .c.mono02 }}"
+surface: "{{ .c.mono04 }}"
+
+error: "{{ .c.red00 }}"
+success: "{{ .c.green00 }}"
+warning: "{{ .c.orange00 }}"
+
+method:
+  get: "{{ .c.blue00 }}"
+  post: "{{ .c.green00 }}"
+  put: "{{ .c.orange00 }}"
+  delete: "{{ .c.red00 }}"
+
+text_area:
+  cursor: "reverse"
+  cursor_line: "underline {{ .c.mono07 }}"
+  selection: "reverse"
+  gutter: "{{ .c.mono12 }}"
+  matched_bracket: "bold {{ .c.mono24 }}"
+
+url:
+  base: "{{ .c.mono18 }}"
+  protocol: "bold {{ .c.acc03 }}"
+
+syntax:
+  json_key: "{{ .c.blue01 }}"
+  json_number: "{{ .c.mono25 }}"
+  json_string: "{{ .c.mono16 }}"
+  json_boolean: "{{ .c.magenta01 }}"
+  json_null: "italic {{ .c.cyan00 }}"

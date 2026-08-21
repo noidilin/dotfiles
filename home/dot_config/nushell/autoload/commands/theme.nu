@@ -5,14 +5,16 @@
 # its own: wezterm -> neovim (OSC 11), bat, delta's mode detection, ghostty,
 # windows terminal, zed, yazi, opencode. This command also refreshes the env
 # vars for the current session (other running shells re-resolve on start).
-# zellij switches natively (theme_dark/theme_light in config.kdl). jjui and
-# k9s have a single selection key: flipped in place below (chezmoi's source
-# keeps the dark default, so `chezmoi apply` resets them to dark -- rerun
-# this command after applying while in light mode).
+# zellij switches natively (theme_dark/theme_light in config.kdl). jjui, k9s,
+# starship, pi and posting have a single selection key: flipped in place below
+# (chezmoi's source keeps the dark default, so `chezmoi apply` resets them to
+# dark -- rerun this command after applying while in light mode). vivid/eza
+# resolve from ACHROMA_VARIANT at shell start and are refreshed here; nushell's
+# color_config resolves at shell start only.
 #
 # Still dark-only, to be wired up here as their light themes land:
-# pi, posting, starship palette, vivid/LS_COLORS, eza, carapace,
-# nushell's own color_config.
+# carapace; deferred: lazygit, lazydocker, gh-dash, bottom, zsh/mac fzf,
+# GUI apps.
 def --env theme [
   variant?: string # 'light' or 'dark'; omit to show the current state
 ] {
@@ -51,6 +53,8 @@ def --env theme [
     [($env.XDG_CONFIG_HOME | path join 'jjui' 'config.toml') 'theme = "' 'achroma']
     [($env.XDG_CONFIG_HOME | path join 'k9s' 'config.yaml') 'skin: ' 'achroma']
     [($env.XDG_CONFIG_HOME | path join 'starship.toml') "palette = '" 'noidilin']
+    [($env.XDG_CONFIG_HOME | path join 'pi' 'settings.json') '"theme": "' 'achroma']
+    [($env.XDG_CONFIG_HOME | path join 'posting' 'config.yaml') 'theme: ' 'achroma']
   ]
   for f in $flips {
     if ($f.file | path exists) {
@@ -63,7 +67,7 @@ def --env theme [
 
   print $'app theme -> ($variant)'
   print 'follows automatically: wezterm, nvim, bat, delta, windows terminal, zed, yazi, opencode, zellij'
-  print 'config flipped in place (restart if running): jjui, k9s, starship'
+  print 'config flipped in place (restart if running): jjui, k9s, starship, pi, posting'
   print 'refreshed in this session: delta, LS_COLORS (vivid), eza'
   print 'per-session (restart shell/app): fzf colors, nushell color_config, other running shells'
 }
