@@ -1,9 +1,11 @@
 # Handoff: achroma light-theme support across the dotfiles
 
 Context for the next agent continuing this work. Read this before touching
-theme files. State as of 2026-08-21: all planned CLI/TUI tools are DONE and
-pushed on `feat/achroma-light` (11 commits); what remains is the deferred
-group, the yazi icon restructuring, and mac-side verification.
+theme files. State as of 2026-08-21 (second pass): ALL CLI/TUI tools are
+DONE, the yazi icon restructuring is DONE, the deferred group (lazygit,
+lazydocker, bottom, gh-dash, pwsh, zsh) is DONE, and zebar/flow-launcher/
+antinote have light variants. What remains is mac-side verification and the
+merge back; blender/stylus/shareX/fcitx5 were deliberately skipped.
 
 ## Goal and constraints
 
@@ -87,6 +89,16 @@ switcher runs).
 | eza | per-variant config dirs `eza/achroma{,-light}/theme.yml`; `EZA_CONFIG_DIR` selects (env flip, no file copies) |
 | carapace | reads exactly one `styles.json`; `theme.nu` copies `styles-achroma{,-light}.json` over it |
 | nushell color_config | `config/palette.nu.tmpl` carries both variants, picked by `ACHROMA_VARIANT` at shell start |
+| yazi icons | moved from `theme.toml` into the shared flavor template, role-mapped per variant; `theme.toml` keeps only `[flavor]` |
+| lazygit | colors split into `theme-achroma{,-light}.yml` layered over `config.yml` via `LG_CONFIG_FILE` (env-selected, no apply drift) |
+| gh-dash | had NO theme colors before (upstream defaults); both variants now carry role-consistent `theme.colors`, selected via `GH_DASH_CONFIG` env |
+| bottom | reads one file, no env override: `theme.nu` copies `bottom-achroma{,-light}.toml` over `bottom.toml` |
+| lazydocker | same copy pattern: `config-achroma{,-light}.yml` over `config.yml` |
+| pwsh | `scripts/variant.ps1` (sourced first in profile.ps1) resolves `ACHROMA_VARIANT` + DELTA/EZA/LS_COLORS/LG/GH_DASH env; `fzf.ps1` is a template with both variants |
+| zsh (mac) | `env.zsh.tmpl` resolves variant from `AppleInterfaceStyle` and picks delta/eza/vivid/fzf/lazygit/gh-dash env per variant |
+| zebar | dual-variant CSS (`:root` light, `:root.dark` dark) + bootstrap in `main.html` follows the Windows app theme via prefers-color-scheme; pinnable via localStorage `achroma-variant` |
+| flow-launcher | `achroma-light.xaml` sibling rendered from shared template; theme is selected in-app |
+| antinote | `achroma-light.json` sibling; imported/selected in-app on the mac |
 
 Role snaps made along the way (flag to user if they matter): bat/zed
 `#222222`→mono04, bat `#4b4b4b`→mono11, zed `#505050`→mono11, zellij
@@ -125,47 +137,48 @@ frame mono10; jjui borders mono10; starship `frame` key mono10 (light).
 
 ## Left to do
 
-1. **Yazi icons** (structural): ~750 lines of `[icon]` overrides in
-   `yazi/theme.toml` apply on top of BOTH flavors with dark-tuned hexes, so
-   icons look washed out in light mode. Both flavors are now chezmoi-managed,
-   so the fix is moving the icon tables into each flavor's
-   `flavor.toml.tmpl`, role-mapped per variant.
-2. **zsh/mac side**: variant resolution + fzf colors in `env.zsh` are still
-   dark-only; port the `ACHROMA_VARIANT` resolution (macOS `defaults read -g
-   AppleInterfaceStyle`) and the fzf/eza/vivid env selection to zsh.
-3. **Verify on darwin**: zellij (ignored on Windows, untested), jjui binary,
-   and the macOS branch of `variant.nu` / `theme.nu` (`osascript` flip).
-4. Deferred/optional (decide with user): lazygit, lazydocker, gh-dash,
-   bottom (colors inlined, no theme indirection — worst effort/payoff);
-   GUI apps (flow-launcher, stylus, shareX, antinote, blender, fcitx5,
-   zebar). A pwsh `variant.ps1` for PowerShell sessions was also discussed.
-5. **Merge back**: user merges `feat/achroma-light` toward the original
+1. **Verify on darwin**: zellij (ignored on Windows, untested), jjui binary,
+   the macOS branch of `variant.nu` / `theme.nu` (`osascript` flip), the new
+   `env.zsh.tmpl` (variant resolution + fzf/eza/vivid/lazygit/gh-dash env;
+   syntax-checked only on Windows), and antinote's light theme import.
+2. **Merge back**: user merges `feat/achroma-light` toward the original
    dotfiles repo (branch is pushed; PR link:
    https://github.com/noidilin/dotfiles/pull/new/feat/achroma-light).
+3. Deliberately skipped (revisit only if the user asks): blender (1672-line
+   XML theme — needs visual tuning in blender, not a mechanical mirror),
+   stylus (`achroma.json` is a 3MB full userstyles backup, not a theme
+   file), shareX (no config in the repo), fcitx5 (linux-only, untestable
+   here).
 
 ## Standing behaviors to remember
 
 - **Config-flip drift**: `theme.nu` edits APPLIED files for jjui, k9s,
-  starship, pi, posting, carapace; chezmoi source keeps the dark default, so
-  `chezmoi apply` while in light mode resets those until `theme light` is
-  rerun. If this annoys the user, a chezmoi `modify_` script or a
-  variant-aware template driven by a state file would fix it — not built.
+  starship, pi, posting, and copies over carapace's styles.json, bottom's
+  bottom.toml and lazydocker's config.yml; chezmoi source keeps the dark
+  default, so `chezmoi apply` while in light mode resets those until
+  `theme light` is rerun. lazygit and gh-dash are env-selected
+  (LG_CONFIG_FILE / GH_DASH_CONFIG) and have NO drift. If the drift annoys
+  the user, a chezmoi `modify_` script or a variant-aware template driven
+  by a state file would fix it — not built.
 - The machine was left in **light mode** with all flips applied.
+- **Zebar had an uncommitted on-disk dual-variant design** (bootstrap in
+  main.html + light-default styles.css with `:root.dark`) that chezmoi
+  source had never captured; it is now templated into source and verified
+  render-identical. Lesson: before overwriting an applied GUI config, diff
+  it — on-disk may be ahead of source.
+- flow-launcher's Settings.json is live-managed by the app; theme selection
+  happens in its UI, so the switcher does not touch it.
 - The pre-migration external yazi flavor clone is backed up at
   `~/.claude/jobs/77365eba/tmp/achroma.yazi-external-backup` (job-temporary;
   gone once the job is deleted — the GitHub repo still has everything).
 
 ## Next best task
 
-**Yazi icon migration (item 1)** — it's the only remaining piece that makes
-the already-shipped light mode visibly wrong, and it's now unblocked: move
-the `[icon]` tables from `yazi/theme.toml` into `yazi-achroma-flavor.toml`
-(role-map the handful of repeated hexes: `#5d5d5d`→mono13, `#4e4e4e`→mono11,
-`#707070`→mono15, etc.), leaving `theme.toml` with just the `[flavor]`
-table. Verify the dark flavor render against the current combined output.
-After that, item 2 (zsh/mac port) — but note it can only be smoke-tested on
-the mac, so keep it to a small reviewable commit and lean on item 3's
-darwin verification pass.
+**Darwin verification (item 1)** — everything implementable on this Windows
+machine is done. On the mac: source env.zsh in a fresh zsh and check
+ACHROMA_VARIANT/fzf/eza/vivid/LG_CONFIG_FILE/GH_DASH_CONFIG, run
+`theme light`/`theme dark` (osascript flip), and eyeball zellij, jjui,
+lazygit, gh-dash, antinote in both variants. Then merge (item 2).
 
 ## Verification habits used so far
 
