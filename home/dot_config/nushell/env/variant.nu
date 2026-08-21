@@ -8,8 +8,9 @@
 
 $env.ACHROMA_VARIANT = (match $nu.os-info.name {
   'windows' => {
+    # registry query returns a record {name, value, type}, not the bare value.
     let v = (try {
-      registry query --hkcu 'Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' 'AppsUseLightTheme'
+      registry query --hkcu 'Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' 'AppsUseLightTheme' | get value
     } catch { 0 })
     if $v == 1 { 'light' } else { 'dark' }
   }
