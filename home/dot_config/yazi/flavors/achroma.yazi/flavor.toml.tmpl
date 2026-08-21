@@ -1,5 +1,5 @@
 {{- /* Dark variant of the achroma.yazi flavor, rendered from the shared
    role-based template (formerly the external git repo noidilin/achroma.yazi,
-   now archived). The icon overrides in yazi's theme.toml apply on top of
-   BOTH flavors and cannot follow the variant. */ -}}
+   now archived). Icon overrides live in the shared template too, so they
+   follow the variant. */ -}}
 {{- template "yazi-achroma-flavor.toml" (dict "c" .color.achroma.dark) -}}
