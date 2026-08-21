@@ -62,7 +62,11 @@
     {
         "defaults": 
         {
-            "colorScheme": "achroma",
+            "colorScheme":
+            {
+                "dark": "achroma",
+                "light": "achroma-light"
+            },
             "cursorShape": "bar",
             "font": 
             {
@@ -126,31 +130,22 @@
             }
         ]
     },
-    "schemes": 
+    "schemes":
     [
-        {
-            "background": "#191919",
-            "black": "#474747",
-            "blue": "#7D96AD",
-            "brightBlack": "#5D5D5D",
-            "brightBlue": "#9DB2CF",
-            "brightCyan": "#92B3B3",
-            "brightGreen": "#9BB09B",
-            "brightPurple": "#9F9FBD",
-            "brightRed": "#CC9393",
-            "brightWhite": "#FAF5EB",
-            "brightYellow": "#EBD6B7",
-            "cursorColor": "#878787",
-            "cyan": "#769494",
-            "foreground": "#B3B3B3",
-            "green": "#778777",
-            "name": "achroma",
-            "purple": "#797994",
-            "red": "#B07878",
-            "selectionBackground": "#303030",
-            "white": "#DAD5C8",
-            "yellow": "#D6CAAB"
-        }
+{{- $d := .color.achroma.dark }}
+{{- $l := .color.achroma.light }}
+{{ template "winterm-achroma-scheme.json" (dict "name" "achroma" "c" $d "ink" (dict
+    "black" $d.mono10
+    "blackBright" $d.mono13
+    "white" $d.acc07
+    "whiteBright" $d.acc08
+    "selection" $d.mono06)) }},
+{{ template "winterm-achroma-scheme.json" (dict "name" "achroma-light" "c" $l "ink" (dict
+    "black" $l.mono19
+    "blackBright" $l.mono15
+    "white" $d.acc06
+    "whiteBright" $d.acc07
+    "selection" $l.mono08)) }}
     ],
     "themes": [],
     "useAcrylicInTabRow": false

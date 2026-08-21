@@ -1,0 +1,21 @@
+{{- $d := .color.achroma.dark -}}
+{{- $l := .color.achroma.light -}}
+{
+  "$schema": "https://zed.dev/schema/themes/v0.2.0.json",
+  "name": "achroma",
+  "author": "noidilin",
+  "themes": [
+{{ template "zed-achroma-theme.json" (dict "name" "achroma-dark" "appearance" "dark" "c" $d "ink" (dict
+  "ansiBlack" $d.mono10
+  "ansiBlackBright" $d.mono13
+  "ansiWhite" $d.acc07
+  "ansiWhiteBright" $d.acc08
+  "ansiYellow" "#b09661")) }},
+{{ template "zed-achroma-theme.json" (dict "name" "achroma-light" "appearance" "light" "c" $l "ink" (dict
+  "ansiBlack" $l.mono19
+  "ansiBlackBright" $l.mono15
+  "ansiWhite" $d.acc06
+  "ansiWhiteBright" $d.acc07
+  "ansiYellow" $l.yellow00)) }}
+  ]
+}

@@ -1,0 +1,34 @@
+[delta "{{ .name }}"]
+	blame-palette = "{{ .c.mono03 }} {{ .c.mono02 }} {{ .c.mono01 }} {{ .c.mono05 }} {{ .c.mono07 }}"
+	commit-decoration-style = box ul
+{{- if .mode }}
+	{{ .mode }} = true
+{{- end }}
+	file-decoration-style = "{{ .c.mono21 }}"
+	file-style = "{{ .c.mono21 }}"
+	hunk-header-decoration-style = box ul
+	hunk-header-file-style = bold
+	hunk-header-line-number-style = bold "{{ .c.mono17 }}"
+	hunk-header-style = file line-number syntax
+	line-numbers = true
+	line-numbers-left-style = "{{ .c.mono11 }}"
+	line-numbers-minus-style = bold "{{ .c.red00 }}"
+	line-numbers-plus-style = bold "{{ .c.green00 }}"
+	line-numbers-right-style = "{{ .c.mono11 }}"
+	line-numbers-zero-style = "{{ .c.mono11 }}"
+	# 25% red 75% base
+	minus-emph-style = bold syntax "{{ .c.mixRed25 }}"
+	# 10% red 90% base
+	minus-style = syntax "{{ .c.mixRed10 }}"
+	# 25% green 75% base
+	plus-emph-style = bold syntax "{{ .c.mixGreen25 }}"
+	# 10% green 90% base
+	plus-style = syntax "{{ .c.mixGreen10 }}"
+	# 75% base - [25% purple(mauve), 25% blue, 25% cyan(sky), 25% yellow]
+	map-styles = \
+		bold purple => syntax "{{ .c.mixMagenta25 }}", \
+		bold blue => syntax "{{ .c.mixBlue25 }}", \
+		bold cyan => syntax "{{ .c.mixCyan25 }}", \
+		bold yellow => syntax "{{ .c.mixYellow25 }}"
+	# Should match the name of the bat theme
+	syntax-theme = {{ .syntaxTheme }}

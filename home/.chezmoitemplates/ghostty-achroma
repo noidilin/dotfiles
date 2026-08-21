@@ -1,0 +1,32 @@
+# achroma Ghostty theme ({{ .variant }})
+# Ported from WezTerm config/theme.lua; ink slots mirror its direction-
+# sensitive table (cursor text, ansi black/white, selection, split).
+
+background = {{ .c.mono02 }}
+foreground = {{ .c.mono21 }}
+
+cursor-color = {{ .c.mono17 }}
+cursor-text = {{ .ink.cursorText }}
+selection-background = {{ .ink.selection }}
+selection-foreground = {{ .c.mono19 }}
+split-divider-color = {{ .ink.split }}
+
+# ansi: black red green yellow blue magenta cyan white
+palette = 0={{ .ink.black }}
+palette = 1={{ .c.red00 }}
+palette = 2={{ .c.green00 }}
+palette = 3={{ .c.yellow00 }}
+palette = 4={{ .c.blue00 }}
+palette = 5={{ .c.magenta00 }}
+palette = 6={{ .c.cyan00 }}
+palette = 7={{ .ink.white }}
+
+# brights
+palette = 8={{ .ink.blackBright }}
+palette = 9={{ .c.red01 }}
+palette = 10={{ .c.green01 }}
+palette = 11={{ .c.yellow01 }}
+palette = 12={{ .c.blue01 }}
+palette = 13={{ .c.magenta01 }}
+palette = 14={{ .c.cyan01 }}
+palette = 15={{ .ink.whiteBright }}

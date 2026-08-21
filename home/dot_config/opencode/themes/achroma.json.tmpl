@@ -1,0 +1,77 @@
+{{- /* opencode resolves light/dark per color at runtime from the terminal
+   background, so this one theme serves both variants. defs carry both
+   palettes from .chezmoidata/colors.yml: dark roles keep their names,
+   light roles get a "light-" prefix. Light choices follow the wezterm
+   ink lessons: borders step to a mid tone (light-mono10), everything
+   else mirrors by role. */ -}}
+{{- $defs := list -}}
+{{- range $k, $v := .color.achroma.dark -}}
+{{- $defs = append $defs (printf "%q: %q" $k $v) -}}
+{{- end -}}
+{{- range $k, $v := .color.achroma.light -}}
+{{- $defs = append $defs (printf "%q: %q" (printf "light-%s" $k) $v) -}}
+{{- end -}}
+{
+  "$schema": "https://opencode.ai/theme.json",
+  "defs": {
+    {{ $defs | join ",\n    " }}
+  },
+  "theme": {
+    "primary": { "dark": "acc07", "light": "light-acc07" },
+    "secondary": { "dark": "mono23", "light": "light-mono23" },
+    "accent": { "dark": "acc04", "light": "light-acc04" },
+    "error": { "dark": "red00", "light": "light-red00" },
+    "warning": { "dark": "orange00", "light": "light-orange00" },
+    "success": { "dark": "green00", "light": "light-green00" },
+    "info": { "dark": "#dc8a78", "light": "#8b574c" },
+    "text": { "dark": "mono21", "light": "light-mono21" },
+    "textMuted": { "dark": "mono13", "light": "light-mono13" },
+    "background": { "dark": "mono02", "light": "light-mono02" },
+    "backgroundPanel": { "dark": "mono02", "light": "light-mono02" },
+    "backgroundElement": { "dark": "mono02", "light": "light-mono02" },
+    "border": { "dark": "mono07", "light": "light-mono10" },
+    "borderActive": { "dark": "acc04", "light": "light-acc04" },
+    "borderSubtle": { "dark": "mono05", "light": "light-mono07" },
+    "diffAdded": { "dark": "green00", "light": "light-green00" },
+    "diffRemoved": { "dark": "red00", "light": "light-red00" },
+    "diffContext": { "dark": "mono19", "light": "light-mono19" },
+    "diffHunkHeader": { "dark": "mono19", "light": "light-mono19" },
+    "diffHighlightAdded": { "dark": "green00", "light": "light-green00" },
+    "diffHighlightRemoved": { "dark": "red00", "light": "light-red00" },
+    "diffAddedBg": { "dark": "#1c201c", "light": "light-mixGreen10" },
+    "diffRemovedBg": { "dark": "#271717", "light": "light-mixRed10" },
+    "diffContextBg": { "dark": "mono02", "light": "light-mono02" },
+    "diffLineNumber": { "dark": "mono03", "light": "light-mono03" },
+    "diffAddedLineNumberBg": { "dark": "#1c201c", "light": "light-mixGreen10" },
+    "diffRemovedLineNumberBg": { "dark": "#271717", "light": "light-mixRed10" },
+    "markdownText": { "dark": "mono21", "light": "light-mono21" },
+    "markdownHeading": { "dark": "acc08", "light": "light-acc08" },
+    "markdownLink": { "dark": "accDim05", "light": "light-accDim05" },
+    "markdownLinkText": { "dark": "mono19", "light": "light-mono19" },
+    "markdownCode": { "dark": "mono19", "light": "light-mono19" },
+    "markdownBlockQuote": { "dark": "mono15", "light": "light-mono15" },
+    "markdownEmph": { "dark": "mono23", "light": "light-mono23" },
+    "markdownStrong": { "dark": "mono23", "light": "light-mono23" },
+    "markdownHorizontalRule": { "dark": "blue00", "light": "light-blue00" },
+    "markdownListItem": { "dark": "mono17", "light": "light-mono17" },
+    "markdownListEnumeration": { "dark": "mono17", "light": "light-mono17" },
+    "markdownImage": { "dark": "accDim05", "light": "light-accDim05" },
+    "markdownImageText": { "dark": "mono19", "light": "light-mono19" },
+    "markdownCodeBlock": { "dark": "mono15", "light": "light-mono15" },
+    "syntaxComment": { "dark": "mono12", "light": "light-mono12" },
+    "syntaxKeyword": { "dark": "mono25", "light": "light-mono25" },
+    "syntaxFunction": { "dark": "mono22", "light": "light-mono22" },
+    "syntaxVariable": { "dark": "mono17", "light": "light-mono17" },
+    "syntaxString": { "dark": "mono13", "light": "light-mono13" },
+    "syntaxNumber": { "dark": "mono15", "light": "light-mono15" },
+    "syntaxType": { "dark": "mono23", "light": "light-mono23" },
+    "syntaxOperator": { "dark": "mono21", "light": "light-mono21" },
+    "syntaxPunctuation": { "dark": "mono21", "light": "light-mono21" },
+    "inputBackground": { "dark": "mono02", "light": "light-mono02" },
+    "InputBorder": { "dark": "mono07", "light": "light-mono10" },
+    "InputBorderActive": { "dark": "mono11", "light": "light-mono13" },
+    "inputPrompt": { "dark": "accDim07", "light": "light-accDim07" },
+    "inputCursor": { "dark": "accDim07", "light": "light-accDim07" },
+    "inputText": { "dark": "mono21", "light": "light-mono21" }
+  }
+}

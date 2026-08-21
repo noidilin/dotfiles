@@ -1,8 +1,11 @@
 # This is `bat`s configuration file. Each line either contains a comment or a command-line option that you want to pass to `bat` by default. You can run `bat --help` to get a list of all possible configuration options.
 
-# Specify desired highlighting theme (e.g. "TwoDark"). Run `bat --list-themes` for a list of all available themes
---theme="achroma"
-#--theme="Catppuccin Mocha"
+# Highlighting theme. With no --theme set, bat >= 0.25 detects the terminal's
+# background and picks --theme-dark / --theme-light on its own, so bat follows
+# wezterm — and therefore the Windows app theme — like neovim does.
+# Run `bat --list-themes` for a list of all available themes.
+--theme-dark="achroma"
+--theme-light="achroma-light"
 
 --style="numbers,changes,header"
 

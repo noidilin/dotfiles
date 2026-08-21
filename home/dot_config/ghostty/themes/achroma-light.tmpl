@@ -1,0 +1,14 @@
+{{- /* Ink notes, from wezterm config/theme.lua: cursor text and selection
+   need background-side tones; ansi black must stay dark and white light
+   (white borrows the DARK palette's warm tones, already the right
+   lightness); split needs a mid tone to stay visible. */ -}}
+{{- $c := .color.achroma.light -}}
+{{- $warm := .color.achroma.dark -}}
+{{- template "ghostty-achroma" (dict "variant" "light" "c" $c "ink" (dict
+	"cursorText" $c.mono02
+	"selection" $c.mono08
+	"split" $c.mono10
+	"black" $c.mono19
+	"blackBright" $c.mono15
+	"white" $warm.acc06
+	"whiteBright" $warm.acc07)) -}}

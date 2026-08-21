@@ -25,6 +25,7 @@ const ENV_DIR = ($nu.default-config-dir | path join 'env')
 
 load-env (os init-os-env)
 source ($ENV_DIR | path join 'xdg.nu')
+source ($ENV_DIR | path join 'variant.nu')
 source ($ENV_DIR | path join 'dev.nu')
 source ($ENV_DIR | path join 'shell.nu')
 source ($ENV_DIR | path join 'fzf.nu')

@@ -1,0 +1,15 @@
+# color mixer: https://colordesigner.io/color-mixer/?mode=rgb#B07878%7B1%7D-788778%7B0%7D-D5C9AA%7B0%7D-7B95AD%7B0%7D-7A7A94%7B0%7D-769393%7B0%7D-1F1F1F%7B0%7D
+#
+# Both variants live in this one included file. delta does NOT pick a feature
+# by terminal background (features are unconditional; dark/light inside one
+# only sets the mode's default colors), so gitconfig keeps `features = achroma`
+# and light mode is selected by exporting DELTA_FEATURES=achroma-light (a bare
+# value replaces the configured features).
+#
+# The light feature deliberately has no `light = true`: in delta 0.19.2 that
+# key errors with "--light and --dark cannot be used together" whenever delta
+# falls back to its dark default. On an actual light terminal, delta's
+# background detection supplies light mode for the few styles left to default.
+
+{{ template "delta-achroma.gitconfig" (dict "name" "achroma" "mode" "dark" "syntaxTheme" "achroma" "c" .color.achroma.dark) }}
+{{ template "delta-achroma.gitconfig" (dict "name" "achroma-light" "mode" "" "syntaxTheme" "achroma-light" "c" .color.achroma.light) }}

@@ -1,0 +1,23 @@
+        {
+            "background": "{{ .c.mono02 | upper }}",
+            "black": "{{ .ink.black | upper }}",
+            "blue": "{{ .c.blue00 | upper }}",
+            "brightBlack": "{{ .ink.blackBright | upper }}",
+            "brightBlue": "{{ .c.blue01 | upper }}",
+            "brightCyan": "{{ .c.cyan01 | upper }}",
+            "brightGreen": "{{ .c.green01 | upper }}",
+            "brightPurple": "{{ .c.magenta01 | upper }}",
+            "brightRed": "{{ .c.red01 | upper }}",
+            "brightWhite": "{{ .ink.whiteBright | upper }}",
+            "brightYellow": "{{ .c.yellow01 | upper }}",
+            "cursorColor": "{{ .c.mono17 | upper }}",
+            "cyan": "{{ .c.cyan00 | upper }}",
+            "foreground": "{{ .c.mono21 | upper }}",
+            "green": "{{ .c.green00 | upper }}",
+            "name": "{{ .name }}",
+            "purple": "{{ .c.magenta00 | upper }}",
+            "red": "{{ .c.red00 | upper }}",
+            "selectionBackground": "{{ .ink.selection | upper }}",
+            "white": "{{ .ink.white | upper }}",
+            "yellow": "{{ .c.yellow00 | upper }}"
+        }

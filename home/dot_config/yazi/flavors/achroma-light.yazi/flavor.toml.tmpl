@@ -1,0 +1,5 @@
+{{- /* Light variant of the achroma.yazi flavor (the dark one is the external
+   git repo at flavors/achroma.yazi). Rendered from the shared role-based
+   template; the icon overrides in yazi's theme.toml apply on top of BOTH
+   flavors and cannot follow the variant. */ -}}
+{{- template "yazi-achroma-flavor.toml" (dict "c" .color.achroma.light) -}}

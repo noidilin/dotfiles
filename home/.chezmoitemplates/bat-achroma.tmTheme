@@ -5,50 +5,50 @@
 	<key>colorSpaceName</key>
 	<string>sRGB</string>
 	<key>name</key>
-	<string>Achroma</string>
+	<string>{{ .name }}</string>
 	<key>semanticClass</key>
-	<string>theme.dark.achroma</string>
+	<string>{{ .class }}</string>
 	<key>settings</key>
 	<array>
 		<dict>
 			<key>settings</key>
 			<dict>
 				<key>accent</key>
-				<string>#dad5c8</string>
+				<string>{{ .c.acc07 }}</string>
 				<key>activeGuide</key>
-				<string>#5d5d5d</string>
+				<string>{{ .c.mono13 }}</string>
 				<key>background</key>
-				<string>#191919</string>
+				<string>{{ .c.mono02 }}</string>
 				<key>bracketContentsForeground</key>
-				<string>#5d5d5d</string>
+				<string>{{ .c.mono13 }}</string>
 				<key>bracketContentsOptions</key>
 				<string>underline foreground</string>
 				<key>bracketsForeground</key>
-				<string>#353535</string>
+				<string>{{ .c.mono07 }}</string>
 				<key>bracketsOptions</key>
 				<string>foreground</string>
 				<key>caret</key>
-				<string>#eaeaea</string>
+				<string>{{ .c.mono25 }}</string>
 				<key>findHighlight</key>
-				<string>#474747</string>
+				<string>{{ .c.mono10 }}</string>
 				<key>foreground</key>
-				<string>#b3b3b3</string>
+				<string>{{ .c.mono21 }}</string>
 				<key>guide</key>
-				<string>#242424</string>
+				<string>{{ .c.mono04 }}</string>
 				<key>gutterForeground</key>
-				<string>#474747</string>
+				<string>{{ .c.mono10 }}</string>
 				<key>inactiveSelection</key>
-				<string>#242424</string>
+				<string>{{ .c.mono04 }}</string>
 				<key>lineHighlight</key>
-				<string>#222222</string>
+				<string>{{ .c.mono04 }}</string>
 				<key>misspelling</key>
-				<string>#b07878</string>
+				<string>{{ .c.red00 }}</string>
 				<key>selection</key>
-				<string>#303030</string>
+				<string>{{ .c.mono06 }}</string>
 				<key>stackGuide</key>
-				<string>#353535</string>
+				<string>{{ .c.mono07 }}</string>
 				<key>tagsForeground</key>
-				<string>#5d5d5d</string>
+				<string>{{ .c.mono13 }}</string>
 				<key>tagsOptions</key>
 				<string>underline foreground</string>
 			</dict>
@@ -61,7 +61,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#9d9d9d</string>
+				<string>{{ .c.mono19 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -72,7 +72,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#878787</string>
+				<string>{{ .c.mono17 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -83,7 +83,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#eaeaea</string>
+				<string>{{ .c.mono25 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -94,7 +94,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#878787</string>
+				<string>{{ .c.mono17 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -105,7 +105,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#c0c0c0</string>
+				<string>{{ .c.mono22 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -116,7 +116,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#c0c0c0</string>
+				<string>{{ .c.mono22 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -129,7 +129,7 @@
 				<key>fontStyle</key>
 				<string>italic</string>
 				<key>foreground</key>
-				<string>#878787</string>
+				<string>{{ .c.mono17 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -140,7 +140,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#8e8b85</string>
+				<string>{{ .c.accDim02 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -151,7 +151,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#b4b0a7</string>
+				<string>{{ .c.accDim05 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -162,7 +162,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#eaeaea</string>
+				<string>{{ .c.mono25 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -173,7 +173,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#878787</string>
+				<string>{{ .c.mono17 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -184,7 +184,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#9d9d9d</string>
+				<string>{{ .c.mono19 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -195,7 +195,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#8e8b85</string>
+				<string>{{ .c.accDim02 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -206,7 +206,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#dcdcdc</string>
+				<string>{{ .c.mono24 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -217,7 +217,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#c0c0c0</string>
+				<string>{{ .c.mono22 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -228,7 +228,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#9d9d9d</string>
+				<string>{{ .c.mono19 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -239,7 +239,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#686868</string>
+				<string>{{ .c.mono14 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -250,7 +250,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#555555</string>
+				<string>{{ .c.mono12 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -261,7 +261,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#707070</string>
+				<string>{{ .c.mono15 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -272,7 +272,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#878787</string>
+				<string>{{ .c.mono17 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -283,7 +283,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#5d5d5d</string>
+				<string>{{ .c.mono13 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -296,7 +296,7 @@
 				<key>fontStyle</key>
 				<string>underline</string>
 				<key>foreground</key>
-				<string>#707070</string>
+				<string>{{ .c.mono15 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -307,7 +307,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#b07878</string>
+				<string>{{ .c.red00 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -320,7 +320,7 @@
 				<key>fontStyle</key>
 				<string>italic strikethrough</string>
 				<key>foreground</key>
-				<string>#b07878</string>
+				<string>{{ .c.red00 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -331,7 +331,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#aaaaaa</string>
+				<string>{{ .c.mono20 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -342,7 +342,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#4b4b4b</string>
+				<string>{{ .c.mono11 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -351,7 +351,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#4e4e4e</string>
+				<string>{{ .c.mono11 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -373,7 +373,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#878787</string>
+				<string>{{ .c.mono17 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -384,7 +384,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#c0c0c0</string>
+				<string>{{ .c.mono22 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -395,7 +395,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#707070</string>
+				<string>{{ .c.mono15 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -406,7 +406,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#686868</string>
+				<string>{{ .c.mono14 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -417,7 +417,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#878787</string>
+				<string>{{ .c.mono17 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -428,7 +428,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#dcdcdc</string>
+				<string>{{ .c.mono24 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -439,7 +439,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#555555</string>
+				<string>{{ .c.mono12 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -452,7 +452,7 @@
 				<key>fontStyle</key>
 				<string>bold</string>
 				<key>foreground</key>
-				<string>#555555</string>
+				<string>{{ .c.mono12 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -465,7 +465,7 @@
 				<key>fontStyle</key>
 				<string>bold</string>
 				<key>foreground</key>
-				<string>#9d9d9d</string>
+				<string>{{ .c.mono19 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -476,7 +476,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#8e8b85</string>
+				<string>{{ .c.accDim02 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -489,7 +489,7 @@
 				<key>fontStyle</key>
 				<string>bold</string>
 				<key>foreground</key>
-				<string>#5d5d5d</string>
+				<string>{{ .c.mono13 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -500,7 +500,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#aaaaaa</string>
+				<string>{{ .c.mono20 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -511,7 +511,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#707070</string>
+				<string>{{ .c.mono15 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -524,7 +524,7 @@
 				<key>fontStyle</key>
 				<string>bold</string>
 				<key>foreground</key>
-				<string>#aaaaaa</string>
+				<string>{{ .c.mono20 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -535,7 +535,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#9d9d9d</string>
+				<string>{{ .c.mono19 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -546,7 +546,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#878787</string>
+				<string>{{ .c.mono17 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -557,7 +557,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#707070</string>
+				<string>{{ .c.mono15 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -568,7 +568,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#5d5d5d</string>
+				<string>{{ .c.mono13 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -579,7 +579,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#9d9d9d</string>
+				<string>{{ .c.mono19 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -590,7 +590,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#8e8b85</string>
+				<string>{{ .c.accDim02 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -601,7 +601,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#b07878</string>
+				<string>{{ .c.red00 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -612,7 +612,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#778777</string>
+				<string>{{ .c.green00 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -623,7 +623,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#b3ad9f</string>
+				<string>{{ .c.acc05 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -634,7 +634,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#686868</string>
+				<string>{{ .c.mono14 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -647,7 +647,7 @@
 				<key>fontStyle</key>
 				<string>bold</string>
 				<key>foreground</key>
-				<string>#aaaaaa</string>
+				<string>{{ .c.mono20 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -722,7 +722,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#8e897d</string>
+				<string>{{ .c.acc02 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -731,7 +731,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#c8a492</string>
+				<string>{{ .c.orange00 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -740,7 +740,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#b07878</string>
+				<string>{{ .c.red00 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -749,7 +749,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#7d96ad</string>
+				<string>{{ .c.blue00 }}</string>
 			</dict>
 		</dict>
 	</array>

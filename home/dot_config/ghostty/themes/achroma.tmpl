@@ -1,0 +1,9 @@
+{{- $c := .color.achroma.dark -}}
+{{- template "ghostty-achroma" (dict "variant" "dark" "c" $c "ink" (dict
+	"cursorText" $c.mono25
+	"selection" $c.mono06
+	"split" $c.mono07
+	"black" $c.mono10
+	"blackBright" $c.mono13
+	"white" $c.acc07
+	"whiteBright" $c.acc08)) -}}

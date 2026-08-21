@@ -1,0 +1,247 @@
+# A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
+# If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
+# "$schema" = "https://yazi-rs.github.io/schemas/theme.json"
+
+# vim:fileencoding=utf-8:foldmethod=marker
+
+# : Manager {{ "{{{" }}
+
+[mgr]
+cwd = { fg = "{{ .c.mono13 }}", bold = true, underline = true }
+
+# Find
+find_keyword = { fg = "{{ .c.mono25 }}", bold = true, italic = true, underline = true }
+find_position = { fg = "{{ .c.mono19 }}", bg = "reset", bold = true, italic = true }
+
+# Marker
+marker_copied = { fg = "{{ .c.green00 }}", bg = "{{ .c.green00 }}" }
+marker_cut = { fg = "{{ .c.red00 }}", bg = "{{ .c.red00 }}" }
+marker_marked = { fg = "{{ .c.yellow00 }}", bg = "{{ .c.yellow00 }}" }
+marker_selected = { fg = "{{ .c.mono25 }}", bg = "{{ .c.mono25 }}" }
+
+# Count
+count_copied = { fg = "{{ .c.mono03 }}", bg = "{{ .c.green00 }}" }
+count_cut = { fg = "{{ .c.mono03 }}", bg = "{{ .c.red00 }}" }
+count_selected = { fg = "{{ .c.mono03 }}", bg = "{{ .c.mono25 }}" }
+
+# Border
+border_symbol = "│"
+border_style = { fg = "{{ .c.mono13 }}" }
+
+# Symlink
+symlink_target = { italic = true }
+
+# Highlighting
+syntect_theme = ""
+
+# : }}}
+
+# : Tabs {{ "{{{" }}
+
+[tabs]
+active = { bg = "{{ .c.mono03 }}", bold = true }
+inactive = { fg = "{{ .c.mono03 }}", bg = "{{ .c.mono14 }}" }
+
+# Separator
+sep_inner = { open = "", close = "" }
+sep_outer = { open = "", close = "" }
+
+# : }}}
+
+# : Mode {{ "{{{" }}
+
+[mode]
+
+normal_main = { fg = "{{ .c.mono03 }}", bg = "{{ .c.mono14 }}", bold = true }
+normal_alt = { fg = "{{ .c.mono03 }}", bg = "{{ .c.mono14 }}" }
+
+# Select mode
+select_main = { fg = "{{ .c.mono03 }}", bg = "{{ .c.mono25 }}", bold = true }
+select_alt = { fg = "{{ .c.mono03 }}", bg = "{{ .c.mono25 }}" }
+
+# Unset mode
+unset_main = { fg = "{{ .c.mono03 }}", bg = "{{ .c.orange00 }}", bold = true }
+unset_alt = { fg = "{{ .c.mono03 }}", bg = "{{ .c.orange00 }}" }
+
+# : }}}
+
+
+# : Indicator of hovered file {{ "{{{" }}
+
+[indicator]
+parent = { reversed = true }
+current = { reversed = true }
+preview = { underline = true }
+
+# : }}}
+
+# : Status bar {{ "{{{" }}
+
+[status]
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+
+# Progress
+progress_label = { fg = "{{ .c.mono23 }}", bold = true }
+progress_normal = { fg = "{{ .c.mono14 }}", bg = "{{ .c.mono07 }}" }
+progress_error = { fg = "{{ .c.red00 }}", bg = "{{ .c.mono07 }}" }
+
+# Permissions
+perm_sep = { fg = "{{ .c.mono13 }}" }
+perm_type = { fg = "{{ .c.blue00 }}" }
+perm_read = { fg = "{{ .c.yellow00 }}" }
+perm_write = { fg = "{{ .c.red00 }}" }
+perm_exec = { fg = "{{ .c.green00 }}" }
+
+# : }}}
+
+
+# : Which {{ "{{{" }}
+
+[which]
+cols = 3
+mask = { bg = "{{ .c.mono05 }}" }
+cand = { fg = "{{ .c.green01 }}" }
+rest = { fg = "{{ .c.mono15 }}" }
+desc = { fg = "{{ .c.mono19 }}" }
+separator = "  "
+separator_style = { fg = "{{ .c.mono09 }}" }
+
+# : }}}
+
+
+# : Confirmation {{ "{{{" }}
+
+[confirm]
+border = { fg = "{{ .c.mono13 }}" }
+title = { fg = "{{ .c.mono19 }}" }
+body = {}
+list = {}
+btn_yes = { reversed = true }
+btn_no = {}
+btn_labels = ["  [Y]es  ", "  [N]o  "]
+
+# : }}}
+
+
+# : Spotter {{ "{{{" }}
+
+[spot]
+border = { fg = "{{ .c.mono13 }}" }
+title = { fg = "{{ .c.mono19 }}" }
+
+# Table
+tbl_col = { fg = "{{ .c.mono13 }}" }
+tbl_cell = { fg = "{{ .c.mono15 }}", reversed = true }
+
+# : }}}
+
+
+# : Notification {{ "{{{" }}
+
+[notify]
+title_info = { fg = "{{ .c.green00 }}" }
+title_warn = { fg = "{{ .c.orange00 }}" }
+title_error = { fg = "{{ .c.red00 }}" }
+
+# Icons
+icon_info = ""
+icon_warn = ""
+icon_error = ""
+
+# : }}}
+
+
+# : Picker {{ "{{{" }}
+
+[pick]
+border = { fg = "{{ .c.mono13 }}" }
+active = { fg = "{{ .c.mono19 }}", bold = true }
+inactive = {}
+
+# : }}}
+
+
+# : Input {{ "{{{" }}
+
+[input]
+border = { fg = "{{ .c.mono13 }}" }
+title = {}
+value = {}
+selected = { reversed = true }
+
+# : }}}
+
+
+# : Completion {{ "{{{" }}
+
+[cmp]
+border = { fg = "{{ .c.mono13 }}" }
+active = { reversed = true }
+inactive = {}
+
+# Icons
+icon_file = ""
+icon_folder = ""
+icon_command = ""
+
+# : }}}
+
+
+# : Tasks {{ "{{{" }}
+
+[tasks]
+border = { fg = "{{ .c.mono13 }}" }
+title = {}
+hovered = { fg = "{{ .c.mono19 }}", underline = true }
+
+# : }}}
+
+
+# : Help {{ "{{{" }}
+
+[help]
+on = { fg = "{{ .c.green01 }}" }
+run = { fg = "{{ .c.mono19 }}" }
+desc = {}
+hovered = { reversed = true, bold = true }
+footer = { fg = "{{ .c.mono07 }}", bg = "{{ .c.mono21 }}" }
+
+# : }}}
+
+
+# : File-specific styles {{ "{{{" }}
+
+[filetype]
+
+rules = [
+  # Images
+  { mime = "image/*", fg = "{{ .c.mono13 }}" },
+
+  # Media
+  { mime = "{audio,video}/*", fg = "{{ .c.mono13 }}" },
+
+  # Archives
+  { mime = "application/*zip", fg = "{{ .c.mono15 }}" },
+  { mime = "application/{tar,bzip*,7z-compressed,xz,rar}", fg = "{{ .c.mono15 }}" },
+
+  # Documents
+  { mime = "application/{pdf,doc,rtf,vnd.*}", fg = "{{ .c.mono14 }}" },
+
+  # Empty files
+  { mime = "inode/empty", fg = "{{ .c.red00 }}" },
+
+  # Special files
+  { url = "*", is = "orphan", bg = "{{ .c.red00 }}" },
+  { url = "*", is = "exec", fg = "{{ .c.mono24 }}" },
+
+  # Dummy files
+  { url = "*", is = "dummy", bg = "{{ .c.red00 }}" },
+  { url = "*/", is = "dummy", bg = "{{ .c.red00 }}" },
+
+  # Fallback
+  { url = "*", fg = "{{ .c.mono16 }}" },
+  { url = "*/", fg = "{{ .c.mono16 }}" },
+]
+
+# : }}}
