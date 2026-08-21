@@ -1,11 +1,16 @@
+# Warm monochrome eza theme aligned with the achroma palette.
+# Rendered from the shared palette (.chezmoidata/colors.yml). eza reads
+# exactly one $EZA_CONFIG_DIR/theme.yml, so each variant gets its own config
+# dir and the shell picks one via EZA_CONFIG_DIR (env/shell.nu, `theme`).
+# Anchor names are historical: light*/dark* mean fg-side/bg-side ROLES.
 palettes:
-  light01: &light01 "#b3b3b3"
-  light00: &light00 "#878787"
-  dark01: &dark01 "#686868"
-  dark00: &dark00 "#4e4e4e"
-  acc01: &acc01 "#b3b0a7"
-  acc00: &acc00 "#8e8b85"
-  error: &error "#b07878"
+  light01: &light01 "{{ .c.mono21 }}"
+  light00: &light00 "{{ .c.mono17 }}"
+  dark01: &dark01 "{{ .c.mono14 }}"
+  dark00: &dark00 "{{ .c.mono11 }}"
+  acc01: &acc01 "{{ .c.accDim05 }}"
+  acc00: &acc00 "{{ .c.accDim02 }}"
+  error: &error "{{ .c.red00 }}"
 
 colourful: false
 

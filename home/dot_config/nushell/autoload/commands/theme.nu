@@ -41,6 +41,9 @@ def --env theme [
   # Refresh this session; new shells re-resolve from the OS in env/variant.nu.
   $env.ACHROMA_VARIANT = $variant
   $env.DELTA_FEATURES = (if $variant == 'light' { 'achroma-light' } else { 'achroma' })
+  let vivid_theme = (if $variant == 'light' { 'achroma-light.yml' } else { 'achroma.yml' })
+  $env.LS_COLORS = (vivid generate ($env.XDG_CONFIG_HOME | path join 'vivid' 'themes' $vivid_theme) | str trim)
+  $env.EZA_CONFIG_DIR = ($env.XDG_CONFIG_HOME | path join 'eza' (if $variant == 'light' { 'achroma-light' } else { 'achroma' }))
 
   # Tools with one selection key in their applied config: flip it in place.
   let flips = [
@@ -61,5 +64,6 @@ def --env theme [
   print $'app theme -> ($variant)'
   print 'follows automatically: wezterm, nvim, bat, delta, windows terminal, zed, yazi, opencode, zellij'
   print 'config flipped in place (restart if running): jjui, k9s, starship'
+  print 'refreshed in this session: delta, LS_COLORS (vivid), eza'
   print 'per-session (restart shell/app): fzf colors, nushell color_config, other running shells'
 }

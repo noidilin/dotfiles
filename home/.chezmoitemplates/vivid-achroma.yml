@@ -6,67 +6,12 @@
 #  3. The media/document file types don't all use green00. These can be
 #     customised according to personal preference and desired granularity.
 
+# Rendered from the shared achroma palette (.chezmoidata/colors.yml).
+
 colors:
-  mono25: 'eaeaea' # #eaeaea
-  mono24: 'dcdcdc' # #dcdcdc
-  mono23: 'cccccc' # #cccccc
-  mono22: 'c0c0c0' # #c0c0c0
-  mono21: 'b3b3b3' # #b3b3b3 text
-  mono20: 'aaaaaa' # #aaaaaa
-  mono19: '9d9d9d' # #9d9d9d subtext1
-  mono18: '8e8e8e' # #8e8e8e
-  mono17: '878787' # #878787 subtext0
-  mono16: '7f7f7f' # #7f7f7f
-  mono15: '707070' # #707070 overlay2
-  mono14: '686868' # #686868
-  mono13: '5d5d5d' # #5d5d5d overlay1
-  mono12: '555555' # #555555
-  mono11: '4e4e4e' # #4e4e4e overlay0
-  mono10: '474747' # #474747
-  mono09: '414141' # #414141 surface2
-  mono08: '3a3a3a' # #3a3a3a
-  mono07: '353535' # #353535 surface1
-  mono06: '303030' # #303030
-  mono05: '2a2a2a' # #2a2a2a surface0
-  mono04: '242424' # #242424
-  mono03: '1e1e1e' # #1e1e1e base
-  mono02: '191919' # #191919 mantle
-  mono01: '151515' # #151515 crust
-  mono00: '101010' # #101010
-
-  acc08: 'faf5eb' # #faf5eb
-  acc07: 'dad5c8' # #dad5c8
-  acc06: 'c0baad' # #c0baad
-  acc05: 'b3ad9f' # #b3ad9f
-  acc04: 'a69f91' # #a69f91
-  acc03: '9a9487' # #9a9487
-  acc02: '8e897d' # #8e897d
-  acc01: '7f7b70' # #7f7b70
-  acc00: '706c62' # #706c62
-  accDim08: 'f7f4ed' # #f7f4ed
-  accDim07: 'd6d3cc' # #d6d3cc
-  accDim06: 'bdbab2' # #bdbab2
-  accDim05: 'b4b0a7' # #b4b0a7
-  accDim04: 'a19d97' # #a19d97
-  accDim03: '97948c' # #97948c
-  accDim02: '8e8b85' # #8e8b85
-  accDim01: '7b7974' # #7b7974
-  accDim00: '6c6a65' # #6c6a65
-
-  red01: 'cc9393' # #cc9393
-  red00: 'b07878' # #b07878
-  green01: '9bb09b' # #9bb09b
-  green00: '778777' # #778777
-  yellow01: 'ebd6b7' # #ebd6b7
-  yellow00: 'd6caab' # #d6caab
-  blue01: '9db2cf' # #9db2cf
-  blue00: '7d96ad' # #7d96ad
-  magenta01: '9f9fbd' # #9f9fbd
-  magenta00: '797994' # #797994
-  cyan01: '92b3b3' # #92b3b3
-  cyan00: '769494' # #769494
-  orange01: 'dcb5a5' # #dcb5a5
-  orange00: 'c8a492' # #c8a492
+{{- range $k, $v := .c }}
+  {{ $k }}: '{{ trimPrefix "#" $v }}' # {{ $v }}
+{{- end }}
 
 # core:
 #     normal_text, regular_file, reset_to_normal, directory, symlink, multi_hard_link, fifo, socket, door,
