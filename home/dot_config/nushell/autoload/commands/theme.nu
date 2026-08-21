@@ -17,8 +17,10 @@
 # caveat as the key flips). lazygit (LG_CONFIG_FILE) and gh-dash
 # (GH_DASH_CONFIG) resolve from env at launch and are refreshed here.
 #
-# Still dark-only (deferred): GUI apps without OS/theme detection
-# (flow-launcher, stylus, shareX, antinote, blender, fcitx5).
+# zebar follows the OS app theme on its own (bootstrap in its main.html).
+# flow-launcher and antinote have light theme files but the app's theme is
+# selected in-app, not flipped here. Still dark-only (deferred): blender,
+# stylus userstyles, shareX, fcitx5.
 def --env theme [
   variant?: string # 'light' or 'dark'; omit to show the current state
 ] {

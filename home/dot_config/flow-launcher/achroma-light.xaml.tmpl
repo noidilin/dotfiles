@@ -1,0 +1,9 @@
+{{- /* Background-side tones step toward the mid of the ramp: the mirrored
+   roles are nearly invisible on the light base because the light ramp is
+   compressed at that end. */ -}}
+{{- template "flow-launcher-achroma.xaml" (dict
+      "c" .color.achroma.light
+      "ink" (dict
+        "surface" .color.achroma.light.mono07
+        "faint" .color.achroma.light.mono10
+        "hotkey" .color.achroma.light.mono09)) -}}

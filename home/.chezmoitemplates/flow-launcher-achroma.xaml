@@ -24,23 +24,23 @@
         <Setter Property="Width" Value="4" />
         <Setter Property="Height" Value="42" />
         <Setter Property="CornerRadius" Value="2" />
-        <Setter Property="Background" Value="#8e8b85" />
+        <Setter Property="Background" Value="{{ .c.accDim02 }}" />
     </Style>
     <Style
         x:Key="ItemGlyph"
         BasedOn="{StaticResource BaseGlyphStyle}"
         TargetType="{x:Type TextBlock}">
-        <Setter Property="Foreground" Value="#b4b0a7" /> <!-- search result icon color -->
+        <Setter Property="Foreground" Value="{{ .c.accDim05 }}" /> <!-- search result icon color -->
         <Setter Property="Margin" Value="-4,0,0,0" />
     </Style>
     <Style
         x:Key="PreviewGlyph"
         BasedOn="{StaticResource BasePreviewGlyph}"
         TargetType="{x:Type TextBlock}">
-        <Setter Property="Foreground" Value="#b4b0a7" /> <!--selected icon color in preview window -->
+        <Setter Property="Foreground" Value="{{ .c.accDim05 }}" /> <!--selected icon color in preview window -->
     </Style>
     <Style x:Key="ItemGlyphSelectedStyle" TargetType="{x:Type TextBlock}">
-        <Setter Property="Foreground" Value="#b4b0a7" /> <!-- search result icon selected color -->
+        <Setter Property="Foreground" Value="{{ .c.accDim05 }}" /> <!-- search result icon selected color -->
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="Margin" Value="-4,0,0,0" />
@@ -52,10 +52,10 @@
         x:Key="QueryBoxStyle"
         BasedOn="{StaticResource BaseQueryBoxStyle}"
         TargetType="{x:Type TextBox}">
-        <Setter Property="SelectionBrush" Value="#414141" />
+        <Setter Property="SelectionBrush" Value="{{ .ink.faint }}" />
         <Setter Property="Background" Value="Transparent" /> <!-- search text bg color -->
-        <Setter Property="CaretBrush" Value="#eaeaea" /> <!-- search cursor color -->
-        <Setter Property="Foreground" Value="#eaeaea" /> <!-- Font Color -->
+        <Setter Property="CaretBrush" Value="{{ .c.mono25 }}" /> <!-- search cursor color -->
+        <Setter Property="Foreground" Value="{{ .c.mono25 }}" /> <!-- Font Color -->
         <Setter Property="FontSize" Value="22" />
         <Setter Property="Height" Value="42" />
         <Setter Property="Padding" Value="0,4,50,0" />
@@ -65,7 +65,7 @@
         BasedOn="{StaticResource BaseQuerySuggestionBoxStyle}"
         TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="Transparent" /> <!-- suggestion text bg color -->
-        <Setter Property="Foreground" Value="#5d5d5d" /> <!-- suggestion text color -->
+        <Setter Property="Foreground" Value="{{ .c.mono13 }}" /> <!-- suggestion text color -->
         <Setter Property="FontSize" Value="22" />
         <Setter Property="Height" Value="42" />
         <Setter Property="Padding" Value="0,4,50,0" />
@@ -75,9 +75,9 @@
         BasedOn="{StaticResource BaseWindowBorderStyle}"
         TargetType="{x:Type Border}">
         <Setter Property="BorderThickness" Value="2" />
-        <Setter Property="BorderBrush" Value="#2a2a2a" /> <!-- window border color -->
+        <Setter Property="BorderBrush" Value="{{ .ink.surface }}" /> <!-- window border color -->
         <Setter Property="CornerRadius" Value="10" />
-        <Setter Property="Background" Value="#1e1e1e" /> <!-- window bg color -->
+        <Setter Property="Background" Value="{{ .c.mono03 }}" /> <!-- window bg color -->
         <Setter Property="UseLayoutRounding" Value="True" />
     </Style>
     <Style
@@ -92,7 +92,7 @@
         x:Key="PendingLineStyle"
         BasedOn="{StaticResource BasePendingLineStyle}"
         TargetType="{x:Type Line}"> 
-        <Setter Property="Stroke" Value="#dcdcdc" /> <!-- loading bar color -->
+        <Setter Property="Stroke" Value="{{ .c.mono24 }}" /> <!-- loading bar color -->
     </Style>
 
     <!--  Item Style  -->
@@ -100,36 +100,36 @@
         x:Key="ItemTitleStyle"
         BasedOn="{StaticResource BaseItemTitleStyle}"
         TargetType="{x:Type TextBlock}">
-        <Setter Property="Foreground" Value="#7f7f7f" />  <!-- results title color -->
+        <Setter Property="Foreground" Value="{{ .c.mono16 }}" />  <!-- results title color -->
     </Style>
     <Style
         x:Key="ItemSubTitleStyle"
         BasedOn="{StaticResource BaseItemSubTitleStyle}"
         TargetType="{x:Type TextBlock}">
-        <Setter Property="Foreground" Value="#5d5d5d" /> <!-- result sub-title color -->
+        <Setter Property="Foreground" Value="{{ .c.mono13 }}" /> <!-- result sub-title color -->
         <Setter Property="FontSize" Value="13" />
     </Style>
     <Style
         x:Key="ItemNumberStyle"
         BasedOn="{StaticResource BaseItemNumberStyle}"
         TargetType="{x:Type TextBlock}">
-        <Setter Property="Foreground" Value="#dcdcdc" />
+        <Setter Property="Foreground" Value="{{ .c.mono24 }}" />
     </Style>
     <Style
         x:Key="ItemTitleSelectedStyle"
         BasedOn="{StaticResource BaseItemTitleSelectedStyle}"
         TargetType="{x:Type TextBlock}">
         <Setter Property="Cursor" Value="Arrow" />
-        <Setter Property="Foreground" Value="#cccccc" /> <!-- selected results title color -->
+        <Setter Property="Foreground" Value="{{ .c.mono23 }}" /> <!-- selected results title color -->
     </Style>
     <Style
         x:Key="ItemSubTitleSelectedStyle"
         BasedOn="{StaticResource BaseItemSubTitleSelectedStyle}"
         TargetType="{x:Type TextBlock}">
         <Setter Property="Cursor" Value="Arrow" />
-        <Setter Property="Foreground" Value="#9d9d9d" /> <!-- selected result sub-title color -->
+        <Setter Property="Foreground" Value="{{ .c.mono19 }}" /> <!-- selected result sub-title color -->
     </Style>
-    <SolidColorBrush x:Key="ItemSelectedBackgroundColor">#2a2a2a</SolidColorBrush> <!-- selected box bg color -->
+    <SolidColorBrush x:Key="ItemSelectedBackgroundColor">{{ .ink.surface }}</SolidColorBrush> <!-- selected box bg color -->
     <Style
         x:Key="ItemImageSelectedStyle"
         BasedOn="{StaticResource BaseItemImageSelectedStyle}"
@@ -137,15 +137,15 @@
         <Setter Property="Cursor" Value="Arrow" />
     </Style>
     <Style x:Key="HighlightStyle">
-        <Setter Property="Inline.Foreground" Value="#faf5eb" /> <!-- color of word mathing search result-->
+        <Setter Property="Inline.Foreground" Value="{{ .c.acc08 }}" /> <!-- color of word mathing search result-->
     </Style>
     <Style x:Key="ItemHotkeyStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="FontSize" Value="13" />
-        <Setter Property="Foreground" Value="#353535" /> <!-- hotkey color -->
+        <Setter Property="Foreground" Value="{{ .ink.hotkey }}" /> <!-- hotkey color -->
     </Style>
     <Style x:Key="ItemHotkeySelectedStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="FontSize" Value="13" />
-        <Setter Property="Foreground" Value="#4e4e4e" /> <!-- hotkey selected color -->
+        <Setter Property="Foreground" Value="{{ .c.mono11 }}" /> <!-- hotkey selected color -->
     </Style>
     
     <!--  button style in the middle of the scrollbar  -->
@@ -162,7 +162,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Border
-                        Background="#2a2a2a" 
+                        Background="{{ .ink.surface }}" 
                         BorderBrush="Transparent"
                         BorderThickness="0"
                         CornerRadius="2"
@@ -179,7 +179,7 @@
         x:Key="SeparatorStyle"
         BasedOn="{StaticResource BaseSeparatorStyle}"
         TargetType="{x:Type Rectangle}">
-        <Setter Property="Fill" Value="#2a2a2a" /> <!-- dividers color -->
+        <Setter Property="Fill" Value="{{ .ink.surface }}" /> <!-- dividers color -->
         <Setter Property="Height" Value="1" />
         <Setter Property="Margin" Value="0,0,0,8" />
     </Style>
@@ -187,7 +187,7 @@
         x:Key="SearchIconStyle"
         BasedOn="{StaticResource BaseSearchIconStyle}"
         TargetType="{x:Type Path}">
-        <Setter Property="Fill" Value="#414141" /> <!-- magnigying glass color -->
+        <Setter Property="Fill" Value="{{ .ink.faint }}" /> <!-- magnigying glass color -->
         <Setter Property="Width" Value="30" />
         <Setter Property="Height" Value="30" />
     </Style>
@@ -195,31 +195,31 @@
         x:Key="ClockBox"
         BasedOn="{StaticResource BaseClockBox}"
         TargetType="{x:Type TextBlock}">
-        <Setter Property="Foreground" Value="#707070" /> <!-- time color -->
+        <Setter Property="Foreground" Value="{{ .c.mono15 }}" /> <!-- time color -->
     </Style>
     <Style
         x:Key="DateBox"
         BasedOn="{StaticResource BaseDateBox}"
         TargetType="{x:Type TextBlock}">
-        <Setter Property="Foreground" Value="#414141" /> <!-- date color -->
+        <Setter Property="Foreground" Value="{{ .ink.faint }}" /> <!-- date color -->
     </Style>
     <Style
         x:Key="PreviewBorderStyle"
         BasedOn="{StaticResource BasePreviewBorderStyle}" 
         TargetType="{x:Type Border}">
-        <Setter Property="BorderBrush" Value="#2a2a2a" /> <!-- preview box divider color -->
+        <Setter Property="BorderBrush" Value="{{ .ink.surface }}" /> <!-- preview box divider color -->
     </Style>
     <Style
         x:Key="PreviewItemTitleStyle"
         BasedOn="{StaticResource BasePreviewItemTitleStyle}"
         TargetType="{x:Type TextBlock}">
-        <Setter Property="Foreground" Value="#b3b3b3" /> <!-- preview title text color -->
+        <Setter Property="Foreground" Value="{{ .c.mono21 }}" /> <!-- preview title text color -->
     </Style>
     <Style
         x:Key="PreviewItemSubTitleStyle"
         BasedOn="{StaticResource BasePreviewItemSubTitleStyle}"
         TargetType="{x:Type TextBlock}">
-        <Setter Property="Foreground" Value="#8e8b85" /> <!-- preview sub-title text color -->
+        <Setter Property="Foreground" Value="{{ .c.accDim02 }}" /> <!-- preview sub-title text color -->
     </Style>
     
 </ResourceDictionary>
