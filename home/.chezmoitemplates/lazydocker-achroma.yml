@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://json.schemastore.org/lazydocker.json
+
+# lazydocker reads exactly one config.yml (no env/flag to point elsewhere at
+# runtime), so `theme` copies the variant render over it — same
+# chezmoi-apply-resets-to-dark caveat as carapace.
+gui:
+  theme:
+    activeBorderColor:
+      - "{{ .c.mono23 }}"
+      - bold
+    inactiveBorderColor:
+      - "{{ .c.mono13 }}"
+    selectedLineBgColor:
+      - "{{ .ink.selectionBg }}"
+    optionsTextColor:
+      - "{{ .c.mono11 }}"

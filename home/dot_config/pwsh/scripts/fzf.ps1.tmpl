@@ -1,0 +1,62 @@
+{{- $d := .color.achroma.dark -}}
+{{- $l := .color.achroma.light -}}
+# generated theme permalink: https://vitormv.github.io/fzf-themes#eyJib3JkZXJTdHlsZSI6InJvdW5kZWQiLCJib3JkZXJMYWJlbCI6ImZ6ZiIsImJvcmRlckxhYmVsUG9zaXRpb24iOjAsInByZXZpZXdCb3JkZXJTdHlsZSI6InJvdW5kZWQiLCJwYWRkaW5nIjoiMiIsIm1hcmdpbiI6IjIiLCJwcm9tcHQiOiI+ICIsIm1hcmtlciI6Ij4iLCJwb2ludGVyIjoi4peGIiwic2VwYXJhdG9yIjoi4pSAIiwic2Nyb2xsYmFyIjoi4pSCIiwibGF5b3V0IjoicmV2ZXJzZSIsImluZm8iOiJyaWdodCIsImNvbG9ycyI6ImZnOiM4ZThlOGUsZmcrOiNiM2IzYjMsYmc6IzE5MTkxOSxiZys6IzE5MTkxOSxobDojYTY5ZjkxLGhsKzojZGFkNWM4LGluZm86IzQ3NDc0NyxtYXJrZXI6I2IzYWQ5Zixwcm9tcHQ6I2VhZWFlYSxzcGlubmVyOiM3MDZjNjIscG9pbnRlcjojOGU4OTdkLGhlYWRlcjojYjNiM2IzLGJvcmRlcjojMmEyYTJhLGxhYmVsOiNiM2IzYjMscXVlcnk6I2RjZGNkYyJ9
+# bg set to -1 will use the terminal default bg color
+# achroma colors: both variants rendered from .chezmoidata/colors.yml (same
+# role per slot); picked at shell start by ACHROMA_VARIANT (scripts/variant.ps1).
+$achromaFzfColors = if ($env:ACHROMA_VARIANT -eq 'light') {
+@"
+--color=fg:{{ $l.mono18 }},fg+:{{ $l.mono21 }},bg:-1,bg+:-1
+--color=hl:{{ $l.acc04 }},hl+:{{ $l.acc07 }},info:{{ $l.mono10 }},marker:{{ $l.acc05 }}
+--color=prompt:{{ $l.mono25 }},spinner:{{ $l.acc00 }},pointer:{{ $l.acc02 }},header:{{ $l.mono21 }}
+--color=border:{{ $l.mono05 }},label:{{ $l.mono21 }},query:{{ $l.mono24 }}
+"@
+} else {
+@"
+--color=fg:{{ $d.mono18 }},fg+:{{ $d.mono21 }},bg:-1,bg+:-1
+--color=hl:{{ $d.acc04 }},hl+:{{ $d.acc07 }},info:{{ $d.mono10 }},marker:{{ $d.acc05 }}
+--color=prompt:{{ $d.mono25 }},spinner:{{ $d.acc00 }},pointer:{{ $d.acc02 }},header:{{ $d.mono21 }}
+--color=border:{{ $d.mono05 }},label:{{ $d.mono21 }},query:{{ $d.mono24 }}
+"@
+}
+$env:FZF_DEFAULT_OPTS = @"
+$achromaFzfColors
+--padding="2" --margin="2" --layout=reverse --info="right"
+--prompt="> " --marker=">" --pointer="◆" --separator="─" --scrollbar="│"
+--border="rounded" --border-label="fzf" --border-label-pos="0"
+--cycle --scroll-off=5
+--preview-window=right,60%,border-left
+--bind ctrl-u:preview-half-page-up
+--bind ctrl-d:preview-half-page-down
+--bind ctrl-f:preview-page-down
+--bind ctrl-b:preview-page-up
+--bind ctrl-g:preview-top
+--bind ctrl-h:preview-bottom
+--bind alt-w:toggle-preview-wrap
+--bind ctrl-e:toggle-preview
+"@
+Remove-Variable achromaFzfColors
+
+$env:FZF_DEFAULT_COMMAND = "fd --hidden --strip-cwd-prefix --exclude .git"
+$env:FZF_CTRL_T_COMMAND = $FZF_DEFAULT_COMMAND
+$env:FZF_ALT_C_COMMAND = "fd --type dir --hidden --strip-cwd-prefix --exclude .git"
+
+# Add preview to ctrl+t and alt+c command
+$preview_path_or_dir = "if (Test-Path -PathType Container '{}') { eza --tree --level=3 --color=always --icons=always '{}'} else { bat -n --color=always --line-range :500 '{}'}"
+$env:FZF_CTRL_T_OPTS = "--height 100% --preview 'powershell -Command $preview_path_or_dir'"
+$env:FZF_ALT_C_OPTS = "--preview 'eza --tree --level=3 --color=always --icons=always {}'"
+
+<# PsFzf
+ - fs (start fzf on scoop app list)
+ - fkill (runs Stop-Process on processes selected by the user in fzf)
+#>
+
+Set-PsFzfOption `
+  -PSReadlineChordProvider "Ctrl+t" `
+  -PSReadlineChordReverseHistory "Ctrl+r" `
+  -GitKeyBindings `
+  -TabExpansion `
+  -EnableAliasFuzzyScoop `
+  -EnableAliasFuzzyKillProcess
+
+Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }

@@ -12,11 +12,13 @@
 # resolve from ACHROMA_VARIANT at shell start and are refreshed here; nushell's
 # color_config resolves at shell start only.
 #
-# carapace reads exactly one styles.json, so the variant render is copied
-# over it below (same chezmoi-apply-resets-to-dark caveat as the key flips).
+# carapace, bottom and lazydocker read exactly one config file, so the
+# variant render is copied over it below (same chezmoi-apply-resets-to-dark
+# caveat as the key flips). lazygit (LG_CONFIG_FILE) and gh-dash
+# (GH_DASH_CONFIG) resolve from env at launch and are refreshed here.
 #
-# Still dark-only (deferred): lazygit, lazydocker, gh-dash, bottom,
-# zsh/mac fzf, GUI apps.
+# Still dark-only (deferred): GUI apps without OS/theme detection
+# (flow-launcher, stylus, shareX, antinote, blender, fcitx5).
 def --env theme [
   variant?: string # 'light' or 'dark'; omit to show the current state
 ] {
@@ -48,6 +50,12 @@ def --env theme [
   let vivid_theme = (if $variant == 'light' { 'achroma-light.yml' } else { 'achroma.yml' })
   $env.LS_COLORS = (vivid generate ($env.XDG_CONFIG_HOME | path join 'vivid' 'themes' $vivid_theme) | str trim)
   $env.EZA_CONFIG_DIR = ($env.XDG_CONFIG_HOME | path join 'eza' (if $variant == 'light' { 'achroma-light' } else { 'achroma' }))
+  let suffix = (if $variant == 'light' { '-light' } else { '' })
+  $env.LG_CONFIG_FILE = ([
+    ($env.XDG_CONFIG_HOME | path join 'lazygit' 'config.yml')
+    ($env.XDG_CONFIG_HOME | path join 'lazygit' $'theme-achroma($suffix).yml')
+  ] | str join ',')
+  $env.GH_DASH_CONFIG = ($env.XDG_CONFIG_HOME | path join 'gh-dash' $'config-achroma($suffix).yml')
 
   # Tools with one selection key in their applied config: flip it in place.
   let flips = [
@@ -67,16 +75,22 @@ def --env theme [
     }
   }
 
-  # carapace reads exactly one styles.json: copy the variant render over it.
-  let cara = ($env.XDG_CONFIG_HOME | path join 'carapace')
-  let cara_src = ($cara | path join (if $variant == 'light' { 'styles-achroma-light.json' } else { 'styles-achroma.json' }))
-  if ($cara_src | path exists) {
-    open --raw $cara_src | save --force --raw ($cara | path join 'styles.json')
+  # Tools that read exactly one config file: copy the variant render over it.
+  let copies = [
+    [src dst];
+    [($env.XDG_CONFIG_HOME | path join 'carapace' $'styles-achroma($suffix).json') ($env.XDG_CONFIG_HOME | path join 'carapace' 'styles.json')]
+    [($env.XDG_CONFIG_HOME | path join 'bottom' $'bottom-achroma($suffix).toml') ($env.XDG_CONFIG_HOME | path join 'bottom' 'bottom.toml')]
+    [($env.XDG_CONFIG_HOME | path join 'lazydocker' $'config-achroma($suffix).yml') ($env.XDG_CONFIG_HOME | path join 'lazydocker' 'config.yml')]
+  ]
+  for c in $copies {
+    if ($c.src | path exists) {
+      open --raw $c.src | save --force --raw $c.dst
+    }
   }
 
   print $'app theme -> ($variant)'
   print 'follows automatically: wezterm, nvim, bat, delta, windows terminal, zed, yazi, opencode, zellij'
-  print 'config flipped in place (restart if running): jjui, k9s, starship, pi, posting, carapace'
-  print 'refreshed in this session: delta, LS_COLORS (vivid), eza'
+  print 'config flipped in place (restart if running): jjui, k9s, starship, pi, posting, carapace, bottom, lazydocker'
+  print 'refreshed in this session: delta, LS_COLORS (vivid), eza, lazygit, gh-dash'
   print 'per-session (restart shell/app): fzf colors, nushell color_config, other running shells'
 }

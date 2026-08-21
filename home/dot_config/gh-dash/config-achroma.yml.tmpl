@@ -1,0 +1,8 @@
+{{- $d := .color.achroma.dark -}}
+{{- template "gh-dash-achroma.yml" (dict
+      "c" $d
+      "ink" (dict
+        "selectionBg" $d.mono05
+        "border" $d.mono07
+        "borderSecondary" $d.mono05
+        "borderFaint" $d.mono03)) -}}

@@ -22,8 +22,7 @@ $env:PATH += ";$HOME\.dev\uv\bin"
 $env:PATH += ";$HOME\.dev\pnpm"
 $env:PATH += ";$HOME\.dev\bun\bin"
 
-# shell cli
-$env:EZA_CONFIG_DIR = "$HOME\.config\eza"
+# shell cli (EZA_CONFIG_DIR is variant-dependent: scripts/variant.ps1)
 $env:BAT_CONFIG_DIR = "$HOME\.config\bat"
 $env:YAZI_CONFIG_HOME = "$HOME\.config\yazi"
 $env:YAZI_FILE_ONE = "$HOME\scoop\apps\git\current\usr\bin\file.exe"
@@ -34,6 +33,7 @@ $env:YAZI_FILE_ONE = "$HOME\scoop\apps\git\current\usr\bin\file.exe"
 
 Import-Module PSReadLine
 
+. "$HOME\.config\pwsh\scripts\variant.ps1"
 . "$HOME\.config\pwsh\scripts\PSReadLine.ps1"
 . "$HOME\.config\pwsh\scripts\fzf.ps1"
 . "$HOME\.config\pwsh\scripts\eza.ps1"

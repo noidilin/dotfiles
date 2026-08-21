@@ -1,0 +1,84 @@
+# These are all the components that support custom theming.  Note that colour support will depend on terminal support.
+"$schema" = "https://github.com/ClementTsang/bottom/blob/main/schema/v0.10/bottom.json"
+
+# bottom reads exactly one config file (only a --config_location flag, no env
+# var), so `theme` copies the variant render over bottom.toml — same
+# chezmoi-apply-resets-to-dark caveat as carapace.
+
+[flags]
+# Show memory values in the processes widget as values by default
+processes.default_memory_value = true
+
+[styles]
+# This will have the lowest precedence if a custom colour palette is set,
+# or overridden if the command-line flag for a built-in theme is set.
+theme = "default"
+
+[styles.cpu]
+all_entry_color = '{{ .c.accDim07 }}'
+avg_entry_color = '{{ .c.accDim06 }}'
+cpu_core_colors = [ '{{ .c.red01 }}', '{{ .c.yellow01 }}', '{{ .c.green01 }}', '{{ .c.orange01 }}', '{{ .c.acc07 }}', '{{ .c.acc05 }}', '{{ .c.acc03 }}', '{{ .c.acc01 }}', '{{ .c.mono13 }}', '{{ .c.mono11 }}' ]
+
+[styles.memory]
+ram_color = '{{ .c.mono22 }}'
+cache_color = '{{ .c.mono15 }}'
+swap_color = '{{ .c.mono19 }}'
+arc_color = '{{ .c.mono13 }}'
+gpu_colors = [ '{{ .c.red00 }}', '{{ .c.magenta00 }}', '{{ .c.cyan00 }}', '{{ .c.yellow00 }}', '{{ .c.orange00 }}', '{{ .c.green00 }}' ]
+
+[styles.network]
+rx_color = '{{ .c.mono20 }}'
+tx_color = '{{ .c.mono15 }}'
+rx_total_color = '{{ .c.mono22 }}'
+tx_total_color = '{{ .c.mono19 }}'
+
+[styles.battery]
+high_battery_color = '{{ .c.green00 }}'
+medium_battery_color = '{{ .c.yellow00 }}'
+low_battery_color = '{{ .c.red00 }}'
+
+[styles.tables]
+headers = { color = '{{ .c.acc07 }}', bold = true }
+
+[styles.graphs]
+graph_color = '{{ .c.mono15 }}'
+legend_text = { color = '{{ .c.mono19 }}' }
+
+[styles.widgets]
+border_color = '{{ .ink.border }}'
+selected_border_color = '{{ .c.mono15 }}'
+widget_title = { color = '{{ .c.acc08 }}' }
+text = { color = '{{ .c.mono17 }}' }
+selected_text = {color = '{{ .c.mono25 }}', bg_color = '{{ .ink.selectionBg }}'}
+disabled_text = {color = '{{ .c.mono11 }}'}
+
+# Layout - layouts follow a pattern like this:
+# [[row]] represents a row in the application.
+# [[row.child]] represents either a widget or a column.
+# [[row.child.child]] represents a widget.
+#
+# All widgets must have the type value set to one of ["cpu", "mem", "proc", "net", "temp", "disk", "empty"].
+# All layout components have a ratio value - if this is not set, then it defaults to 1.
+# The default widget layout:
+[[row]]
+  ratio=20
+  [[row.child]]
+    # ratio=4
+    type="net"
+  [[row.child]]
+    # ratio=3
+    # [[row.child.child]]
+      # type="temp"
+    [[row.child.child]]
+      type="disk"
+[[row]]
+  ratio=40
+  [[row.child]]
+    type="mem"
+  [[row.child]]
+    type="cpu"
+[[row]]
+  ratio=40
+  [[row.child]]
+    type="proc"
+    default=true

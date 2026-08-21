@@ -1,0 +1,11 @@
+{{- /* Selection/border tones step toward the mid of the ramp: the mirrored
+   background-side roles are nearly invisible on the light base because the
+   light ramp is compressed at that end. */ -}}
+{{- $l := .color.achroma.light -}}
+{{- template "gh-dash-achroma.yml" (dict
+      "c" $l
+      "ink" (dict
+        "selectionBg" $l.mono07
+        "border" $l.mono10
+        "borderSecondary" $l.mono07
+        "borderFaint" $l.mono05)) -}}

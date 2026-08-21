@@ -1,0 +1,6 @@
+{{- /* Selection bg steps to mono07: the mirrored mono05 is nearly invisible
+   on the light base because the light ramp is compressed at the background
+   end. */ -}}
+{{- template "lazydocker-achroma.yml" (dict
+      "c" .color.achroma.light
+      "ink" (dict "selectionBg" .color.achroma.light.mono07)) -}}
