@@ -1,5 +1,13 @@
 const CONFIG_DIR = ($nu.default-config-dir | path join 'config')
-use $CONFIG_DIR [ 'completions' 'theme' 'menus' 'keybindings' 'os' ]
+use $CONFIG_DIR [ 'completions' 'palette' 'menus' 'keybindings' 'os' ]
+
+# env that $env.config depends on: variant.nu must set ACHROMA_VARIANT before
+# (palette) picks the color_config below.
+const ENV_DIR = ($nu.default-config-dir | path join 'env')
+
+load-env (os init-os-env)
+source ($ENV_DIR | path join 'xdg.nu')
+source ($ENV_DIR | path join 'variant.nu')
 
 $env.config = {
   buffer_editor: nvim
@@ -8,7 +16,7 @@ $env.config = {
   cursor_shape: { vi_normal: block vi_insert: line }
   highlight_resolved_externals: true # highlighting of external commands in the repl resolved by which
   completions: (completions)
-  color_config: (theme)
+  color_config: (palette)
   menus: (menus)
   keybindings: (keybindings)
   shell_integration: { osc133: false }
@@ -21,11 +29,6 @@ $env.config = {
 # Issue #5585 · nushell/nushell (https://github.com/nushell/nushell/issues/5585#issuecomment-2138885215)
 
 # env
-const ENV_DIR = ($nu.default-config-dir | path join 'env')
-
-load-env (os init-os-env)
-source ($ENV_DIR | path join 'xdg.nu')
-source ($ENV_DIR | path join 'variant.nu')
 source ($ENV_DIR | path join 'dev.nu')
 source ($ENV_DIR | path join 'shell.nu')
 source ($ENV_DIR | path join 'fzf.nu')
