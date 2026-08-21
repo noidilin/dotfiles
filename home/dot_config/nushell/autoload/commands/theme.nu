@@ -5,10 +5,14 @@
 # its own: wezterm -> neovim (OSC 11), bat, delta's mode detection, ghostty,
 # windows terminal, zed, yazi, opencode. This command also refreshes the env
 # vars for the current session (other running shells re-resolve on start).
+# zellij switches natively (theme_dark/theme_light in config.kdl). jjui and
+# k9s have a single selection key: flipped in place below (chezmoi's source
+# keeps the dark default, so `chezmoi apply` resets them to dark -- rerun
+# this command after applying while in light mode).
 #
 # Still dark-only, to be wired up here as their light themes land:
-# zellij, k9s, jjui, pi, posting, starship palette, vivid/LS_COLORS, eza,
-# carapace, nushell's own color_config.
+# pi, posting, starship palette, vivid/LS_COLORS, eza, carapace,
+# nushell's own color_config.
 def --env theme [
   variant?: string # 'light' or 'dark'; omit to show the current state
 ] {
@@ -38,7 +42,23 @@ def --env theme [
   $env.ACHROMA_VARIANT = $variant
   $env.DELTA_FEATURES = (if $variant == 'light' { 'achroma-light' } else { 'achroma' })
 
+  # Tools with one selection key in their applied config: flip it in place.
+  let theme_name = (if $variant == 'light' { 'achroma-light' } else { 'achroma' })
+  let flips = [
+    [file key];
+    [($env.XDG_CONFIG_HOME | path join 'jjui' 'config.toml') 'theme = "']
+    [($env.XDG_CONFIG_HOME | path join 'k9s' 'config.yaml') 'skin: ']
+  ]
+  for f in $flips {
+    if ($f.file | path exists) {
+      open --raw $f.file
+      | str replace --regex ($f.key + 'achroma(-light)?') ($f.key + $theme_name)
+      | save --force --raw $f.file
+    }
+  }
+
   print $'app theme -> ($variant)'
-  print 'follows automatically: wezterm, nvim, bat, delta, windows terminal, zed, yazi, opencode'
-  print 'per-session (restart shell/app): fzf colors, other running shells'
+  print 'follows automatically: wezterm, nvim, bat, delta, windows terminal, zed, yazi, opencode, zellij'
+  print 'config flipped in place (restart if running): jjui, k9s'
+  print 'per-session (restart shell/app): fzf colors, nushell color_config, other running shells'
 }

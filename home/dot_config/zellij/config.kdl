@@ -299,7 +299,7 @@ load_plugins {
 
 theme "achroma"
 theme_dark "achroma"
-theme_light "achroma"
+theme_light "achroma-light"
 theme_dir "/Users/noid/.config/zellij/themes"
 default_mode "locked"
 default_layout "noid"

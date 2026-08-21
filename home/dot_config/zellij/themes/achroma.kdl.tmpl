@@ -1,0 +1,9 @@
+{{- /* Dark variant. Ink slots mirror the original hand-tuned values:
+   selected ribbon fill mono14, unselected frame mono07. */ -}}
+{{- template "zellij-achroma.kdl" (dict
+      "title" "Achroma"
+      "name" "achroma"
+      "c" .color.achroma.dark
+      "ink" (dict
+        "ribbonSelectedBg" .color.achroma.dark.mono14
+        "frameUnselectedBase" .color.achroma.dark.mono07)) -}}

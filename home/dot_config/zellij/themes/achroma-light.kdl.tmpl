@@ -1,0 +1,12 @@
+{{- /* Light variant. Ink slots step off the mirrored roles because the light
+   ramp is compressed at the background end: the selected ribbon fill uses
+   mono12 to keep the dark variant's lightness step from the bar background,
+   and the unselected frame uses mono10 (mirrored mono07 would be invisible
+   on the light base) -- same reasoning as wezterm's split color. */ -}}
+{{- template "zellij-achroma.kdl" (dict
+      "title" "Achroma Light"
+      "name" "achroma-light"
+      "c" .color.achroma.light
+      "ink" (dict
+        "ribbonSelectedBg" .color.achroma.light.mono12
+        "frameUnselectedBase" .color.achroma.light.mono10)) -}}

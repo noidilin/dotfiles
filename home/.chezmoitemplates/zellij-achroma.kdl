@@ -1,0 +1,118 @@
+// {{ .title }} theme for Zellij.
+// Uses explicit style groups rather than the older 11-color palette so built-in
+// plugins (eg. session-manager) and pane split/frame colors stay monochrome.
+// Rendered from the shared achroma palette (.chezmoidata/colors.yml); the two
+// ink slots don't survive role mirroring because the light ramp is compressed
+// at the background end (see wezterm config/theme.lua).
+
+themes {
+    {{ .name }} {
+        text_unselected {
+            base "{{ .c.mono21 }}"
+            emphasis_0 "{{ .c.acc07 }}"
+            emphasis_1 "{{ .c.mono18 }}"
+            emphasis_2 "{{ .c.mono14 }}"
+            emphasis_3 "{{ .c.mono12 }}"
+            background "{{ .c.mono02 }}"
+        }
+        text_selected {
+            base "{{ .c.acc07 }}"
+            emphasis_0 "{{ .c.acc07 }}"
+            emphasis_1 "{{ .c.mono21 }}"
+            emphasis_2 "{{ .c.mono18 }}"
+            emphasis_3 "{{ .c.mono14 }}"
+            background "{{ .c.mono05 }}"
+        }
+        ribbon_unselected {
+            base "{{ .c.mono02 }}"
+            emphasis_0 "{{ .c.mono21 }}"
+            emphasis_1 "{{ .c.acc07 }}"
+            emphasis_2 "{{ .c.mono18 }}"
+            emphasis_3 "{{ .c.mono14 }}"
+            background "{{ .c.mono10 }}"
+        }
+        ribbon_selected {
+            base "{{ .c.mono02 }}"
+            emphasis_0 "{{ .c.acc07 }}"
+            emphasis_1 "{{ .c.mono21 }}"
+            emphasis_2 "{{ .c.mono18 }}"
+            emphasis_3 "{{ .c.mono14 }}"
+            background "{{ .ink.ribbonSelectedBg }}"
+        }
+        table_title {
+            base "{{ .c.acc07 }}"
+            emphasis_0 "{{ .c.acc07 }}"
+            emphasis_1 "{{ .c.mono21 }}"
+            emphasis_2 "{{ .c.mono18 }}"
+            emphasis_3 "{{ .c.mono14 }}"
+            background "{{ .c.mono02 }}"
+        }
+        table_cell_unselected {
+            base "{{ .c.mono21 }}"
+            emphasis_0 "{{ .c.acc07 }}"
+            emphasis_1 "{{ .c.mono18 }}"
+            emphasis_2 "{{ .c.mono14 }}"
+            emphasis_3 "{{ .c.mono12 }}"
+            background "{{ .c.mono02 }}"
+        }
+        table_cell_selected {
+            base "{{ .c.acc07 }}"
+            emphasis_0 "{{ .c.acc07 }}"
+            emphasis_1 "{{ .c.mono21 }}"
+            emphasis_2 "{{ .c.mono18 }}"
+            emphasis_3 "{{ .c.mono14 }}"
+            background "{{ .c.mono05 }}"
+        }
+        list_unselected {
+            base "{{ .c.mono21 }}"
+            emphasis_0 "{{ .c.acc07 }}"
+            emphasis_1 "{{ .c.mono18 }}"
+            emphasis_2 "{{ .c.mono14 }}"
+            emphasis_3 "{{ .c.mono12 }}"
+            background "{{ .c.mono02 }}"
+        }
+        list_selected {
+            base "{{ .c.acc07 }}"
+            emphasis_0 "{{ .c.acc07 }}"
+            emphasis_1 "{{ .c.mono21 }}"
+            emphasis_2 "{{ .c.mono18 }}"
+            emphasis_3 "{{ .c.mono14 }}"
+            background "{{ .c.mono05 }}"
+        }
+        frame_unselected {
+            base "{{ .ink.frameUnselectedBase }}"
+            emphasis_0 "{{ .c.mono10 }}"
+            emphasis_1 "{{ .c.mono12 }}"
+            emphasis_2 "{{ .c.mono14 }}"
+            emphasis_3 "{{ .c.mono18 }}"
+        }
+        frame_selected {
+            base "{{ .c.mono14 }}"
+            emphasis_0 "{{ .c.mono18 }}"
+            emphasis_1 "{{ .c.mono21 }}"
+            emphasis_2 "{{ .c.acc07 }}"
+            emphasis_3 "{{ .c.mono12 }}"
+        }
+        frame_highlight {
+            base "{{ .c.mono18 }}"
+            emphasis_0 "{{ .c.mono21 }}"
+            emphasis_1 "{{ .c.acc07 }}"
+            emphasis_2 "{{ .c.mono14 }}"
+            emphasis_3 "{{ .c.mono12 }}"
+        }
+        exit_code_success {
+            base "{{ .c.mono18 }}"
+            emphasis_0 "{{ .c.mono18 }}"
+            emphasis_1 "{{ .c.mono18 }}"
+            emphasis_2 "{{ .c.mono18 }}"
+            emphasis_3 "{{ .c.mono18 }}"
+        }
+        exit_code_error {
+            base "{{ .c.red00 }}"
+            emphasis_0 "{{ .c.red00 }}"
+            emphasis_1 "{{ .c.red00 }}"
+            emphasis_2 "{{ .c.red00 }}"
+            emphasis_3 "{{ .c.red00 }}"
+        }
+    }
+}

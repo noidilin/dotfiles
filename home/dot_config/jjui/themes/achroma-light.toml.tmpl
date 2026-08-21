@@ -1,0 +1,5 @@
+{{- /* Borders step to mono10: the mirrored mono07 is nearly invisible on the
+   light base because the light ramp is compressed at the background end. */ -}}
+{{- template "jjui-achroma.toml" (dict
+      "c" .color.achroma.light
+      "ink" (dict "border" .color.achroma.light.mono10)) -}}
