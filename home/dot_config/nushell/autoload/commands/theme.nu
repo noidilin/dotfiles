@@ -43,22 +43,23 @@ def --env theme [
   $env.DELTA_FEATURES = (if $variant == 'light' { 'achroma-light' } else { 'achroma' })
 
   # Tools with one selection key in their applied config: flip it in place.
-  let theme_name = (if $variant == 'light' { 'achroma-light' } else { 'achroma' })
   let flips = [
-    [file key];
-    [($env.XDG_CONFIG_HOME | path join 'jjui' 'config.toml') 'theme = "']
-    [($env.XDG_CONFIG_HOME | path join 'k9s' 'config.yaml') 'skin: ']
+    [file key name];
+    [($env.XDG_CONFIG_HOME | path join 'jjui' 'config.toml') 'theme = "' 'achroma']
+    [($env.XDG_CONFIG_HOME | path join 'k9s' 'config.yaml') 'skin: ' 'achroma']
+    [($env.XDG_CONFIG_HOME | path join 'starship.toml') "palette = '" 'noidilin']
   ]
   for f in $flips {
     if ($f.file | path exists) {
+      let target = (if $variant == 'light' { $f.name + '-light' } else { $f.name })
       open --raw $f.file
-      | str replace --regex ($f.key + 'achroma(-light)?') ($f.key + $theme_name)
+      | str replace --regex ($f.key + $f.name + '(-light)?') ($f.key + $target)
       | save --force --raw $f.file
     }
   }
 
   print $'app theme -> ($variant)'
   print 'follows automatically: wezterm, nvim, bat, delta, windows terminal, zed, yazi, opencode, zellij'
-  print 'config flipped in place (restart if running): jjui, k9s'
+  print 'config flipped in place (restart if running): jjui, k9s, starship'
   print 'per-session (restart shell/app): fzf colors, nushell color_config, other running shells'
 }
