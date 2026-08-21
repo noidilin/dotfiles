@@ -1,0 +1,47 @@
+  --rosewater: {{ .c.orange01 }};
+  --flamingo: {{ .c.orange00 }};
+  --pink: {{ .c.magenta01 }};
+  --mauve: {{ .c.magenta00 }};
+  --red: {{ .c.red00 }};
+  --maroon: {{ .c.red01 }};
+  --peach: {{ .c.yellow00 }};
+  --yellow: {{ .c.yellow01 }};
+  --green: {{ .c.green00 }};
+  --teal: {{ .c.green01 }};
+  --sky: {{ .c.cyan01 }};
+  --sapphire: {{ .c.cyan00 }};
+  --blue: {{ .c.blue00 }};
+  --lavender: {{ .c.blue01 }};
+
+  --text: {{ .c.mono21 }};
+  --subtext1: {{ .c.mono19 }};
+  --subtext0: {{ .c.mono17 }};
+  --overlay2: {{ .c.mono15 }};
+  --overlay1: {{ .c.mono13 }};
+  --overlay0: {{ .c.mono11 }};
+  --surface2: {{ .c.mono09 }};
+  --surface1: {{ .c.mono07 }};
+  --surface0: {{ .c.mono05 }};
+  --base: {{ .c.mono03 }};
+  --mantle: {{ .c.mono02 }};
+  --crust: {{ .ink.crust }};
+
+  --accent8: {{ .c.acc08 }};
+  --accent7: {{ .c.acc07 }};
+  --accent6: {{ .c.acc06 }};
+  --accent5: {{ .c.acc05 }};
+  --accent4: {{ .c.acc04 }};
+  --accent3: {{ .c.acc03 }};
+  --accent2: {{ .c.acc02 }};
+  --accent1: {{ .c.acc01 }};
+  --accent0: {{ .c.acc00 }};
+
+  --accent-dim8: {{ .c.accDim08 }};
+  --accent-dim7: {{ .c.accDim07 }};
+  --accent-dim6: {{ .c.accDim06 }};
+  --accent-dim5: {{ .c.accDim05 }};
+  --accent-dim4: {{ .c.accDim04 }};
+  --accent-dim3: {{ .c.accDim03 }};
+  --accent-dim2: {{ .c.accDim02 }};
+  --accent-dim1: {{ .c.accDim01 }};
+  --accent-dim0: {{ .c.accDim00 }};

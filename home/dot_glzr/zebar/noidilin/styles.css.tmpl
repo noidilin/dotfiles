@@ -1,55 +1,31 @@
 /** Import the Nerdfonts icon font. */
 @import 'https://www.nerdfonts.com/assets/css/webfont.css';
 
-/* normalize */
+/*
+ * achroma -- dual variant.
+ *
+ * `:root` holds the LIGHT palette (the default). `:root.dark` overrides it with
+ * the DARK palette. The `dark` class is toggled by the small bootstrap script
+ * in main.html, which follows the Windows app theme unless overridden.
+ *
+ * Same palette as the wezterm (utils/palette*.lua) and neovim
+ * (lush_theme/_primitive.lua) achroma themes, under catppuccin-style names;
+ * both variants rendered from .chezmoidata/colors.yml.
+ */
+
+/* ---------- light (default) ---------- */
+/* crust ink: deliberately darker than --mantle so the bar reads as elevated */
 :root {
-  --rosewater: #dcb5a5;
-  --flamingo: #c8a492;
-  --pink: #9f9fbd;
-  --mauve: #797994;
-  --red: #b07878;
-  --maroon: #cc9393;
-  --peach: #d6caab;
-  --yellow: #ebd6b7;
-  --green: #778777;
-  --teal: #9bb09b;
-  --sky: #92b3b3;
-  --sapphire: #769494;
-  --blue: #7d96ad;
-  --lavender: #9db2cf;
+{{ template "zebar-achroma-vars.css" (dict
+     "c" .color.achroma.light
+     "ink" (dict "crust" "#f2f2f2")) -}}
+}
 
-  --text: #b3b3b3;
-  --subtext1: #9d9d9d;
-  --subtext0: #878787;
-  --overlay2: #707070;
-  --overlay1: #5d5d5d;
-  --overlay0: #4e4e4e;
-  --surface2: #414141;
-  --surface1: #353535;
-  --surface0: #2a2a2a;
-  --base: #1e1e1e;
-  --mantle: #191919;
-  --crust: #151515;
-
-  --accent8: #faf5eb;
-  --accent7: #dad5c8;
-  --accent6: #c0baad;
-  --accent5: #b3ad9f;
-  --accent4: #a69f91;
-  --accent3: #9a9487;
-  --accent2: #8e897d;
-  --accent1: #7f7b70;
-  --accent0: #706c62;
-
-  --accent-dim8: #f7f4ed;
-  --accent-dim7: #d6d3cc;
-  --accent-dim6: #bdbab2;
-  --accent-dim5: #b4b0a7;
-  --accent-dim4: #a19d97;
-  --accent-dim3: #97948c;
-  --accent-dim2: #8e8b85;
-  --accent-dim1: #7b7974;
-  --accent-dim0: #6c6a65;
+/* ---------- dark ---------- */
+:root.dark {
+{{ template "zebar-achroma-vars.css" (dict
+     "c" .color.achroma.dark
+     "ink" (dict "crust" .color.achroma.dark.mono01)) -}}
 }
 
 html {
@@ -62,15 +38,17 @@ html {
 }
 
 i {
-  /* color: rgb(115 130 175 / 95%); */
-  color: var(--overlay1);
+  /* --overlay2 rather than --overlay1: overlay1 is 1.9:1 on the dark bar */
+  color: var(--overlay2);
   margin-right: 7px;
 }
 
 body {
-  /* color: rgb(255 255 255 / 90%); */
   font-family: 'CommitMono Nerd Font Mono', ui-monospace, monospace;
-  color: var(--overlay0);
+  /* --subtext1 rather than --overlay0: this is body text, and overlay0 is an
+     overlay role (1.8:1 light / 2.1:1 dark). --subtext1 is 7.2:1 / 5.5:1 and
+     matches the previous hardcoded #4a4a4a in light. */
+  color: var(--subtext1);
   font-size: 12px;
   font-weight: 500;
 }
@@ -82,8 +60,6 @@ body,
 }
 
 #root {
-  /* border-bottom: 1px solid rgb(255 255 255 / 5%); */
-  /* background: linear-gradient(rgb(0 0 0 / 90%), rgb(5 2 20 / 85%)); */
   border: 1px solid var(--surface2);
   border-radius: 10px;
   background: var(--mantle);
@@ -145,15 +121,17 @@ body,
 
   &.focused,
   &:hover {
-    background: var(--1e1e1e);
+    background: var(--surface1);
     color: var(--accent7);
   }
 }
 
 .binding-mode,
 .tiling-direction {
-  background: rgb(255 255 255 / 15%);
-  color: rgb(255 255 255 / 90%);
+  /* was rgb(0 0 0 / 8%) + rgb(0 0 0 / 80%): hardcoded black, unreadable on the
+     dark bar. Tokenized -> 8.7:1 light, 7.0:1 dark. */
+  background: var(--surface1);
+  color: var(--text);
   border-radius: 2px;
   line-height: 1;
   padding: 4px 8px;
@@ -166,7 +144,8 @@ body,
 }
 
 .cpu .high-usage {
-  color: #b07878;
+  /* was #8a5a5a */
+  color: var(--red);
 }
 
 .battery .charging-icon {
@@ -177,8 +156,7 @@ body,
 }
 
 .sep {
-  color: var(--overlay0);
+  color: var(--subtext1);
   background: transparent;
-  /* padding: 0px 8px; */
   margin-right: 16px;
 }

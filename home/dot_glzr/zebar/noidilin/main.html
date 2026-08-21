@@ -7,6 +7,43 @@
     <!-- Custom styles. -->
     <link rel="stylesheet" type="text/css" href="./styles.css" />
 
+    <!--
+      achroma variant bootstrap. Adds `class="dark"` to <html> when the dark
+      palette should be active; styles.css defaults to light without it.
+
+      Default is to follow the Windows app theme, which keeps the bar in sync
+      with wezterm (wezterm.gui.get_appearance) and neovim automatically.
+
+      To pin a variant, either set FORCED below, or from the widget devtools:
+        localStorage.setItem('achroma-variant', 'light')   // or 'dark'
+        localStorage.removeItem('achroma-variant')         // back to auto
+    -->
+    <script>
+      (function () {
+        var FORCED = null; // 'light' | 'dark' | null (null = follow Windows)
+
+        var mq = window.matchMedia('(prefers-color-scheme: dark)');
+
+        function stored() {
+          try {
+            return localStorage.getItem('achroma-variant');
+          } catch (e) {
+            return null;
+          }
+        }
+
+        function apply() {
+          var pick = FORCED || stored();
+          var dark = pick ? pick === 'dark' : mq.matches;
+          document.documentElement.classList.toggle('dark', dark);
+        }
+
+        mq.addEventListener('change', apply);
+        window.addEventListener('storage', apply);
+        apply();
+      })();
+    </script>
+
     <!-- Allows React to be run buildless via "text/babel" script below. -->
     <script
       src="https://unpkg.com/@babel/standalone@7.25.6/babel.min.js"
