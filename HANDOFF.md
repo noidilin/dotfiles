@@ -117,10 +117,13 @@ noted snaps). All files applied via targeted `chezmoi apply <path>`.
 - **Bug fixed**: `variant.nu` compared the whole `registry query` record to 1
   — every shell resolved dark. Now `| get value`.
 
+- **carapace**: reads exactly one `styles.json`, so both variants render as
+  `styles-achroma{,-light}.json` and `theme.nu` copies the chosen one over
+  `styles.json` (all hexes were on-ramp).
+
 ## Left to do
 
-1. **carapace** (`carapace/styles.json`).
-2. Deferred/optional: lazygit, lazydocker, gh-dash, bottom (colors inlined,
+1. Deferred/optional: lazygit, lazydocker, gh-dash, bottom (colors inlined,
    no theme indirection — worst effort/payoff); zsh/mac side of variant
    resolution + fzf (env.zsh still dark-only); GUI apps (flow-launcher,
    stylus, shareX, antinote, blender, fcitx5, zebar).

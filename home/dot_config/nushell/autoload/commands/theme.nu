@@ -12,9 +12,11 @@
 # resolve from ACHROMA_VARIANT at shell start and are refreshed here; nushell's
 # color_config resolves at shell start only.
 #
-# Still dark-only, to be wired up here as their light themes land:
-# carapace; deferred: lazygit, lazydocker, gh-dash, bottom, zsh/mac fzf,
-# GUI apps.
+# carapace reads exactly one styles.json, so the variant render is copied
+# over it below (same chezmoi-apply-resets-to-dark caveat as the key flips).
+#
+# Still dark-only (deferred): lazygit, lazydocker, gh-dash, bottom,
+# zsh/mac fzf, GUI apps.
 def --env theme [
   variant?: string # 'light' or 'dark'; omit to show the current state
 ] {
@@ -65,9 +67,16 @@ def --env theme [
     }
   }
 
+  # carapace reads exactly one styles.json: copy the variant render over it.
+  let cara = ($env.XDG_CONFIG_HOME | path join 'carapace')
+  let cara_src = ($cara | path join (if $variant == 'light' { 'styles-achroma-light.json' } else { 'styles-achroma.json' }))
+  if ($cara_src | path exists) {
+    open --raw $cara_src | save --force --raw ($cara | path join 'styles.json')
+  }
+
   print $'app theme -> ($variant)'
   print 'follows automatically: wezterm, nvim, bat, delta, windows terminal, zed, yazi, opencode, zellij'
-  print 'config flipped in place (restart if running): jjui, k9s, starship, pi, posting'
+  print 'config flipped in place (restart if running): jjui, k9s, starship, pi, posting, carapace'
   print 'refreshed in this session: delta, LS_COLORS (vivid), eza'
   print 'per-session (restart shell/app): fzf colors, nushell color_config, other running shells'
 }
