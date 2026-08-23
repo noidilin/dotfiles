@@ -3,7 +3,6 @@
 # Public facade for shell-event-driven Zellij output:
 # - automatic tab names from cwd/git state
 # - transient foreground-process tab labels
-# - worktree labels published to zjstatus
 # - hook installation
 #
 # The public command prefix remains `ztab` for muscle memory, but this module is
@@ -18,8 +17,7 @@ export def --env "ztab refresh-prompt" [] {
     events prompt
 }
 
-# Refresh cwd-derived state. This is intended for env_change.PWD, so worktree
-# status updates follow directory changes instead of prompt polling.
+# Refresh cwd-derived state. This is intended for env_change.PWD.
 export def --env "ztab refresh-cwd" [cwd?: string] {
     events cwd $cwd
 }

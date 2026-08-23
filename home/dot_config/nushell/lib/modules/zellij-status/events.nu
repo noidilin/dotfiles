@@ -7,9 +7,8 @@
 use session.nu
 use tab-name.nu
 use process.nu
-use worktree-publisher.nu
 
-# A Manual Tab Name suppresses tab renames, but not Worktree Status updates.
+# A Manual Tab Name suppresses automatic tab renames.
 def manual-tab-name-active [] {
     (($env.ZELLIJ_TAB_NAME_MANUAL? | default "") | is-not-empty)
 }
@@ -24,11 +23,10 @@ export def --env prompt [] {
     session set-name (tab-name auto-name)
 }
 
-# Refresh cwd-derived state. Worktree Status always follows cwd changes;
-# Automatic Tab Name follows cwd only when no Manual Tab Name is active.
+# Refresh cwd-derived state. Automatic Tab Name follows cwd only when no
+# Manual Tab Name is active. zjstatus tracks focused-pane cwd independently.
 export def --env cwd [cwd?: string] {
     let cwd = ($cwd | default ($env.PWD? | default (pwd)))
-    worktree-publisher publish $cwd
 
     if (manual-tab-name-active) { return }
     if not (session is-active) { return }
