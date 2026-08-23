@@ -1,65 +1,113 @@
 // Default Zellij layout restoring the old WezTerm status/tab experience
 // through dj95/zjstatus.
 //
-// Required plugin binary:
-//   ~/.config/zellij/plugins/zjstatus.wasm
+// The zjstatus-bar alias and its formatting live in config.kdl. Keeping the
+// plugin pane in both tab templates preserves the status bar through swaps.
 
 layout {
     default_tab_template {
         pane size=1 borderless=true {
-            plugin location="file:/Users/noid/.config/zellij/plugins/zjstatus.wasm" {
-                format_left "{mode}#[fg=#686868,bg=#191919]{session} #[fg=#686868,bg=#191919]local#[fg=#686868,bg=#191919,bold] | {tabs}"
-                format_center ""
-                format_right "{pipe_worktree}#[fg=#555555,bg=#191919,bold] 󰍛 {command_memory} #[fg=#555555,bg=#191919]{command_battery} "
-                format_space "#[bg=#191919]"
-                // Keep the right/left status segments visible when tabs would overflow.
-                // zjstatus otherwise renders all tabs in the center, making the bar wider
-                // than the terminal and causing the right status to be clipped/pushed away.
-                format_precedence "lrc"
-                format_hide_on_overlength "true"
-
-                border_enabled "false"
-                border_char "─"
-                border_format "#[fg=#353535]{char}"
-                border_position "bottom"
-
-                mode_normal "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold] lead#[fg=#2a2a2a,bg=#191919,bold] "
-                mode_locked "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold] noid#[fg=#2a2a2a,bg=#191919,bold] "
-                mode_resize "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold]󰊓 resize#[fg=#2a2a2a,bg=#191919,bold] "
-                mode_move "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold]󰆾 move#[fg=#2a2a2a,bg=#191919,bold] "
-                mode_scroll "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold]󰈙 view#[fg=#2a2a2a,bg=#191919,bold] "
-                mode_enter_search "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold]󰍉 search#[fg=#2a2a2a,bg=#191919,bold] "
-                mode_search "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold]󰍉 search#[fg=#2a2a2a,bg=#191919,bold] "
-                mode_session "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold] mux#[fg=#2a2a2a,bg=#191919,bold] "
-                mode_tab "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold] tab#[fg=#2a2a2a,bg=#191919,bold] "
-                mode_pane "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold] pane#[fg=#2a2a2a,bg=#191919,bold] "
-                mode_tmux "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold] lead#[fg=#2a2a2a,bg=#191919,bold] "
-
-                tab_normal "#[fg=#414141,bg=#191919]  #[fg=#414141,bg=#191919,bold]{name} "
-                tab_active "#[fg=#b3b3b3,bg=#191919]  #[fg=#b3b3b3,bg=#191919,bold]{name}{fullscreen_indicator}{floating_indicator} "
-                tab_separator "#[fg=#353535,bg=#191919]|"
-                tab_display_count "9"
-                tab_truncate_start_format "#[fg=#414141,bg=#191919]‹ +{count} "
-                tab_truncate_end_format "#[fg=#414141,bg=#191919] +{count} › "
-                tab_fullscreen_indicator " "
-                tab_floating_indicator " ⬚"
-
-                pipe_worktree_format "#[fg=#555555,bg=#191919,bold] {output} "
-                pipe_worktree_rendermode "static"
-
-                command_memory_command "/Users/noid/.config/zellij/bin/zjstatus-memory"
-                command_memory_format "#[fg=#555555,bg=#191919,bold]{stdout}"
-                command_memory_interval "30"
-                command_memory_rendermode "static"
-
-                command_battery_command "/Users/noid/.config/zellij/bin/zjstatus-battery"
-                command_battery_format "#[fg=#555555,bg=#191919,bold]{stdout}"
-                command_battery_interval "60"
-                command_battery_rendermode "static"
-                command_battery_hideonemptystdout "true"
-            }
+            plugin location="zjstatus-bar"
         }
         children
+    }
+
+    tab_template name="ui" {
+        pane size=1 borderless=true {
+            plugin location="zjstatus-bar"
+        }
+        children
+    }
+
+    swap_tiled_layout name="vertical" {
+        ui max_panes=4 {
+            pane split_direction="vertical" {
+                pane
+                pane { children; }
+            }
+        }
+        ui max_panes=7 {
+            pane split_direction="vertical" {
+                pane { children; }
+                pane { pane; pane; pane; pane; }
+            }
+        }
+        ui max_panes=11 {
+            pane split_direction="vertical" {
+                pane { children; }
+                pane { pane; pane; pane; pane; }
+                pane { pane; pane; pane; pane; }
+            }
+        }
+    }
+
+    swap_tiled_layout name="horizontal" {
+        ui max_panes=3 {
+            pane
+            pane
+        }
+        ui max_panes=7 {
+            pane {
+                pane split_direction="vertical" { children; }
+                pane split_direction="vertical" { pane; pane; pane; pane; }
+            }
+        }
+        ui max_panes=11 {
+            pane {
+                pane split_direction="vertical" { children; }
+                pane split_direction="vertical" { pane; pane; pane; pane; }
+                pane split_direction="vertical" { pane; pane; pane; pane; }
+            }
+        }
+    }
+
+    swap_tiled_layout name="stacked" {
+        ui min_panes=4 {
+            pane split_direction="vertical" {
+                pane
+                pane stacked=true { children; }
+            }
+        }
+    }
+
+    swap_floating_layout name="staggered" {
+        floating_panes
+    }
+
+    swap_floating_layout name="enlarged" {
+        floating_panes max_panes=10 {
+            pane { x "5%"; y 1; width "90%"; height "90%"; }
+            pane { x "5%"; y 2; width "90%"; height "90%"; }
+            pane { x "5%"; y 3; width "90%"; height "90%"; }
+            pane { x "5%"; y 4; width "90%"; height "90%"; }
+            pane { x "5%"; y 5; width "90%"; height "90%"; }
+            pane { x "5%"; y 6; width "90%"; height "90%"; }
+            pane { x "5%"; y 7; width "90%"; height "90%"; }
+            pane { x "5%"; y 8; width "90%"; height "90%"; }
+            pane { x "5%"; y 9; width "90%"; height "90%"; }
+            pane { x 10; y 10; width "90%"; height "90%"; }
+        }
+    }
+
+    swap_floating_layout name="spread" {
+        floating_panes max_panes=1 {
+            pane { y "50%"; x "50%"; }
+        }
+        floating_panes max_panes=2 {
+            pane { x "1%"; y "25%"; width "45%"; }
+            pane { x "50%"; y "25%"; width "45%"; }
+        }
+        floating_panes max_panes=3 {
+            pane { y "55%"; width "45%"; height "45%"; }
+            pane { x "1%"; y "1%"; width "45%"; }
+            pane { x "50%"; y "1%"; width "45%"; }
+        }
+        floating_panes max_panes=4 {
+            pane { x "1%"; y "55%"; width "45%"; height "45%"; }
+            pane { x "50%"; y "55%"; width "45%"; height "45%"; }
+            pane { x "1%"; y "1%"; width "45%"; height "45%"; }
+            pane { x "50%"; y "1%"; width "45%"; height "45%"; }
+        }
     }
 
     tab name="main" focus=true {
