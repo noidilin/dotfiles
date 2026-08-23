@@ -4,14 +4,10 @@
 # - shell-side auto-start when launched from Ghostty
 # - no custom project/session switching; rely on official Zellij attach/session-manager
 
-# True for shells launched by Ghostty. TERM is the most reliable signal; keep
-# env fallbacks for config experiments and older/current custom setups.
-def "zellij-shell is-ghostty" [] {
-    let term = ($env.TERM? | default "")
-    let term_program = ($env.TERM_PROGRAM? | default "" | str lowercase)
-    let terminal = ($env.TERMINAL? | default "" | str lowercase)
-
-    ($term == "xterm-ghostty") or ($term_program == "ghostty") or ($terminal == "ghostty")
+# True only for shells launched by the standalone Ghostty app. OmniWM's
+# embedded libghostty also sets Ghostty program markers, but uses xterm-256color.
+def "zellij-shell is-standalone-ghostty" [] {
+    ($env.TERM? | default "") == "xterm-ghostty"
 }
 
 const ZELLIJ_AUTO_SESSION = "main"
@@ -22,7 +18,7 @@ const ZELLIJ_AUTO_SESSION = "main"
 def --env "zellij-shell autostart" [] {
     if not $nu.is-interactive { return }
     if (($env.ZELLIJ? | default "") | is-not-empty) { return }
-    if not (zellij-shell is-ghostty) { return }
+    if not (zellij-shell is-standalone-ghostty) { return }
     if (which zellij | is-empty) { return }
 
     $env.ZELLIJ_AUTO_ATTACH = ($env.ZELLIJ_AUTO_ATTACH? | default "true")
