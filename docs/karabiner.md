@@ -232,19 +232,19 @@ Uncomment and customize these templates when adding new functionality.
   - X -> F2
   - C -> F3
   - V -> F4
+  - B -> F5
 
 #### Right Hand
 
 - Top Row:
-  - U -> F5
-  - I -> F6
-  - O -> F7
-  - P -> F8
+  - Y -> F6
+  - U -> F7
+  - I -> F8
+  - O -> F9
+  - P -> F10
 - Mid Row:
-  - J -> F9
-  - K -> F10
-  - L -> F11
-  - ; -> F12
+  - H -> F11
+  - J -> F12
 
 ### Tab Layer - numbers (not numpads)
 
