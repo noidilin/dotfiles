@@ -108,9 +108,11 @@ derives the startup-time env from it:
    table rewrites one line in place for jjui, k9s, starship, pi, posting
    (e.g. `skin: achroma` ↔ `skin: achroma-light`).
 4. **Copy variant renders over single-file configs** — carapace
-   `styles.json`, bottom `bottom.toml`, lazydocker `config.yml` read exactly
-   one file with no env/flag override, so the variant render is copied over
-   the applied file.
+   `styles.json`, bottom `bottom.toml`, lazydocker `config.yml`, herdr
+   `config.toml` read exactly one file with no env/flag override, so the
+   variant render is copied over the applied file. herdr also gets a
+   `herdr server reload-config` so the running server picks the copy up
+   without dropping the session.
 
 ### Where chezmoi fits
 
@@ -121,7 +123,7 @@ selects between files chezmoi already rendered, by env var, key flip, or
 copy.
 
 **Known drift**: for the key-flip and copy tools (jjui, k9s, starship, pi,
-posting, carapace, bottom, lazydocker) the chezmoi source keeps the dark
+posting, carapace, bottom, lazydocker, herdr) the chezmoi source keeps the dark
 default, so `chezmoi apply` while in light mode resets them to dark until
 `theme light` is rerun. Env-selected tools (lazygit, gh-dash, eza, fzf,
 vivid, delta) have no drift. If the drift ever becomes annoying, the fix
@@ -174,6 +176,7 @@ state file — deliberately not built yet.
 | carapace | `styles-achroma[-light].json` → `styles.json` |
 | bottom | `bottom-achroma[-light].toml` → `bottom.toml` |
 | lazydocker | `config-achroma[-light].yml` → `config.yml` |
+| herdr | `config-achroma[-light].toml` → `config.toml`, then `herdr server reload-config` (darwin-only; the app's own settings UI writes back to `config.toml`, so in-app theme edits are lost on `chezmoi apply`) |
 
 ### Light file exists; selected manually in the app
 
@@ -193,7 +196,7 @@ Deliberately skipped — revisit only if it starts to matter:
 - **shareX** — no config captured in this repo.
 - **fcitx5** — linux-only and untestable on the current machines.
 
-Pending verification (implemented but never run on macOS): zellij, jjui,
+Pending verification (implemented but never run on macOS): zellij, herdr, jjui,
 the `osascript` flip in `theme.nu`, `zsh/env.zsh.tmpl` (syntax-checked
 only), and antinote's light theme import.
 

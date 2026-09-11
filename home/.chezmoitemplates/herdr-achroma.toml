@@ -1,0 +1,156 @@
+# herdr — agent multiplexer. Keymap deliberately mirrors wezterm
+# (~/.config/wezterm/config/bindings.lua) and zellij (zellij/config.kdl):
+# Ctrl+q leader, tmux-ish verbs, vim motions.
+#
+# herdr reads exactly one config file (~/.config/herdr/config.toml; no env var
+# or flag override), so `theme` copies the variant render over it and then runs
+# `herdr server reload-config` — same chezmoi-apply-resets-to-dark caveat as
+# carapace/bottom/lazydocker.
+#
+# Caveat: herdr's own settings UI (Ctrl+q Shift+S) writes back to config.toml,
+# so in-app changes are lost on the next `chezmoi apply`. Edit the source here.
+
+# Skip the first-run notification setup.
+onboarding = false
+
+[terminal]
+# Executable used for new interactive panes. Empty means $SHELL, then /bin/sh.
+default_shell = "nu"
+
+# Background notification popups go through the host terminal.
+[ui.toast]
+delivery = "terminal"
+
+# [worktrees]
+# herdr wants one flat directory; worktrunk/zjstatus use sibling `repo.branch`
+# dirs (see zellij/bin/zjstatus-worktree), which this cannot express. Left
+# unset so `Ctrl+q Shift+G` falls back to herdr's default location.
+# directory = "~/.herdr/worktrees"
+
+# ── keys ────────────────────────────────────────────────────────────────────
+# Parity with wezterm/zellij. Gaps that herdr has no knob for: break-pane (`!`),
+# the move/view submodes (`m`/`v`), floating panes, and two-key workspace
+# motions (`w h` / `w l`) — use the picker or navigate mode instead.
+#
+# `copy_mode`, `swap_pane_{left,down,up,right}`, `last_pane`, `open_worktree`
+# and `remove_worktree` are real 0.8.2 actions that `herdr --default-config`
+# does not document (verified against `herdr config check`, which rejects
+# unknown keys). Only the ones with a wezterm/zellij counterpart are bound;
+# the swap_pane_* set is left unset because prefix+shift+HJKL is resize here.
+[keys]
+prefix = "ctrl+q"
+
+# Session / app
+help = "prefix+?"
+settings = "prefix+shift+s"    # herdr default is prefix+s; s is resize here
+detach = "prefix+d"            # zellij: Ctrl+q w d
+reload_config = "prefix+shift+r"
+toggle_sidebar = "prefix+b"
+edit_scrollback = "prefix+e"
+copy_mode = "prefix+y"         # wezterm: LEADER y
+goto = "prefix+g"
+
+# Panes
+split_horizontal = "prefix+minus"     # wezterm/zellij: `-`
+split_vertical = "prefix+backslash"   # wezterm/zellij: `\`
+close_pane = "prefix+x"
+zoom = "prefix+z"
+rename_pane = "prefix+shift+p"
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+cycle_pane_next = "prefix+tab"
+cycle_pane_previous = "prefix+shift+tab"
+resize_mode = "prefix+s"
+resize_pane_left = "prefix+shift+h"
+resize_pane_down = "prefix+shift+j"
+resize_pane_up = "prefix+shift+k"
+resize_pane_right = "prefix+shift+l"
+
+# Tabs
+new_tab = "prefix+c"
+rename_tab = "prefix+shift+t"
+close_tab = "prefix+ampersand"        # wezterm/zellij: `&`
+switch_tab = "prefix+1..9"
+# wezterm/zellij use Ctrl+Tab / Ctrl+Shift+Tab, which is NOT portable here:
+# Ctrl+Tab does not exist in legacy terminal encoding (it collapses to 0x09), so
+# it only reaches herdr if the outer terminal forwards it — ghostty/config does
+# that with `keybind = ctrl+tab=csi:9;5u`. OmniWM's embedded libghostty (quake
+# terminal) does not load those keybinds, so libghostty's own default
+# `ctrl+tab=next_tab` consumes the key and nothing reaches the pty at all.
+# Staying on herdr's pure-ASCII defaults, which work in every host terminal.
+next_tab = "prefix+n"
+previous_tab = "prefix+p"
+move_tab_previous = "prefix+shift+comma"   # `<`
+move_tab_next = "prefix+shift+period"      # `>`
+
+# Workspaces (wezterm's `w` key table / zellij's session mode)
+workspace_picker = "prefix+w"
+new_workspace = "prefix+shift+n"
+rename_workspace = "prefix+shift+w"
+close_workspace = "prefix+shift+d"
+new_worktree = "prefix+shift+g"
+switch_workspace = "prefix+shift+1..9"
+
+# Navigate-mode movement (Ctrl+q g), kept on vim motions.
+navigate_pane_left = "h"
+navigate_pane_down = "j"
+navigate_pane_up = "k"
+navigate_pane_right = "l"
+navigate_workspace_up = "up"
+navigate_workspace_down = "down"
+
+# Ctrl+h/j/k/l cross the herdr-pane ↔ neovim-split boundary via the
+# smart-splits.nvim herdr plugin. Requires jq and a one-time
+# `herdr plugin link ~/.local/share/nvim/lazy/smart-splits.nvim`; nvim must
+# leave smart-splits' `multiplexer_integration` unset so it auto-detects herdr.
+# Mirrors zellij's vim-zellij-navigator binds in config.kdl.
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "smart-splits.nvim.left"
+description = "navigate left (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "smart-splits.nvim.down"
+description = "navigate down (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "smart-splits.nvim.up"
+description = "navigate up (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "smart-splits.nvim.right"
+description = "navigate right (vim/herdr)"
+
+# ── theme ───────────────────────────────────────────────────────────────────
+# `name = "terminal"` inherits the host terminal's ANSI colors (ghostty/wezterm
+# already follow the OS variant); the custom tokens below pin the chrome to the
+# achroma roles so the sidebar/tab bar do not drift from the palette.
+[theme]
+name = "terminal"
+
+[theme.custom]
+accent = "{{ .c.acc04 }}"
+panel_bg = "reset"
+surface0 = "{{ .c.mono05 }}"
+surface1 = "{{ .c.mono07 }}"
+surface_dim = "{{ .c.mono03 }}"
+overlay0 = "{{ .c.mono11 }}"
+overlay1 = "{{ .c.mono13 }}"
+text = "{{ .c.mono21 }}"
+subtext0 = "{{ .c.mono17 }}"
+red = "{{ .c.red00 }}"
+green = "{{ .c.green00 }}"
+yellow = "{{ .c.yellow00 }}"
+blue = "{{ .c.blue00 }}"
+mauve = "{{ .c.magenta00 }}"
+teal = "{{ .c.cyan00 }}"
+peach = "{{ .c.orange00 }}"

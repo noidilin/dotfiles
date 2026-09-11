@@ -12,9 +12,10 @@
 # resolve from ACHROMA_VARIANT at shell start and are refreshed here; nushell's
 # color_config resolves at shell start only.
 #
-# carapace, bottom and lazydocker read exactly one config file, so the
+# carapace, bottom, lazydocker and herdr read exactly one config file, so the
 # variant render is copied over it below (same chezmoi-apply-resets-to-dark
-# caveat as the key flips). lazygit (LG_CONFIG_FILE) and gh-dash
+# caveat as the key flips); herdr additionally needs `server reload-config` to
+# pick the copy up live, done below. lazygit (LG_CONFIG_FILE) and gh-dash
 # (GH_DASH_CONFIG) resolve from env at launch and are refreshed here.
 #
 # zebar follows the OS app theme on its own (bootstrap in its main.html).
@@ -83,6 +84,7 @@ def --env theme [
     [($env.XDG_CONFIG_HOME | path join 'carapace' $'styles-achroma($suffix).json') ($env.XDG_CONFIG_HOME | path join 'carapace' 'styles.json')]
     [($env.XDG_CONFIG_HOME | path join 'bottom' $'bottom-achroma($suffix).toml') ($env.XDG_CONFIG_HOME | path join 'bottom' 'bottom.toml')]
     [($env.XDG_CONFIG_HOME | path join 'lazydocker' $'config-achroma($suffix).yml') ($env.XDG_CONFIG_HOME | path join 'lazydocker' 'config.yml')]
+    [($env.XDG_CONFIG_HOME | path join 'herdr' $'config-achroma($suffix).toml') ($env.XDG_CONFIG_HOME | path join 'herdr' 'config.toml')]
   ]
   for c in $copies {
     if ($c.src | path exists) {
@@ -90,9 +92,16 @@ def --env theme [
     }
   }
 
+  # herdr holds config.toml in the running server; reload so the copy applies
+  # without dropping the session. Silent when no server is up.
+  if (which herdr | is-not-empty) {
+    try { ^herdr server reload-config } catch { }
+  }
+
   print $'app theme -> ($variant)'
   print 'follows automatically: wezterm, nvim, bat, delta, windows terminal, zed, yazi, opencode, zellij'
   print 'config flipped in place (restart if running): jjui, k9s, starship, pi, posting, carapace, bottom, lazydocker'
+  print 'reloaded in place: herdr'
   print 'refreshed in this session: delta, LS_COLORS (vivid), eza, lazygit, gh-dash'
   print 'per-session (restart shell/app): fzf colors, nushell color_config, other running shells'
 }

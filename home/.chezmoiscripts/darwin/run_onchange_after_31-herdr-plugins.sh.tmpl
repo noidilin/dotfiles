@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# =============================================================================
+# herdr Plugin Links
+# =============================================================================
+# Links the smart-splits.nvim herdr plugin so Ctrl+h/j/k/l crosses the
+# herdr-pane <-> neovim-split boundary (the plugin_action binds in
+# herdr/config.toml resolve through this link). The link lives in
+# ~/.config/herdr/.plugins.lock, which herdr owns, so it is re-asserted here
+# instead of being templated.
+
+set -euo pipefail
+
+{{- if eq .chezmoi.os "darwin" }}
+
+PLUGIN_DIR="${HOME}/.local/share/nvim/lazy/smart-splits.nvim"
+
+if ! command -v herdr &>/dev/null; then
+  printf "[herdr] Skipping (herdr not installed)\n"
+  exit 0
+fi
+
+if [[ ! -f "${PLUGIN_DIR}/herdr-plugin.toml" ]]; then
+  printf "[herdr] Skipping (smart-splits.nvim not installed at %s)\n" "${PLUGIN_DIR}" >&2
+  exit 0
+fi
+
+# jq is a hard dependency of the plugin's navigate script.
+if ! command -v jq &>/dev/null; then
+  printf "[ERROR] jq is not installed; smart-splits.nvim herdr navigation needs it.\n" >&2
+  exit 1
+fi
+
+if herdr plugin list 2>/dev/null | grep -q 'smart-splits.nvim'; then
+  printf "[herdr] smart-splits.nvim already linked\n"
+else
+  herdr plugin link "${PLUGIN_DIR}" >/dev/null
+  printf "[herdr] ✓ Linked smart-splits.nvim\n"
+fi
+
+# Hash trigger for run_onchange (re-run when the keybinds change)
+# config.toml: {{ include "dot_config/herdr/config.toml.tmpl" | sha256sum }}
+
+{{- else }}
+
+printf "[herdr] Skipping (macOS only)\n"
+
+{{- end }}

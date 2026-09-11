@@ -80,6 +80,7 @@ FlexASIO.toml
 .config/zsh/*
 .config/karabiner/
 .config/zellij/
+.config/herdr/
 .config/omniwm/
 .local/etc/antinote/
 {{- end }}
