@@ -1,3 +1,16 @@
+# Shared starship body. Takes (c, ink) like every other achroma template body;
+# instantiated once per variant under dot_config/achroma/variants/.
+#
+# starship has no include mechanism, so the whole file is the theme: the config
+# lives at ~/.config/starship.toml as a symlink into ~/.config/achroma/current/.
+# That is deliberately not a STARSHIP_CONFIG env var — starship re-reads and
+# re-resolves this path on every prompt, so a pointer flip recolors EVERY
+# running shell on its next prompt, where an env var would only reach the shell
+# that ran `theme`.
+#
+# Everything below the palette addresses colors by palette key name only, so it
+# is variant-agnostic; the palette is always named `noidilin` and the variant is
+# decided by which wrapper instantiates this body.
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
@@ -20,19 +33,11 @@ $character"""
 palette = 'noidilin'
 
 [palettes.noidilin]
-{{- range $k, $v := .color.achroma.dark }}
+{{- range $k, $v := .c }}
 {{ $k }} = '{{ $v }}'
 {{- end }}
 # ink: prompt frame color (see wezterm config/theme.lua)
-frame = '{{ .color.achroma.dark.mono07 }}'
-
-# light counterpart, selected by the `theme` switcher flipping `palette =`
-[palettes.noidilin-light]
-{{- range $k, $v := .color.achroma.light }}
-{{ $k }} = '{{ $v }}'
-{{- end }}
-# ink: mirrored mono07 is invisible on the light base; step to mono10
-frame = '{{ .color.achroma.light.mono10 }}'
+frame = '{{ .ink.frame }}'
 
 [fill]
 symbol = ' '

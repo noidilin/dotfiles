@@ -19,7 +19,7 @@ k9s:
     invert: false
     defaultsToFullScreen: false
     useFullGVRTitle: false
-    skin: achroma
+    skin: achroma-current
   skipLatestRevCheck: false
   disablePodCounting: false
   shellPod:

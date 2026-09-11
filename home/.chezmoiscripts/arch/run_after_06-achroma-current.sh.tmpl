@@ -1,0 +1,26 @@
+#!/bin/bash
+# vim: ft=bash
+
+{{- if eq .osId "linux-arch" }}
+
+# =============================================================================
+# Seed the achroma variant pointer. See the darwin counterpart for the full
+# rationale; the only difference is the variant derivation -- Linux has no OS
+# app-theme setting wired up here, so it defaults to dark, matching the
+# `_ => 'dark'` fallback in dot_config/nushell/env/variant.nu.
+# =============================================================================
+
+set -euo pipefail
+
+LINK="${XDG_CONFIG_HOME:-$HOME/.config}/achroma/current"
+
+if [ -e "$LINK" ] || [ -L "$LINK" ]; then
+  printf "[achroma] variant pointer already present (%s)\n" "$(readlink "$LINK" 2>/dev/null || echo "$LINK")"
+  exit 0
+fi
+
+mkdir -p "$(dirname "$LINK")"
+ln -sfn variants/dark "$LINK"
+printf "[achroma] seeded variant pointer -> variants/dark\n"
+
+{{- end }}

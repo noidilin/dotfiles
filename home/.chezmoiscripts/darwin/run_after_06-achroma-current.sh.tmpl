@@ -1,0 +1,38 @@
+#!/bin/bash
+# vim: ft=bash
+
+{{- if eq .chezmoi.os "darwin" }}
+
+# =============================================================================
+# Seed the achroma variant pointer.
+#
+# ~/.config/achroma/current is the ONLY mutable piece of theme state: the nine
+# tools that cannot follow the OS on their own reach their colors through it
+# (see docs/achroma.md). The `theme` command owns it. This script only seeds it
+# on a fresh machine so the chezmoi-managed symlinks are not left dangling --
+# it must never re-point an existing pointer, or `chezmoi apply` while in light
+# mode would reset everything to dark, which is the whole bug being fixed.
+# =============================================================================
+
+set -euo pipefail
+
+LINK="${XDG_CONFIG_HOME:-$HOME/.config}/achroma/current"
+
+if [ -e "$LINK" ] || [ -L "$LINK" ]; then
+  printf "[achroma] variant pointer already present (%s)\n" "$(readlink "$LINK" 2>/dev/null || echo "$LINK")"
+  exit 0
+fi
+
+# Same derivation as dot_config/nushell/env/variant.nu: `defaults read` exits
+# non-zero in light mode, so the failure branch means light.
+if [ "$(defaults read -g AppleInterfaceStyle 2>/dev/null || true)" = "Dark" ]; then
+  VARIANT=dark
+else
+  VARIANT=light
+fi
+
+mkdir -p "$(dirname "$LINK")"
+ln -sfn "variants/${VARIANT}" "$LINK"
+printf "[achroma] seeded variant pointer -> variants/%s\n" "$VARIANT"
+
+{{- end }}

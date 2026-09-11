@@ -1,0 +1,28 @@
+# vim: ft=powershell
+
+{{- if eq .chezmoi.os "windows" }}
+
+# =============================================================================
+# Seed the achroma variant pointer. See the darwin counterpart for the full
+# rationale: create-if-missing only, so `chezmoi apply` never resets the live
+# variant.
+# =============================================================================
+
+$link = Join-Path $env:USERPROFILE '.config\achroma\current'
+
+if (Test-Path -LiteralPath $link) {
+    Write-Host "[achroma] variant pointer already present" -ForegroundColor DarkGray
+    return
+}
+
+# Same derivation as dot_config/pwsh/scripts/variant.ps1.
+$appsUseLightTheme = 0
+try {
+    $appsUseLightTheme = (Get-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' -Name 'AppsUseLightTheme' -ErrorAction Stop).AppsUseLightTheme
+} catch {}
+$variant = if ($appsUseLightTheme -eq 1) { 'light' } else { 'dark' }
+
+& (Join-Path $env:USERPROFILE '.config\pwsh\scripts\set-achroma-current.ps1') -Variant $variant
+Write-Host "[achroma] seeded variant pointer -> variants\$variant" -ForegroundColor White
+
+{{- end }}

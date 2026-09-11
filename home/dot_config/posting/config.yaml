@@ -1,4 +1,4 @@
-theme: achroma
+theme: achroma-current
 keymap:
   send-request: ctrl+r
   # focus-method:

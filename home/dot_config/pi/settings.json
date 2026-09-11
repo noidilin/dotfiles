@@ -3,7 +3,7 @@
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.6-sol",
   "defaultThinkingLevel": "medium",
-  "theme": "achroma",
+  "theme": "achroma-current",
   "hideThinkingBlock": false,
   "quietStartup": true,
   "treeFilterMode": "default",
