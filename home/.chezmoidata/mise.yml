@@ -20,6 +20,10 @@ mise:
     go: "latest"
     terraform: "latest"
     terragrunt: "latest"
+    # Managed here so they stop floating outside any config. Versions stay
+    # floating on purpose — pin the exact one in each project's mise.toml.
+    kubectl: "latest"
+    helm: "latest"
   settings:
     experimental: true
     python.uv_venv_auto: true
