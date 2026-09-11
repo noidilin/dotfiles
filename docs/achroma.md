@@ -196,9 +196,21 @@ Deliberately skipped — revisit only if it starts to matter:
 - **shareX** — no config captured in this repo.
 - **fcitx5** — linux-only and untestable on the current machines.
 
-Pending verification (implemented but never run on macOS): zellij, herdr, jjui,
-the `osascript` flip in `theme.nu`, `zsh/env.zsh.tmpl` (syntax-checked
-only), and antinote's light theme import.
+Verified on macOS (2026-09-11, after `chezmoi apply`): every dark/light
+variant pair renders and landed on disk; `zsh/env.zsh` and
+`nushell/env/variant.nu` both resolve `ACHROMA_VARIANT` from
+`AppleInterfaceStyle`; each flip regex matches its applied config and every
+copy source exists.
+
+Still pending: visual confirmation inside zellij, jjui, herdr and antinote,
+plus the `osascript` appearance flip — sending Apple events to System Events
+needs Automation permission, which a non-interactive process does not have
+(`-1743`), so run `theme light` from a real terminal once.
+
+**`theme` aborts if the appearance flip fails.** The `osascript` call is
+unguarded and runs before the flips and copies, so a TCC denial leaves every
+tool on the old variant rather than half-switched — noisy but safe. Wrap it in
+`try` only if this starts happening on a machine that matters.
 
 ## Gotchas worth keeping
 
