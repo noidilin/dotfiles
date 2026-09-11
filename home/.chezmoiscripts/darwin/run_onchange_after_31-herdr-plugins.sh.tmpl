@@ -37,8 +37,10 @@ else
   printf "[herdr] ✓ Linked smart-splits.nvim\n"
 fi
 
-# Hash trigger for run_onchange (re-run when the keybinds change)
-# config.toml: {{ include "dot_config/herdr/config.toml.tmpl" | sha256sum }}
+# Hash trigger for run_onchange (re-run when the keybinds change). The binds
+# live in the shared template; config.toml.tmpl is a one-line template call
+# whose own content never changes, so hashing it would never re-fire.
+# herdr-achroma.toml: {{ include ".chezmoitemplates/herdr-achroma.toml" | sha256sum }}
 
 {{- else }}
 
