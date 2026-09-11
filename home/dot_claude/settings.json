@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "model": "opus[1m]",
+  "enabledPlugins": {
+    "aws-agents@claude-plugins-official": true,
+    "credit-report-generator@robcsc-skills-repo": true,
+    "invest-report@robcsc-skills-repo": true,
+    "mattpocock-skills@claude-plugins-official": true,
+    "desktop-skills@desktop-skills-bridge": true
+  },
+  "extraKnownMarketplaces": {
+    "robcsc-skills-repo": {
+      "source": {
+        "source": "file",
+        "path": "/Users/noid/hub/lab/multi-agent/fubon-AWS-agent/.claude-plugin/marketplace.json"
+      }
+    },
+    "desktop-skills-bridge": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/noid/.claude/desktop-skills-bridge"
+      }
+    }
+  },
+  "effortLevel": "medium",
+  "autoMemoryEnabled": false,
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "custom:achroma"
+}
