@@ -5,18 +5,31 @@
 # its own: wezterm -> neovim (OSC 11), bat, delta's mode detection, ghostty,
 # windows terminal, zed, yazi, opencode. This command also refreshes the env
 # vars for the current session (other running shells re-resolve on start).
-# zellij switches natively (theme_dark/theme_light in config.kdl). jjui, k9s,
-# starship, pi and posting have a single selection key: flipped in place below
-# (chezmoi's source keeps the dark default, so `chezmoi apply` resets them to
-# dark -- rerun this command after applying while in light mode). vivid/eza
-# resolve from ACHROMA_VARIANT at shell start and are refreshed here; nushell's
-# color_config resolves at shell start only.
+# zellij switches natively (theme_dark/theme_light in config.kdl).
 #
-# carapace, bottom, lazydocker and herdr read exactly one config file, so the
-# variant render is copied over it below (same chezmoi-apply-resets-to-dark
-# caveat as the key flips); herdr additionally needs `server reload-config` to
-# pick the copy up live, done below. lazygit (LG_CONFIG_FILE) and gh-dash
-# (GH_DASH_CONFIG) resolve from env at launch and are refreshed here.
+# Everything that cannot follow on its own goes through ONE pointer:
+# ~/.config/achroma/current, a symlink to achroma/variants/{dark,light}.
+# chezmoi renders both variant trees and owns every path that reaches into
+# them; it ignores the pointer itself, so this command is the only writer and
+# `chezmoi apply` can no longer reset the live variant (it used to -- the old
+# mechanism rewrote applied configs in place, and the chezmoi source kept the
+# dark default). Two shapes of indirection, no drift in either:
+#
+#   - tools with a themes directory read a fixed filename that never changes:
+#     jjui `theme = "achroma-current"`, k9s `skin:`, pi `"theme":`,
+#     posting `theme:` -- themes/achroma-current.* is a symlink into current/.
+#   - tools that read exactly one config file have that whole file symlinked:
+#     starship, carapace, bottom, lazydocker, herdr.
+#
+# starship is the one that updates live in *every* running shell: it re-reads
+# and re-resolves ~/.config/starship.toml on each prompt. herdr needs
+# `server reload-config` to pick the new target up without dropping the
+# session, done below. The rest apply on next launch.
+#
+# vivid/eza resolve from ACHROMA_VARIANT at shell start and are refreshed here;
+# nushell's color_config resolves at shell start only. lazygit (LG_CONFIG_FILE)
+# and gh-dash (GH_DASH_CONFIG) resolve from env at launch and are refreshed
+# here.
 #
 # zebar follows the OS app theme on its own (bootstrap in its main.html).
 # flow-launcher and antinote have light theme files but the app's theme is
@@ -25,9 +38,14 @@
 def --env theme [
   variant?: string # 'light' or 'dark'; omit to show the current state
 ] {
+  let pointer = ($env.XDG_CONFIG_HOME | path join 'achroma' 'current')
+
   if $variant == null {
     return {
       variant: ($env.ACHROMA_VARIANT? | default 'unset')
+      # Resolves the symlink, so this is the authoritative live variant --
+      # and the cheapest way to confirm `chezmoi apply` left it alone.
+      pointer: (if ($pointer | path exists) { $pointer | path expand | path basename } else { 'unset' })
       delta_features: ($env.DELTA_FEATURES? | default 'unset')
       wezterm_pin: ($env.WEZTERM_THEME? | default 'none (follows OS)')
     }
@@ -60,48 +78,28 @@ def --env theme [
   ] | str join ',')
   $env.GH_DASH_CONFIG = ($env.XDG_CONFIG_HOME | path join 'gh-dash' $'config-achroma($suffix).yml')
 
-  # Tools with one selection key in their applied config: flip it in place.
-  let flips = [
-    [file key name];
-    [($env.XDG_CONFIG_HOME | path join 'jjui' 'config.toml') 'theme = "' 'achroma']
-    [($env.XDG_CONFIG_HOME | path join 'k9s' 'config.yaml') 'skin: ' 'achroma']
-    [($env.XDG_CONFIG_HOME | path join 'starship.toml') "palette = '" 'noidilin']
-    [($env.XDG_CONFIG_HOME | path join 'pi' 'settings.json') '"theme": "' 'achroma']
-    [($env.XDG_CONFIG_HOME | path join 'posting' 'config.yaml') 'theme: ' 'achroma']
-  ]
-  for f in $flips {
-    if ($f.file | path exists) {
-      let target = (if $variant == 'light' { $f.name + '-light' } else { $f.name })
-      open --raw $f.file
-      | str replace --regex ($f.key + $f.name + '(-light)?') ($f.key + $target)
-      | save --force --raw $f.file
+  # The whole switch for the nine pointer-driven tools. Relative target, so it
+  # resolves against the pointer's own directory.
+  match $nu.os-info.name {
+    'windows' => {
+      pwsh -NoProfile -File ($env.XDG_CONFIG_HOME | path join 'pwsh' 'scripts' 'set-achroma-current.ps1') -Variant $variant
     }
+    # -n is required: without it, `current` being an existing symlink to a
+    # directory makes ln write the new link *inside* the old target.
+    _ => { ^ln -sfn $'variants/($variant)' $pointer }
   }
 
-  # Tools that read exactly one config file: copy the variant render over it.
-  let copies = [
-    [src dst];
-    [($env.XDG_CONFIG_HOME | path join 'carapace' $'styles-achroma($suffix).json') ($env.XDG_CONFIG_HOME | path join 'carapace' 'styles.json')]
-    [($env.XDG_CONFIG_HOME | path join 'bottom' $'bottom-achroma($suffix).toml') ($env.XDG_CONFIG_HOME | path join 'bottom' 'bottom.toml')]
-    [($env.XDG_CONFIG_HOME | path join 'lazydocker' $'config-achroma($suffix).yml') ($env.XDG_CONFIG_HOME | path join 'lazydocker' 'config.yml')]
-    [($env.XDG_CONFIG_HOME | path join 'herdr' $'config-achroma($suffix).toml') ($env.XDG_CONFIG_HOME | path join 'herdr' 'config.toml')]
-  ]
-  for c in $copies {
-    if ($c.src | path exists) {
-      open --raw $c.src | save --force --raw $c.dst
-    }
-  }
-
-  # herdr holds config.toml in the running server; reload so the copy applies
-  # without dropping the session. Silent when no server is up.
+  # herdr holds its config in the running server; reload so the new pointer
+  # target applies without dropping the session. Silent when no server is up.
   if (which herdr | is-not-empty) {
     try { ^herdr server reload-config } catch { }
   }
 
   print $'app theme -> ($variant)'
   print 'follows automatically: wezterm, nvim, bat, delta, windows terminal, zed, yazi, opencode, zellij'
-  print 'config flipped in place (restart if running): jjui, k9s, starship, pi, posting, carapace, bottom, lazydocker'
-  print 'reloaded in place: herdr'
+  print 'via achroma/current, live: starship (next prompt, every running shell)'
+  print 'via achroma/current + reload: herdr'
+  print 'via achroma/current (restart if running): jjui, k9s, pi, posting, carapace, bottom, lazydocker'
   print 'refreshed in this session: delta, LS_COLORS (vivid), eza, lazygit, gh-dash'
   print 'per-session (restart shell/app): fzf colors, nushell color_config, other running shells'
 }

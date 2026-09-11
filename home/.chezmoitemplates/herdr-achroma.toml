@@ -3,12 +3,15 @@
 # Ctrl+q leader, tmux-ish verbs, vim motions.
 #
 # herdr reads exactly one config file (~/.config/herdr/config.toml; no env var
-# or flag override), so `theme` copies the variant render over it and then runs
-# `herdr server reload-config` — same chezmoi-apply-resets-to-dark caveat as
-# carapace/bottom/lazydocker.
+# or flag override), so that path is a symlink into ~/.config/achroma/current/
+# and `theme` only re-points the pointer, then runs `herdr server reload-config`
+# so the running server picks the new target up without dropping the session.
 #
-# Caveat: herdr's own settings UI (Ctrl+q Shift+S) writes back to config.toml,
-# so in-app changes are lost on the next `chezmoi apply`. Edit the source here.
+# Caveat: herdr's own settings UI (Ctrl+q Shift+S) writes back to config.toml.
+# In-app changes are lost on the next `chezmoi apply`, and if herdr writes via
+# temp-file+rename it will replace the symlink with a regular file and silently
+# break the indirection — `chezmoi status` surfaces that as an M. Edit the
+# source here instead.
 
 # Skip the first-run notification setup.
 onboarding = false

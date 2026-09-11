@@ -2,8 +2,8 @@
 "$schema" = "https://github.com/ClementTsang/bottom/blob/main/schema/v0.10/bottom.json"
 
 # bottom reads exactly one config file (only a --config_location flag, no env
-# var), so `theme` copies the variant render over bottom.toml — same
-# chezmoi-apply-resets-to-dark caveat as carapace.
+# var), so bottom.toml is a symlink into ~/.config/achroma/current/ and `theme`
+# only re-points the pointer. Applies on next launch.
 
 [flags]
 # Show memory values in the processes widget as values by default

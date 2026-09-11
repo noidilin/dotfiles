@@ -38,8 +38,9 @@ else
 fi
 
 # Hash trigger for run_onchange (re-run when the keybinds change). The binds
-# live in the shared template; config.toml.tmpl is a one-line template call
-# whose own content never changes, so hashing it would never re-fire.
+# live in the shared template; the variant wrappers under
+# dot_config/achroma/variants/ are one-line template calls whose own content
+# never changes, so hashing those would never re-fire.
 # herdr-achroma.toml: {{ include ".chezmoitemplates/herdr-achroma.toml" | sha256sum }}
 
 {{- else }}

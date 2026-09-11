@@ -20,9 +20,41 @@ OS app theme
  ├─ ACHROMA_VARIANT env var, resolved from the OS at shell start
  │   └─ tools that only read colors at startup (fzf, vivid, eza,
  │      lazygit, gh-dash, nushell color_config)
- └─ the `theme` command, which flips the OS setting and reconciles
-    everything that cannot follow on its own
+ └─ the `theme` command, which flips the OS setting and re-points
+    ~/.config/achroma/current
+     └─ everything that cannot follow on its own (jjui, k9s, pi, posting,
+        starship, carapace, bottom, lazydocker, herdr)
 ```
+
+### Stable paths, one pointer
+
+The nine tools at the bottom of that tree cannot detect the OS theme and have
+no dark/light config key. They are handled by indirection rather than by
+rewriting their configs:
+
+```text
+~/.config/achroma/
+  variants/
+    dark/   { jjui.toml k9s.yaml pi.json posting.yaml starship.toml
+              carapace.json bottom.toml lazydocker.yml herdr.toml }
+    light/  { same nine names }
+  current -> variants/dark        # the only mutable state; `theme` owns it
+```
+
+Each of the nine reads a path that **never changes** and resolves through
+`current`, so switching variants never touches an applied config. chezmoi
+renders both trees and owns all nine symlinks; it ignores `current`.
+
+This is the pattern omarchy uses (`~/.config/omarchy/current/theme/<file>`,
+which every app config `import`s or `source`s), with one deviation: omarchy
+rebuilds a `next-theme/` directory and `mv`s it over `current/theme`, while
+here both trees are permanently on disk and only a symlink moves. Same
+property — the app's own config file is never rewritten — with less copying.
+
+The earlier mechanism did rewrite them, either flipping one selection key in
+place or copying a variant render over the applied file. Because the chezmoi
+source had to pick a default, `chezmoi apply` while in light mode reset all
+nine to dark. That failure mode is gone.
 
 ### One palette, addressed by role
 
@@ -61,6 +93,14 @@ Each themed tool has:
 ```
 
 Rendering a new variant is just passing the other palette.
+
+Where the wrappers live depends on how the tool is switched. Env-selected
+tools keep theirs next to the tool's own config (e.g.
+`dot_config/lazygit/theme-achroma[-light].yml.tmpl`). The nine
+pointer-selected tools have theirs under
+`dot_config/achroma/variants/{dark,light}/<tool>.<ext>.tmpl`, one uniform
+filename per tool in each tree — that is what lets a single symlink swap
+switch all nine.
 
 ### Ink overrides
 
@@ -104,31 +144,37 @@ derives the startup-time env from it:
    `DELTA_FEATURES`, `LS_COLORS` (vivid regenerate), `EZA_CONFIG_DIR`,
    `LG_CONFIG_FILE`, `GH_DASH_CONFIG`. Other running shells re-resolve on
    their next start.
-3. **Flip single selection keys in applied configs** — a `[file key name]`
-   table rewrites one line in place for jjui, k9s, starship, pi, posting
-   (e.g. `skin: achroma` ↔ `skin: achroma-light`).
-4. **Copy variant renders over single-file configs** — carapace
-   `styles.json`, bottom `bottom.toml`, lazydocker `config.yml`, herdr
-   `config.toml` read exactly one file with no env/flag override, so the
-   variant render is copied over the applied file. herdr also gets a
-   `herdr server reload-config` so the running server picks the copy up
-   without dropping the session.
+3. **Re-point `~/.config/achroma/current`** — one symlink swap
+   (`ln -sfn variants/<variant>`; Windows goes through
+   `pwsh/scripts/set-achroma-current.ps1`, since nushell has no `ln`
+   builtin). That is the entire switch for jjui, k9s, pi, posting, starship,
+   carapace, bottom, lazydocker and herdr.
+4. **Reload herdr** — `herdr server reload-config`, so the running server
+   re-reads the pointer's new target without dropping the session.
 
 ### Where chezmoi fits
 
-chezmoi owns the **source of every variant**: both renders always exist on
-disk after `chezmoi apply` (e.g. `theme-achroma.yml` and
-`theme-achroma-light.yml`). The switcher never generates colors — it only
-selects between files chezmoi already rendered, by env var, key flip, or
-copy.
+chezmoi owns the **source of every variant** and every path that reaches into
+them: both variant trees under `~/.config/achroma/variants/`, and the nine
+stable-path symlinks that point through `current`. It owns **nothing** about
+which variant is live — `.chezmoiignore` excludes `.config/achroma/current`,
+and the `theme` command is its only writer.
 
-**Known drift**: for the key-flip and copy tools (jjui, k9s, starship, pi,
-posting, carapace, bottom, lazydocker, herdr) the chezmoi source keeps the dark
-default, so `chezmoi apply` while in light mode resets them to dark until
-`theme light` is rerun. Env-selected tools (lazygit, gh-dash, eza, fzf,
-vivid, delta) have no drift. If the drift ever becomes annoying, the fix
-would be a chezmoi `modify_` script or a variant-aware template driven by a
-state file — deliberately not built yet.
+That is what makes the whole thing drift-free. Every tool is now in one of
+three classes, and none of them can be reset by `chezmoi apply`:
+
+- **OS-native** — the tool reads the OS app theme or the terminal background
+  itself.
+- **Env-selected** — both renders sit on disk, an env var picks one.
+- **Pointer-selected** — the tool reads a path that never changes, and that
+  path resolves through `current`.
+
+One residual caveat, unrelated to chezmoi: an app that rewrites its own
+symlinked config via temp-file-plus-rename will *replace* the symlink with a
+regular file and silently break its own indirection. herdr's settings UI
+(Ctrl+q Shift+S) and `carapace --style` are the two known writers. `chezmoi
+status` surfaces it as an `M`, so it is visible rather than silent — but edit
+the source, not the app.
 
 ## Per-tool mechanism catalog
 
@@ -159,24 +205,42 @@ state file — deliberately not built yet.
 | gh-dash | `GH_DASH_CONFIG` points at `config-achroma[-light].yml` |
 | nushell color_config | `config/palette.nu.tmpl` carries both variants, picked at shell start |
 
-### Selection key flipped in place by `theme`
+### Reached through `achroma/current` (re-pointed by `theme`)
 
-| Tool | Flipped key |
-| --- | --- |
-| jjui | `theme = "achroma[-light]"` in `jjui/config.toml` |
-| k9s | `skin: achroma[-light]` in `k9s/config.yaml` |
-| starship | `palette = 'noidilin[-light]'` (re-read every prompt, so live shells update) |
-| pi | `"theme": "achroma[-light]"` in `pi/settings.json` |
-| posting | `theme: achroma[-light]` in `posting/config.yaml` |
+All nine read a path that never changes. The four with a themes directory get
+a fixed *filename* their config names forever; the five that read exactly one
+config file have that whole file symlinked.
 
-### Variant render copied over the applied file by `theme`
+| Tool | Stable path | Variant file | Config says |
+| --- | --- | --- | --- |
+| jjui | `jjui/themes/achroma-current.toml` | `jjui.toml` | `theme = "achroma-current"` |
+| k9s | `k9s/skins/achroma-current.yaml` | `k9s.yaml` | `skin: achroma-current` |
+| pi | `pi/themes/achroma-current.json` | `pi.json` | `"theme": "achroma-current"` |
+| posting | `posting/themes/achroma-current.yaml` | `posting.yaml` | `theme: achroma-current` |
+| starship | `starship.toml` (whole file) | `starship.toml` | `palette = 'noidilin'` (fixed) |
+| carapace | `carapace/styles.json` (whole file) | `carapace.json` | — |
+| bottom | `bottom/bottom.toml` (whole file) | `bottom.toml` | — |
+| lazydocker | `lazydocker/config.yml` (whole file) | `lazydocker.yml` | — |
+| herdr | `herdr/config.toml` (whole file) | `herdr.toml` | — |
 
-| Tool | Copy |
-| --- | --- |
-| carapace | `styles-achroma[-light].json` → `styles.json` |
-| bottom | `bottom-achroma[-light].toml` → `bottom.toml` |
-| lazydocker | `config-achroma[-light].yml` → `config.yml` |
-| herdr | `config-achroma[-light].toml` → `config.toml`, then `herdr server reload-config` (darwin-only; the app's own settings UI writes back to `config.toml`, so in-app theme edits are lost on `chezmoi apply`) |
+Two members behave specially:
+
+- **starship** is the only tool that updates live in *every* running shell: it
+  re-reads and re-resolves `~/.config/starship.toml` on each prompt, so a
+  pointer flip recolors every open shell on its next prompt. This is why it
+  gets a whole-file symlink rather than a `STARSHIP_CONFIG` env var — the env
+  var would only ever reach the shell that ran `theme`. Cost: the prompt body
+  is rendered into both variant trees, but the source stays single
+  (`.chezmoitemplates/starship-achroma.toml`).
+- **herdr** (darwin-only) holds its config in the running server, so `theme`
+  follows the flip with `herdr server reload-config`.
+
+The other seven apply on next launch.
+
+For pi and posting the theme file carries an internal `name:` field that the
+app registers the theme under, so both variant renders pass
+`"name" "achroma-current"` — it has to match the fixed filename, not the
+variant.
 
 ### Light file exists; selected manually in the app
 
@@ -199,17 +263,43 @@ Deliberately skipped — revisit only if it starts to matter:
 Verified on macOS (2026-09-11, after `chezmoi apply`): every dark/light
 variant pair renders and landed on disk; `zsh/env.zsh` and
 `nushell/env/variant.nu` both resolve `ACHROMA_VARIANT` from
-`AppleInterfaceStyle`; each flip regex matches its applied config and every
-copy source exists.
+`AppleInterfaceStyle`.
 
-Still pending: visual confirmation inside zellij, jjui, herdr and antinote,
-plus the `osascript` appearance flip — sending Apple events to System Events
-needs Automation permission, which a non-interactive process does not have
-(`-1743`), so run `theme light` from a real terminal once.
+### Verifying the pointer design
+
+The drift regression test is the acceptance criterion — it is the bug the
+indirection exists to kill:
+
+```nu
+theme light
+theme                # => pointer: light
+chezmoi apply
+theme                # => pointer: light   <-- used to come back dark
+```
+
+`theme` with no argument reports `pointer`, which resolves the symlink, so it
+is the authoritative live variant. `chezmoi status` must never mention
+`.config/achroma/current`; if it does, the `.chezmoiignore` entry is wrong.
+
+Verified 2026-09-11 against the refactor, before applying: all nine relative
+symlink targets resolve into the variants trees; the twelve renders that
+should not have changed are byte-identical to the pre-refactor ones; pi and
+posting differ only in the `name` field; `chezmoi status` lists the 18 variant
+files, the nine symlinks and the four fixed config keys, and does **not** list
+`.config/achroma/current`.
+
+Still pending: visual confirmation inside zellij, jjui, herdr and antinote;
+the `osascript` appearance flip (sending Apple events to System Events needs
+Automation permission, which a non-interactive process does not have
+(`-1743`), so run `theme light` from a real terminal once); whether `herdr
+server reload-config` re-reads through a symlink whose target changed; and the
+whole Windows path (`set-achroma-current.ps1` and the
+`run_after_06-achroma-current.ps1` seeder are unrun and un-syntax-checked —
+no pwsh on the current machine).
 
 **`theme` aborts if the appearance flip fails.** The `osascript` call is
-unguarded and runs before the flips and copies, so a TCC denial leaves every
-tool on the old variant rather than half-switched — noisy but safe. Wrap it in
+unguarded and runs before the pointer swap, so a TCC denial leaves every tool
+on the old variant rather than half-switched — noisy but safe. Wrap it in
 `try` only if this starts happening on a machine that matters.
 
 ## Gotchas worth keeping
@@ -227,6 +317,19 @@ tool on the old variant rather than half-switched — noisy but safe. Wrap it in
   compare `| get value`, not the whole result.
 - **Autoload commands don't load in `nu -l -c`** — to test the switcher
   non-interactively, `source autoload/commands/theme.nu` explicitly.
+- **`ln -sfn`, never `ln -sf`** — when `current` already exists as a symlink
+  to a directory, `-f` alone dereferences it and creates the new link *inside*
+  the old target (`variants/dark/light`). `-n` is what makes it a replace.
+- **pi and posting theme files carry an internal `name:`** that must match the
+  filename they are read under, so both variants pass `achroma-current`.
+- **Windows symlinks** need `SeCreateSymbolicLinkPrivilege` or Developer Mode,
+  both set up by `init/win.ps1`. nushell has no `ln` builtin, so the pointer
+  swap goes through `pwsh/scripts/set-achroma-current.ps1`, which falls back
+  to a directory junction (no elevation needed, absolute target required).
+- **The bootstrap seeder must be create-if-missing.** `.chezmoiscripts/*/
+  run_after_06-achroma-current.*` guards on `[ -e ] || [ -L ]` and exits; if
+  it ever re-pointed the pointer, `chezmoi apply` in light mode would reset
+  everything to dark again.
 - After changing bat themes, run `bat cache --build`.
 - **Before overwriting an applied GUI config, diff it** — the on-disk file
   may be ahead of chezmoi source (zebar's dual-variant design existed only

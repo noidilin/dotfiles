@@ -47,6 +47,13 @@ chezmoi-crypto-key.txt.age # age passphrase key for chezmoi to decryp private ke
 .chezmoiscripts/darwin/**
 {{- end }}
 
+### achroma ###
+
+# Which variant is live. Owned by the `theme` command, never by chezmoi --
+# this line is what makes `chezmoi apply` in light mode stop resetting
+# everything to dark. The variants/ trees themselves stay chezmoi-managed.
+.config/achroma/current
+
 ### config directory ###
 
 {{- if ne .chezmoi.os "linux" }}
@@ -81,6 +88,7 @@ FlexASIO.toml
 .config/karabiner/
 .config/zellij/
 .config/herdr/
+.config/achroma/variants/*/herdr.toml
 .config/omniwm/
 .local/etc/antinote/
 {{- end }}
