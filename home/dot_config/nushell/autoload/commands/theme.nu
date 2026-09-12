@@ -17,7 +17,8 @@
 #
 #   - tools with a themes directory read a fixed filename that never changes:
 #     jjui `theme = "achroma-current"`, k9s `skin:`, pi `"theme":`,
-#     posting `theme:` -- themes/achroma-current.* is a symlink into current/.
+#     posting `theme:`, claude code `"theme": "custom:achroma-current"` --
+#     themes/achroma-current.* is a symlink into current/.
 #   - tools that read exactly one config file have that whole file symlinked:
 #     starship, carapace, bottom, lazydocker, herdr.
 #
@@ -78,7 +79,7 @@ def --env theme [
   ] | str join ',')
   $env.GH_DASH_CONFIG = ($env.XDG_CONFIG_HOME | path join 'gh-dash' $'config-achroma($suffix).yml')
 
-  # The whole switch for the nine pointer-driven tools. Relative target, so it
+  # The whole switch for the ten pointer-driven tools. Relative target, so it
   # resolves against the pointer's own directory.
   match $nu.os-info.name {
     'windows' => {
@@ -99,7 +100,7 @@ def --env theme [
   print 'follows automatically: wezterm, nvim, bat, delta, windows terminal, zed, yazi, opencode, zellij'
   print 'via achroma/current, live: starship (next prompt, every running shell)'
   print 'via achroma/current + reload: herdr'
-  print 'via achroma/current (restart if running): jjui, k9s, pi, posting, carapace, bottom, lazydocker'
+  print 'via achroma/current (restart if running): jjui, k9s, pi, posting, carapace, bottom, lazydocker, claude code'
   print 'refreshed in this session: delta, LS_COLORS (vivid), eza, lazygit, gh-dash'
   print 'per-session (restart shell/app): fzf colors, nushell color_config, other running shells'
 }

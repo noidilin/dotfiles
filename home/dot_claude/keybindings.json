@@ -1,0 +1,66 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-keybindings.json",
+  "$docs": "https://code.claude.com/docs/en/keybindings",
+  "bindings": [
+    {
+      "context": "Global",
+      "bindings": {
+        "ctrl+t": null
+      }
+    },
+    {
+      "context": "Chat",
+      "bindings": {
+        "ctrl+s": "chat:submit",
+        "enter": "chat:newline",
+        "ctrl+b": "chat:modelPicker",
+        "ctrl+t": "chat:thinkingToggle",
+        "ctrl+g": null
+      }
+    },
+    {
+      "context": "Footer",
+      "bindings": {
+        "ctrl+y": "footer:openSelected"
+      }
+    },
+    {
+      "context": "Autocomplete",
+      "bindings": {
+        "ctrl+p": "autocomplete:previous",
+        "ctrl+n": "autocomplete:next",
+        "ctrl+y": "autocomplete:accept"
+      }
+    },
+    {
+      "context": "Confirmation",
+      "bindings": {
+        "ctrl+p": "confirm:previous",
+        "ctrl+n": "confirm:next",
+        "ctrl+y": "confirm:yes"
+      }
+    },
+    {
+      "context": "Select",
+      "bindings": {
+        "ctrl+p": "select:previous",
+        "ctrl+n": "select:next",
+        "ctrl+y": "select:accept"
+      }
+    },
+    {
+      "context": "MessageSelector",
+      "bindings": {
+        "ctrl+y": "messageSelector:select"
+      }
+    },
+    {
+      "context": "Scroll",
+      "bindings": {
+        "ctrl+g": "scroll:top",
+        "ctrl+alt+g": "scroll:bottom",
+        "ctrl+u": "scroll:halfPageUp"
+      }
+    }
+  ]
+}

@@ -23,12 +23,12 @@ OS app theme
  └─ the `theme` command, which flips the OS setting and re-points
     ~/.config/achroma/current
      └─ everything that cannot follow on its own (jjui, k9s, pi, posting,
-        starship, carapace, bottom, lazydocker, herdr)
+        starship, carapace, bottom, lazydocker, herdr, claude code)
 ```
 
 ### Stable paths, one pointer
 
-The nine tools at the bottom of that tree cannot detect the OS theme and have
+The ten tools at the bottom of that tree cannot detect the OS theme and have
 no dark/light config key. They are handled by indirection rather than by
 rewriting their configs:
 
@@ -36,14 +36,15 @@ rewriting their configs:
 ~/.config/achroma/
   variants/
     dark/   { jjui.toml k9s.yaml pi.json posting.yaml starship.toml
-              carapace.json bottom.toml lazydocker.yml herdr.toml }
-    light/  { same nine names }
+              carapace.json bottom.toml lazydocker.yml herdr.toml
+              claude.json }
+    light/  { same ten names }
   current -> variants/dark        # the only mutable state; `theme` owns it
 ```
 
-Each of the nine reads a path that **never changes** and resolves through
+Each of the ten reads a path that **never changes** and resolves through
 `current`, so switching variants never touches an applied config. chezmoi
-renders both trees and owns all nine symlinks; it ignores `current`.
+renders both trees and owns all ten symlinks; it ignores `current`.
 
 This is the pattern omarchy uses (`~/.config/omarchy/current/theme/<file>`,
 which every app config `import`s or `source`s), with one deviation: omarchy
@@ -54,7 +55,7 @@ property — the app's own config file is never rewritten — with less copying.
 The earlier mechanism did rewrite them, either flipping one selection key in
 place or copying a variant render over the applied file. Because the chezmoi
 source had to pick a default, `chezmoi apply` while in light mode reset all
-nine to dark. That failure mode is gone.
+ten to dark. That failure mode is gone.
 
 ### One palette, addressed by role
 
@@ -96,11 +97,11 @@ Rendering a new variant is just passing the other palette.
 
 Where the wrappers live depends on how the tool is switched. Env-selected
 tools keep theirs next to the tool's own config (e.g.
-`dot_config/lazygit/theme-achroma[-light].yml.tmpl`). The nine
+`dot_config/lazygit/theme-achroma[-light].yml.tmpl`). The ten
 pointer-selected tools have theirs under
 `dot_config/achroma/variants/{dark,light}/<tool>.<ext>.tmpl`, one uniform
 filename per tool in each tree — that is what lets a single symlink swap
-switch all nine.
+switch all ten.
 
 ### Ink overrides
 
@@ -148,14 +149,14 @@ derives the startup-time env from it:
    (`ln -sfn variants/<variant>`; Windows goes through
    `pwsh/scripts/set-achroma-current.ps1`, since nushell has no `ln`
    builtin). That is the entire switch for jjui, k9s, pi, posting, starship,
-   carapace, bottom, lazydocker and herdr.
+   carapace, bottom, lazydocker, herdr and claude code.
 4. **Reload herdr** — `herdr server reload-config`, so the running server
    re-reads the pointer's new target without dropping the session.
 
 ### Where chezmoi fits
 
 chezmoi owns the **source of every variant** and every path that reaches into
-them: both variant trees under `~/.config/achroma/variants/`, and the nine
+them: both variant trees under `~/.config/achroma/variants/`, and the ten
 stable-path symlinks that point through `current`. It owns **nothing** about
 which variant is live — `.chezmoiignore` excludes `.config/achroma/current`,
 and the `theme` command is its only writer.
@@ -207,9 +208,14 @@ the source, not the app.
 
 ### Reached through `achroma/current` (re-pointed by `theme`)
 
-All nine read a path that never changes. The four with a themes directory get
+All ten read a path that never changes. The five with a themes directory get
 a fixed *filename* their config names forever; the five that read exactly one
 config file have that whole file symlinked.
+
+Claude Code is the only member whose themes directory is outside `~/.config`
+(it lives at `~/.claude/themes/`), so its relative symlink climbs to `$HOME`
+before descending into `.config/achroma/current/`, the same shape posting
+already needed from `~/.local/share/`.
 
 | Tool | Stable path | Variant file | Config says |
 | --- | --- | --- | --- |
@@ -217,6 +223,7 @@ config file have that whole file symlinked.
 | k9s | `k9s/skins/achroma-current.yaml` | `k9s.yaml` | `skin: achroma-current` |
 | pi | `pi/themes/achroma-current.json` | `pi.json` | `"theme": "achroma-current"` |
 | posting | `posting/themes/achroma-current.yaml` | `posting.yaml` | `theme: achroma-current` |
+| Claude Code | `.claude/themes/achroma-current.json` | `claude.json` | `"theme": "custom:achroma-current"` |
 | starship | `starship.toml` (whole file) | `starship.toml` | `palette = 'noidilin'` (fixed) |
 | carapace | `carapace/styles.json` (whole file) | `carapace.json` | — |
 | bottom | `bottom/bottom.toml` (whole file) | `bottom.toml` | — |
@@ -235,12 +242,21 @@ Two members behave specially:
 - **herdr** (darwin-only) holds its config in the running server, so `theme`
   follows the flip with `herdr server reload-config`.
 
-The other seven apply on next launch.
+The other eight apply on next launch.
 
 For pi and posting the theme file carries an internal `name:` field that the
 app registers the theme under, so both variant renders pass
 `"name" "achroma-current"` — it has to match the fixed filename, not the
 variant.
+
+Claude Code pins the same way, but as a precaution rather than a proven
+requirement. It selects a theme as `custom:<basename>`, which suggests the
+filename is the key and the internal `name` is only a display label — the
+pre-pointer setup ran `"theme": "custom:achroma"` against a file whose `name`
+was `Achroma`. That is suggestive, not conclusive: a case-insensitive match on
+`name` would also explain it, and the loader was not decompiled far enough to
+settle it. Pinning `achroma-current` is correct under either reading; the only
+cost is the theme picker listing `achroma-current` rather than `Achroma`.
 
 ### Light file exists; selected manually in the app
 
@@ -320,8 +336,10 @@ on the old variant rather than half-switched — noisy but safe. Wrap it in
 - **`ln -sfn`, never `ln -sf`** — when `current` already exists as a symlink
   to a directory, `-f` alone dereferences it and creates the new link *inside*
   the old target (`variants/dark/light`). `-n` is what makes it a replace.
-- **pi and posting theme files carry an internal `name:`** that must match the
-  filename they are read under, so both variants pass `achroma-current`.
+- **pi, posting and Claude Code theme files carry an internal `name:`** that
+  must match the filename they are read under, so both variants pass
+  `achroma-current`. Proven for pi and posting; precautionary for Claude Code,
+  which is selected by basename (`custom:achroma-current`).
 - **Windows symlinks** need `SeCreateSymbolicLinkPrivilege` or Developer Mode,
   both set up by `init/win.ps1`. nushell has no `ln` builtin, so the pointer
   swap goes through `pwsh/scripts/set-achroma-current.ps1`, which falls back
