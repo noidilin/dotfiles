@@ -20,6 +20,15 @@ onboarding = false
 # Executable used for new interactive panes. Empty means $SHELL, then /bin/sh.
 default_shell = "nu"
 
+[ui]
+# Agent name on the pane border, and glyph rather than text status indicators.
+# Set through herdr's settings UI (Ctrl+q Shift+S), captured here so both
+# variant renders carry them — the UI writes through the config.toml symlink
+# into whichever variant is live, so an in-app change would otherwise exist in
+# that variant only and be reverted by the next `chezmoi apply`.
+show_agent_labels_on_pane_borders = true
+status_indicators = "symbols"
+
 # Background notification popups go through the host terminal.
 [ui.toast]
 delivery = "terminal"

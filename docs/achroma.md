@@ -169,12 +169,24 @@ three classes, and none of them can be reset by `chezmoi apply`:
 - **Pointer-selected** — the tool reads a path that never changes, and that
   path resolves through `current`.
 
-One residual caveat, unrelated to chezmoi: an app that rewrites its own
-symlinked config via temp-file-plus-rename will *replace* the symlink with a
-regular file and silently break its own indirection. herdr's settings UI
-(Ctrl+q Shift+S) and `carapace --style` are the two known writers. `chezmoi
-status` surfaces it as an `M`, so it is visible rather than silent — but edit
-the source, not the app.
+One residual caveat, unrelated to chezmoi: two apps rewrite their own
+symlinked config — herdr's settings UI (Ctrl+q Shift+S) and `carapace
+--style`. How they write matters:
+
+- **open-truncate-write** follows the symlink, so the bytes land in
+  `variants/<live>/…` and the symlink survives. Verified for herdr on
+  2026-09-12: after saving from its settings UI, `config.toml` was still a
+  symlink and `chezmoi status` showed `MM
+  .config/achroma/variants/dark/herdr.toml`.
+- **temp-file-plus-rename** would instead *replace* the symlink with a regular
+  file and silently break the indirection. Not observed so far.
+
+Either way `chezmoi status` surfaces it, and `chezmoi apply` reverts it — so
+edit the source, not the app. Note the write is now **variant-scoped**: an
+in-app change lands only in whichever variant was live, so it disappears on
+switching rather than persisting as it did when the applied config was a
+single real file. If a setting is worth keeping, put it in the shared body
+(`.chezmoitemplates/<tool>-achroma.*`) so both renders carry it.
 
 ## Per-tool mechanism catalog
 
@@ -288,14 +300,45 @@ posting differ only in the `name` field; `chezmoi status` lists the 18 variant
 files, the nine symlinks and the four fixed config keys, and does **not** list
 `.config/achroma/current`.
 
+Verified 2026-09-12, after `chezmoi apply` landed the symlinks: all nine live
+links resolve as intended; `herdr server reload-config` succeeds against the
+symlinked `config.toml` (`outcome="ok"`, `changes_ui=true` in
+`herdr-server.log`); and herdr's settings UI writes *through* the symlink
+rather than replacing it.
+
 Still pending: visual confirmation inside zellij, jjui, herdr and antinote;
 the `osascript` appearance flip (sending Apple events to System Events needs
 Automation permission, which a non-interactive process does not have
-(`-1743`), so run `theme light` from a real terminal once); whether `herdr
-server reload-config` re-reads through a symlink whose target changed; and the
-whole Windows path (`set-achroma-current.ps1` and the
+(`-1743`), so run `theme light` from a real terminal once); whether
+`reload-config` picks up a *changed* pointer target — every observed reload so
+far ran with the pointer standing still, so use the isolated test below; and
+the whole Windows path (`set-achroma-current.ps1` and the
 `run_after_06-achroma-current.ps1` seeder are unrun and un-syntax-checked —
 no pwsh on the current machine).
+
+### Isolated herdr reload test
+
+Do not verify this with `theme light`. herdr's `[theme] name = "terminal"`
+makes pane *content* inherit the host terminal's ANSI colors, and ghostty
+switches those on its own, so the panes recolor even if herdr never reloaded.
+The only proof is the **chrome** (sidebar, tab bar, panel surfaces) driven by
+`[theme.custom]`, where `surface0` runs `#2a2a2a` dark → `#eaeaea` light.
+
+Move the pointer without touching the OS appearance, so the terminal stays
+dark and any chrome change can only have come from the reload:
+
+```bash
+readlink ~/.config/achroma/current                       # variants/dark
+ln -sfn variants/light ~/.config/achroma/current
+herdr server reload-config
+# PASS: chrome goes near-white while pane content stays dark
+ln -sfn variants/dark ~/.config/achroma/current && herdr server reload-config
+```
+
+If the chrome does not move, check whether herdr can read the light render at
+all — `HERDR_CONFIG_PATH=~/.config/achroma/variants/light/herdr.toml herdr
+--no-session`. If that works, the reload is not re-resolving the symlink, and
+herdr goes back to the copy approach as a single exception.
 
 **`theme` aborts if the appearance flip fails.** The `osascript` call is
 unguarded and runs before the pointer swap, so a TCC denial leaves every tool
