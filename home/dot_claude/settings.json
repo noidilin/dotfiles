@@ -25,5 +25,5 @@
   "effortLevel": "medium",
   "autoMemoryEnabled": false,
   "skipDangerousModePermissionPrompt": true,
-  "theme": "custom:achroma"
+  "theme": "custom:achroma-current"
 }
