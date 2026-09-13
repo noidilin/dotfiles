@@ -4,6 +4,9 @@
 **/node_modules/
 history.txt
 
+# Build artifact of `mise run install`, not config. Rebuilt on demand.
+.local/share/metaage-aws-estimator/.venv/**
+
 ### chezmoi ###
 
 .config/chezmoi/**
@@ -91,6 +94,9 @@ FlexASIO.toml
 .config/achroma/variants/*/herdr.toml
 .config/omniwm/
 .local/etc/antinote/
+# Claude Desktop DXT runtime -- macOS-only app, macOS-only paths.
+.local/etc/claude-desktop/
+.local/share/metaage-aws-estimator/
 {{- end }}
 
 {{- if ne .osId "linux-arch" }}

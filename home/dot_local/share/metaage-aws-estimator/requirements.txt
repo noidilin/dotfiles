@@ -1,0 +1,14 @@
+# Deps for the Claude Desktop extension "metaage-aws-estimator", installed into
+# the sibling .venv by `mise run install`. The extension ships its own
+# requirements.txt, but it pins nothing useful -- these three lines are why:
+#
+# mcp>=1.2,<2   server.py does `from mcp.server.fastmcp import FastMCP`, and
+#               FastMCP was renamed MCPServer in mcp 2.x. Unpinned `mcp` now
+#               resolves to 2.x and fails at import.
+# botocore[crt] boto3's credential chain raises MissingDependencyException
+#               without awscrt, at import time, before any tool can run.
+# openpyxl      writes the estimate xlsx.
+mcp>=1.2,<2
+boto3>=1.28.0
+openpyxl>=3.1.0
+botocore[crt]

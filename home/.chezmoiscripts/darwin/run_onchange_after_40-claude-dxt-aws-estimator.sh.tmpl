@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+# =============================================================================
+# Claude Desktop DXT: metaage-aws-estimator runtime
+# =============================================================================
+# The extension's manifest hardcodes `"command": "python3"`, which Claude
+# Desktop resolves against its own PATH -- landing on /opt/homebrew/bin/python3,
+# where the server's deps are not installed and where Homebrew wipes
+# site-packages on every minor bump. The fix is two halves:
+#
+#   1. a mise-managed venv at ~/.local/share/metaage-aws-estimator/.venv
+#   2. a patched run.py inside the extension that re-execs into it
+#
+# Both halves are mise tasks in that directory's chezmoi-managed mise.toml, so
+# this script is only a bootstrap wrapper -- the logic lives in one place and
+# stays runnable by hand.
+#
+# run_onchange, deliberately: it fires on a fresh machine and whenever the patch
+# or the pins change, which is all chezmoi can actually see. It does NOT fire
+# when Claude Desktop replaces run.py during an extension update -- that event
+# leaves no hash in this repo, and it is uncorrelated with `chezmoi apply`
+# anyway. The recovery there is one command:
+#
+#     cd ~/.local/share/metaage-aws-estimator && mise run patch
+#
+# See docs/claude-desktop-dxt.md.
+#
+# Hash triggers:
+#   run.py:       {{ include "dot_local/etc/claude-desktop/metaage-aws-estimator-run.py" | sha256sum }}
+#   requirements: {{ include "dot_local/share/metaage-aws-estimator/requirements.txt" | sha256sum }}
+#   mise.toml:    {{ include "dot_local/share/metaage-aws-estimator/mise.toml" | sha256sum }}
+
+set -euo pipefail
+
+{{- if eq .chezmoi.os "darwin" }}
+
+RUNTIME_DIR="${HOME}/.local/share/metaage-aws-estimator"
+
+if ! command -v mise &>/dev/null; then
+  printf "[ERROR] mise is not installed; cannot build the estimator venv.\n" >&2
+  exit 1
+fi
+
+if [[ ! -f "${RUNTIME_DIR}/mise.toml" ]]; then
+  printf "[ERROR] %s/mise.toml missing; run 'chezmoi apply' first.\n" "${RUNTIME_DIR}" >&2
+  exit 1
+fi
+
+# `mise run` auto-trusts its own config in normal mode, but not under paranoid.
+mise trust "${RUNTIME_DIR}" &>/dev/null || true
+
+cd "${RUNTIME_DIR}"
+
+# The venv is built even when the extension is not installed: this script will
+# not fire again on its own, so leaving the expensive half undone would mean a
+# later DXT install needs two commands instead of one (`mise run patch`).
+if ! mise run install &>/dev/null; then
+  printf "[ERROR] 'mise run install' failed in %s; rerun it by hand.\n" "${RUNTIME_DIR}" >&2
+  exit 1
+fi
+printf "[estimator] venv ready (%s/.venv)\n" "${RUNTIME_DIR}"
+
+# Prints its own status line, and no-ops when the extension is absent.
+mise run --quiet patch
+
+{{- else }}
+
+printf "[estimator] Skipping (macOS only)\n"
+
+{{- end }}

@@ -1,0 +1,105 @@
+# Runtime for the Claude Desktop extension "metaage-aws-estimator".
+#
+# Claude Desktop launches the extension's MCP server with a bare `python3`,
+# which resolves to /opt/homebrew/bin/python3 -- an interpreter these deps are
+# not installed in, and whose site-packages Homebrew replaces on every minor
+# bump. That is what broke the server (`ModuleNotFoundError: No module named
+# 'mcp'`). The extension's run.py is patched to re-exec into .venv/bin/python
+# instead; this file owns that venv. See docs/claude-desktop-dxt.md.
+#
+# The venv's base interpreter is deliberately the *minor* alias
+# (installs/python/3.12/bin/python, a symlink mise re-points on patch bumps)
+# rather than installs/python/3.12.14. With upgrade.auto_prune on, a `mise up`
+# landing 3.12.15 would prune 3.12.14 and dangle an exact-version base; the
+# alias survives that, and staying inside 3.12 keeps the compiled wheels
+# (pydantic-core, awscrt) ABI-valid.
+
+[tools]
+python = "3.12"
+uv = "latest"
+
+[env]
+# Activation for interactive use in this directory only -- Claude Desktop never
+# sees it. Deliberately not `create = true`: mise would build the venv against
+# the exact-version path, which is what the note above avoids.
+_.python.venv = { path = "{{config_root}}/.venv" }
+
+[tasks.install]
+description = "Create/refresh the venv the extension's run.py re-execs into"
+dir = "{{config_root}}"
+run = [
+  "uv venv --seed --allow-existing --python {{env.HOME}}/.local/share/mise/installs/python/3.12/bin/python .venv",
+  "uv pip install --python .venv/bin/python -r requirements.txt",
+]
+
+[tasks.verify]
+description = "Import the extension's server.py under the venv and count its tools"
+dir = "{{config_root}}"
+env = { AWS_DEFAULT_REGION = "ap-northeast-1" }
+run = '''
+set -eu
+
+ext=""
+for d in "$HOME/Library/Application Support/Claude/Claude Extensions/"*metaage-aws-estimator; do
+  # `if`, not `[ … ] && …`: an unmatched glob leaves the literal pattern, and a
+  # failing AND-list as the last command in the body would trip `set -e`.
+  if [ -d "$d" ]; then ext="$d"; fi
+done
+if [ -z "$ext" ]; then
+  echo "[estimator] extension not installed; nothing to verify" >&2
+  exit 1
+fi
+
+# Dummy creds keep boto3's credential chain from reaching into the real
+# providers; this only checks that the module imports and registers its tools.
+AWS_ACCESS_KEY_ID=dummy AWS_SECRET_ACCESS_KEY=dummy \
+  .venv/bin/python - "$ext/server" <<'PY'
+import importlib.util, sys
+
+server_dir = sys.argv[1]
+sys.path.insert(0, server_dir)
+spec = importlib.util.spec_from_file_location("srv", server_dir + "/server.py")
+mod = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(mod)
+print(f"[estimator] ok: python {sys.version.split()[0]}, "
+      f"{len(mod.mcp._tool_manager._tools)} tools")
+PY
+'''
+
+[tasks.patch]
+description = "Re-assert the run.py patch inside the installed extension"
+run = '''
+set -eu
+
+patched="$HOME/.local/etc/claude-desktop/metaage-aws-estimator-run.py"
+if [ ! -f "$patched" ]; then
+  echo "[estimator] ERROR: patched run.py missing at $patched" >&2
+  exit 1
+fi
+
+ext=""
+for d in "$HOME/Library/Application Support/Claude/Claude Extensions/"*metaage-aws-estimator; do
+  # `if`, not `[ … ] && …`: an unmatched glob leaves the literal pattern, and a
+  # failing AND-list as the last command in the body would trip `set -e`.
+  if [ -d "$d" ]; then ext="$d"; fi
+done
+if [ -z "$ext" ]; then
+  echo "[estimator] extension not installed; rerun this task after installing it"
+  exit 0
+fi
+
+target="$ext/run.py"
+if cmp -s "$patched" "$target"; then
+  echo "[estimator] run.py already patched"
+  exit 0
+fi
+
+# Keep the first pristine copy we ever see, so the patch stays revertible even
+# after several extension updates.
+if [ -f "$target" ] && [ ! -f "$target.dxt-orig" ]; then
+  cp "$target" "$target.dxt-orig"
+  echo "[estimator] saved upstream run.py -> run.py.dxt-orig"
+fi
+cp "$patched" "$target"
+echo "[estimator] re-applied run.py patch (Cmd+Q Claude Desktop to pick it up)"
+'''
