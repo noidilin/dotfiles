@@ -2,18 +2,38 @@
 show_hidden = true
 linemode = "size_and_mtime"
 
-# Only `edit` is overridden, because yazi's default hardcodes `code` on
-# Windows. Defining an opener key replaces its whole default list -- there is
-# no prepend/append for [opener], only for [open].
+# Defining an opener key replaces its whole default list -- there is no
+# prepend/append for [opener], only for [open].
 [opener]
+# yazi's default `edit` hardcodes `code` on Windows; keep $EDITOR on both.
 edit = [
   { run = "${EDITOR:-vi} %s", desc = "$EDITOR", block = true, for = "unix" },
   { run = "%EDITOR% %s", desc = "editor", block = true, for = "windows" },
 ]
 
-# No [open] overrides needed right now -- yazi's defaults already route
-# application/{json,ndjson,javascript,wine-extension-ini} to `edit`.
-# When a rule is needed: [open].prepend_rules wins over the defaults,
-# rules match top-down first-match-wins, and the first name in `use` is what
-# <Enter> runs while the rest populate the <O> "open with" menu.
+# macOS only on purpose: elsewhere the `helium` name resolves to no entry, so
+# the next name in `use` (`open`) becomes the default and PDFs still open.
+helium = [
+  { run = "open -a Helium %s", desc = "Helium", for = "macos" },
+]
+
+# prepend_rules is matched before yazi's defaults; within the list it is
+# top-down first-match-wins. The first name in `use` is what <Enter> runs, the
+# rest populate the <O> "open with" menu.
 # 'spot' on a file to check it's mime-type with the default <Tab> key.
+[open]
+prepend_rules = [
+  # application/pdf has no default rule, so it falls to the `{ url = "*" }`
+  # catch-all -> `open` -> LaunchServices -> Preview. Route it to Helium
+  # instead, keeping the system default reachable via <O>.
+  { mime = "application/pdf", use = [
+    "helium",
+    "open",
+    "reveal",
+  ] },
+
+  # Match on filename rather than mime: `file` reports plain markdown as
+  # text/plain, and these rules must win regardless of what it detects.
+  { url = "*.md", use = ["edit", "reveal"] },
+  { url = "*.markdown", use = ["edit", "reveal"] },
+]
