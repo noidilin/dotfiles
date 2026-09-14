@@ -125,18 +125,21 @@ role-based:
   `--mantle` so the bar reads as elevated
 
 The compression is worth quantifying, because "one step up in light" is the
-rule of thumb it produces. Against each variant's own base (`mono03`):
+rule of thumb it produces. Contrast of each line slot against the two surfaces
+tools actually draw on — `mono03` (base) and `mono02` (mantle, which is what
+ghostty sets the terminal background to):
 
-| slot | dark | light |
-| --- | --- | --- |
-| `mono09` | 1.63:1 | 1.27:1 |
-| `mono10` | 1.79:1 | 1.49:1 |
-| `mono11` | 2.00:1 | 1.77:1 |
-| `mono12` | 2.24:1 | 2.26:1 |
+| slot | dark on base | light on base | dark on mantle | light on mantle |
+| --- | --- | --- | --- | --- |
+| `mono09` | 1.63:1 | 1.27:1 | 1.72:1 | 1.38:1 |
+| `mono10` | 1.79:1 | 1.49:1 | 1.89:1 | 1.63:1 |
+| `mono11` | 2.00:1 | 1.77:1 | 2.11:1 | 1.94:1 |
+| `mono12` | 2.24:1 | 2.26:1 | 2.36:1 | 2.47:1 |
 
-So a line mirrored naively loses about a fifth of its weight in light, and the
-ramps only re-converge at `mono12`. Stepping the light side up one slot
-restores it (dark `mono10` 1.79 ≈ light `mono11` 1.77).
+So a line mirrored naively loses about a fifth of its weight in light, on
+either surface, and the ramps only re-converge at `mono12`. Stepping the light
+side up one slot restores it (on mantle, dark `mono10` 1.89 ≈ light `mono11`
+1.94).
 
 leaf is where this matters most, since it has more line-type slots than any
 other tool here, so its wrappers replace the single `border` with a graded
@@ -290,6 +293,15 @@ Two members behave specially:
   (`themes/achroma-current.toml`), which leaf resolves from its own config
   directory, so the pointer does the whole job.
 
+  All of leaf's surfaces — content pane, sidebar, status bar — sit on
+  **mantle** (`mono02`), not base, because mantle is what ghostty sets the
+  terminal background to, so leaf's panes disappear into the terminal instead
+  of floating one step above it. jjui and pi already use mantle the same way;
+  base (`mono03`) goes unused here. The trade-off is that the sidebar and
+  status bar have no fill of their own and are delineated by `toc_border` and
+  `status_separator` instead; selection still lifts clear of them, since
+  `ink.selectionBg` is three slots up.
+
 The other nine apply on next launch.
 
 For pi and posting the theme file carries an internal `name:` field that the
@@ -371,11 +383,12 @@ two variant renders, the symlink and `config.toml`, and does **not** list
 `.config/achroma/current`.
 
 Also audited every fg/bg pair leaf renders (55 pairs × 2 variants) for WCAG
-contrast. All text pairs clear 3.3:1 and most sit above 4.5:1 in both
-variants; the line slots land between 1.5:1 and 2.3:1 by design, within 0.05
-of each other across variants after the ink grading above. The single
-deliberate outlier is the table separator in light (1.49:1) — it has to read
-as quieter than the table box (1.77:1), and that is the room available.
+contrast. All text pairs clear 3.5:1 and most sit above 4.5:1 in both
+variants; the line slots land between 1.6:1 and 2.5:1 by design, tracking
+within about 0.1 of each other across variants after the ink grading above.
+Every pair meets its floor in both variants — moving all surfaces onto mantle
+to match the terminal lifted each foreground onto a slightly further ground
+and resolved the one earlier outlier (light table separator, 1.49 → 1.63).
 
 Still pending: visual confirmation of leaf's TUI chrome (the `[ui]` half —
 sidebar, status bar and the search-match background are not reachable from
