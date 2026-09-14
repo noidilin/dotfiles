@@ -11,6 +11,13 @@ edit = [
   { run = "%EDITOR% %s", desc = "editor", block = true, for = "windows" },
 ]
 
+# leaf-markdown-viewer: a TUI, so it needs `block` to get the terminal, and
+# takes a single file positionally, hence %s1 rather than %s. No `for` filter
+# -- .chezmoidata/pm/common.yml installs it on brew, scoop and aur alike.
+leaf = [
+  { run = "leaf %s1", desc = "leaf", block = true },
+]
+
 # macOS only on purpose: elsewhere the `helium` name resolves to no entry, so
 # the next name in `use` (`open`) becomes the default and PDFs still open.
 helium = [
@@ -32,8 +39,17 @@ prepend_rules = [
     "reveal",
   ] },
 
-  # Match on filename rather than mime: `file` reports plain markdown as
-  # text/plain, and these rules must win regardless of what it detects.
-  { url = "*.md", use = ["edit", "reveal"] },
-  { url = "*.markdown", use = ["edit", "reveal"] },
+  # Match on filename, not mime: `file` reports markdown as plain text/plain,
+  # so there is no mime that distinguishes it. Default rule would be text/*
+  # -> `edit`; view in leaf instead, with $EDITOR one <O> away.
+  { url = "*.md", use = [
+    "leaf",
+    "edit",
+    "reveal",
+  ] },
+  { url = "*.markdown", use = [
+    "leaf",
+    "edit",
+    "reveal",
+  ] },
 ]
