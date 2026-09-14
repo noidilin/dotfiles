@@ -1,0 +1,158 @@
+# Warm monochrome leaf theme aligned with the achroma palette.
+#
+# leaf picks its theme with a single `theme = <path>` key in leaf/config.toml
+# (no dark/light pair, and LEAF_THEME would only reach the shell that set it),
+# so leaf/themes/achroma-current.toml is a symlink into
+# ~/.config/achroma/current/ and `theme` switches it by re-pointing that one
+# symlink. See docs/achroma.md.
+#
+# `base` is the built-in preset any key left unset falls back to, and `syntax`
+# is the syntect theme for fenced code blocks -- both are polarity-dependent
+# rather than role-mirrored, so the wrappers pass them in. Only four syntect
+# themes ship in the binary (base16-ocean.dark, base16-ocean.light,
+# InspiredGitHub, Solarized (dark)); of the four `base` presets only arctic is
+# light. Every one of leaf's 81 color keys is set below, so `base` should never
+# actually show through -- it is a floor, not a source.
+#
+# Rendered from the shared palette (.chezmoidata/colors.yml). Lines and raised
+# surfaces take ink overrides because the light mono ramp is compressed at the
+# background end: mono10 is 1.79:1 on the dark base but only 1.49:1 on the
+# light one, so every line slot steps up roughly one notch in light to land at
+# the same perceived weight (dark mono10 1.79 ~= light mono11 1.77). leaf has
+# more line-type slots than any other achroma tool -- table box, table
+# separator, code frame, heading underline, thematic break, status separator,
+# sidebar split -- so instead of one `border` they take a graded ramp:
+# `hairline` < `frame` < `rule`. `border` is the exception, holding the
+# repo-wide chrome convention (dark mono07 -> light mono10) so leaf's sidebar
+# split matches jjui's and bottom's.
+base = "{{ .base }}"
+syntax = "{{ .syntax }}"
+
+# ---------------------------------------------------------------------------
+# Chrome: TOC sidebar, content pane, status bar
+# ---------------------------------------------------------------------------
+[ui]
+# Sidebar sits on mantle, content on base, so the split reads without a rule.
+toc_bg = "{{ .c.mono02 }}"
+toc_border = "{{ .ink.border }}"
+content_bg = "{{ .c.mono03 }}"
+scrollbar_hover = "{{ .c.acc07 }}"
+
+status_bg = "{{ .c.mono02 }}"
+status_separator = "{{ .ink.hairline }}"
+# The "leaf" brand chip: an inverted accent pill. mono02 is background-side and
+# acc04 foreground-side in BOTH variants, so the inversion survives mirroring.
+status_brand_fg = "{{ .c.mono02 }}"
+status_brand_bg = "{{ .c.acc04 }}"
+status_filename_fg = "{{ .c.mono21 }}"
+status_filename_bg = "{{ .ink.selectionBg }}"
+# Watch mode is a persistent indicator, so it stays quiet (10% tint); success
+# is transient and takes the emphasis slot plus the 25% tint so it pops.
+status_watch_fg = "{{ .c.green00 }}"
+status_watch_bg = "{{ .c.mixGreen10 }}"
+status_reloaded_fg = "{{ .c.mono02 }}"
+status_reloaded_bg = "{{ .c.green00 }}"
+status_search_fg = "{{ .c.acc07 }}"
+status_search_bg = "{{ .ink.selectionBg }}"
+status_success_fg = "{{ .c.green01 }}"
+status_success_bg = "{{ .c.mixGreen25 }}"
+status_warning_fg = "{{ .c.orange00 }}"
+status_error_fg = "{{ .c.red00 }}"
+status_error_bg = "{{ .c.mixRed10 }}"
+status_shortcut_fg = "{{ .c.mono15 }}"
+status_percent_fg = "{{ .c.acc07 }}"
+
+toc_hover_fg = "{{ .c.mono25 }}"
+toc_header_fg = "{{ .c.mono17 }}"
+# Inactive rows share toc_bg so only the active row lifts off the sidebar.
+toc_active_bg = "{{ .ink.selectionBg }}"
+toc_inactive_bg = "{{ .c.mono02 }}"
+toc_accent = "{{ .c.acc07 }}"
+# An index is small text, not decoration, so it stops one slot short of the
+# marker ramp to stay legible while still reading as inactive.
+toc_index_inactive = "{{ .c.mono12 }}"
+toc_primary_active = "{{ .c.mono25 }}"
+toc_primary_inactive = "{{ .c.mono19 }}"
+toc_secondary_inactive = "{{ .c.mono11 }}"
+toc_secondary_text_active = "{{ .c.mono21 }}"
+toc_secondary_text_inactive = "{{ .c.mono15 }}"
+
+# ---------------------------------------------------------------------------
+# Rendered markdown
+# ---------------------------------------------------------------------------
+[markdown]
+text = "{{ .c.mono21 }}"
+strong_text = "{{ .c.mono25 }}"
+
+# Headings descend the warm accent ramp, so depth reads as falling contrast in
+# both variants (acc08 is the highest-contrast slot against the base either
+# way, acc04 the quietest).
+heading_1 = "{{ .c.acc08 }}"
+heading_2 = "{{ .c.acc07 }}"
+heading_3 = "{{ .c.acc06 }}"
+heading_4 = "{{ .c.acc05 }}"
+heading_other = "{{ .c.acc04 }}"
+# A thematic break is a full-width section boundary, so it carries one step
+# more weight than a heading's underline.
+heading_underline = "{{ .ink.frame }}"
+rule = "{{ .ink.rule }}"
+
+blockquote_marker = "{{ .c.mono13 }}"
+blockquote_text = "{{ .c.mono15 }}"
+
+# Nesting depth steps down the accent ramp rather than changing hue.
+list_level_1 = "{{ .c.acc06 }}"
+list_level_2 = "{{ .c.acc04 }}"
+list_level_3 = "{{ .c.acc02 }}"
+ordered_list = "{{ .c.acc07 }}"
+
+code_frame = "{{ .ink.frame }}"
+code_gutter = "{{ .c.mono13 }}"
+code_label = "{{ .c.mono15 }}"
+inline_code_fg = "{{ .c.accDim07 }}"
+inline_code_bg = "{{ .ink.selectionBg }}"
+
+table_border = "{{ .ink.frame }}"
+# Interior dividers stay a step quieter than the outer box in both variants.
+table_separator = "{{ .ink.hairline }}"
+table_header = "{{ .c.acc07 }}"
+table_cell = "{{ .c.mono21 }}"
+
+# Links stay monochrome-warm on the accDim ramp, matching pi's mdLink.
+link_icon = "{{ .c.accDim03 }}"
+link_text = "{{ .c.accDim05 }}"
+link_hover = "{{ .c.accDim08 }}"
+
+# leaf exposes no foreground for search, only the background, so both must
+# stay background-side to keep `text` readable. The current match is the warm
+# 25% tint -- distinguished from the other matches by hue as well as lightness.
+search_highlight_bg = "{{ .c.mono09 }}"
+search_match_bg = "{{ .c.mixYellow25 }}"
+
+# ==mark== is a highlighter, so it inverts: background-side fg on a
+# foreground-side warm bg, readable under either polarity.
+mark_fg = "{{ .c.mono02 }}"
+mark_bg = "{{ .c.yellow00 }}"
+
+latex_inline_fg = "{{ .c.accDim05 }}"
+latex_inline_bg = "{{ .ink.selectionBg }}"
+latex_block_fg = "{{ .c.accDim07 }}"
+
+mermaid_keyword = "{{ .c.acc07 }}"
+mermaid_arrow = "{{ .c.mono15 }}"
+mermaid_label = "{{ .c.acc05 }}"
+mermaid_block_fg = "{{ .c.mono21 }}"
+
+task_checked = "{{ .c.green00 }}"
+task_unchecked = "{{ .c.mono13 }}"
+
+# Alert callouts are the one place chroma carries meaning rather than style,
+# so they take the chromatic ramps -- same hues in both variants.
+alert_note = "{{ .c.blue00 }}"
+alert_tip = "{{ .c.green00 }}"
+alert_important = "{{ .c.magenta00 }}"
+alert_warning = "{{ .c.orange00 }}"
+alert_caution = "{{ .c.red00 }}"
+
+footnote_ref = "{{ .c.accDim05 }}"
+footnote_text = "{{ .c.mono15 }}"

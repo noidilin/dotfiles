@@ -172,6 +172,10 @@ pkgs:
       brew: "lazygit"
       scoop: "lazygit"
       pacman: "lazygit"
+    leaf: # terminal markdown previewer; `leaf` conflicts with two other formulae
+      brew: "leaf-markdown-viewer"
+      scoop: "leaf-markdown-viewer"
+      aur: "leaf-markdown-viewer-bin"
     less:
       brew: "less"
       scoop: "less"

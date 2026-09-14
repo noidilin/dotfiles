@@ -1,0 +1,11 @@
+# leaf -- terminal markdown previewer.
+#
+# The theme path is relative, so leaf resolves it from this file's own
+# directory: ~/.config/leaf/themes/achroma-current.toml. That name never
+# changes -- it is a symlink into ~/.config/achroma/current/, so the `theme`
+# command switches leaf's variant by re-pointing that one symlink and never
+# rewrites this file (see docs/achroma.md).
+#
+# Do not replace this with LEAF_THEME: the env var would only ever reach the
+# shell that ran `theme`, while leaf is launched from editors and pipes too.
+theme = "themes/achroma-current.toml"

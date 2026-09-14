@@ -1,0 +1,22 @@
+{{- /* Every line slot steps up one notch and the selection background to
+   mono07: the mirrored values are nearly invisible on the light base because
+   the light ramp is compressed at the background end. Measured against the
+   light base, the step restores the dark variant's perceived weight --
+   dark mono10 is 1.79:1 where light mono10 is only 1.49:1, but light mono11
+   is 1.77:1. `border` alone keeps the repo-wide chrome convention
+   (dark mono07 -> light mono10) so leaf's sidebar split matches jjui's and
+   bottom's.
+
+   `base` and `syntax` are not role-mirrorable -- arctic is the only light one
+   of leaf's four built-in presets, and base16-ocean.light the only light
+   syntect theme in the binary besides InspiredGitHub. */ -}}
+{{- template "leaf-achroma.toml" (dict
+      "c" .color.achroma.light
+      "base" "arctic"
+      "syntax" "base16-ocean.light"
+      "ink" (dict
+        "border" .color.achroma.light.mono10
+        "hairline" .color.achroma.light.mono10
+        "frame" .color.achroma.light.mono11
+        "rule" .color.achroma.light.mono12
+        "selectionBg" .color.achroma.light.mono07)) -}}

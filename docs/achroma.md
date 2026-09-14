@@ -23,13 +23,13 @@ OS app theme
  └─ the `theme` command, which flips the OS setting and re-points
     ~/.config/achroma/current
      └─ everything that cannot follow on its own (jjui, k9s, pi, posting,
-        starship, carapace, bottom, lazydocker, herdr, claude code)
+        starship, carapace, bottom, lazydocker, herdr, claude code, leaf)
 ```
 
 ### Stable paths, one pointer
 
-The ten tools at the bottom of that tree cannot detect the OS theme and have
-no dark/light config key. They are handled by indirection rather than by
+The eleven tools at the bottom of that tree cannot detect the OS theme and
+have no dark/light config key. They are handled by indirection rather than by
 rewriting their configs:
 
 ```text
@@ -37,14 +37,14 @@ rewriting their configs:
   variants/
     dark/   { jjui.toml k9s.yaml pi.json posting.yaml starship.toml
               carapace.json bottom.toml lazydocker.yml herdr.toml
-              claude.json }
-    light/  { same ten names }
+              claude.json leaf.toml }
+    light/  { same eleven names }
   current -> variants/dark        # the only mutable state; `theme` owns it
 ```
 
-Each of the ten reads a path that **never changes** and resolves through
+Each of the eleven reads a path that **never changes** and resolves through
 `current`, so switching variants never touches an applied config. chezmoi
-renders both trees and owns all ten symlinks; it ignores `current`.
+renders both trees and owns all eleven symlinks; it ignores `current`.
 
 This is the pattern omarchy uses (`~/.config/omarchy/current/theme/<file>`,
 which every app config `import`s or `source`s), with one deviation: omarchy
@@ -55,7 +55,7 @@ property — the app's own config file is never rewritten — with less copying.
 The earlier mechanism did rewrite them, either flipping one selection key in
 place or copying a variant render over the applied file. Because the chezmoi
 source had to pick a default, `chezmoi apply` while in light mode reset all
-ten to dark. That failure mode is gone.
+of them to dark. That failure mode is gone.
 
 ### One palette, addressed by role
 
@@ -97,11 +97,17 @@ Rendering a new variant is just passing the other palette.
 
 Where the wrappers live depends on how the tool is switched. Env-selected
 tools keep theirs next to the tool's own config (e.g.
-`dot_config/lazygit/theme-achroma[-light].yml.tmpl`). The ten
+`dot_config/lazygit/theme-achroma[-light].yml.tmpl`). The eleven
 pointer-selected tools have theirs under
 `dot_config/achroma/variants/{dark,light}/<tool>.<ext>.tmpl`, one uniform
 filename per tool in each tree — that is what lets a single symlink swap
-switch all ten.
+switch all eleven.
+
+A wrapper may also pass values that are not colors at all, when a tool has a
+setting that cannot be role-mirrored. leaf's `base` (built-in preset to fall
+back on) and `syntax` (syntect theme for fenced code) are polarity-dependent
+strings, so its wrappers pass `"base" "ocean"` / `"base" "arctic"` alongside
+the palette rather than branching inside the shared body.
 
 ### Ink overrides
 
@@ -117,6 +123,28 @@ role-based:
   white borrows the dark palette's warm `acc06`/`acc07`)
 - zebar's light `--crust` is a literal `#f2f2f2`, deliberately darker than
   `--mantle` so the bar reads as elevated
+
+The compression is worth quantifying, because "one step up in light" is the
+rule of thumb it produces. Against each variant's own base (`mono03`):
+
+| slot | dark | light |
+| --- | --- | --- |
+| `mono09` | 1.63:1 | 1.27:1 |
+| `mono10` | 1.79:1 | 1.49:1 |
+| `mono11` | 2.00:1 | 1.77:1 |
+| `mono12` | 2.24:1 | 2.26:1 |
+
+So a line mirrored naively loses about a fifth of its weight in light, and the
+ramps only re-converge at `mono12`. Stepping the light side up one slot
+restores it (dark `mono10` 1.79 ≈ light `mono11` 1.77).
+
+leaf is where this matters most, since it has more line-type slots than any
+other tool here, so its wrappers replace the single `border` with a graded
+ramp — `hairline` (table separator, status separator) → `frame` (table box,
+code frame, heading underline) → `rule` (thematic break). Each sits one slot
+higher in light than in dark, which holds the hierarchy in both variants.
+`border` itself stays on the chrome convention above, so leaf's sidebar split
+matches jjui's and bottom's.
 
 ## How switching works
 
@@ -149,14 +177,14 @@ derives the startup-time env from it:
    (`ln -sfn variants/<variant>`; Windows goes through
    `pwsh/scripts/set-achroma-current.ps1`, since nushell has no `ln`
    builtin). That is the entire switch for jjui, k9s, pi, posting, starship,
-   carapace, bottom, lazydocker, herdr and claude code.
+   carapace, bottom, lazydocker, herdr, claude code and leaf.
 4. **Reload herdr** — `herdr server reload-config`, so the running server
    re-reads the pointer's new target without dropping the session.
 
 ### Where chezmoi fits
 
 chezmoi owns the **source of every variant** and every path that reaches into
-them: both variant trees under `~/.config/achroma/variants/`, and the ten
+them: both variant trees under `~/.config/achroma/variants/`, and the eleven
 stable-path symlinks that point through `current`. It owns **nothing** about
 which variant is live — `.chezmoiignore` excludes `.config/achroma/current`,
 and the `theme` command is its only writer.
@@ -220,7 +248,7 @@ single real file. If a setting is worth keeping, put it in the shared body
 
 ### Reached through `achroma/current` (re-pointed by `theme`)
 
-All ten read a path that never changes. The five with a themes directory get
+All eleven read a path that never changes. The six with a themes directory get
 a fixed *filename* their config names forever; the five that read exactly one
 config file have that whole file symlinked.
 
@@ -236,6 +264,7 @@ already needed from `~/.local/share/`.
 | pi | `pi/themes/achroma-current.json` | `pi.json` | `"theme": "achroma-current"` |
 | posting | `posting/themes/achroma-current.yaml` | `posting.yaml` | `theme: achroma-current` |
 | Claude Code | `.claude/themes/achroma-current.json` | `claude.json` | `"theme": "custom:achroma-current"` |
+| leaf | `leaf/themes/achroma-current.toml` | `leaf.toml` | `theme = "themes/achroma-current.toml"` |
 | starship | `starship.toml` (whole file) | `starship.toml` | `palette = 'noidilin'` (fixed) |
 | carapace | `carapace/styles.json` (whole file) | `carapace.json` | — |
 | bottom | `bottom/bottom.toml` (whole file) | `bottom.toml` | — |
@@ -253,8 +282,15 @@ Two members behave specially:
   (`.chezmoitemplates/starship-achroma.toml`).
 - **herdr** (darwin-only) holds its config in the running server, so `theme`
   follows the flip with `herdr server reload-config`.
+- **leaf** is the only member whose config names its theme by *path* rather
+  than by a registered name, and the only one that also offered an
+  env-selected route. `LEAF_THEME` was declined deliberately: it outranks the
+  config key but would only ever reach the shell that ran `theme`, and leaf
+  gets launched from editors, pipes and fzf previews too. The path is relative
+  (`themes/achroma-current.toml`), which leaf resolves from its own config
+  directory, so the pointer does the whole job.
 
-The other eight apply on next launch.
+The other nine apply on next launch.
 
 For pi and posting the theme file carries an internal `name:` field that the
 app registers the theme under, so both variant renders pass
@@ -322,7 +358,28 @@ symlinked `config.toml` (`outcome="ok"`, `changes_ui=true` in
 `herdr-server.log`); and herdr's settings UI writes *through* the symlink
 rather than replacing it.
 
-Still pending: visual confirmation inside zellij, jjui, herdr and antinote;
+Verified 2026-09-14, when leaf joined (leaf-markdown-viewer 1.28.1, before
+applying): both renders parse, and their key set is byte-identical to
+upstream's `gruvbox.toml` at the same tag — the check that matters, since leaf
+ignores unknown keys silently. The whole chain was exercised against a scratch
+`XDG_CONFIG_HOME` rather than the live config: relative `theme` path → stable
+`themes/achroma-current.toml` → `../../achroma/current/leaf.toml` →
+`variants/<live>/leaf.toml`. Flipping only the pointer moved `heading_1` from
+`#faf5eb` (dark `acc08`) to `#24211a` (light `acc08`) and back, with the
+symlink and its target path unchanged throughout. `chezmoi status` lists the
+two variant renders, the symlink and `config.toml`, and does **not** list
+`.config/achroma/current`.
+
+Also audited every fg/bg pair leaf renders (55 pairs × 2 variants) for WCAG
+contrast. All text pairs clear 3.3:1 and most sit above 4.5:1 in both
+variants; the line slots land between 1.5:1 and 2.3:1 by design, within 0.05
+of each other across variants after the ink grading above. The single
+deliberate outlier is the table separator in light (1.49:1) — it has to read
+as quieter than the table box (1.77:1), and that is the room available.
+
+Still pending: visual confirmation of leaf's TUI chrome (the `[ui]` half —
+sidebar, status bar and the search-match background are not reachable from
+`--inline`, which renders only the `[markdown]` half); visual confirmation inside zellij, jjui, herdr and antinote;
 the `osascript` appearance flip (sending Apple events to System Events needs
 Automation permission, which a non-interactive process does not have
 (`-1743`), so run `theme light` from a real terminal once); whether
@@ -391,6 +448,24 @@ on the old variant rather than half-switched — noisy but safe. Wrap it in
   run_after_06-achroma-current.*` guards on `[ -e ] || [ -L ]` and exits; if
   it ever re-pointed the pointer, `chezmoi apply` in light mode would reset
   everything to dark again.
+- **leaf silently ignores unknown theme keys.** A misspelled key is not an
+  error and not a warning — it just falls back to `base`, so a typo shows up
+  only as one stubbornly wrong-colored element. An invalid `base` *does* error
+  (`Unknown base theme "…"`), so parse success proves nothing about the color
+  keys. The check that actually catches typos is diffing the rendered key set
+  against upstream's reference theme, which lists every supported key:
+  `curl -fsSL https://raw.githubusercontent.com/RivoLink/leaf/<version>/gruvbox.toml`.
+  There are 81 color keys (34 `[ui]`, 47 `[markdown]`) plus `base` and
+  `syntax`; the body sets all of them.
+- **leaf ships only four syntect themes** for fenced code blocks —
+  `base16-ocean.dark`, `base16-ocean.light`, `InspiredGitHub` and
+  `Solarized (dark)`. Code-block colors do NOT come from the achroma palette,
+  so that is as close as the light/dark pair gets. Of the four `base` presets
+  (`arctic`, `forest`, `ocean`, `solarized-dark`) only `arctic` is light.
+- **`leaf --config reset` / `remove`** rewrites or deletes
+  `~/.config/leaf/config.toml`, which would drop the `theme` key that names the
+  pointer. Same class as the herdr/carapace caveat: `chezmoi status` surfaces
+  it and `chezmoi apply` reverts it.
 - After changing bat themes, run `bat cache --build`.
 - **Before overwriting an applied GUI config, diff it** — the on-disk file
   may be ahead of chezmoi source (zebar's dual-variant design existed only
