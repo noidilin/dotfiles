@@ -2,12 +2,18 @@
 show_hidden = true
 linemode = "size_and_mtime"
 
+# Only `edit` is overridden, because yazi's default hardcodes `code` on
+# Windows. Defining an opener key replaces its whole default list -- there is
+# no prepend/append for [opener], only for [open].
 [opener]
 edit = [
-  { run = "$EDITOR %s", block = true, for = "unix" },
-  { run = "%EDITOR% %s", block = true, for = "windows" },
+  { run = "${EDITOR:-vi} %s", desc = "$EDITOR", block = true, for = "unix" },
+  { run = "%EDITOR% %s", desc = "editor", block = true, for = "windows" },
 ]
 
+# No [open] overrides needed right now -- yazi's defaults already route
+# application/{json,ndjson,javascript,wine-extension-ini} to `edit`.
+# When a rule is needed: [open].prepend_rules wins over the defaults,
+# rules match top-down first-match-wins, and the first name in `use` is what
+# <Enter> runs while the rest populate the <O> "open with" menu.
 # 'spot' on a file to check it's mime-type with the default <Tab> key.
-[open]
-prepend_rules = [{ mime = "application/wine-extension-ini", use = "edit" }]
