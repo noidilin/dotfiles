@@ -16,9 +16,9 @@
 #
 # Rendered from the shared palette (.chezmoidata/colors.yml). Lines and raised
 # surfaces take ink overrides because the light mono ramp is compressed at the
-# background end: mono10 is 1.79:1 on the dark base but only 1.49:1 on the
-# light one, so every line slot steps up roughly one notch in light to land at
-# the same perceived weight (dark mono10 1.79 ~= light mono11 1.77). leaf has
+# background end: against mantle, mono10 is 1.89:1 in dark but only 1.63:1 in
+# light, so every line slot steps up roughly one notch in light to land at the
+# same perceived weight (dark mono10 1.89 ~= light mono11 1.94). leaf has
 # more line-type slots than any other achroma tool -- table box, table
 # separator, code frame, heading underline, thematic break, status separator,
 # sidebar split -- so instead of one `border` they take a graded ramp:
@@ -32,10 +32,16 @@ syntax = "{{ .syntax }}"
 # Chrome: TOC sidebar, content pane, status bar
 # ---------------------------------------------------------------------------
 [ui]
-# Sidebar sits on mantle, content on base, so the split reads without a rule.
+# Every surface sits on mantle, which is what ghostty sets the terminal
+# background to (#191919 dark, #f7f7f7 light) -- so leaf's panes disappear
+# into the terminal instead of sitting one step above it on base. jjui and pi
+# already use mantle as their main surface. The consequence is that the
+# sidebar and status bar are delineated by toc_border and status_separator
+# rather than by a fill of their own; selection still lifts off them, since
+# ink.selectionBg is three slots up.
 toc_bg = "{{ .c.mono02 }}"
 toc_border = "{{ .ink.border }}"
-content_bg = "{{ .c.mono03 }}"
+content_bg = "{{ .c.mono02 }}"
 scrollbar_hover = "{{ .c.acc07 }}"
 
 status_bg = "{{ .c.mono02 }}"
