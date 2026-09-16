@@ -4,6 +4,11 @@ How the custom monochrome **achroma** theme supports both a dark and a light
 variant across every CLI/TUI/GUI tool in this repo, and how chezmoi and the
 shell switcher cooperate to toggle between them.
 
+This file is the mechanism. For *which rung of the palette a given piece of UI
+should take* — the foreground ladder, the chroma budget, the surface metrics and
+the direction-sensitive slots, digested from the neovim and wezterm configs —
+see [docs/achroma-design.md](achroma-design.md).
+
 ## Design principles
 
 ### The OS app theme is the single source of truth
@@ -23,12 +28,13 @@ OS app theme
  └─ the `theme` command, which flips the OS setting and re-points
     ~/.config/achroma/current
      └─ everything that cannot follow on its own (jjui, k9s, pi, posting,
-        starship, carapace, bottom, lazydocker, herdr, claude code, leaf)
+        starship, carapace, bottom, lazydocker, herdr, claude code, leaf,
+        tuxedo)
 ```
 
 ### Stable paths, one pointer
 
-The eleven tools at the bottom of that tree cannot detect the OS theme and
+The twelve tools at the bottom of that tree cannot detect the OS theme and
 have no dark/light config key. They are handled by indirection rather than by
 rewriting their configs:
 
@@ -37,14 +43,14 @@ rewriting their configs:
   variants/
     dark/   { jjui.toml k9s.yaml pi.json posting.yaml starship.toml
               carapace.json bottom.toml lazydocker.yml herdr.toml
-              claude.json leaf.toml }
-    light/  { same eleven names }
+              claude.json leaf.toml tuxedo.toml }
+    light/  { same twelve names }
   current -> variants/dark        # the only mutable state; `theme` owns it
 ```
 
-Each of the eleven reads a path that **never changes** and resolves through
+Each of the twelve reads a path that **never changes** and resolves through
 `current`, so switching variants never touches an applied config. chezmoi
-renders both trees and owns all eleven symlinks; it ignores `current`.
+renders both trees and owns all twelve symlinks; it ignores `current`.
 
 This is the pattern omarchy uses (`~/.config/omarchy/current/theme/<file>`,
 which every app config `import`s or `source`s), with one deviation: omarchy
@@ -82,7 +88,9 @@ sync when a color changes.
 
 ### Per-tool template pattern
 
-Each themed tool has:
+The colors themselves are chosen per the conventions in
+[docs/achroma-design.md](achroma-design.md); this section is only about where
+the files go. Each themed tool has:
 
 1. a **theme body** in `home/.chezmoitemplates/<tool>-achroma.*` that
    references colors only as `{{ .c.<role> }}`, and
@@ -97,11 +105,11 @@ Rendering a new variant is just passing the other palette.
 
 Where the wrappers live depends on how the tool is switched. Env-selected
 tools keep theirs next to the tool's own config (e.g.
-`dot_config/lazygit/theme-achroma[-light].yml.tmpl`). The eleven
+`dot_config/lazygit/theme-achroma[-light].yml.tmpl`). The twelve
 pointer-selected tools have theirs under
 `dot_config/achroma/variants/{dark,light}/<tool>.<ext>.tmpl`, one uniform
 filename per tool in each tree — that is what lets a single symlink swap
-switch all eleven.
+switch all twelve.
 
 A wrapper may also pass values that are not colors at all, when a tool has a
 setting that cannot be role-mirrored. leaf's `base` (built-in preset to fall
@@ -187,7 +195,7 @@ derives the startup-time env from it:
 ### Where chezmoi fits
 
 chezmoi owns the **source of every variant** and every path that reaches into
-them: both variant trees under `~/.config/achroma/variants/`, and the eleven
+them: both variant trees under `~/.config/achroma/variants/`, and the twelve
 stable-path symlinks that point through `current`. It owns **nothing** about
 which variant is live — `.chezmoiignore` excludes `.config/achroma/current`,
 and the `theme` command is its only writer.
@@ -251,9 +259,9 @@ single real file. If a setting is worth keeping, put it in the shared body
 
 ### Reached through `achroma/current` (re-pointed by `theme`)
 
-All eleven read a path that never changes. The six with a themes directory get
-a fixed *filename* their config names forever; the five that read exactly one
-config file have that whole file symlinked.
+All twelve read a path that never changes. The seven with a themes directory
+get a fixed *filename* their config names forever; the five that read exactly
+one config file have that whole file symlinked.
 
 Claude Code is the only member whose themes directory is outside `~/.config`
 (it lives at `~/.claude/themes/`), so its relative symlink climbs to `$HOME`
@@ -268,13 +276,14 @@ already needed from `~/.local/share/`.
 | posting | `posting/themes/achroma-current.yaml` | `posting.yaml` | `theme: achroma-current` |
 | Claude Code | `.claude/themes/achroma-current.json` | `claude.json` | `"theme": "custom:achroma-current"` |
 | leaf | `leaf/themes/achroma-current.toml` | `leaf.toml` | `theme = "themes/achroma-current.toml"` |
+| tuxedo | `tuxedo/themes/achroma-current.toml` | `tuxedo.toml` | `theme = Achroma` (a theme *name*, not a filename) |
 | starship | `starship.toml` (whole file) | `starship.toml` | `palette = 'noidilin'` (fixed) |
 | carapace | `carapace/styles.json` (whole file) | `carapace.json` | — |
 | bottom | `bottom/bottom.toml` (whole file) | `bottom.toml` | — |
 | lazydocker | `lazydocker/config.yml` (whole file) | `lazydocker.yml` | — |
 | herdr | `herdr/config.toml` (whole file) | `herdr.toml` | — |
 
-Two members behave specially:
+Four members behave specially:
 
 - **starship** is the only tool that updates live in *every* running shell: it
   re-reads and re-resolves `~/.config/starship.toml` on each prompt, so a
@@ -301,13 +310,33 @@ Two members behave specially:
   status bar have no fill of their own and are delineated by `toc_border` and
   `status_separator` instead; selection still lifts clear of them, since
   `ink.selectionBg` is three slots up.
+- **tuxedo** is the only member selected by theme *name* rather than by
+  filename or path: `theme = <name>` in `tuxedo/config.toml` is matched
+  against each loaded theme's own `name` field, and an unmatched name falls
+  back silently to the first built-in. Both renders therefore carry
+  `name = Achroma`, and `themes/achroma-current.toml` — the symlink into
+  `current/` — only decides where the theme lands in the `T` picker's sorted
+  order.
 
-The other nine apply on next launch.
+  It is also the only member whose config file chezmoi refuses to manage.
+  tuxedo rewrites `config.toml` itself whenever the theme, density, sort or a
+  pane toggle changes, and saved searches live in the same file as
+  `filter.<name>` lines, so a managed file would make `chezmoi apply` delete
+  real user data. The source is `create_config.toml`: chezmoi writes it once
+  when it is missing, seeding `theme = Achroma`, and never touches it again
+  (verified — after a rewrite adding `density` and `filter.weekly`,
+  `chezmoi status` stays silent and `apply` leaves both keys alone). The
+  colors are still fully declarative, since they all live in the pointer's
+  target.
+
+The other ten apply on next launch.
 
 For pi and posting the theme file carries an internal `name:` field that the
 app registers the theme under, so both variant renders pass
 `"name" "achroma-current"` — it has to match the fixed filename, not the
-variant.
+variant. tuxedo's `name` is fixed for the opposite reason: there the name *is*
+the selection key and the filename is irrelevant, so the body hardcodes
+`Achroma` instead of taking it from the wrapper.
 
 Claude Code pins the same way, but as a precaution rather than a proven
 requirement. It selects a theme as `custom:<basename>`, which suggests the
@@ -389,6 +418,41 @@ within about 0.1 of each other across variants after the ink grading above.
 Every pair meets its floor in both variants — moving all surfaces onto mantle
 to match the terminal lifted each foreground onto a slightly further ground
 and resolved the one earlier outlier (light table separator, 1.49 → 1.63).
+
+Verified 2026-09-16, when tuxedo joined (tuxedo 2026.8.1, before applying):
+both renders carry exactly the 25 required color keys plus `name`, checked
+against `COLOR_FIELDS` in upstream's `src/theme.rs` at the installed tag. The
+chain was then driven for real in a scratch `XDG_CONFIG_HOME` — tuxedo run
+under a pty, keys fed in to open the filter pane, the search overlay, visual
+mode and a todo file carrying priorities A–E plus a completed task — and the
+emitted SGR sequences decoded back to hex. All 25 slots appear on screen in
+both variants with **no color from outside the theme**, which is the check that
+matters here: an unparseable theme is skipped silently into the first built-in,
+so foreign colors are how a broken render would show. Flipping only the pointer
+replaced every on-screen color with the light render's (25/25) and back, with
+`themes/achroma-current.toml` and its target path unchanged throughout.
+
+The slot mapping was then rebuilt to follow the neovim theme rather than
+tuxedo's own upstream themes, and re-verified the same way (25/25 in both
+variants, no foreign colors, no leakage from the other variant). Every value
+now cites the neovim group it comes from — body text on the `Normal`/`@markup`
+rung, `dim` on `info`, `done` on `@markup.strikethrough`, the priorities on the
+`error`/`warn`/`change`/`info`/`hint` severity ramp, search matches as an
+inverted gray chip rather than a yellow one, and chroma limited to the four
+slots the neovim specs actually use. See
+[docs/achroma-design.md](achroma-design.md) for the reasoning; the cost is a
+dimmer theme than the first pass, and the floors moved with it.
+
+Contrast audited per background a task row can sit on (list, status bar, cursor
+row, selection). Text pairs run 2.48–10.80:1 dark and 3.38–6.24:1 light. The
+low end is neovim's own level, not a regression: `fg` on the selection fill is
+3.06:1 in dark, which is exactly what `Visual` (`mono16` on `mono07`) measures
+in the editor, and `dim`/`pri_d` at 2.48:1 sit where `info` does. `done`
+(1.65–2.47:1) and `pri_other` (1.86–3.22:1) are deliberately faded, tracking
+`@markup.strikethrough` and `hint`. Surfaces track across variants in ΔL\*, the
+metric wezterm's `config/theme.lua` uses for this: status bar 2.5 → 3.5, cursor
+row 8.3 → 8.1, selection 13.4 → 12.3, i.e. the cursor row lands on the same
+raised-plate parity wezterm established for its active tab.
 
 Still pending: visual confirmation of leaf's TUI chrome (the `[ui]` half —
 sidebar, status bar and the search-match background are not reachable from
@@ -479,6 +543,22 @@ on the old variant rather than half-switched — noisy but safe. Wrap it in
   `~/.config/leaf/config.toml`, which would drop the `theme` key that names the
   pointer. Same class as the herdr/carapace caveat: `chezmoi status` surfaces
   it and `chezmoi apply` reverts it.
+- **tuxedo's theme file only looks like TOML.** It is parsed line by line as
+  `key = value` (bare or quoted), `#` starts a comment only at the start of a
+  line, and unknown keys are ignored — but all 25 color keys are *required*,
+  so a missing or unparseable one skips the whole theme with a warning on the
+  first frame. That makes typos loud, unlike leaf. The silent failure is one
+  level up: `theme = <name>` in `config.toml` that matches nothing falls back
+  to the first built-in without a word, so renaming `name` in the body is a
+  quiet regression. The proof that the theme is actually live is that no
+  on-screen color comes from outside it.
+- **tuxedo's `matched` is a background whose text color is `bg`.** tuxedo
+  accepts `reset` / `transparent` for `bg`, `panel` and `statusbar` to inherit
+  the terminal's own background, but taking it for `bg` would paint
+  default-colored text on the search-match chip. `bg` stays an explicit
+  `mono02`, which is the terminal background anyway. Its `selection` key is
+  required but never read by the UI (2026.8.1); upstream's themes set it to
+  `selected`, so the body does too.
 - After changing bat themes, run `bat cache --build`.
 - **Before overwriting an applied GUI config, diff it** — the on-disk file
   may be ahead of chezmoi source (zebar's dual-variant design existed only

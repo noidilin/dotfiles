@@ -1,0 +1,15 @@
+# tuxedo -- todo.txt TUI.
+#
+# Seeded once and then left alone: `create_` means chezmoi writes this file
+# only when it is missing. That is deliberate -- tuxedo owns this file at
+# runtime and rewrites it whenever the theme, density, sort or a pane toggle
+# changes, and it is also where saved searches land as `filter.<name>` lines.
+# A managed file would make `chezmoi apply` delete real user data.
+#
+# `theme` is matched against the theme's own `name` field, and both achroma
+# renders carry `name = Achroma`, so this value stays correct in either
+# variant. The colors come from tuxedo/themes/achroma-current.toml, a symlink
+# into ~/.config/achroma/current/ that the `theme` command re-points; tuxedo
+# reads its themes directory at startup, so a switch applies on next launch
+# (see docs/achroma.md).
+theme = Achroma

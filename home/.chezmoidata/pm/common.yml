@@ -213,6 +213,9 @@ pkgs:
       brew: "tectonic"
       scoop: "tectonic"
       pacman: "tectonic"
+    tuxedo: # todo.txt TUI; upstream ships no scoop manifest, Windows is prebuilt binaries only
+      brew: "tuxedo"
+      aur: "tuxedo-bin"
     # unrar:
     #   brew: "--cask rar"
     #   scoop: "unrar"

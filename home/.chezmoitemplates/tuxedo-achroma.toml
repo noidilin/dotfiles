@@ -1,0 +1,164 @@
+# Warm monochrome tuxedo theme aligned with the achroma palette.
+#
+# Slot-for-slot derived from the neovim theme (noidilin/nvim,
+# lua/theme/lua/lush_core/editor.lua, lush_theme/_component.lua,
+# lush_plugin/{markdown,trivia}.lua and the lualine table in
+# lua/plugins/ui.lua), which shares this palette. Every value below names the
+# neovim group it comes from, so the two stay comparable when either moves.
+# Three rules carry most of it:
+#
+#   1. Foregrounds live in the mono ramp. Body text is `mono16` (`Normal`,
+#      `@markup`), secondary text `mono15` (`info`, `@markup.link`), faded
+#      text `mono12` (`@markup.strikethrough`, `_comment`, `LineNr`).
+#   2. Chroma is reserved for alerts, and only four slots are ever used:
+#      `red00` (`error`), `orange00` (`warn`), `yellow00` (`GitSignsChange`)
+#      and `green00` (`ok`, `GitSignsAdd`). The neovim theme touches no blue,
+#      cyan or magenta at all, so neither does this.
+#   3. Highlights are gray fills, not colored ones (`Search`, `IncSearch`,
+#      `FlashCurrent`, lualine's mode chips).
+#
+# tuxedo selects a theme by its `name`, not by filename: `theme = <name>` in
+# tuxedo/config.toml is matched against every registered theme's own `name`
+# (src/app/prefs.rs), and an unmatched name silently falls back to the first
+# built-in. So the literal below is identical in both renders and the pointer
+# swap never touches config.toml. The filename only decides where the theme
+# lands in the `T` picker's sorted order -- tuxedo/themes/achroma-current.toml
+# is a symlink into ~/.config/achroma/current/. See docs/achroma.md.
+#
+# The file looks like TOML but is parsed line by line as `key = value`
+# (src/theme.rs): bare or quoted values both work, `#` only starts a comment
+# at the start of a line, and unknown keys are ignored for forward
+# compatibility. All 25 color keys are required -- a missing or unparseable
+# one skips the whole theme with a warning on tuxedo's first frame, so unlike
+# leaf a typo here is loud rather than silent.
+#
+# Rendered from the shared palette (.chezmoidata/colors.yml). The border and
+# the two row fills take ink overrides because the light mono ramp is
+# compressed at the background end (docs/achroma.md).
+name = Achroma
+
+# ---------------------------------------------------------------------------
+# Surfaces
+# ---------------------------------------------------------------------------
+# `Normal` / `NormalFloat` both sit on mantle in neovim, and mantle is what
+# ghostty sets the terminal background to (#191919 dark, #f7f7f7 light). So
+# the task list and every overlay (filter sidebar, detail pane, add/edit
+# dialog, help, command palette, T picker) share one ground and are delimited
+# by `border` rather than by a fill -- the same construction neovim uses for
+# floats, and what leaf and jjui do here. tuxedo would also accept `reset` for
+# these, but `bg` doubles as the *text* color of the search-match chip below,
+# where Reset would paint default-colored text on a gray fill.
+bg = {{ .c.mono02 }}
+panel = {{ .c.mono02 }}
+# The status bar is the one surface neovim actually fills: `StatusLine` and
+# every lualine section sit on base, one notch up from the editor.
+statusbar = {{ .ink.statusbar }}
+# `FloatBorder` (dark mono09). In light it steps to mono10, which is both the
+# repo-wide chrome convention and the closest match on weight: dark mono09 is
+# 1.72:1 over mantle where light mono09 is only 1.38:1, and light mono10 lands
+# at 1.63:1.
+border = {{ .ink.border }}
+
+# ---------------------------------------------------------------------------
+# Rows
+# ---------------------------------------------------------------------------
+# Two row fills, and neovim's ordering is kept: the transient one is the
+# subtler of the two.
+#   cursor   -- the current row, and the highlighted row in the T picker.
+#              `ColorColumn` / `TabLine` / `FlashMatch` take mono05, and
+#              mono07 is what the neovim theme overrides `PmenuSel` to in
+#              light, where mono04 collapsed against the popup. The row is
+#              also marked by its line number switching from `dim` to `fg`
+#              and by the accent marker, so a 1.22:1 fill is enough.
+#   selected -- a visual-mode selection and the active filter, both sticky
+#              states, so they take the stronger `Visual` fill (mono07).
+cursor = {{ .ink.cursorBg }}
+selected = {{ .ink.selectionBg }}
+# Required and parsed, but nothing in src/ui reads it as of 2026.8.1. Upstream's
+# own themes set it to the same value as `selected`, so do that.
+selection = {{ .ink.selectionBg }}
+
+# ---------------------------------------------------------------------------
+# Text
+# ---------------------------------------------------------------------------
+# `Normal` and `@markup` — prose in neovim is mono16, so task text is too.
+# That is dimmer than a default terminal foreground on purpose; the worst
+# pairs it produces are neovim's own (mono16 on the mono07 fill is exactly
+# `Visual`, 3.06:1 in dark).
+fg = {{ .c.mono16 }}
+# The most-used foreground in the UI (~90 call sites: hints, labels, row
+# numbers, key:value tokens, counts). mono15 is neovim's secondary text —
+# `info`, `@markup.link`, `@markup.math`, `_string`.
+dim = {{ .c.mono15 }}
+# lualine paints its section text one notch brighter than `StatusLine`'s own
+# foreground, so the bar reads slightly forward of the editor.
+status_fg = {{ .c.mono17 }}
+# `@markup.strikethrough` — a completed task is struck-through prose in
+# neovim, which is also `_comment` and `LineNr`. Faded by design.
+done = {{ .c.mono12 }}
+
+# ---------------------------------------------------------------------------
+# Accent and chips
+# ---------------------------------------------------------------------------
+# `ObsidianTodo` (bold acc06) is what the neovim theme paints an *open todo
+# marker* with, which is the same job tuxedo's accent does: the row marker on
+# open tasks, plus the logo, headings, hints and URL tokens.
+accent = {{ .c.acc06 }}
+# The mode chip, from lualine: chips are gray fills out of the mid-mono range,
+# never the warm accent. mono15 is lualine's insert/command fill, but it is
+# paired there with mono21 text; tuxedo forces a single pair, so this follows
+# the theme's own on_fill rule (_component.lua) and pairs the fill with the
+# opposite end of the ramp — one notch up to mono17 to clear 4.89:1 dark /
+# 6.24:1 light with mantle as the text.
+mode_fg = {{ .c.mono02 }}
+mode_bg = {{ .c.mono17 }}
+# Search matches are a chip: `matched` is the background and `bg` above is its
+# text. Gray, like every highlight in the neovim theme — `Search` fills with
+# mono10, `IncSearch` inverts (mono02 text on a mono19 fill in light) and
+# `FlashCurrent` does the same with mono17. mono19 is the brightest of those,
+# which is right for a transient hit, and it inverts in both variants because
+# the mono ramp is role-addressed.
+matched = {{ .c.mono19 }}
+
+# ---------------------------------------------------------------------------
+# Priorities
+# ---------------------------------------------------------------------------
+# neovim has no four-color priority ramp, but it does have a four-level
+# severity ramp, which is the same idea: error -> warn -> info -> hint
+# (_component.lua). A and B take the two chromatic severities, C the third
+# alert color (`GitSignsChange` / `SpellLocal`), and D and E-Z fall back to
+# gray the way `info` and `hint` do, which is also what "not urgent" should
+# look like in a monochrome theme.
+pri_a = {{ .c.red00 }}
+pri_b = {{ .c.orange00 }}
+pri_c = {{ .c.yellow00 }}
+pri_d = {{ .c.mono15 }}
+# `hint` is mono09 in dark, which _component.lua itself calls out as too weak
+# to use as a plain foreground (it overrides to mono13 in light). A priority
+# letter is text, not a sign, so it takes mono13 in both variants.
+pri_other = {{ .c.mono13 }}
+
+# ---------------------------------------------------------------------------
+# Tags
+# ---------------------------------------------------------------------------
+# `+project` gets the one remaining chromatic slot the neovim theme uses —
+# green00 (`ok`, `GitSignsAdd`), which is also todo.txt's own convention for
+# projects. `@context` gets the warm accent that neovim spends on references
+# and containers (`Directory` acc02, `RenderMarkdownLink` / `_property`
+# accDim02), lifted to acc04 because those two sit within a percent of each
+# other and a context tag has to be told apart from a project tag in the same
+# row.
+project = {{ .c.green00 }}
+context = {{ .c.acc04 }}
+
+# ---------------------------------------------------------------------------
+# Dates
+# ---------------------------------------------------------------------------
+# The due column is the severity ramp again, which is why it shares colors
+# with the priorities: overdue is an `error`, today a `warn`, due-soon a
+# `GitSignsChange`, and anything further out falls back to `dim`. Today and
+# overdue also render bold (src/ui/task_row.rs), which is what separates a due
+# date from a priority letter wearing the same color.
+due = {{ .c.yellow00 }}
+today = {{ .c.orange00 }}
+overdue = {{ .c.red00 }}
