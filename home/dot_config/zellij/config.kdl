@@ -72,6 +72,24 @@ keybinds clear-defaults=true {
             SwitchToMode "Locked"
         }
 
+        // Global todo list (tuxedo) in a floating pane: Ctrl-q t to open,
+        // q inside tuxedo to close. TODO_FILE comes from .chezmoidata/env.yml,
+        // but the zellij server outlives a config change and passes its own
+        // env to the pane, so the path is spelled out as a fallback -- and
+        // passed explicitly rather than left to tuxedo's cwd resolution.
+        bind "t" {
+            Run "/bin/sh" "-lc" "exec tuxedo \"${TODO_FILE:-$HOME/.local/share/tuxedo/todo.txt}\"" {
+                name "todo"
+                floating true
+                close_on_exit true
+                width "95%"
+                height "90%"
+                x "2%"
+                y "5%"
+            }
+            SwitchToMode "Locked"
+        }
+
         // WezTerm: LEADER + Shift-H/J/K/L quick resize
         bind "H" { Resize "Increase Left"; SwitchToMode "Locked"; }
         bind "J" { Resize "Increase Down"; SwitchToMode "Locked"; }
