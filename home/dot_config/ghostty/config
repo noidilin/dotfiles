@@ -10,6 +10,8 @@ quit-after-last-window-closed = true
 
 # --- font ------------------------------------------------------------------
 font-family = "CommitMono Nerd Font Mono"
+# CJK fallback: 2:1 metric-matched to CommitMono (both Iosevka-family widths)
+font-family = "Sarasa Mono TC"
 font-size = 14
 adjust-cell-height = 30%
 adjust-underline-position = -2
@@ -59,6 +61,12 @@ keybind = f12=inspector:toggle
 # from plain Tab / Shift-Tab and match `bind "Ctrl Tab"` below.
 keybind = ctrl+tab=csi:9;5u
 keybind = ctrl+shift+tab=csi:9;6u
+# Ctrl-, likewise has no legacy encoding. Zellij negotiates the protocol and
+# would get this anyway; the explicit forward is what makes it reach herdr,
+# whose `goto` action is bound to ctrl+comma. Needed in OmniWM's quake
+# terminal too -- that surface loads this file via libghostty's
+# ghostty_config_load_default_files.
+keybind = ctrl+comma=csi:44;5u
 keybind = shift+page_up=scroll_page_fractional:-0.5
 keybind = shift+page_down=scroll_page_fractional:0.5
 

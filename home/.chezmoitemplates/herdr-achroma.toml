@@ -60,7 +60,19 @@ reload_config = "prefix+shift+r"
 toggle_sidebar = "prefix+b"
 edit_scrollback = "prefix+e"
 copy_mode = "prefix+y"         # wezterm: LEADER y
-goto = "prefix+g"
+# A key action takes an array, so the direct chord is additive rather than a
+# replacement. Ctrl+, has no legacy encoding and herdr never negotiates the
+# kitty keyboard protocol, so it only arrives when the host terminal forwards
+# it -- ghostty/config does that with `keybind = ctrl+comma=csi:44;5u`.
+#
+# Verified working in OmniWM's quake terminal, unlike the ctrl+tab case below:
+# the OmniWM binary references libghostty's `ghostty_config_load_default_files`,
+# so the embedded surface does read ~/.config/ghostty/config. Nothing upstream
+# eats the chord either -- no libghostty default binds ctrl+comma, and OmniWM's
+# own hotkeys only take Option+Comma. ctrl+tab fails there for the other reason
+# named below (libghostty's own default ctrl+tab=next_tab), not for want of the
+# config.
+goto = ["prefix+g", "ctrl+comma"]
 
 # Panes
 split_horizontal = "prefix+minus"     # wezterm/zellij: `-`

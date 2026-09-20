@@ -8,6 +8,18 @@ keybinds clear-defaults=true {
     locked {
         bind "Ctrl q" { SwitchToMode "Normal"; }
 
+        // Direct session-manager chord, same plugin as Ctrl-q w o/w.
+        // Ctrl-, has no legacy encoding, so it only arrives as the kitty
+        // keyboard CSI 44;5u -- fine here because Zellij pushes `CSI > 1 u`
+        // on startup, and ghostty/config forwards the chord explicitly for
+        // hosts that do not negotiate the protocol (herdr).
+        bind "Ctrl ," {
+            LaunchOrFocusPlugin "session-manager" {
+                floating true
+                move_to_focused_tab true
+            }
+        }
+
         // Smart pane navigation through hiasr/vim-zellij-navigator.
         // If the focused pane is Neovim, the plugin forwards Ctrl-hjkl to
         // smart-splits.nvim. Otherwise it moves the Zellij pane only.
