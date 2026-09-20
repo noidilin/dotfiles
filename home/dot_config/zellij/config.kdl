@@ -83,9 +83,9 @@ keybinds clear-defaults=true {
                 floating true
                 close_on_exit true
                 width "95%"
-                height "90%"
-                x "2%"
-                y "5%"
+                height "95%"
+                x "2.5%"
+                y "2.5%"
             }
             SwitchToMode "Locked"
         }
