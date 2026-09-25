@@ -11,6 +11,7 @@ pkgs:
     - "--cask appcleaner"
     - "--cask cleanshot" # screen capture + record, key cast
     - "--cask font-commit-mono-nerd-font"
+    - "--cask font-sarasa-gothic" # metric-matched CJK fallback for CommitMono
     - "--cask google-chrome"
     - "--cask karabiner-elements"
     # - "--cask ogdesign-eagle" # image reference
