@@ -15,7 +15,11 @@ $env.ACHROMA_VARIANT = (match $nu.os-info.name {
     if $v == 1 { 'light' } else { 'dark' }
   }
   'macos' => {
-    let style = (try { ^defaults read -g AppleInterfaceStyle } catch { 'Light' })
+    # In Light mode this key is intentionally absent. `try` catches the
+    # non-zero exit but still lets the external command's stderr through, so
+    # capture the complete result and treat a failed read as Light.
+    let result = (^defaults read -g AppleInterfaceStyle | complete)
+    let style = (if $result.exit_code == 0 { $result.stdout } else { 'Light' })
     if $style =~ 'Dark' { 'dark' } else { 'light' }
   }
   _ => 'dark'

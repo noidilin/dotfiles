@@ -23,16 +23,11 @@ adjust-box-thickness = 2
 theme = dark:achroma,light:achroma-light
 
 # --- cursor / selection / splits ------------------------------------------
+# Colors come from the selected theme so they follow OS light/dark changes.
 cursor-style = bar
 cursor-style-blink = true
-cursor-color = #878787
-cursor-text = #eaeaea
 adjust-cursor-thickness = 4
-selection-background = #303030
-selection-foreground = #9d9d9d
-split-divider-color = #353535
 unfocused-split-opacity = 0.80
-unfocused-split-fill = #191919
 
 # --- window ----------------------------------------------------------------
 window-decoration = auto

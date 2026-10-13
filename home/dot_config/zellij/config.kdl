@@ -84,13 +84,16 @@ keybinds clear-defaults=true {
             SwitchToMode "Locked"
         }
 
-        // Global todo list (tuxedo) in a floating pane: Ctrl-q t to open,
-        // q inside tuxedo to close. TODO_FILE comes from .chezmoidata/env.yml,
-        // but the zellij server outlives a config change and passes its own
-        // env to the pane, so the path is spelled out as a fallback -- and
-        // passed explicitly rather than left to tuxedo's cwd resolution.
+        // Todo list (tuxedo) in a floating pane: Ctrl-q t to open,
+        // q inside tuxedo to close. The pane inherits the focused pane's cwd,
+        // so a project-local ./todo.txt wins; otherwise fall back to the
+        // global list. TODO_FILE comes from .chezmoidata/env.yml, but the
+        // zellij server outlives a config change and passes its own env to
+        // the pane, so the global path is spelled out as a fallback -- and
+        // passed explicitly rather than left to tuxedo's cwd resolution
+        // (which prompts to create a file instead of falling back).
         bind "t" {
-            Run "/bin/sh" "-lc" "exec tuxedo \"${TODO_FILE:-$HOME/.local/share/tuxedo/todo.txt}\"" {
+            Run "/bin/sh" "-lc" "if [ -f ./todo.txt ]; then exec tuxedo ./todo.txt; else exec tuxedo \"${TODO_FILE:-$HOME/.local/share/tuxedo/todo.txt}\"; fi" {
                 name "todo"
                 floating true
                 close_on_exit true
@@ -313,56 +316,60 @@ keybinds clear-defaults=true {
 plugins {
     // Status bar: dj95/zjstatus v0.24.0.
     // The local binary is pinned and verified in README.md.
+    // Use the terminal's ANSI palette rather than fixed RGB values. Ghostty's
+    // Achroma themes redefine slots 0/7/8 for each appearance, while an
+    // unspecified background inherits the active theme's background. This
+    // lets an already-running bar repaint when the OS appearance changes.
     zjstatus-bar location="file:/Users/noid/.config/zellij/plugins/zjstatus.wasm" {
-        format_left "{mode}#[fg=#686868,bg=#191919]{session} #[fg=#686868,bg=#191919]local#[fg=#686868,bg=#191919,bold] | {tabs}"
+        format_left "{mode}#[fg=8]{session} #[fg=8]local#[fg=8,bold] | {tabs}"
         format_center ""
-        format_right "{command_worktree}#[fg=#555555,bg=#191919,bold] 󰍛 {command_memory} #[fg=#555555,bg=#191919]{command_battery} "
-        format_space "#[bg=#191919]"
+        format_right "{command_worktree}#[fg=8,bold] 󰍛 {command_memory} #[fg=8]{command_battery} "
+        format_space ""
         // Keep the right/left status segments visible when tabs would overflow.
         format_precedence "lrc"
         format_hide_on_overlength "true"
 
         border_enabled "false"
         border_char "─"
-        border_format "#[fg=#353535]{char}"
+        border_format "#[fg=8]{char}"
         border_position "bottom"
 
-        mode_normal "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold] lead#[fg=#2a2a2a,bg=#191919,bold] "
-        mode_locked "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold] noid#[fg=#2a2a2a,bg=#191919,bold] "
-        mode_resize "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold]󰊓 resize#[fg=#2a2a2a,bg=#191919,bold] "
-        mode_move "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold]󰆾 move#[fg=#2a2a2a,bg=#191919,bold] "
-        mode_scroll "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold]󰈙 view#[fg=#2a2a2a,bg=#191919,bold] "
-        mode_enter_search "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold]󰍉 search#[fg=#2a2a2a,bg=#191919,bold] "
-        mode_search "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold]󰍉 search#[fg=#2a2a2a,bg=#191919,bold] "
-        mode_session "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold] mux#[fg=#2a2a2a,bg=#191919,bold] "
-        mode_tab "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold] tab#[fg=#2a2a2a,bg=#191919,bold] "
-        mode_pane "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold] pane#[fg=#2a2a2a,bg=#191919,bold] "
-        mode_tmux "#[fg=#2a2a2a,bg=#191919,bold] #[fg=#dcdcdc,bg=#2a2a2a,bold] lead#[fg=#2a2a2a,bg=#191919,bold] "
+        mode_normal "#[fg=0,bold] #[fg=7,bg=0,bold] lead#[fg=0] "
+        mode_locked "#[fg=0,bold] #[fg=7,bg=0,bold] noid#[fg=0] "
+        mode_resize "#[fg=0,bold] #[fg=7,bg=0,bold]󰊓 resize#[fg=0] "
+        mode_move "#[fg=0,bold] #[fg=7,bg=0,bold]󰆾 move#[fg=0] "
+        mode_scroll "#[fg=0,bold] #[fg=7,bg=0,bold]󰈙 view#[fg=0] "
+        mode_enter_search "#[fg=0,bold] #[fg=7,bg=0,bold]󰍉 search#[fg=0] "
+        mode_search "#[fg=0,bold] #[fg=7,bg=0,bold]󰍉 search#[fg=0] "
+        mode_session "#[fg=0,bold] #[fg=7,bg=0,bold] mux#[fg=0] "
+        mode_tab "#[fg=0,bold] #[fg=7,bg=0,bold] tab#[fg=0] "
+        mode_pane "#[fg=0,bold] #[fg=7,bg=0,bold] pane#[fg=0] "
+        mode_tmux "#[fg=0,bold] #[fg=7,bg=0,bold] lead#[fg=0] "
 
-        tab_normal "#[fg=#414141,bg=#191919]  #[fg=#414141,bg=#191919,bold]{name} "
-        tab_active "#[fg=#b3b3b3,bg=#191919]  #[fg=#b3b3b3,bg=#191919,bold]{name}{fullscreen_indicator}{floating_indicator} "
-        tab_separator "#[fg=#353535,bg=#191919]|"
+        tab_normal "#[fg=0]  #[fg=0,bold]{name} "
+        tab_active "#[bold]  #[bold]{name}{fullscreen_indicator}{floating_indicator} "
+        tab_separator "#[fg=8]|"
         tab_display_count "9"
-        tab_truncate_start_format "#[fg=#414141,bg=#191919]‹ +{count} "
-        tab_truncate_end_format "#[fg=#414141,bg=#191919] +{count} › "
+        tab_truncate_start_format "#[fg=0]‹ +{count} "
+        tab_truncate_end_format "#[fg=0] +{count} › "
         tab_fullscreen_indicator " "
         tab_floating_indicator " ⬚"
 
         // v0.24 follows pane focus and runs this helper in that pane's cwd.
         command_worktree_command "/Users/noid/.config/zellij/bin/zjstatus-worktree"
         command_worktree_cwd "{focused_pane_cwd}"
-        command_worktree_format "#[fg=#555555,bg=#191919,bold] {stdout} "
+        command_worktree_format "#[fg=8,bold] {stdout} "
         command_worktree_interval "10"
         command_worktree_rendermode "static"
         command_worktree_hideonemptystdout "true"
 
         command_memory_command "/Users/noid/.config/zellij/bin/zjstatus-memory"
-        command_memory_format "#[fg=#555555,bg=#191919,bold]{stdout}"
+        command_memory_format "#[fg=8,bold]{stdout}"
         command_memory_interval "30"
         command_memory_rendermode "static"
 
         command_battery_command "/Users/noid/.config/zellij/bin/zjstatus-battery"
-        command_battery_format "#[fg=#555555,bg=#191919,bold]{stdout}"
+        command_battery_format "#[fg=8,bold]{stdout}"
         command_battery_interval "60"
         command_battery_rendermode "static"
         command_battery_hideonemptystdout "true"
