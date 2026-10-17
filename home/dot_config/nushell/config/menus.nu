@@ -66,7 +66,7 @@ export def main [] {
         col_padding: 2
       }
       style: $menu_style
-      source: { |buffer, position|
+      source: { |buffer, place|
         scope commands
           | where name =~ $buffer
           | each { |it| {value: $it.name description: $it.description} }
@@ -81,7 +81,7 @@ export def main [] {
         page_size: 10
       }
       style: $menu_style
-      source: { |buffer, position|
+      source: { |buffer, place|
         scope variables
           | where name =~ $buffer
           | sort-by name
