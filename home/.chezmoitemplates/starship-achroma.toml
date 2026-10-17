@@ -83,7 +83,7 @@ symbol = ' '
 style = 'mono09 bold'
 
 [mise]
-disabled = false
+disabled = true
 format = ' on [$symbol$health]($style)'
 style = 'mono09 bold'
 
