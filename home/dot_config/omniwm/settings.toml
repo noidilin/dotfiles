@@ -6,7 +6,7 @@ monitorOrientationOverrides = []
 monitorRoutingOverrides = []
 
 [appearance]
-mode = "dark"
+mode = "automatic"
 
 [borders]
 enabled = false
