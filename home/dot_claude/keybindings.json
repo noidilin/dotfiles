@@ -12,9 +12,8 @@
       "context": "Chat",
       "bindings": {
         "ctrl+s": "chat:submit",
-        "ctrl+enter": "chat:submit",
         "shift+enter": "chat:newline",
-        "enter": null,
+        "enter": "chat:newline",
         "ctrl+b": "chat:modelPicker",
         "ctrl+t": "chat:thinkingToggle",
         "ctrl+g": null
