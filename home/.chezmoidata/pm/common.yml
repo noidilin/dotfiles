@@ -104,6 +104,10 @@ pkgs:
       brew: "ast-grep"
       scoop: "ast-grep"
       pacman: "ast-grep"
+    aws-cli:
+      brew: "awscli"
+      scoop: "aws"
+      pacman: "aws-cli"
     bat:
       brew: "bat"
       scoop: "bat"
@@ -164,10 +168,6 @@ pkgs:
       brew: "derailed/k9s/k9s"
       scoop: "k9s"
       pacman: "k9s"
-    kubectl:
-      brew: "kubectl"
-      scoop: "kubectl"
-      pacman: "kubectl"
     lazygit:
       brew: "lazygit"
       scoop: "lazygit"
@@ -197,10 +197,6 @@ pkgs:
       brew: "pastel"
       scoop: "pastel"
       pacman: "pastel"
-    postgresql:
-      brew: "postgresql"
-      scoop: "postgresql"
-      pacman: "postgresql"
     ripgrep:
       brew: "ripgrep"
       scoop: "ripgrep"

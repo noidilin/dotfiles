@@ -7,11 +7,37 @@ pkgs:
     - "cargo-binstall"
     - "mas" # mac app store CLI
     - "zsh-syntax-highlighting"
+
+    # macOS development and CLI tools
+    - "agent-browser"
+    - "aws-amplify"
+    - "aws-sso-cli"
+    - "azure-cli"
+    - "beads"
+    - "cmake"
+    - "git-filter-repo"
+    - "herdr"
+    - "jj"
+    - "jjui"
+    - "lazydocker"
+    - "make"
+    - "mole"
+    - "pngpaste"
+    - "yt-dlp"
+    - "zellij"
+
     - "--cask antinote"
     - "--cask appcleaner"
+    - "--cask claude-code"
     - "--cask cleanshot" # screen capture + record, key cast
     - "--cask font-commit-mono-nerd-font"
+    - "--cask font-geist-mono-nerd-font"
+    - "--cask font-linux-libertine"
+    - "--cask font-noto-sans-cjk"
+    - "--cask font-noto-sans-tc"
+    - "--cask font-noto-serif-cjk"
     - "--cask font-sarasa-gothic" # metric-matched CJK fallback for CommitMono
+    - "--cask ghostty"
     - "--cask google-chrome"
     - "--cask karabiner-elements"
     # - "--cask ogdesign-eagle" # image reference
