@@ -649,6 +649,17 @@
       "skillPath": "skills/core-skills/signing-in-to-aws",
       "libraryPath": "/Users/noid/.config/agent-skill-manager/library/skills/signing-in-to-aws",
       "installedAt": "2026-10-25T14:18:13.676Z"
+    },
+    "vercel-react-view-transitions": {
+      "name": "vercel-react-view-transitions",
+      "version": "1.0.0",
+      "source": "github:vercel-labs/agent-skills",
+      "sourceType": "github",
+      "commitHash": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "ref": "main",
+      "skillPath": "skills/react-view-transitions",
+      "libraryPath": "/Users/noid/.config/agent-skill-manager/library/skills/vercel-react-view-transitions",
+      "installedAt": "2026-10-25T16:08:36.500Z"
     }
   }
 }
