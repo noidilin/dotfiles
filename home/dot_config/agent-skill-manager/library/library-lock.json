@@ -693,6 +693,50 @@
       "skillPath": "skills/unslop",
       "libraryPath": "/Users/noid/.config/agent-skill-manager/library/skills/unslop",
       "installedAt": "2026-10-25T16:57:19.511Z"
+    },
+    "vibe-wise-learn": {
+      "name": "vibe-wise-learn",
+      "version": "0.0.0",
+      "source": "github:noidilin/skills",
+      "sourceType": "github",
+      "commitHash": "947aed766244deeb2f4d7c5a9a01636432cd110e",
+      "ref": "main",
+      "skillPath": "skills/vibe-wise-learn",
+      "libraryPath": "/Users/noid/.config/agent-skill-manager/library/skills/vibe-wise-learn",
+      "installedAt": "2026-10-25T17:33:16.633Z"
+    },
+    "vibe-wise-reset": {
+      "name": "vibe-wise-reset",
+      "version": "0.0.0",
+      "source": "github:noidilin/skills",
+      "sourceType": "github",
+      "commitHash": "947aed766244deeb2f4d7c5a9a01636432cd110e",
+      "ref": "main",
+      "skillPath": "skills/vibe-wise-reset",
+      "libraryPath": "/Users/noid/.config/agent-skill-manager/library/skills/vibe-wise-reset",
+      "installedAt": "2026-10-25T17:33:19.789Z"
+    },
+    "simplified-technical-english": {
+      "name": "simplified-technical-english",
+      "version": "0.0.0",
+      "source": "github:noidilin/skills",
+      "sourceType": "github",
+      "commitHash": "efaa3eab38ec14d989df1eb4de3337647e1c8e64",
+      "ref": "main",
+      "skillPath": "skills/simplified-technical-english",
+      "libraryPath": "/Users/noid/.config/agent-skill-manager/library/skills/simplified-technical-english",
+      "installedAt": "2026-10-25T17:40:24.261Z"
+    },
+    "addy-skills-sync": {
+      "name": "addy-skills-sync",
+      "version": "1.0.0",
+      "source": "github:noidilin/skills",
+      "sourceType": "github",
+      "commitHash": "857268bd3eaef70d7434c894b02614f1b3de7f8d",
+      "ref": "main",
+      "skillPath": "skills/addy-skills-sync",
+      "libraryPath": "/Users/noid/.config/agent-skill-manager/library/skills/addy-skills-sync",
+      "installedAt": "2026-10-25T17:55:17.866Z"
     }
   }
 }
