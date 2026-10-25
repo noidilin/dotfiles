@@ -335,7 +335,7 @@ plugins {
         border_position "bottom"
 
         mode_normal "#[fg=0,bold] #[fg=7,bg=0,bold] lead#[fg=0] "
-        mode_locked "#[fg=0,bold] #[fg=7,bg=0,bold] noid#[fg=0] "
+        mode_locked "#[fg=8,bold] #[fg=15,bg=8,bold] noid#[fg=8] "
         mode_resize "#[fg=0,bold] #[fg=7,bg=0,bold]󰊓 resize#[fg=0] "
         mode_move "#[fg=0,bold] #[fg=7,bg=0,bold]󰆾 move#[fg=0] "
         mode_scroll "#[fg=0,bold] #[fg=7,bg=0,bold]󰈙 view#[fg=0] "
