@@ -1,0 +1,18 @@
+#!/bin/bash
+# vim: ft=bash
+
+{{- if eq .chezmoi.os "darwin" }}
+
+# =============================================================================
+# Hash trigger: {{ include ".chezmoidata/env.yml" | sha256sum }}
+# =============================================================================
+
+set -euo pipefail
+
+# Keep newly created tool state private without changing existing permissions.
+umask 077
+
+{{- range .env.runtimeDirs }}
+mkdir -p -- {{ printf "%s/%s" $.chezmoi.homeDir (join "/" .) | quote }}
+{{- end }}
+{{- end }}

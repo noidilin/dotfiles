@@ -1,3 +1,4 @@
+{{- $envData := include ".chezmoidata/env.yml" | fromYaml -}}
 encryption = "age"
 progress = true # display progress bar
 
@@ -55,15 +56,15 @@ custom = true # enable custom shell completion
 {{/* ========================================== */}}
 
 [scriptEnv]
-{{/* XDG Base Directory Specification */}}
-  XDG_CONFIG_HOME = {{ joinPath .chezmoi.homeDir ".config" | quote }}
-  XDG_DATA_HOME = {{ joinPath .chezmoi.homeDir ".local" "share" | quote }}
-  XDG_CACHE_HOME = {{ joinPath .chezmoi.homeDir ".cache" | quote }}
-  XDG_STATE_HOME = {{ joinPath .chezmoi.homeDir ".local" "state" | quote }}
-  XDG_BIN_HOME = {{ joinPath .chezmoi.homeDir ".local" "bin" | quote }}
-
-{{/* Application-Specific Directories */}}
-  BLENDER_USER_RESOURCES = {{ joinPath .chezmoi.homeDir ".local" "etc" "blender" | quote }}
+{{- range $key, $pathParts := $envData.env.xdg }}
+  {{ $key }} = {{ printf "%s/%s" $.chezmoi.homeDir (join "/" $pathParts) | quote }}
+{{- end }}
+{{- range $key, $pathParts := $envData.env.dev }}
+  {{ $key }} = {{ printf "%s/%s" $.chezmoi.homeDir (join "/" $pathParts) | quote }}
+{{- end }}
+{{- range $key, $pathParts := $envData.env.other }}
+  {{ $key }} = {{ printf "%s/%s" $.chezmoi.homeDir (join "/" $pathParts) | quote }}
+{{- end }}
 
 {{/* ========================================== */}}
 {{/* Platform-Specific Configurations          */}}

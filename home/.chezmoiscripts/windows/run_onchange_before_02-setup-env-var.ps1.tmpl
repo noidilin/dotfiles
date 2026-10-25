@@ -21,10 +21,10 @@ $NamedEnv = @{
 foreach ($Key in $NamedEnv.Keys) {
     # Expand variables like $HOME
     $expandedValue = $ExecutionContext.InvokeCommand.ExpandString($NamedEnv[$Key])
-    
+
     # Check if the environment variable already exists
     $currentValue = [System.Environment]::GetEnvironmentVariable($Key, [System.EnvironmentVariableTarget]::User)
-    
+
     if ($currentValue -eq $null -or $currentValue -ne $expandedValue) {
         Write-Host "Setting $Key = $expandedValue" -ForegroundColor Green
         [System.Environment]::SetEnvironmentVariable($Key, $expandedValue, [System.EnvironmentVariableTarget]::User)
@@ -58,7 +58,7 @@ $pathArray = if ($currentPath) { $currentPath -split ';' | Where-Object { $_ -ne
 foreach ($entry in $PathEntries) {
     # Expand variables like $HOME
     $expandedEntry = $ExecutionContext.InvokeCommand.ExpandString($entry)
-    
+
     if ($pathArray -notcontains $expandedEntry) {
         Write-Host "Adding to PATH: $expandedEntry" -ForegroundColor Green
         $pathArray += $expandedEntry

@@ -1,1 +1,2 @@
-plugin_cache_dir = "$HOME/.dev/terraform/"
+plugin_cache_dir   = "$HOME/.dev/terraform/plugin-cache"
+disable_checkpoint = true

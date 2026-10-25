@@ -1,0 +1,13 @@
+# Development and application environment variables.
+# Generated from .chezmoidata/env.yml; edit that file instead.
+
+{{- range $key, $pathParts := .env.dev }}
+$env.{{ $key }} = ($nu.home-dir | path join{{ range $pathParts }} {{ . | quote }}{{ end }})
+{{- end }}
+
+{{- range $key, $pathParts := .env.other }}
+$env.{{ $key }} = ($nu.home-dir | path join{{ range $pathParts }} {{ . | quote }}{{ end }})
+{{- end }}
+
+# Dev PATH entries are owned by mise (`[[env]]._.path`) from .chezmoidata/env.yml.
+# Keep this file limited to variable definitions so config reloads do not duplicate PATH.
