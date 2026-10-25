@@ -23,8 +23,7 @@
     "credit-report-generator@robcsc-skills-repo": true,
     "invest-report@robcsc-skills-repo": true,
     "mattpocock-skills@claude-plugins-official": true,
-    "desktop-skills@desktop-skills-bridge": true,
-    "factory@factory": true
+    "desktop-skills@desktop-skills-bridge": true
   },
   "extraKnownMarketplaces": {
     "robcsc-skills-repo": {
@@ -37,12 +36,6 @@
       "source": {
         "source": "directory",
         "path": "/Users/noid/.claude/desktop-skills-bridge"
-      }
-    },
-    "factory": {
-      "source": {
-        "source": "directory",
-        "path": "/Users/noid/hub/dev/factory"
       }
     }
   },

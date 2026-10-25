@@ -25,5 +25,7 @@
   "app.session.toggleSort": "alt+s",
   "app.session.toggleNamedFilter": "alt+n",
   "app.models.save": "ctrl+shift+s",
-  "app.models.toggleProvider": "alt+m"
+  "app.models.toggleProvider": "alt+m",
+  "tui.altScreen.halfPageDown": "ctrl+d",
+  "tui.altScreen.halfPageUp": "ctrl+u"
 }

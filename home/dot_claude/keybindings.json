@@ -60,7 +60,8 @@
       "bindings": {
         "ctrl+g": "scroll:top",
         "ctrl+alt+g": "scroll:bottom",
-        "ctrl+u": "scroll:halfPageUp"
+        "ctrl+u": "scroll:halfPageUp",
+        "ctrl+f": "scroll:halfPageDown"
       }
     }
   ]
