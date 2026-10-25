@@ -26,6 +26,7 @@ mise:
     # config. Pin the exact versions in each project's mise.toml.
     kubectl: "latest"
     helm: "latest"
+    kind: "latest"
   settings:
     experimental: true
     python.uv_venv_auto: true
