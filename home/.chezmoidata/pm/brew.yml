@@ -12,9 +12,12 @@ pkgs:
     - "agent-browser"
     - "aws-amplify"
     - "aws-sso-cli"
-    - "azure-cli"
     - "beads"
     - "cmake"
+    - "colima" # OSS docker/k8s VM via lima; pulls in lima as a dependency
+    - "docker-buildx" # cli plugin, linked via .dev/docker/cli-plugins
+    - "docker-compose" # cli plugin, linked via .dev/docker/cli-plugins
+    - "docker-credential-helper" # docker-credential-osxkeychain for credsStore
     - "git-filter-repo"
     - "herdr"
     - "jj"
@@ -51,7 +54,6 @@ pkgs:
     - "--cask linear"
     - "--cask marginnote"
     - "--cask macwhisper"
-    - "--cask orbstack"
 
     # wait to be synced with common pkgs
     - "qpdf"

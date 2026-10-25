@@ -97,6 +97,11 @@ FlexASIO.toml
 # Claude Desktop DXT runtime -- macOS-only app, macOS-only paths.
 .local/etc/claude-desktop/
 .local/share/metaage-aws-estimator/
+# colima is brew-only. Its colima.yaml is byte-for-byte what `colima start` writes
+# back (it re-renders its embedded template on every start), so edit values in
+# place and keep the odd whitespace, or `chezmoi diff` shows drift after a start.
+.dev/colima/
+.dev/docker/cli-plugins/
 {{- end }}
 
 {{- if ne .osId "linux-arch" }}

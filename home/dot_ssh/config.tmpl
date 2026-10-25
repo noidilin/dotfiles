@@ -1,8 +1,7 @@
 {{- if eq .chezmoi.os "darwin" }}
-# Added by OrbStack: 'orb' SSH host for Linux machines
-# This only works if it's at the top of ssh_config (before any Host blocks).
-# This won't be added again if you remove it.
-Include ~/.orbstack/ssh/config
+# colima: ssh host for the VM. Kept here so colima finds it and skips prepending its own.
+# Must stay above any Host blocks.
+Include ~/.dev/colima/ssh_config
 
 # 1Password SSH Agent
 Host *
