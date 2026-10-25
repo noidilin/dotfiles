@@ -52,7 +52,7 @@ pkgs:
     # - "--cask waves-central" # VSA plugins
     - "--cask omniwm"
     - "--cask linear"
-    - "--cask marginnote"
+    # - "--cask marginnote" # installed from mas
     - "--cask macwhisper"
 
     # wait to be synced with common pkgs
