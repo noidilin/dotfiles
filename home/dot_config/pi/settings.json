@@ -1,7 +1,7 @@
 {
-  "lastChangelogVersion": "0.80.10",
+  "lastChangelogVersion": "1.4.0",
   "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.6-sol",
+  "defaultModel": "gpt-6.1-sol",
   "defaultThinkingLevel": "medium",
   "theme": "achroma-current",
   "hideThinkingBlock": false,
@@ -15,7 +15,12 @@
     "/Users/noid/.config/pi/extensions",
     "npm:@juicesharp/rpiv-web-tools",
     "npm:@juicesharp/rpiv-ask-user-question",
-    "npm:pi-mcp-adapter"
+    "npm:@narumitw/pi-usage",
+    "npm:pi-subagents"
   ],
-  "extensions": []
+  "subagents": {
+    "agentScanDirs": [
+      "~/.agents/agents"
+    ]
+  }
 }

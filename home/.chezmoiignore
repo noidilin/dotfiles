@@ -86,7 +86,6 @@ FlexASIO.toml
 {{- if ne .chezmoi.os "darwin" }}
 .zshenv
 .zshrc
-.aerospace.toml
 .config/zsh/*
 .config/karabiner/
 .config/zellij/

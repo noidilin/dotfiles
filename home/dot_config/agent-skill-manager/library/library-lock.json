@@ -660,6 +660,39 @@
       "skillPath": "skills/react-view-transitions",
       "libraryPath": "/Users/noid/.config/agent-skill-manager/library/skills/vercel-react-view-transitions",
       "installedAt": "2026-10-25T16:08:36.500Z"
+    },
+    "no-comments": {
+      "name": "no-comments",
+      "version": "0.0.0",
+      "source": "github:noidilin/skills",
+      "sourceType": "github",
+      "commitHash": "e52b7aeb49d25d6eae5bfdcb087b66705c2af47c",
+      "ref": "main",
+      "skillPath": "skills/no-comments",
+      "libraryPath": "/Users/noid/.config/agent-skill-manager/library/skills/no-comments",
+      "installedAt": "2026-10-25T16:47:35.126Z"
+    },
+    "deslop": {
+      "name": "deslop",
+      "version": "0.0.0",
+      "source": "github:noidilin/skills",
+      "sourceType": "github",
+      "commitHash": "6b658f304c5681eabb5c6bed21f49761b464c4cf",
+      "ref": "main",
+      "skillPath": "skills/deslop",
+      "libraryPath": "/Users/noid/.config/agent-skill-manager/library/skills/deslop",
+      "installedAt": "2026-10-25T16:57:16.362Z"
+    },
+    "unslop": {
+      "name": "unslop",
+      "version": "0.0.0",
+      "source": "github:noidilin/skills",
+      "sourceType": "github",
+      "commitHash": "6b658f304c5681eabb5c6bed21f49761b464c4cf",
+      "ref": "main",
+      "skillPath": "skills/unslop",
+      "libraryPath": "/Users/noid/.config/agent-skill-manager/library/skills/unslop",
+      "installedAt": "2026-10-25T16:57:19.511Z"
     }
   }
 }

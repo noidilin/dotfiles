@@ -3,7 +3,6 @@
   "permissions": {
     "defaultMode": "auto"
   },
-  "model": "opus[1m]",
   "hooks": {
     "SessionStart": [
       {
@@ -22,7 +21,6 @@
     "aws-agents@claude-plugins-official": true,
     "credit-report-generator@robcsc-skills-repo": true,
     "invest-report@robcsc-skills-repo": true,
-    "mattpocock-skills@claude-plugins-official": true,
     "desktop-skills@desktop-skills-bridge": true
   },
   "extraKnownMarketplaces": {
@@ -39,7 +37,19 @@
       }
     }
   },
+  "feedbackDrafts": "off",
   "effortLevel": "high",
+  "modelSettings": {
+    "claude-fable-5-1": {
+      "effortLevel": "medium"
+    },
+    "claude-sonnet-4-6": {
+      "effortLevel": "low"
+    },
+    "claude-opus-5-5": {
+      "effortLevel": "high"
+    }
+  },
   "autoMemoryEnabled": false,
   "skipDangerousModePermissionPrompt": true,
   "theme": "custom:achroma-current"
