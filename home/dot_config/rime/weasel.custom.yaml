@@ -19,7 +19,7 @@ patch:
       ascii_mode: true
       ascii_punct: true
     firefox.exe:
-      inline_preedit: true
+      inline_preedit: true # 規避 https://github.com/rime/weasel/pull/1462，0.17.4 之後的正式版可移除
 
   show_notifications: true
   show_notifications_time: 1200
