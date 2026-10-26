@@ -82,8 +82,10 @@ of them to dark. That failure mode is gone.
   `mixPeach25`: that role mixed into `base` at the given percentage, for
   tinted surfaces (delta diff backgrounds and the like).
 
-The rung numbers survive in neovim's and wezterm's palettes and in
-[docs/achroma-design.md](achroma-design.md), so this is the translation:
+neovim's and wezterm's palettes and
+[docs/achroma-design.md](achroma-design.md) keep rung numbers on purpose: they
+are where rung choices get made, and the arithmetic ("climb two rungs in
+light") needs the ordering that role names hide. This is the translation:
 
 | rung | key | rung | key |
 | --- | --- | --- | --- |
@@ -100,7 +102,8 @@ The rung numbers survive in neovim's and wezterm's palettes and in
 
 The palette mirrors `wezterm/utils/palette-dark.lua` / `palette-light.lua`
 and neovim's `lush_theme/_primitive.lua` (separate repos) — keep them in
-sync when a color changes.
+sync when a color changes. The `mix*` keys live only here; neither repo uses
+them.
 
 ### Per-tool template pattern
 

@@ -24,7 +24,8 @@ should take, and why. Read it before writing a new
 `mono13` and gets a readable mid-gray either way, and rendering the light
 variant is just passing the other table — the wrappers do nothing else.
 
-This file speaks in rung numbers because neovim and wezterm still do. In
+This file speaks in rung numbers, as neovim and wezterm do, because the
+arguments below are arithmetic on the ramp. In
 `colors.yml` a rung that has a role is keyed by it (`mono02` is `mantle`,
 `mono21` is `text`, `red00` is `red`); the translation table is in
 [docs/achroma.md](achroma.md#one-palette-addressed-by-role).
