@@ -1,43 +1,5 @@
-# =============================================================================
-# Unified Cross-Platform Package Configuration
-# =============================================================================
-# Defines ALL packages installed across macOS, Windows, and Arch Linux.
-# Each package specifies platform-specific package names/IDs.
-#
-# Valid Platform Keys:
-#   brew:   macOS package name (Homebrew)
-#   scoop:  Windows package name (Scoop)
-#   winget: Windows package ID (WinGet)
-#   pacman: Arch Linux package name (official repos)
-#   aur:    Arch Linux package name (AUR via yay)
-#
-# Special Flags:
-#   wsl: false  - Excludes package from Arch WSL2 (for GUI apps only)
-#                 Omit for CLI tools (they're included by default)
-#
-# Examples:
-#   git:
-#     brew: "git"
-#     scoop: "git"
-#     pacman: "git"
-#
-#   nushell:
-#     brew: "nushell"
-#     scoop: "nu"
-#     pacman: "nushell"
-#
-#   vscode:
-#     wsl: false
-#     brew: "visual-studio-code"
-#     scoop: "vscode"
-#     pacman: "code"
-# =============================================================================
-
 pkgs:
   common:
-    # =============================================================================
-    # Bootstrap (pre-chezmoi requirements)
-    # =============================================================================
     1password-cli:
       wsl: false
       brew: "--cask 1password-cli"
@@ -49,9 +11,6 @@ pkgs:
       winget: "AgileBits.1Password"
       aur: "1password"
 
-    # =============================================================================
-    # Chezmoi Config
-    # =============================================================================
     age:
       brew: "age"
       scoop: "age"
@@ -65,9 +24,6 @@ pkgs:
       scoop: "git"
       pacman: "git"
 
-    # =============================================================================
-    # Shell Config (Nushell dependencies)
-    # =============================================================================
     carapace:
       brew: "carapace"
       scoop: "carapace-bin"
@@ -93,9 +49,6 @@ pkgs:
       scoop: "zoxide"
       pacman: "zoxide"
 
-    # =============================================================================
-    # CLI Tools
-    # =============================================================================
     7zip:
       brew: "sevenzip"
       scoop: "7zip"
@@ -172,7 +125,7 @@ pkgs:
       brew: "lazygit"
       scoop: "lazygit"
       pacman: "lazygit"
-    leaf: # terminal markdown previewer; `leaf` conflicts with two other formulae
+    leaf:
       brew: "leaf-markdown-viewer"
       scoop: "leaf-markdown-viewer"
       aur: "leaf-markdown-viewer-bin"
@@ -188,7 +141,6 @@ pkgs:
     mise:
       brew: "mise"
       scoop: "mise"
-    #   pacman: "mise" # currently often outdated under rapid development
     neovim:
       brew: "neovim"
       scoop: "neovim"
@@ -209,13 +161,9 @@ pkgs:
       brew: "tectonic"
       scoop: "tectonic"
       pacman: "tectonic"
-    tuxedo: # todo.txt TUI; upstream ships no scoop manifest, Windows is prebuilt binaries only
+    tuxedo:
       brew: "tuxedo"
       aur: "tuxedo-bin"
-    # unrar:
-    #   brew: "--cask rar"
-    #   scoop: "unrar"
-    #   pacman: "unrar"
     unzip:
       brew: "unzip"
       scoop: "unzip"
@@ -237,9 +185,6 @@ pkgs:
       scoop: "yq"
       pacman: "go-yq"
 
-    # =============================================================================
-    # GUI Apps (Cross-Platform Daily Use)
-    # =============================================================================
     helium:
       wsl: false
       scoop: "helium"
@@ -269,5 +214,4 @@ pkgs:
       wsl: false
       brew: "--cask zen"
       winget: "Zen-Team.Zen-Browser"
-      # scoop: "zen-browser"
       aur: "zen-browser-bin"

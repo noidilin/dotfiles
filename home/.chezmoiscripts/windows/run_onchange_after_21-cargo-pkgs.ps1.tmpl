@@ -2,9 +2,7 @@
 
 {{- if eq .chezmoi.os "windows" }}
 
-# =============================================================================
 # Hash trigger: {{ include ".chezmoidata/pm/cargo.yml" | sha256sum }}
-# =============================================================================
 
 Write-Host "=== Installing cargo packages ===" -ForegroundColor Yellow
 

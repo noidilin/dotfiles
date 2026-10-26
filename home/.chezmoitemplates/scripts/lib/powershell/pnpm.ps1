@@ -1,5 +1,15 @@
 $script:PnpmPackages = $null
 
+function Initialize-PnpmViaCorepack {
+    $previousPrompt = $env:COREPACK_ENABLE_DOWNLOAD_PROMPT
+    $env:COREPACK_ENABLE_DOWNLOAD_PROMPT = "0"
+    try {
+        mise exec -- pnpm --version | Out-Null
+    } finally {
+        $env:COREPACK_ENABLE_DOWNLOAD_PROMPT = $previousPrompt
+    }
+}
+
 function Get-PnpmInstalledPackages {
     if ($null -ne $script:PnpmPackages) {
         return $script:PnpmPackages

@@ -1,13 +1,3 @@
-# Zellij shell-status integration for Nushell.
-#
-# Public facade for shell-event-driven Zellij output:
-# - automatic tab names from cwd/git state
-# - transient foreground-process tab labels
-# - hook installation
-#
-# The public command prefix remains `ztab` for muscle memory, but this module is
-# broader than tab naming.
-
 use events.nu
 use cache.nu
 
@@ -45,8 +35,6 @@ export def --env "ztab auto" [] {
 # Install dynamic tab-renaming/status hooks. Hooks are appended, not overwritten,
 # so Starship, zoxide, and future integrations can coexist.
 export def --env "ztab install-hooks" [] {
-    # Idempotent per process: config.nu can be re-sourced in the same shell, but
-    # nested shells still install their own hooks.
     if (cache hooks-installed) { return }
 
     let hooks = ($env.config | get -o hooks | default {})

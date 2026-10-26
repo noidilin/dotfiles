@@ -4,41 +4,27 @@
 **/node_modules/
 history.txt
 
-# Build artifact of `mise run install`, not config. Rebuilt on demand.
 .local/share/metaage-aws-estimator/.venv/**
 
-### chezmoi ###
-
 .config/chezmoi/**
-chezmoi-crypto-key.txt.age # age passphrase key for chezmoi to decryp private key
-
-### opencode ###
+chezmoi-crypto-key.txt.age
 
 .config/opencode/bun.lock
 .config/opencode/package.json
 .config/opencode/.gitignore
 
-### pi ###
-
 .config/pi/sessions/**
 .config/pi/auth.json
 
-### script files ###
-
 {{- if ne .chezmoi.os "linux" }}
-# Non-Linux: Ignore all Arch scripts
 .chezmoiscripts/arch/**
 {{- else if eq .osId "linux-arch" }}
-# Arch Linux: Filter based on environment
 {{-   if eq .archEnv "wsl" }}
-# WSL2: Ignore native scripts
 .chezmoiscripts/arch/native/**
 {{-   else if eq .archEnv "native" }}
-# Native: Ignore WSL scripts
 .chezmoiscripts/arch/wsl/**
 {{-   end }}
 {{- else }}
-# Other Linux distros: Ignore all Arch scripts
 .chezmoiscripts/arch/**
 {{- end }}
 
@@ -50,15 +36,6 @@ chezmoi-crypto-key.txt.age # age passphrase key for chezmoi to decryp private ke
 .chezmoiscripts/darwin/**
 {{- end }}
 
-### achroma ###
-
-# Which variant is live. Owned by the `theme` command, never by chezmoi --
-# this line is what makes `chezmoi apply` in light mode stop resetting
-# everything to dark. The variants/ trees themselves stay chezmoi-managed.
-.config/achroma/current
-
-### config directory ###
-
 {{- if ne .chezmoi.os "linux" }}
 .config/fcitx5/
 .config/hypr/
@@ -66,7 +43,6 @@ chezmoi-crypto-key.txt.age # age passphrase key for chezmoi to decryp private ke
 {{- end }}
 
 {{- if eq .archEnv "wsl" }}
-# WSL2: Ignore configs not needed in WSL environment
 .local/etc/keyboard/
 .config/rime/
 {{- end }}
@@ -93,7 +69,6 @@ FlexASIO.toml
 .config/achroma/variants/*/herdr.toml
 .config/omniwm/
 .local/etc/antinote/
-# Claude Desktop DXT runtime -- macOS-only app, macOS-only paths.
 .local/etc/claude-desktop/
 .local/share/metaage-aws-estimator/
 # colima is brew-only. Its colima.yaml is byte-for-byte what `colima start` writes
@@ -108,6 +83,5 @@ FlexASIO.toml
 {{- end }}
 
 {{- if eq .chezmoi.os "windows" }}
-# Windows: Exclude fcitx5 configs (not used on Windows)
 .config/fcitx5/
 {{- end }}

@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
-# Switch to (inside Zellij) or attach/create (outside Zellij) the session for cwd's git root.
 set -eu
 
 cwd=${1:-$(pwd)}

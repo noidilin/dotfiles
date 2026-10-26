@@ -36,17 +36,12 @@ backends.ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 "color" = "auto"
 "show-cryptographic-signatures" = true
 
-# These options allow for `jj diff` and `jj show` to clear the output from the terminal after closing the pager.
 [[--scope]]
 --when.commands = ["diff", "show"]
 
 [--scope.ui]
-# stop using delta as the pager for already-delta-formatted output
-# pager = ["less", "-FR"]
-# keep delta as external diff formatter to diffs real temp files/dir and keep syntax highlighting
 diff-formatter = "delta"
 
-# pass jj's computed terminal width via $width
 [merge-tools.delta]
 diff-args = ["--width=$width", "$left", "$right"]
 
@@ -84,8 +79,6 @@ diffnav = ["diff", "--config=ui.diff-formatter=':git'", "--config=ui.pager='diff
 "evolog empty" = "#878787"
 "evolog working_copy empty" = { "fg" = "#dad5c8", "bold" = true }
 
-# `jj op log` (oplog) uses operation-specific labels that do not overlap much
-# with commit log labels. Keep it warm monochrome to match the achroma palette.
 "op_log" = "#707070"
 "op_log operation" = "#707070"
 "op_log operation node" = "#5d5d5d"
@@ -113,7 +106,6 @@ diffnav = ["diff", "--config=ui.diff-formatter=':git'", "--config=ui.pager='diff
 "op_log operation current_operation description" = { "fg" = "#dad5c8", "bold" = true }
 "op_log operation current_operation description first_line" = { "fg" = "#dad5c8", "bold" = true }
 
-# `jj evolog` combines normal commit labels with operation metadata.
 "evolog" = "#707070"
 "evolog separator" = "#414141"
 "evolog operation" = "#707070"

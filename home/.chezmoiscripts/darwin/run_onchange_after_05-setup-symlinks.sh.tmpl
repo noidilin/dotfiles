@@ -3,9 +3,7 @@
 
 {{- if eq .chezmoi.os "darwin" }}
 
-# =============================================================================
 # Hash trigger: {{ include ".chezmoidata/symlinks/darwin.yml" | sha256sum }}
-# =============================================================================
 
 printf "=== Setting up symbolic links (macOS) ===\n"
 
@@ -50,7 +48,6 @@ create_symlink_safe() {
   local target="$1"
   local source="$2"
   
-  # Expand tilde and environment variables
   target="${target/#\~/$HOME}"
   source="${source/#\~/$HOME}"
   target=$(eval echo "$target")

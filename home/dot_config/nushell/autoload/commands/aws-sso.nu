@@ -1,17 +1,11 @@
-# aws-sso.nu — Nushell port of aws-sso shell integration
 # [nushell support for shell-helpers · Issue #1132 · synfinatic/aws-sso-cli](https://github.com/synfinatic/aws-sso-cli/issues/1132)
 #   - reply thread: https://github.com/synfinatic/aws-sso-cli/issues/1132#issuecomment-4034608246
-
-# ── internal helper ──────────────────────────────────────────────────────────
 
 def _sso_args [] {
     let val = $env.AWS_SSO_HELPER_ARGS?
     if ($val | is-empty) { ["-L" "error"] } else { $val | split words }
 }
 
-# ── completions ──────────────────────────────────────────────────────────────
-
-# Completion driver for the aws-sso command (uses COMP_LINE protocol)
 def _aws-sso-nu-complete [context: string, offset: int] {
     let line = if ($context | str ends-with " ") { $context } else { $"($context) " }
     with-env { COMP_LINE: $line, __NO_ESCAPE_COLONS: "1" } {
@@ -19,14 +13,12 @@ def _aws-sso-nu-complete [context: string, offset: int] {
     }
 }
 
-# SSO instance (session) completions for --sso flag
 def _aws-sso-session-nu-complete [context: string, offset: int] {
     ^aws-sso list ...(_sso_args) --csv SSO
         | lines
         | where { |it| ($it | str trim) != "" }
 }
 
-# Profile completions for aws-sso-profile
 def _aws-sso-profile-nu-complete [context: string, offset: int] {
     let cur = $context | split row " " | last
     ^aws-sso list ...(_sso_args) --csv -P $"Profile=($cur)" Profile
@@ -34,10 +26,7 @@ def _aws-sso-profile-nu-complete [context: string, offset: int] {
         | where { |it| ($it | str trim) != "" }
 }
 
-# Attach completions to the aws-sso external command
 export extern aws-sso [...args: string@_aws-sso-nu-complete]
-
-# ── commands ─────────────────────────────────────────────────────────────────
 
 # Assume an AWS SSO profile, loading credentials into the environment
 export def --env aws-sso-profile [

@@ -68,19 +68,35 @@ of them to dark. That failure mode is gone.
 `home/.chezmoidata/colors.yml` defines `color.achroma.dark` and
 `color.achroma.light`. Keys are **roles, not lightness**:
 
-- `mono00`–`mono25` run background-side → foreground-side. In the dark
-  palette `mono03` is the near-black base; in the light palette the same key
-  is the near-white base. A theme body that says `mono13` gets a readable
-  mid-gray in both variants.
+- The mono ramp runs background-side → foreground-side over 26 rungs. Rungs
+  with a role carry its name; the rungs between them keep `monoNN`. In the
+  dark palette `base` is near-black; in the light palette the same key is
+  near-white. A theme body that says `overlay1` gets a readable mid-gray in
+  both variants.
 - `acc00`–`acc08` / `accDim00`–`accDim08`: the warm accent ramps, lightness
   mirrored with hue/saturation preserved.
-- Chromatic ramps (`red00/01`, `green00/01`, `yellow00/01`, `blue00/01`,
-  `magenta00/01`, `cyan00/01`, `orange00/01`): same hues in both variants,
-  re-derived (not inverted) for 4.3–7.5:1 contrast on the light base.
-  `XX01` stays the "emphasis" slot in both.
-- `mixRed10/25`, `mixGreen10/25`, `mixMagenta/Blue/Cyan/Yellow25`: accent
-  mixed into the base at the given percentage, for tinted surfaces (delta
-  diff backgrounds and the like).
+- Chromatic pairs, one hue each: same hues in both variants, re-derived (not
+  inverted) for 4.3–7.5:1 contrast on the light base. The second name of each
+  pair is the "emphasis" slot in both.
+- `mixRed10/25`, `mixGreen10/25`, `mixMauve25`, `mixBlue25`, `mixSky25`,
+  `mixPeach25`: that role mixed into `base` at the given percentage, for
+  tinted surfaces (delta diff backgrounds and the like).
+
+The rung numbers survive in neovim's and wezterm's palettes and in
+[docs/achroma-design.md](achroma-design.md), so this is the translation:
+
+| rung | key | rung | key |
+| --- | --- | --- | --- |
+| `mono21` | `text` | `mono07` | `surface1` |
+| `mono19` | `subtext1` | `mono05` | `surface0` |
+| `mono17` | `subtext0` | `mono03` | `base` |
+| `mono15` | `overlay2` | `mono02` | `mantle` |
+| `mono13` | `overlay1` | `mono01` | `crust` |
+| `mono11` | `overlay0` | `red00` / `red01` | `red` / `maroon` |
+| `mono09` | `surface2` | `green00` / `green01` | `green` / `teal` |
+| `yellow00` / `yellow01` | `peach` / `yellow` | `blue00` / `blue01` | `blue` / `lavender` |
+| `magenta00` / `magenta01` | `mauve` / `pink` | `cyan00` / `cyan01` | `sapphire` / `sky` |
+| `orange00` / `orange01` | `flamingo` / `rosewater` | | |
 
 The palette mirrors `wezterm/utils/palette-dark.lua` / `palette-light.lua`
 and neovim's `lush_theme/_primitive.lua` (separate repos) — keep them in
@@ -463,7 +479,7 @@ Automation permission, which a non-interactive process does not have
 `reload-config` picks up a *changed* pointer target — every observed reload so
 far ran with the pointer standing still, so use the isolated test below; and
 the whole Windows path (`set-achroma-current.ps1` and the
-`run_after_06-achroma-current.ps1` seeder are unrun and un-syntax-checked —
+`run_after_06-seed-achroma-current.ps1` seeder are unrun and un-syntax-checked —
 no pwsh on the current machine).
 
 ### Isolated herdr reload test
@@ -522,7 +538,7 @@ on the old variant rather than half-switched — noisy but safe. Wrap it in
   swap goes through `pwsh/scripts/set-achroma-current.ps1`, which falls back
   to a directory junction (no elevation needed, absolute target required).
 - **The bootstrap seeder must be create-if-missing.** `.chezmoiscripts/*/
-  run_after_06-achroma-current.*` guards on `[ -e ] || [ -L ]` and exits; if
+  run_after_06-seed-achroma-current.*` guards on `[ -e ] || [ -L ]` and exits; if
   it ever re-pointed the pointer, `chezmoi apply` in light mode would reset
   everything to dark again.
 - **leaf silently ignores unknown theme keys.** A misspelled key is not an

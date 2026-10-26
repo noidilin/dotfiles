@@ -3,9 +3,7 @@
 
 {{- if eq .chezmoi.os "darwin" }}
 
-# =============================================================================
 # Hash trigger: {{ include ".chezmoidata/pm/pnpm.yml" | sha256sum }}
-# =============================================================================
 
 set -euo pipefail
 
@@ -22,8 +20,7 @@ if ! node_version=$(mise exec -- node --version 2>/dev/null); then
   exit 0
 fi
 
-# Corepack will prompt to install pnpm if pnpm has not been installed yet.
-pnpm_version=$(mise exec -- pnpm --version)
+pnpm_ensure_via_corepack
 
 {{- if .pkgs.pnpm }}
 print_skip ""

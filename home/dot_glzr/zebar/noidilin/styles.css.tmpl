@@ -1,53 +1,31 @@
-/** Import the Nerdfonts icon font. */
 @import 'https://www.nerdfonts.com/assets/css/webfont.css';
 
-/*
- * achroma -- dual variant.
- *
- * `:root` holds the LIGHT palette (the default). `:root.dark` overrides it with
- * the DARK palette. The `dark` class is toggled by the small bootstrap script
- * in main.html, which follows the Windows app theme unless overridden.
- *
- * Same palette as the wezterm (utils/palette*.lua) and neovim
- * (lush_theme/_primitive.lua) achroma themes, under catppuccin-style names;
- * both variants rendered from .chezmoidata/colors.yml.
- */
-
-/* ---------- light (default) ---------- */
-/* crust ink: deliberately darker than --mantle so the bar reads as elevated */
 :root {
 {{ template "zebar-achroma-vars.css" (dict
      "c" .color.achroma.light
      "ink" (dict "crust" "#f2f2f2")) -}}
 }
 
-/* ---------- dark ---------- */
 :root.dark {
 {{ template "zebar-achroma-vars.css" (dict
      "c" .color.achroma.dark
-     "ink" (dict "crust" .color.achroma.dark.mono01)) -}}
+     "ink" (dict "crust" .color.achroma.dark.crust)) -}}
 }
 
 html {
-  /* add gap to match window manager */
   width: calc(100% - 20px);
   position: absolute;
   right: 10px;
-  /* match wallpaper */
   background: var(--crust);
 }
 
 i {
-  /* --overlay2 rather than --overlay1: overlay1 is 1.9:1 on the dark bar */
   color: var(--overlay2);
   margin-right: 7px;
 }
 
 body {
   font-family: 'CommitMono Nerd Font Mono', ui-monospace, monospace;
-  /* --subtext1 rather than --overlay0: this is body text, and overlay0 is an
-     overlay role (1.8:1 light / 2.1:1 dark). --subtext1 is 7.2:1 / 5.5:1 and
-     matches the previous hardcoded #4a4a4a in light. */
   color: var(--subtext1);
   font-size: 12px;
   font-weight: 500;
@@ -128,8 +106,6 @@ body,
 
 .binding-mode,
 .tiling-direction {
-  /* was rgb(0 0 0 / 8%) + rgb(0 0 0 / 80%): hardcoded black, unreadable on the
-     dark bar. Tokenized -> 8.7:1 light, 7.0:1 dark. */
   background: var(--surface1);
   color: var(--text);
   border-radius: 2px;
@@ -144,7 +120,6 @@ body,
 }
 
 .cpu .high-usage {
-  /* was #8a5a5a */
   color: var(--red);
 }
 

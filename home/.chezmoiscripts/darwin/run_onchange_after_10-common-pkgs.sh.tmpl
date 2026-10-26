@@ -3,9 +3,7 @@
 
 {{- if eq .chezmoi.os "darwin" }}
 
-# =============================================================================
 # Hash trigger: {{ include ".chezmoidata/pm/common.yml" | sha256sum }}
-# =============================================================================
 
 set -euo pipefail
 
@@ -18,7 +16,6 @@ print_header "Installing common packages (macOS)"
 require_command_or_exit "brew" "ERROR: Homebrew is not installed!" "Please install Homebrew first: https://brew.sh"
 brew_update_once
 
-# Install common packages via Homebrew
 print_info ""
 print_info "Installing common packages via Homebrew..."
 {{- range $name, $pkg := .pkgs.common }}

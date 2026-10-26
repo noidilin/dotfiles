@@ -1,0 +1,19 @@
+{{ include ".chezmoitemplates/scripts/lib/powershell/achroma.ps1" }}
+$env:ACHROMA_VARIANT = Get-AchromaVariant
+$achromaSuffix = if ($env:ACHROMA_VARIANT -eq 'light') { '-light' } else { '' }
+
+# delta cannot pick a feature from the terminal background itself; a bare
+# (un-prefixed) DELTA_FEATURES value replaces the features from gitconfig.
+$env:DELTA_FEATURES = "achroma$achromaSuffix"
+
+$env:EZA_CONFIG_DIR = "$HOME\.config\eza\achroma$achromaSuffix"
+
+$env:LG_CONFIG_FILE = "$HOME\.config\lazygit\config.yml,$HOME\.config\lazygit\theme-achroma$achromaSuffix.yml"
+
+$env:GH_DASH_CONFIG = "$HOME\.config\gh-dash\config-achroma$achromaSuffix.yml"
+
+if (Get-Command "vivid" -ErrorAction SilentlyContinue) {
+  $env:LS_COLORS = (vivid generate "$HOME\.config\vivid\themes\achroma$achromaSuffix.yml" | Out-String).Trim()
+}
+
+Remove-Variable achromaSuffix

@@ -1,7 +1,3 @@
-# asm-profile.nu — activate every library skill from one upstream source into a project
-# A profile is a source in asm's library-lock.json, so skills added to or removed
-# from the library by `asm install` / `asm uninstall` are picked up without a list.
-
 const ASM_PROFILES = {
     aws: "github:aws/agent-toolkit-for-aws"
     addy: "github:addyosmani/agent-skills"
@@ -25,7 +21,6 @@ def _asm-profile-skills [profile: string] {
         | sort
 }
 
-# Run asm activate/deactivate for every skill x provider; `benign` marks the error that means "already done"
 def _asm-profile-run [action: string, profiles: list<string>, benign: string] {
     $profiles | each {|profile|
         _asm-profile-skills $profile | each {|skill|

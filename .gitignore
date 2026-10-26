@@ -1,9 +1,7 @@
-# Chezmoi has ensured to ignore those encrypted files, but jut for sure
 home/.zsh_history
 home/.zshenv_private
 home/dot_config/nushell/history.txt
 
-# asm project-scope skill activations: absolute symlinks into ~/.config/agent-skill-manager/library, local machine state (see noidilin/skills ADR-0012)
 /.agents/skills/no-comments
 /.agents/skills/addy-skills-sync
 /.claude/skills/no-comments

@@ -1,6 +1,5 @@
 export def main [] {
   return [
-    # readline completion menu
     {
       name: ide_completion_menu
       modifier: none
@@ -14,7 +13,6 @@ export def main [] {
       }
     }
 
-    # other readline menu
     {
       name: commands_menu
       modifier: control
@@ -37,7 +35,6 @@ export def main [] {
       event: { send: menu name: help_menu }
     }
 
-    # menu behavior
     {
       name: complete_suggestion
       modifier: control
@@ -60,7 +57,6 @@ export def main [] {
       event: { send: menupageprevious }
     }
 
-    # menu - fzf
     {
       name: history_menu
       modifier: control
@@ -127,7 +123,6 @@ export def main [] {
       }
     }
 
-    # custom menu
     {
       name: reload_config
       modifier: none
@@ -139,7 +134,6 @@ export def main [] {
       }
     }
 
-    # disable default
     {
       name: clear_screen
       modifier: control

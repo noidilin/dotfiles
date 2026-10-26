@@ -1,19 +1,13 @@
 #!/usr/bin/env bash
-# macOS Bootstrap Script
-# Execute via:
-#   curl -fsSL https://raw.githubusercontent.com/noidilin/dotfiles/main/init/darwin.sh > init.sh
-#   bash init.sh
 
 set -euo pipefail
 
-# Color codes
 YELLOW='\033[33m'
 GRAY='\033[90m'
 RED='\033[31m'
 WHITE='\033[97m'
 RESET='\033[0m'
 
-# Helper Functions
 print_step() {
 	echo -e "\n${YELLOW}▶ $1${RESET}"
 }
@@ -53,11 +47,9 @@ manual_step() {
 	done
 	echo ""
 
-	# Ensure we're reading from the terminal, not stdin pipe
 	if [ -t 0 ]; then
 		read -r -p "Press Enter when ready to continue..."
 	else
-		# Fallback: read directly from /dev/tty if available
 		if [ -e /dev/tty ]; then
 			read -r -p "Press Enter when ready to continue..." </dev/tty
 		else
@@ -66,7 +58,6 @@ manual_step() {
 	fi
 }
 
-# Banner
 clear
 echo -e "${WHITE}═══════════════════════════════════════════════════════════${RESET}"
 echo -e "${WHITE}  macOS Bootstrap Script for Dotfiles${RESET}"
@@ -83,7 +74,6 @@ echo ""
 echo -e "${GRAY}Note: First run may take 5-10 minutes (Xcode CLT installation)${RESET}"
 echo ""
 
-# Enforce interactive mode
 if [ ! -t 0 ]; then
 	echo -e "${RED}═══════════════════════════════════════════════════════════${RESET}"
 	echo -e "${RED}  ERROR: This script requires interactive mode${RESET}"
@@ -104,7 +94,6 @@ if [ ! -t 0 ]; then
 	exit 1
 fi
 
-# Prerequisites Check
 manual_step "Prerequisites Check" \
 	"Before continuing, please ensure you have:" \
 	"" \
@@ -115,32 +104,26 @@ manual_step "Prerequisites Check" \
 	"Note: You will need to complete these steps manually:" \
 	"  • 1Password sign-in and SSH agent setup"
 
-# Step 1: Install Homebrew
 print_step "Installing Homebrew package manager..."
 
 if command_exists "brew"; then
 	BREW_VERSION=$(brew --version 2>/dev/null | head -1 || echo "unknown")
 	print_success "Homebrew is already installed: $BREW_VERSION"
 else
-	# Install Homebrew (will prompt for sudo if needed)
 	if ! /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; then
 		stop_on_error "Failed to install Homebrew" "Check internet connection and try again"
 	fi
 
-	# Add Homebrew to PATH for current session
-	# Detect architecture and set appropriate Homebrew path
 	if [[ $(uname -m) == "arm64" ]]; then
 		BREW_PREFIX="/opt/homebrew"
 	else
 		BREW_PREFIX="/usr/local"
 	fi
 
-	# Add to PATH if not already present
 	if [[ ":$PATH:" != *":$BREW_PREFIX/bin:"* ]]; then
 		export PATH="$BREW_PREFIX/bin:$PATH"
 	fi
 
-	# Verify Homebrew is now available
 	if ! command_exists "brew"; then
 		stop_on_error "Homebrew installation verification failed" \
 			"Try running: export PATH=\"$BREW_PREFIX/bin:\$PATH\""
@@ -150,14 +133,12 @@ else
 	print_success "Homebrew installed successfully: $BREW_VERSION"
 fi
 
-# Step 2: Update Homebrew
 print_step "Updating Homebrew..."
 if ! brew update; then
 	stop_on_error "Homebrew update failed" "Check internet connection"
 fi
 print_success "Homebrew updated successfully"
 
-# Step 3: Install Bootstrap Packages
 print_step "Installing bootstrap packages..."
 PACKAGES=("git" "chezmoi" "age")
 
@@ -172,10 +153,8 @@ for pkg in "${PACKAGES[@]}"; do
 	fi
 done
 
-# Step 4: Install 1Password Apps
 print_step "Installing 1Password apps..."
 
-# Install 1Password desktop app
 if brew list --cask 1password &>/dev/null; then
 	print_success "1Password desktop app already installed"
 else
@@ -185,7 +164,6 @@ else
 	print_success "1Password desktop app installed"
 fi
 
-# Install 1Password CLI
 if brew list 1password-cli &>/dev/null; then
 	print_success "1Password CLI already installed"
 else
@@ -195,7 +173,6 @@ else
 	print_success "1Password CLI installed successfully"
 fi
 
-# Step 5: Manual 1Password Configuration
 manual_step "1Password Configuration" \
 	"1Password apps have been installed." \
 	"Please complete these steps before continuing:" \
@@ -208,10 +185,7 @@ manual_step "1Password Configuration" \
 	"     ${GRAY}op item get \"github-mac\" --fields \"public key\"${RESET}" \
 	""
 
-# Step 6: Verify 1Password CLI Access
 print_step "Verifying 1Password CLI access..."
-
-# Test authentication
 
 if ! op signin && op whoami &>/dev/null; then
 	stop_on_error "1Password authentication failed" \
@@ -221,7 +195,6 @@ fi
 OP_VERSION=$(op --version 2>/dev/null || echo "unknown")
 print_success "1Password CLI verified: $OP_VERSION"
 
-# Step 7: Initialize Chezmoi Repository
 print_step "Initializing chezmoi repository..."
 echo -e "${GRAY}  Using HTTPS URL for initial clone (SSH will work after dotfiles are applied)${RESET}"
 echo ""
@@ -233,7 +206,6 @@ fi
 CHEZMOI_SRC=$(chezmoi source-path)
 print_success "Repository cloned to $CHEZMOI_SRC"
 
-# Step 8: Apply Dotfiles
 print_step "Applying dotfiles..."
 echo -e "${GRAY}  Environment variables configured via chezmoi scriptEnv${RESET}"
 echo -e "${GRAY}  Mise-managed tools available via 'mise exec' in scripts${RESET}"
@@ -245,11 +217,6 @@ fi
 
 print_success "Dotfiles applied successfully"
 
-# ═══════════════════════════════════════════════════════════
-# Chinese Input Method Setup
-# ═══════════════════════════════════════════════════════════
-
-# Step 9: Install Fcitx5-Rime
 print_step "Installing Fcitx5-Rime input method..."
 
 FCITX5_DOWNLOAD_URL="https://github.com/fcitx-contrib/fcitx5-macos-installer/releases/download/latest/Fcitx5-Rime.zip"
@@ -258,26 +225,21 @@ FCITX5_ZIP_FILE="${FCITX5_WORK_DIR}/Fcitx5-Rime.zip"
 FCITX5_INSTALLER_APP="${FCITX5_WORK_DIR}/Fcitx5Installer.app"
 FCITX5_INSTALL_SUCCESS=false
 
-# Create work directory
 mkdir -p "${FCITX5_WORK_DIR}"
 cd "${FCITX5_WORK_DIR}"
 
-# Clean up any existing files
 echo -e "  ${GRAY}Preparing installation directory...${RESET}"
 rm -rf Fcitx5Installer.app Fcitx5-Rime.zip
 
-# Download installer
 echo -e "  ${GRAY}Downloading Fcitx5-Rime installer...${RESET}"
 if curl -fsSL "${FCITX5_DOWNLOAD_URL}" -o "${FCITX5_ZIP_FILE}"; then
 	print_success "Download complete"
 
-	# Extract
 	echo -e "  ${GRAY}Extracting installer...${RESET}"
 	if unzip -q "${FCITX5_ZIP_FILE}"; then
 		print_success "Extraction complete"
 		rm -f "${FCITX5_ZIP_FILE}"
 
-		# Manual installation step
 		manual_step "Fcitx5 Installation" \
 			"The Fcitx5 installer will now open." \
 			"Please complete these steps:" \
@@ -292,12 +254,10 @@ if curl -fsSL "${FCITX5_DOWNLOAD_URL}" -o "${FCITX5_ZIP_FILE}"; then
 			"" \
 			"${GRAY}Note: Your Rime config is already in ~/.config/rime/${RESET}"
 
-		# Open installer
 		if open "${FCITX5_INSTALLER_APP}"; then
 			print_success "Installer launched"
 			read -r -p "Press Enter once you've completed the installation to clean up temporary files..."
 
-			# Cleanup
 			echo -e "  ${GRAY}Cleaning up temporary files...${RESET}"
 			rm -rf "${FCITX5_WORK_DIR}"
 			print_success "Fcitx5 installation complete"
@@ -315,10 +275,8 @@ else
 	echo -e "  ${YELLOW}Manual download: ${FCITX5_DOWNLOAD_URL}${RESET}"
 fi
 
-# Return to home directory
 cd "${HOME}"
 
-# Step 10: Download Rime Language Model (Optional, only if Fcitx5 installed successfully)
 if [ "$FCITX5_INSTALL_SUCCESS" = true ]; then
 	print_step "Setting up Rime language model..."
 
@@ -326,7 +284,6 @@ if [ "$FCITX5_INSTALL_SUCCESS" = true ]; then
 	GRAM_FILE="${RIME_DIR}/wanxiang-lts-zh-hans.gram"
 	GRAM_URL="https://github.com/amzxyz/RIME-LMDG/releases/download/LTS/wanxiang-lts-zh-hans.gram"
 
-	# Create directory if it doesn't exist
 	mkdir -p "${RIME_DIR}"
 
 	if [ ! -f "${GRAM_FILE}" ]; then
@@ -352,7 +309,6 @@ else
 	echo -e "\n${GRAY}Skipping Rime language model setup (Fcitx5 installation was not completed)${RESET}"
 fi
 
-# Final Summary
 echo ""
 echo -e "${WHITE}═══════════════════════════════════════════════════════════${RESET}"
 echo -e "${WHITE}  Bootstrap Complete!${RESET}"

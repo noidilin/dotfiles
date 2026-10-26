@@ -5,10 +5,10 @@
 {{- $c := .color.achroma.light -}}
 {{- $warm := .color.achroma.dark -}}
 {{- template "ghostty-achroma" (dict "variant" "light" "c" $c "ink" (dict
-	"cursorText" $c.mono02
+	"cursorText" $c.mantle
 	"selection" $c.mono08
 	"split" $c.mono10
-	"black" $c.mono19
-	"blackBright" $c.mono15
+	"black" $c.subtext1
+	"blackBright" $c.overlay2
 	"white" $warm.acc06
 	"whiteBright" $warm.acc07)) -}}

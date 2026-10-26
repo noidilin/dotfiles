@@ -2,6 +2,5 @@
 {{- if eq .osId "linux-arch" -}}
   {{ template "env" . }}
 
-# Source .bashrc if it exists
 [ -f "${HOME}/.bashrc" ] && source "${HOME}/.bashrc"
 {{- end -}}

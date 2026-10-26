@@ -1,10 +1,11 @@
 #!/bin/sh
 set -eu
 
-# Print a compact git-worktree/branch label for zjstatus.
-#
-# Accept an explicit cwd so shell hooks can report the focused pane's cwd.
-# Falling back to $PWD is kept for ad-hoc/manual use.
+worktree_name_from_dir() {
+  name=${1#*.}
+  [ -n "$name" ] && [ "$name" != "$1" ] && printf '%s' "$name"
+}
+
 cwd=${1:-${PWD:-}}
 [ -n "$cwd" ] || exit 0
 
@@ -20,26 +21,17 @@ root=$(git -C "$cwd" rev-parse --show-toplevel 2>/dev/null || true)
 [ -n "$root" ] || root=$cwd
 leaf=${root##*/}
 
-# Prefer the local worktree suffix used by this setup, eg:
-#   repo.feature-x -> feature-x
-case "$leaf" in
-  *.*)
-    worktree=${leaf#*.}
-    if [ -n "$worktree" ] && [ "$worktree" != "$leaf" ]; then
-      printf ' %.25s' "$worktree"
-      exit 0
-    fi
-    ;;
-esac
+if worktree=$(worktree_name_from_dir "$leaf"); then
+  printf ' %.25s' "$worktree"
+  exit 0
+fi
 
-# Fall back to the checked-out branch.
 branch=$(git -C "$cwd" symbolic-ref --quiet --short HEAD 2>/dev/null || true)
 if [ -n "$branch" ]; then
   printf ' %.25s' "$branch"
   exit 0
 fi
 
-# Detached HEAD: show the short commit so the segment still explains itself.
 commit=$(git -C "$cwd" rev-parse --short HEAD 2>/dev/null || true)
 if [ -n "$commit" ]; then
   printf ' %.25s' "$commit"

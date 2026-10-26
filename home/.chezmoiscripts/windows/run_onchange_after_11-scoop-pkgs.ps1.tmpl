@@ -2,9 +2,7 @@
 
 {{- if eq .chezmoi.os "windows" }}
 
-# =============================================================================
 # Hash trigger: {{ include ".chezmoidata/pm/scoop.yml" | sha256sum }}
-# =============================================================================
 
 Write-Host "=== Installing platform-specific packages (Windows - Scoop) ===" -ForegroundColor Yellow
 
@@ -14,10 +12,11 @@ Write-Host "=== Installing platform-specific packages (Windows - Scoop) ===" -Fo
 
 Assert-CommandOrExit -CommandName "scoop" -ErrorMessage "ERROR: Scoop is not installed!" -HintMessage "Please install Scoop first: https://scoop.sh"
 
-# NOTE: Bucket setup removed - should be handled during bootstrap before chezmoi
-# This script assumes buckets (extras, nerd-fonts, wezterm-alt-icon) are already added
+Write-Host "`nEnsuring Scoop buckets..." -ForegroundColor White
+{{- range .scoop.buckets }}
+Add-ScoopBucket -Name "{{ .name }}"{{ if hasKey . "url" }} -Url "{{ .url }}"{{ end }}
+{{- end }}
 
-# Install Windows-specific packages
 Write-Host "`nInstalling Windows-specific packages (Scoop)..." -ForegroundColor White
 {{- range .pkgs.scoop }}
 Install-ScoopPackage "{{ . }}"

@@ -1,12 +1,4 @@
 #!/usr/bin/env bash
-# =============================================================================
-# herdr Plugin Links
-# =============================================================================
-# Links the smart-splits.nvim herdr plugin so Ctrl+h/j/k/l crosses the
-# herdr-pane <-> neovim-split boundary (the plugin_action binds in
-# herdr/config.toml resolve through this link). The link lives in
-# ~/.config/herdr/.plugins.lock, which herdr owns, so it is re-asserted here
-# instead of being templated.
 
 set -euo pipefail
 
@@ -24,7 +16,6 @@ if [[ ! -f "${PLUGIN_DIR}/herdr-plugin.toml" ]]; then
   exit 0
 fi
 
-# jq is a hard dependency of the plugin's navigate script.
 if ! command -v jq &>/dev/null; then
   printf "[ERROR] jq is not installed; smart-splits.nvim herdr navigation needs it.\n" >&2
   exit 1
@@ -37,10 +28,6 @@ else
   printf "[herdr] ✓ Linked smart-splits.nvim\n"
 fi
 
-# Hash trigger for run_onchange (re-run when the keybinds change). The binds
-# live in the shared template; the variant wrappers under
-# dot_config/achroma/variants/ are one-line template calls whose own content
-# never changes, so hashing those would never re-fire.
 # herdr-achroma.toml: {{ include ".chezmoitemplates/herdr-achroma.toml" | sha256sum }}
 
 {{- else }}

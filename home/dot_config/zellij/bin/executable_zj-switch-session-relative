@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
-# Switch to the previous/next Zellij session by lexical list order.
 set -eu
 
 dir=${1:-next}

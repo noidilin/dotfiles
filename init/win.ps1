@@ -1,9 +1,5 @@
-# Windows Bootstrap Script
-# Execute via: irm https://raw.githubusercontent.com/noidilin/dotfiles/main/init/win.ps1 | iex
-
 #Requires -Version 5.1
 
-# Helper Functions
 function Write-Step
 {
   param([string]$Message)
@@ -67,7 +63,6 @@ function Get-UserConfirmation
   return $response -match '^[Yy]'
 }
 
-# Banner
 Clear-Host
 Write-Host "═══════════════════════════════════════════════════════════" -ForegroundColor White
 Write-Host "  Windows Bootstrap Script for Dotfiles" -ForegroundColor White
@@ -84,7 +79,6 @@ Write-Host "  • Run chezmoi init with dotfiles repo" -ForegroundColor DarkGray
 Write-Host "  • Download Rime language model (197MB, optional)" -ForegroundColor DarkGray
 Write-Host ""
 
-# Prerequisites Reminder
 Write-ManualStep "Prerequisites Check" @(
   "Before continuing, please ensure you have:",
   "",
@@ -97,7 +91,6 @@ Write-ManualStep "Prerequisites Check" @(
   "  • Symlink privileges via secpol.msc"
 )
 
-# Step 1: Set Execution Policy
 Write-Step "Setting execution policy to RemoteSigned..."
 try
 {
@@ -108,7 +101,6 @@ try
   Stop-OnError "Failed to set execution policy" "You may need to run PowerShell as administrator"
 }
 
-# Step 2: Install Scoop
 Write-Step "Installing Scoop package manager..."
 if (Test-CommandExists "scoop")
 {
@@ -129,7 +121,6 @@ if (Test-CommandExists "scoop")
   }
 }
 
-# Step 3: Install Git
 Write-Step "Installing Git via Scoop..."
 try
 {
@@ -144,7 +135,6 @@ try
   Stop-OnError "Failed to install Git" "Error: $_"
 }
 
-# Step 4: Add Scoop Buckets
 Write-Step "Adding Scoop buckets..."
 
 $buckets = @(
@@ -167,12 +157,10 @@ foreach ($bucket in $buckets)
     Write-Success "Bucket '$($bucket.Name)' added"
   } catch
   {
-    # Scoop handles duplicate buckets gracefully, so we can continue
     Write-Success "Bucket '$($bucket.Name)' processed"
   }
 }
 
-# Step 5: Install Bootstrap Tools
 Write-Step "Installing bootstrap tools..."
 $tools = @("chezmoi", "age", "gsudo")
 
@@ -192,7 +180,6 @@ foreach ($tool in $tools)
   }
 }
 
-# Step 6: Enable Developer Mode
 Write-Step "Enabling Developer Mode via registry..."
 try
 {
@@ -210,10 +197,8 @@ try
   Stop-OnError "Failed to enable Developer Mode" "Error: $_"
 }
 
-# Step 7: Install 1Password
 Write-Step "Installing 1Password apps..."
 
-# Install/upgrade 1Password desktop app
 try
 {
   $desktopInstalled = winget list --id AgileBits.1Password --accept-source-agreements 2>$null | Select-String "AgileBits.1Password"
@@ -236,7 +221,6 @@ try
   Stop-OnError "Failed to install 1Password desktop app" "Error: $_"
 }
 
-# Install/upgrade 1Password CLI
 try
 {
   $cliInstalled = winget list --id AgileBits.1Password.CLI --accept-source-agreements 2>$null | Select-String "AgileBits.1Password.CLI"
@@ -259,7 +243,6 @@ try
   Stop-OnError "Failed to install 1Password CLI" "Error: $_"
 }
 
-# Step 8: Manual 1Password Configuration
 Write-ManualStep "1Password Configuration" @(
   "1Password apps have been installed.",
   "Please complete these steps before continuing:",
@@ -273,7 +256,6 @@ Write-ManualStep "1Password Configuration" @(
   ""
 )
 
-# Step 9: Manual Symlink Privileges Configuration
 Write-ManualStep "Symlink Privileges" @(
   "Developer Mode has been enabled via registry.",
   "Now you must grant symlink privileges:",
@@ -291,7 +273,6 @@ Write-ManualStep "Symlink Privileges" @(
   ""
 )
 
-# Step 10: Initialize Chezmoi Repository
 Write-Step "Initializing chezmoi repository..."
 Write-Host "  Using HTTPS URL for initial clone (SSH will work after dotfiles are applied)" -ForegroundColor DarkGray
 Write-Host ""
@@ -310,7 +291,6 @@ try
   Stop-OnError "Chezmoi init failed" "Error: $_"
 }
 
-# Step 11: Apply Dotfiles
 Write-Step "Applying dotfiles..."
 Write-Host "  Environment variables configured via chezmoi scriptEnv" -ForegroundColor DarkGray
 Write-Host "  Mise-managed tools available via 'mise exec' in scripts" -ForegroundColor DarkGray
@@ -329,13 +309,11 @@ try
   Stop-OnError "Chezmoi apply failed" "Error: $_"
 }
 
-# Step 12: Download Rime Language Model (Optional)
 Write-Step "Setting up Rime language model..."
 $RIME_DIR = Join-Path $env:USERPROFILE ".config\rime"
 $GRAM_FILE = Join-Path $RIME_DIR "wanxiang-lts-zh-hans.gram"
 $GRAM_URL = "https://github.com/amzxyz/RIME-LMDG/releases/download/LTS/wanxiang-lts-zh-hans.gram"
 
-# Create directory if it doesn't exist
 if (-not (Test-Path $RIME_DIR))
 {
   New-Item -ItemType Directory -Path $RIME_DIR -Force | Out-Null
@@ -365,7 +343,6 @@ if (-not (Test-Path $GRAM_FILE))
   Write-Success "Rime language model already exists"
 }
 
-# Final Summary
 Write-Host "`n═══════════════════════════════════════════════════════════" -ForegroundColor White
 Write-Host "  Bootstrap Complete!" -ForegroundColor White
 Write-Host "═══════════════════════════════════════════════════════════" -ForegroundColor White

@@ -1,51 +1,28 @@
 general:
-  # Commands to run when the WM has started (e.g. to run a script or launch
-  # another application). Here we are running a batch script to start Zebar.
   startup_commands: ["shell-exec zebar"]
 
-  # Commands to run just before the WM is shutdown. (The below command kills Zebar.)
   shutdown_commands: ["shell-exec taskkill /IM zebar.exe /F"]
 
-  # Commands to run after the WM config is reloaded.
-  # BUG: reload zebar currently not working (2024-11-19)
   config_reload_commands: []
 
-  # Whether to automatically focus windows underneath the cursor.
   focus_follows_cursor: false
 
-  # Whether to switch back and forth between the previously focused
-  # workspace when focusing the current workspace.
   toggle_workspace_on_refocus: false
 
   cursor_jump:
-    # Whether to automatically move the cursor on the specified trigger.
     enabled: true
 
-    # Trigger for cursor jump:
-    # - 'monitor_focus': Jump when focus changes between monitors.
-    # - 'window_focus': Jump when focus changes between windows.
     trigger: "window_focus"
 
-  # How windows should be hidden when switching workspaces.
-  # - 'cloak': Recommended. Hides windows with no animation.
-  # - 'hide': Legacy method (v3.5 and earlier) that has a brief animation,
-  # but has stability issues with some apps.
   hide_method: "cloak"
 
-  # Affects which windows get shown in the native Windows taskbar. Has no
-  # effect if `hide_method: 'hide'`.
-  # - 'true': Show all windows (regardless of workspace).
-  # - 'false': Only show windows from the currently shown workspaces.
   show_all_in_taskbar: false
 
 gaps:
-  # Whether to scale the gaps with the DPI of the monitor.
   scale_with_dpi: true
 
-  # Gap between adjacent windows.
   inner_gap: "10px"
 
-  # Gap between windows and the screen edge.
   outer_gap:
     top: "52px"
     right: "10px"
@@ -53,34 +30,22 @@ gaps:
     left: "10px"
 
 window_effects:
-  # Visual effects to apply to the focused window.
   focused_window:
-    # Highlight the window with a colored border.
-    # ** Exclusive to Windows 11 due to API limitations.
     border:
       enabled: true
       color: "#707070"
 
-    # Remove the title bar from the window's frame. Note that this can
-    # cause rendering issues for some applications.
     hide_title_bar:
       enabled: false
 
-    # Change the corner style of the window's frame.
-    # ** Exclusive to Windows 11 due to API limitations.
     corner_style:
       enabled: false
-      # Allowed values: 'square', 'rounded', 'small_rounded'.
       style: "rounded"
 
-    # Change the transparency of the window.
     transparency:
       enabled: false
-      # Can be something like '95%' or '0.95' for slightly transparent windows.
-      # '0' or '0%' is fully transparent (and, by consequence, unfocusable).
       opacity: "95%"
 
-  # Visual effects to apply to non-focused windows.
   other_windows:
     border:
       enabled: true
@@ -95,49 +60,38 @@ window_effects:
       opacity: "0%"
 
 window_behavior:
-  # New windows are created in this state whenever possible.
-  # Allowed values: 'tiling', 'floating'.
   initial_state: "tiling"
 
-  # Sets the default options for when a new window is created. This also
-  # changes the defaults for when the state change commands, like
-  # `set-floating`, are used without any flags.
   state_defaults:
     floating:
-      # Whether to center floating windows by default.
       centered: true
 
-      # Whether to show floating windows as always on top.
       shown_on_top: false
 
     fullscreen:
-      # Maximize the window if possible. If the window doesn't have a
-      # maximize button, then it'll be fullscreen'ed normally instead.
       maximized: false
 
-      # Whether to show fullscreen windows as always on top.
       shown_on_top: false
 
 workspaces:
-  # other display name: '  󰨞  '
   - name: "1"
-    display_name: "" # explorer
+    display_name: ""
     keep_alive: true
     bind_to_monitor: 0
   - name: "2"
-    display_name: "" # dev
+    display_name: ""
     keep_alive: true
     bind_to_monitor: 1
   - name: "3"
-    display_name: "" # web
+    display_name: ""
     keep_alive: false
     bind_to_monitor: 0
   - name: "4"
-    display_name: "" # project
+    display_name: ""
     keep_alive: false
     bind_to_monitor: 1
   - name: "5"
-    display_name: "󰅶" # relax
+    display_name: "󰅶"
     keep_alive: false
     bind_to_monitor: 0
   - name: "6"
@@ -148,14 +102,11 @@ workspaces:
 window_rules:
   - commands: ["ignore"]
     match:
-      # Ignores any Zebar windows.
       - window_process: { equals: "zebar" }
 
-      # Ignores picture-in-picture windows for browsers.
       - window_title: { regex: "[Pp]icture.in.[Pp]icture" }
         window_class: { regex: "Chrome_WidgetWin_1|MozillaDialogClass" }
 
-      # Ignore rules for various 3rd-party apps.
       - window_process: { equals: "PowerToys" }
         window_class: { regex: 'HwndWrapper\[PowerToys\.PowerAccent.*?\]' }
       - window_process: { equals: "PowerToys" }
@@ -166,7 +117,6 @@ window_rules:
           { regex: "Flow.Launcher|PowerPoint Slide Show|PotPlayer|ShareX" }
       - window_title: { equals: "Command Palette" }
 
-  # move application to workspace
   - commands: ["move --workspace 3", "focus --workspace 3"]
     match:
       - window_process: { regex: "Obsidian" }
@@ -202,7 +152,6 @@ binding_modes:
         bindings: ["shift+k"]
       - commands: ["resize --height -10%"]
         bindings: ["shift+j"]
-      # Move focused window in a given direction.
       - commands: ["move --direction left"]
         bindings: ["alt+h"]
       - commands: ["move --direction right"]
@@ -211,25 +160,19 @@ binding_modes:
         bindings: ["alt+k"]
       - commands: ["move --direction down"]
         bindings: ["alt+j"]
-      # return to default keybindings
       - commands: ["wm-disable-binding-mode --name edit"]
         bindings: ["escape", "alt+shift+e"]
 
   - name: "extra"
     keybindings:
-      # close focused window
       - commands: ["close", "wm-disable-binding-mode --name extra"]
         bindings: ["alt+q"]
-      # minimize focused window
       - commands: ["set-minimized", "wm-disable-binding-mode --name extra"]
         bindings: ["alt+m"]
-      # kill glazeWM process safely
       - commands: ["wm-exit"]
         bindings: ["alt+shift+q"]
-      # Reload glazeWM config
       - commands: ["wm-reload-config", "wm-disable-binding-mode --name extra"]
         bindings: ["alt+shift+r"]
-      # Redraw all windows.
       - commands: ["wm-redraw", "wm-disable-binding-mode --name extra"]
         bindings: ["alt+shift+w"]
       - commands:
@@ -238,7 +181,6 @@ binding_modes:
             "wm-disable-binding-mode --name extra",
           ]
         bindings: ["alt+enter"]
-      # return to default keybindings
       - commands: ["wm-disable-binding-mode --name extra"]
         bindings: ["escape", "alt+shift+g"]
 
@@ -248,7 +190,6 @@ binding_modes:
         bindings: ["ctrl+alt+shift+p"]
 
 keybindings:
-  # Shift focus in a given direction.
   - commands: ["focus --direction left"]
     bindings: ["alt+h"]
   - commands: ["focus --direction right"]
@@ -258,46 +199,25 @@ keybindings:
   - commands: ["focus --direction down"]
     bindings: ["alt+j"]
 
-  # binding mode
   - commands: ["wm-enable-binding-mode --name edit"]
     bindings: ["alt+shift+e"]
   - commands: ["wm-enable-binding-mode --name extra"]
     bindings: ["alt+shift+g"]
-  # Disables all keybindings until ctrl+alt+shift+p is pressed again
   - commands: ["wm-enable-binding-mode --name pause"]
     bindings: ["ctrl+alt+shift+p"]
 
-  # Change tiling direction. This determines where new tiling windows will be inserted.
   - commands: ["toggle-tiling-direction"]
     bindings: ["alt+v"]
 
-  # Change focus from tiling windows -> floating -> fullscreen.
   - commands: ["wm-cycle-focus"]
     bindings: ["alt+shift+t"]
 
-  # Change the focused window to be floating.
   - commands: ["toggle-floating --centered"]
     bindings: ["alt+t"]
 
-  # Change the focused window to be tiling.
-  # - commands: ['toggle-tiling']
-  #   bindings: ['alt+t']
-
-  # Change the focused window to be fullscreen.
   - commands: ["toggle-fullscreen"]
     bindings: ["alt+shift+m"]
 
-  # Focus the next/previous workspace defined in `workspaces` config.
-  # - commands: ['focus --next-workspace']
-  #   bindings: ['alt+s']
-  # - commands: ['focus --prev-workspace']
-  #   bindings: ['alt+a']
-
-  # Focus the workspace that last had focus.
-  # - commands: ['focus --recent-workspace']
-  #   bindings: ['alt+d']
-
-  # Change focus to a workspace defined in `workspaces` config.
   - commands: ["focus --workspace 1"]
     bindings: ["alt+1"]
   - commands: ["focus --workspace 2"]
@@ -317,18 +237,6 @@ keybindings:
   - commands: ["focus --workspace 9"]
     bindings: ["alt+9"]
 
-  # Move the focused window's parent workspace to a monitor in a given
-  # direction.
-  # - commands: ['move-workspace --direction left']
-  #   bindings: ['alt+shift+a']
-  # - commands: ['move-workspace --direction right']
-  #   bindings: ['alt+shift+f']
-  # - commands: ['move-workspace --direction up']
-  #   bindings: ['alt+shift+d']
-  # - commands: ['move-workspace --direction down']
-  #   bindings: ['alt+shift+s']
-
-  # Move focused window to a workspace defined in `workspaces` config.
   - commands: ["move --workspace 1", "focus --workspace 1"]
     bindings: ["alt+shift+1"]
   - commands: ["move --workspace 2", "focus --workspace 2"]

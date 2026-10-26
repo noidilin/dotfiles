@@ -1,7 +1,3 @@
 [flavor]
 dark = "achroma"
 light = "achroma-light"
-
-# The [icon] overrides that used to live here applied on top of BOTH flavors
-# with dark-tuned hexes, washing out icons in light mode. They now live in
-# home/.chezmoitemplates/yazi-achroma-flavor.toml, role-mapped per variant.

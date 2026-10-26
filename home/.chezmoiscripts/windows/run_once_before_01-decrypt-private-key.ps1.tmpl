@@ -5,30 +5,16 @@
 $KeyPath = Join-Path -Path $HOME -ChildPath ".config/chezmoi/.chezmoi-crypto-key.txt"
 $SourceFile = Join-Path -Path "{{ .chezmoi.sourceDir }}" -ChildPath "chezmoi-crypto-key.txt.age"
 
-# Check if the decrypted key file exists
 if (-Not (Test-Path -Path $KeyPath)) {
 
-    # Ensure the .config/chezmoi directory exists
     $KeyDir = [System.IO.Path]::GetDirectoryName($KeyPath)
     if (-Not (Test-Path -Path $KeyDir)) {
         New-Item -ItemType Directory -Path $KeyDir | Out-Null
     }
 
-    # Decrypt the private key using chezmoi and Age
     chezmoi age decrypt --output $KeyPath --passphrase $SourceFile
 
-    # Set permissions to restrict access to the key file
     icacls $KeyPath /inheritance:r /grant:r "$($env:USERNAME):(F)" | Out-Null
 }
-
-# NOTE: icacls command
-# /inheritance:r 
-# - remove inherited permissions from parent directories. 
-# - ensures only explicitly defined permissions apply to this file.
-# /grant:r "$(env:USERNAME):(F)"
-# - grant full control (F) permissions to the current user.
-# - the :r flag ensures that only this user has permissions, replacing any existing ones.
-# | Out-Null
-# - suppress command output to keep the script clean.
 
 {{ end }}

@@ -1,7 +1,3 @@
-# -----------------------------------------------------------------------------
-# Symbolic Links
-# -----------------------------------------------------------------------------
-# Format: { target: "destination", source: "config_file" }
 symlinks:
   windows:
     - target: "$PROFILE.CurrentUserAllHosts"

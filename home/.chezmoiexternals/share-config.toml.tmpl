@@ -12,8 +12,6 @@ refreshPeriod = "168h"
 
 [".config/rime"]
 type = "archive"
-# Avoid gitHubLatestTag here: chezmoi evaluates templates on every status/apply,
-# which would hit GitHub even when refreshPeriod has not elapsed.
 url = "https://github.com/amzxyz/rime_wanxiang/releases/latest/download/rime-wanxiang-base.zip"
 exact = false
 stripComponents = 0

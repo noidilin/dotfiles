@@ -3,9 +3,7 @@
 
 {{- if and (eq .chezmoi.os "linux") (eq .osId "linux-arch") (eq .archEnv "native") }}
 
-# =============================================================================
 # Hash trigger: {{ include ".chezmoidata/symlinks/arch.yml" | sha256sum }}
-# =============================================================================
 
 printf "=== Setting up symbolic links (Arch Linux) ===\n"
 
@@ -50,7 +48,6 @@ create_symlink_safe() {
   local target="$1"
   local source="$2"
   
-  # Expand tilde and environment variables
   target="${target/#\~/$HOME}"
   source="${source/#\~/$HOME}"
   target=$(eval echo "$target")

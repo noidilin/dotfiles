@@ -1,69 +1,31 @@
-# ==============================================================================
-# Productivity Keymap for macOS
-# ==============================================================================
-# Full documentation: ~/.local/share/chezmoi/docs/karabiner.md
-#
-# This configuration provides ergonomic key mappings for terminal/Vim workflows
-# and design work, using layers and modifier keys for efficient one-handed input.
-#
-# Layer System:
-# - Caps Layer (CapsLock hold): left/right-hand Vim navigation, arrows, symbols
-# - Space Layer (Space): One-handed symbols and function keys
-# - Tab Layer (Tab): One-handed number input
-
 title: Productivity Keymap
 version: 1.0.0
 author: noidilin
 maintainers: [noidilin]
 description: Ergonomic keymap for terminal/Vim and design workflows
 
-# ==============================================================================
-# TIMING PARAMETERS (YAML Anchors)
-# ==============================================================================
-# These anchors define reusable timing values for different key behaviors.
-# Reference: https://karabiner-elements.pqrs.org/docs/json/
-
 x-parameters:
-  # - to_if_alone_timeout: Maximum time for a tap to register
-  # - to_if_held_down_threshold: Minimum time to activate hold behavior
 
-  # Hyper key timing (symbol modifiers)
   hyper-timing: &hyper-timing
     basic.to_if_alone_timeout_milliseconds: 200
     basic.to_if_held_down_threshold_milliseconds: 50
 
-  # CapsLock timing
   capslock-timing: &capslock-timing
     basic.to_if_alone_timeout_milliseconds: 200
     basic.to_if_held_down_threshold_milliseconds: 50
 
-  # Space layer timing (variable-based modifier)
   space-timing: &space-timing
     basic.to_if_alone_timeout_milliseconds: 200
     basic.to_if_held_down_threshold_milliseconds: 50
 
-  # Tab layer timing (variable-based modifier)
   tab-timing: &tab-timing
     basic.to_if_alone_timeout_milliseconds: 200
     basic.to_if_held_down_threshold_milliseconds: 50
 
-# ==============================================================================
-# RULES
-# ==============================================================================
-
 rules:
-  # ----------------------------------------------------------------------------
-  # BASIC KEY MODIFICATIONS
-  # ----------------------------------------------------------------------------
-  # Core dual-role keys that serve as foundation for other layers:
-  # - CapsLock: tap → Esc, hold → Caps layer
-  # - Semicolon: tap → ;, hold → Right Shift
-  # - Quote: tap → ', hold → Option
-  # - Open bracket: tap → [, hold → Ctrl
 
   - description: Basic Key Modifications
     manipulators:
-      # CapsLock: tap → Esc, hold → Caps layer
       - description: "capslock = esc(tap) | caps_layer(hold)"
         type: basic
         from:
@@ -80,7 +42,6 @@ rules:
         parameters:
           <<: *capslock-timing
 
-      # Semicolon: tap → ;, hold → Right Shift
       - description: "semicolon = ;(tap) | right shift(hold)"
         type: basic
         from:
@@ -94,7 +55,6 @@ rules:
         parameters:
           <<: *hyper-timing
 
-      # ': tap → ', hold → Option
       - description: "quote = '(tap) | option(hold)"
         type: basic
         from:
@@ -108,7 +68,6 @@ rules:
         parameters:
           <<: *hyper-timing
 
-      # [: tap → [, hold → Ctrl
       - description: "open bracket = [(tap) | ctrl(hold)"
         type: basic
         from:
@@ -122,7 +81,6 @@ rules:
         parameters:
           <<: *hyper-timing
 
-      # .: tap → .
       - description: ". = ."
         type: basic
         from:
@@ -134,16 +92,8 @@ rules:
         parameters:
           <<: *hyper-timing
 
-  # ----------------------------------------------------------------------------
-  # CAPS LAYER - FUNCTIONALITY
-  # ----------------------------------------------------------------------------
-  # Essential functions available in caps layer:
-  # - Space → Delete (backspace)
-  # - G → Return (enter)
-
   - description: Caps Layer - Functionality
     manipulators:
-      # caps + space → delete
       - description: "caps + space = delete"
         type: basic
         from:
@@ -157,7 +107,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + G → return
       - description: "caps + g = return"
         type: basic
         from:
@@ -171,19 +120,8 @@ rules:
             name: caps_layer
             value: 1
 
-  # ----------------------------------------------------------------------------
-  # CAPS LAYER - LEFT HAND (Bot Row)
-  # ----------------------------------------------------------------------------
-  # Vim character keys (continued):
-  # - Z → Y
-  # - X → U
-  # - C → I
-  # - V → O
-  # - B → P
-
   - description: Caps Layer - Left Hand (bot row)
     manipulators:
-      # caps + Z → y
       - description: "caps + z = y"
         type: basic
         from:
@@ -197,7 +135,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + X → u
       - description: "caps + x = u"
         type: basic
         from:
@@ -211,7 +148,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + C → i
       - description: "caps + c = i"
         type: basic
         from:
@@ -225,7 +161,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + V → o
       - description: "caps + v = o"
         type: basic
         from:
@@ -239,7 +174,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + B → p
       - description: "caps + b = p"
         type: basic
         from:
@@ -253,22 +187,8 @@ rules:
             name: caps_layer
             value: 1
 
-  # ----------------------------------------------------------------------------
-  # CAPS LAYER - EXTENDED NAVIGATION
-  # ----------------------------------------------------------------------------
-  # CAPS LAYER - LEFT HAND (Top Row)
-  # ----------------------------------------------------------------------------
-  # Vim character keys and document navigation:
-  # - Tab → Home
-  # - Q → H
-  # - W → J
-  # - E → K
-  # - R → L
-  # - T → End
-
   - description: Caps Layer - Left Hand (top row)
     manipulators:
-      # caps + Tab → home
       - description: "caps + tab = home"
         type: basic
         from:
@@ -282,7 +202,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + Q → h
       - description: "caps + q = h"
         type: basic
         from:
@@ -296,7 +215,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + W → j
       - description: "caps + w = j"
         type: basic
         from:
@@ -310,7 +228,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + E → k
       - description: "caps + e = k"
         type: basic
         from:
@@ -324,7 +241,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + R → l
       - description: "caps + r = l"
         type: basic
         from:
@@ -338,7 +254,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + T → end
       - description: "caps + t = end"
         type: basic
         from:
@@ -352,18 +267,8 @@ rules:
             name: caps_layer
             value: 1
 
-  # ----------------------------------------------------------------------------
-  # CAPS LAYER - LEFT HAND (Mid Row)
-  # ----------------------------------------------------------------------------
-  # Arrow key navigation:
-  # - A → Left
-  # - S → Down
-  # - D → Up
-  # - F → Right
-
   - description: Caps Layer - Left Hand (mid row)
     manipulators:
-      # caps + A → left
       - description: "caps + a = left"
         type: basic
         from:
@@ -377,7 +282,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + S → down
       - description: "caps + s = down"
         type: basic
         from:
@@ -391,7 +295,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + D → up
       - description: "caps + d = up"
         type: basic
         from:
@@ -405,7 +308,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + F → right
       - description: "caps + f = right"
         type: basic
         from:
@@ -419,18 +321,8 @@ rules:
             name: caps_layer
             value: 1
 
-  # ----------------------------------------------------------------------------
-  # CAPS LAYER - RIGHT HAND (Mid Row)
-  # ----------------------------------------------------------------------------
-  # Vim line navigation symbols (HJKL):
-  # - H → ^ (shift+6, start of line)
-  # - J → $ (shift+4, end of line)
-  # - K → { (shift+[, previous paragraph)
-  # - L → } (shift+], next paragraph)
-
   - description: Caps Layer - Right Hand (mid row)
     manipulators:
-      # caps + H → ^ (shift+6)
       - description: "caps + h = ^ (line start)"
         type: basic
         from:
@@ -445,7 +337,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + J → $ (shift+4)
       - description: "caps + j = $ (line end)"
         type: basic
         from:
@@ -460,7 +351,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + K → { (shift+[)
       - description: "caps + k = { (prev paragraph)"
         type: basic
         from:
@@ -475,7 +365,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + L → } (shift+])
       - description: "caps + l = } (next paragraph)"
         type: basic
         from:
@@ -490,18 +379,8 @@ rules:
             name: caps_layer
             value: 1
 
-  # ----------------------------------------------------------------------------
-  # CAPS LAYER - RIGHT HAND (Top Row)
-  # ----------------------------------------------------------------------------
-  # Vim search symbols:
-  # - Y → # (shift+3, previous match word)
-  # - U → * (shift+8, next match word)
-  # - I → % (shift+5, match bracket)
-  # - O → @ (shift+2, at symbol)
-
   - description: Caps Layer - Right Hand (top row)
     manipulators:
-      # caps + Y → # (shift+3)
       - description: "caps + y = # (prev match word)"
         type: basic
         from:
@@ -516,7 +395,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + U → * (shift+8)
       - description: "caps + u = * (next match word)"
         type: basic
         from:
@@ -531,7 +409,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + I → ( (shift+9)
       - description: "caps + i = ("
         type: basic
         from:
@@ -546,7 +423,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + O → ) (shift+0)
       - description: "caps + o = )"
         type: basic
         from:
@@ -561,17 +437,8 @@ rules:
             name: caps_layer
             value: 1
 
-  # ----------------------------------------------------------------------------
-  # CAPS LAYER - RIGHT HAND (Bot Row)
-  # ----------------------------------------------------------------------------
-  # Additional symbols:
-  # - N → % (shift+5)
-  # - M → @ (shift+2)
-  # - , → & (shift+7)
-
   - description: Caps Layer - Right Hand (bot row)
     manipulators:
-      # caps + N → % (shift+5)
       - description: "caps + n = %"
         type: basic
         from:
@@ -586,7 +453,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + M → @ (shift+2)
       - description: "caps + m = @"
         type: basic
         from:
@@ -601,7 +467,6 @@ rules:
             name: caps_layer
             value: 1
 
-      # caps + , → & (shift+7)
       - description: "caps + , = &"
         type: basic
         from:
@@ -616,16 +481,8 @@ rules:
             name: caps_layer
             value: 1
 
-  # ----------------------------------------------------------------------------
-  # SPACE LAYER - MODIFIER ACTIVATION
-  # ----------------------------------------------------------------------------
-  # Space key acts as a layer modifier when held:
-  # - Tap: Normal space
-  # - Hold: Activates space_layer variable for one-handed input
-
   - description: Space Layer - Modifier Activation
     manipulators:
-      # Space key activates layer on hold, outputs space on tap (SpaceFN pattern)
       - description: "space = space(tap) | layer(hold)"
         type: basic
         from:
@@ -639,27 +496,14 @@ rules:
               value: 1
               key_up_value: 0
         conditions:
-          # Don't activate when tab layer is active (for tab+space → . combination)
           - type: variable_unless
             name: tab_layer
             value: 1
         parameters:
           <<: *space-timing
 
-  # ----------------------------------------------------------------------------
-  # SPACE LAYER - SYMBOLS (Top Row)
-  # ----------------------------------------------------------------------------
-  # Top row (QWERT) symbols for one-handed programming:
-  # - Tab → ` (backtick)
-  # - Q → - (hyphen/minus)
-  # - W → = (equals)
-  # - E → [ (open bracket)
-  # - R → ] (close bracket)
-  # - T → \ (backslash)
-
   - description: Space Layer - Symbols (top row)
     manipulators:
-      # space + Tab → `
       - description: "space + tab = `"
         type: basic
         from:
@@ -673,7 +517,6 @@ rules:
             name: space_layer
             value: 1
 
-      # space + Q → -
       - description: "space + q = -"
         type: basic
         from:
@@ -687,7 +530,6 @@ rules:
             name: space_layer
             value: 1
 
-      # space + W → =
       - description: "space + w = ="
         type: basic
         from:
@@ -701,7 +543,6 @@ rules:
             name: space_layer
             value: 1
 
-      # space + E → [
       - description: "space + e = ["
         type: basic
         from:
@@ -715,7 +556,6 @@ rules:
             name: space_layer
             value: 1
 
-      # space + R → ]
       - description: "space + r = ]"
         type: basic
         from:
@@ -729,7 +569,6 @@ rules:
             name: space_layer
             value: 1
 
-      # space + T → \
       - description: 'space + t = \'
         type: basic
         from:
@@ -743,19 +582,8 @@ rules:
             name: space_layer
             value: 1
 
-  # ----------------------------------------------------------------------------
-  # SPACE LAYER - SYMBOLS (Mid Row)
-  # ----------------------------------------------------------------------------
-  # Mid row (ASDFG) punctuation symbols:
-  # - A → ;
-  # - S → '
-  # - D → ,
-  # - F → .
-  # - G → /
-
   - description: Space Layer - Symbols (mid row)
     manipulators:
-      # space + A → ;
       - description: "space + a = ;"
         type: basic
         from:
@@ -769,7 +597,6 @@ rules:
             name: space_layer
             value: 1
 
-      # space + S → '
       - description: "space + s = '"
         type: basic
         from:
@@ -783,7 +610,6 @@ rules:
             name: space_layer
             value: 1
 
-      # space + D → ,
       - description: "space + d = ,"
         type: basic
         from:
@@ -797,7 +623,6 @@ rules:
             name: space_layer
             value: 1
 
-      # space + F → .
       - description: "space + f = ."
         type: basic
         from:
@@ -811,7 +636,6 @@ rules:
             name: space_layer
             value: 1
 
-      # space + G → /
       - description: "space + g = /"
         type: basic
         from:
@@ -825,19 +649,8 @@ rules:
             name: space_layer
             value: 1
 
-  # ----------------------------------------------------------------------------
-  # SPACE LAYER - FUNCTION KEYS (Bot Row)
-  # ----------------------------------------------------------------------------
-  # Bottom row (ZXCVB) function keys:
-  # - Z → F1
-  # - X → F2
-  # - C → F3
-  # - V → F4
-  # - B → F5
-
   - description: Space Layer - Function Keys (bot row)
     manipulators:
-      # space + Z → F1
       - description: "space + z = f1"
         type: basic
         from:
@@ -851,7 +664,6 @@ rules:
             name: space_layer
             value: 1
 
-      # space + X → F2
       - description: "space + x = f2"
         type: basic
         from:
@@ -865,7 +677,6 @@ rules:
             name: space_layer
             value: 1
 
-      # space + C → F3
       - description: "space + c = f3"
         type: basic
         from:
@@ -879,7 +690,6 @@ rules:
             name: space_layer
             value: 1
 
-      # space + V → F4
       - description: "space + v = f4"
         type: basic
         from:
@@ -893,7 +703,6 @@ rules:
             name: space_layer
             value: 1
 
-      # space + B → F5
       - description: "space + b = f5"
         type: basic
         from:
@@ -907,19 +716,8 @@ rules:
             name: space_layer
             value: 1
 
-  # ----------------------------------------------------------------------------
-  # SPACE LAYER - FUNCTION KEYS (Right Hand Top Row)
-  # ----------------------------------------------------------------------------
-  # Right hand top row (YUIOP) function keys:
-  # - Y → F6
-  # - U → F7
-  # - I → F8
-  # - O → F9
-  # - P → F10
-
   - description: Space Layer - Function Keys (right hand top row)
     manipulators:
-      # space + Y → F6
       - description: "space + y = f6"
         type: basic
         from:
@@ -933,7 +731,6 @@ rules:
             name: space_layer
             value: 1
 
-      # space + U → F7
       - description: "space + u = f7"
         type: basic
         from:
@@ -947,7 +744,6 @@ rules:
             name: space_layer
             value: 1
 
-      # space + I → F8
       - description: "space + i = f8"
         type: basic
         from:
@@ -961,7 +757,6 @@ rules:
             name: space_layer
             value: 1
 
-      # space + O → F9
       - description: "space + o = f9"
         type: basic
         from:
@@ -975,7 +770,6 @@ rules:
             name: space_layer
             value: 1
 
-      # space + P → F10
       - description: "space + p = f10"
         type: basic
         from:
@@ -989,16 +783,8 @@ rules:
             name: space_layer
             value: 1
 
-  # ----------------------------------------------------------------------------
-  # SPACE LAYER - FUNCTION KEYS (Right Hand Mid Row)
-  # ----------------------------------------------------------------------------
-  # Right hand mid row (HJ) function keys:
-  # - H → F11
-  # - J → F12
-
   - description: Space Layer - Function Keys (right hand mid row)
     manipulators:
-      # space + H → F11
       - description: "space + h = f11"
         type: basic
         from:
@@ -1012,7 +798,6 @@ rules:
             name: space_layer
             value: 1
 
-      # space + J → F12
       - description: "space + j = f12"
         type: basic
         from:
@@ -1026,16 +811,8 @@ rules:
             name: space_layer
             value: 1
 
-  # ----------------------------------------------------------------------------
-  # TAB LAYER - MODIFIER ACTIVATION
-  # ----------------------------------------------------------------------------
-  # Tab key acts as a layer modifier when held:
-  # - Tap: Normal tab
-  # - Hold: Activates tab_layer variable for one-handed number input
-
   - description: Tab Layer - Modifier Activation
     manipulators:
-      # Tab key activates layer on hold, outputs tab on tap
       - description: "tab = tab(tap) | layer(hold)"
         type: basic
         from:
@@ -1051,18 +828,8 @@ rules:
         parameters:
           <<: *tab-timing
 
-  # ----------------------------------------------------------------------------
-  # TAB LAYER - NUMBERS (Top Row)
-  # ----------------------------------------------------------------------------
-  # Top row (WERT) number mappings:
-  # - W → 1
-  # - E → 2
-  # - R → 3
-  # - T → 4
-
   - description: Tab Layer - Numbers (top row)
     manipulators:
-      # tab + W → 1
       - description: "tab + w = 1"
         type: basic
         from:
@@ -1076,7 +843,6 @@ rules:
             name: tab_layer
             value: 1
 
-      # tab + E → 2
       - description: "tab + e = 2"
         type: basic
         from:
@@ -1090,7 +856,6 @@ rules:
             name: tab_layer
             value: 1
 
-      # tab + R → 3
       - description: "tab + r = 3"
         type: basic
         from:
@@ -1104,7 +869,6 @@ rules:
             name: tab_layer
             value: 1
 
-      # tab + T → 4
       - description: "tab + t = 4"
         type: basic
         from:
@@ -1118,18 +882,8 @@ rules:
             name: tab_layer
             value: 1
 
-  # ----------------------------------------------------------------------------
-  # TAB LAYER - NUMBERS (Mid Row)
-  # ----------------------------------------------------------------------------
-  # Mid row (SDFG) number mappings:
-  # - S → 5
-  # - D → 6
-  # - F → 7
-  # - G → 8
-
   - description: Tab Layer - Numbers (mid row)
     manipulators:
-      # tab + S → 5
       - description: "tab + s = 5"
         type: basic
         from:
@@ -1143,7 +897,6 @@ rules:
             name: tab_layer
             value: 1
 
-      # tab + D → 6
       - description: "tab + d = 6"
         type: basic
         from:
@@ -1157,7 +910,6 @@ rules:
             name: tab_layer
             value: 1
 
-      # tab + F → 7
       - description: "tab + f = 7"
         type: basic
         from:
@@ -1171,7 +923,6 @@ rules:
             name: tab_layer
             value: 1
 
-      # tab + G → 8
       - description: "tab + g = 8"
         type: basic
         from:
@@ -1185,18 +936,8 @@ rules:
             name: tab_layer
             value: 1
 
-  # ----------------------------------------------------------------------------
-  # TAB LAYER - NUMBERS (Bot Row)
-  # ----------------------------------------------------------------------------
-  # Bottom row (XCVB) number mappings:
-  # - X → 9
-  # - C → 0
-  # - V → - (hyphen)
-  # - B → = (equals)
-
   - description: Tab Layer - Numbers (bot row)
     manipulators:
-      # tab + X → 9
       - description: "tab + x = 9"
         type: basic
         from:
@@ -1210,7 +951,6 @@ rules:
             name: tab_layer
             value: 1
 
-      # tab + C → 0
       - description: "tab + c = 0"
         type: basic
         from:
@@ -1224,7 +964,6 @@ rules:
             name: tab_layer
             value: 1
 
-      # tab + V → - (hyphen)
       - description: "tab + v = -"
         type: basic
         from:
@@ -1238,7 +977,6 @@ rules:
             name: tab_layer
             value: 1
 
-      # tab + B → = (equals)
       - description: "tab + b = ="
         type: basic
         from:
@@ -1252,15 +990,8 @@ rules:
             name: tab_layer
             value: 1
 
-  # ----------------------------------------------------------------------------
-  # TAB LAYER - SPECIAL
-  # ----------------------------------------------------------------------------
-  # Special key mappings:
-  # - Space → Delete (backspace)
-
   - description: Tab Layer - Special
     manipulators:
-      # tab + Space → delete
       - description: "tab + space = delete"
         type: basic
         from:
@@ -1273,18 +1004,3 @@ rules:
           - type: variable_if
             name: tab_layer
             value: 1
-
-# ==============================================================================
-# PLACEHOLDER SECTIONS FOR FUTURE EXPANSION
-# ==============================================================================
-# Add additional key mapping categories below as needed.
-# Uncomment and customize these templates when adding new functionality.
-
-# # ----------------------------------------------------------------------------
-# # CUSTOM LAYER - [NAME]
-# # ----------------------------------------------------------------------------
-# # Description of what this layer provides
-#
-#   - description: Custom Layer - [Category]
-#     manipulators:
-#       # Add your custom mappings here

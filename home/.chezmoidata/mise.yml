@@ -20,10 +20,6 @@ mise:
     go: "latest"
     terraform: "latest"
     terragrunt: "latest"
-    # PostgreSQL is intentionally project-only. Projects that need it should
-    # declare an exact `postgres` version in their own mise.toml.
-    # Kubernetes clients have global fallbacks so they stop floating outside
-    # config. Pin the exact versions in each project's mise.toml.
     kubectl: "latest"
     helm: "latest"
     kind: "latest"

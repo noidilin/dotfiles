@@ -1,22 +1,12 @@
-# Use WASAPI as the PortAudio host API backend.
 backend = "Windows WASAPI"
 bufferSizeSamples = 256
 
 [input]
-# Disable the input. It is strongly recommended to do this if you only want to stream audio in one direction.
 device = "Microphone (RODECaster Pro Multichannel)"
 suggestedLatencySeconds = 0.0
 
-# Set the output to WASAPI Exclusive Mode.
 wasapiExclusiveMode = true
 
 [output]
-# Select the output device. The name comes from the output of the PortAudioDevices program.
 device = "Speakers (RODECaster Pro Stereo)"
 suggestedLatencySeconds = 0.0
-
-# Set the output to WASAPI Exclusive Mode.
-# wasapiExclusiveMode = true
-
-# Open the hardware output device with 6 channels. This is only required if you're unhappy with the default channel count.
-# channels = 6

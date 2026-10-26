@@ -3,9 +3,7 @@
 
 {{- if eq .archEnv "native" }}
 
-# =============================================================================
 # Hash trigger: {{ include ".chezmoidata/pm/pacman.yml" | sha256sum }}
-# =============================================================================
 
 set -euo pipefail
 
@@ -17,14 +15,12 @@ print_header "Installing platform-specific packages (Arch Native - pacman)"
 
 pacman_upgrade_once
 
-# Install shared Arch packages
 print_info ""
 print_warn "Installing shared Arch packages..."
 {{- range .pkgs.pacman.common }}
 pacman_install_package "{{ . }}"
 {{- end }}
 
-# Install native-specific packages
 {{- if .pkgs.pacman.native }}
 print_info ""
 print_warn "Installing native Arch-specific packages..."

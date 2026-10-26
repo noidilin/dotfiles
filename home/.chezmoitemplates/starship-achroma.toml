@@ -1,16 +1,3 @@
-# Shared starship body. Takes (c, ink) like every other achroma template body;
-# instantiated once per variant under dot_config/achroma/variants/.
-#
-# starship has no include mechanism, so the whole file is the theme: the config
-# lives at ~/.config/starship.toml as a symlink into ~/.config/achroma/current/.
-# That is deliberately not a STARSHIP_CONFIG env var — starship re-reads and
-# re-resolves this path on every prompt, so a pointer flip recolors EVERY
-# running shell on its next prompt, where an env var would only reach the shell
-# that ran `theme`.
-#
-# Everything below the palette addresses colors by palette key name only, so it
-# is variant-agnostic; the palette is always named `noidilin` and the variant is
-# decided by which wrapper instantiates this body.
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
@@ -20,7 +7,7 @@ $username\
 $directory\
 $git_branch$git_status\
 $package$mise\
-[$nodejs$bun$lua$python$c$cpp$rust$zig$golang](fg:mono11)\
+[$nodejs$bun$lua$python$c$cpp$rust$zig$golang](fg:overlay0)\
 $fill\
 $cmd_duration\
 $aws$kubernetes$terraform\
@@ -36,74 +23,66 @@ palette = 'noidilin'
 {{- range $k, $v := .c }}
 {{ $k }} = '{{ $v }}'
 {{- end }}
-# ink: prompt frame color (see wezterm config/theme.lua)
 frame = '{{ .ink.frame }}'
 
 [fill]
 symbol = ' '
 
 [character]
-success_symbol = '[](bold fg:mono21)'
-error_symbol = '[](bold fg:red00)'
+success_symbol = '[](bold fg:text)'
+error_symbol = '[](bold fg:red)'
 
-# left
 [shell]
 disabled = false
 format = '[  $indicator ]($style)'
-style = 'fg:mono21'
+style = 'fg:text'
 
 [username]
 format = '[ $user ]($style)'
-style_user = 'fg:mono19 bold'
+style_user = 'fg:subtext1 bold'
 style_root = 'fg:acc08 bold'
 
 [directory]
 format = '[ $path ]($style)'
 truncation_length = 3
 truncation_symbol = '…/'
-style = 'fg:mono17'
-
-# [directory.substitutions]
-# "learning" = ' '
-# "dev" = '󰲋 '
-# "downloads" = ' '
+style = 'fg:subtext0'
 
 [git_branch]
 symbol = ''
-format = '[[ $symbol $branch ](fg:mono15)]($style)'
-style = 'bg:mono09'
+format = '[[ $symbol $branch ](fg:overlay2)]($style)'
+style = 'bg:surface2'
 
 [git_status]
-format = '[[($all_status$ahead_behind )](fg:mono15)]($style)'
-style = 'bg:mono09'
+format = '[[($all_status$ahead_behind )](fg:overlay2)]($style)'
+style = 'bg:surface2'
 
 [package]
 format = ' is [$symbol$version]($style)'
 symbol = ' '
-style = 'mono09 bold'
+style = 'surface2 bold'
 
 [mise]
 disabled = true
 format = ' on [$symbol$health]($style)'
-style = 'mono09 bold'
+style = 'surface2 bold'
 
-# right
 [memory_usage]
 disabled = false
 threshold = 0
-format = '[ ${ram_pct}](fg:mono11)'
+format = '[ ${ram_pct}](fg:overlay0)'
 
 [cmd_duration]
 disabled = false
 min_time = 500
 show_milliseconds = true
-format = '[ [$duration](fg:mono13)]($style)'
-style = 'fg:mono09 bold'
+format = '[ [$duration](fg:overlay1)]($style)'
+style = 'fg:surface2 bold'
 
 [os]
 disabled = true
 format = '[ $symbol]($style)'
-style = 'fg:mono11'
+style = 'fg:overlay0'
 
 [os.symbols]
 Windows = ' win'
@@ -112,11 +91,10 @@ Arch = '󰣇 arch'
 
 [time]
 disabled = false
-format = '[ [$time](fg:mono09)]($style)'
+format = '[ [$time](fg:surface2)]($style)'
 time_format = '%R'
 style = 'fg:frame bold'
 
-# lang
 [nodejs]
 symbol = ''
 format = ' $symbol( $version)'
@@ -161,45 +139,38 @@ format = ' $symbol( $version)'
 symbol = ''
 format = '[ $symbol( $context) ](fg:acc07 bg:mono08)'
 
-# devops
 [kubernetes]
 disabled = false
 symbol = 'k8s:'
 format = '[ $symbol$context( ns:$namespace)]($style)'
-style = 'fg:mono11'
+style = 'fg:overlay0'
 
 [[kubernetes.contexts]]
 context_pattern = '.*prod.*|.*production.*'
 context_alias = 'prod'
-style = 'bold fg:red00'
+style = 'bold fg:red'
 symbol = 'k8s:'
 
 [[kubernetes.contexts]]
 context_pattern = '.*stage.*|.*staging.*'
 context_alias = 'stage'
-style = 'fg:mono11'
+style = 'fg:overlay0'
 symbol = 'k8s:'
 
 [[kubernetes.contexts]]
 context_pattern = '.*dev.*|.*development.*'
 context_alias = 'dev'
-style = 'fg:mono11'
+style = 'fg:overlay0'
 symbol = 'k8s:'
 
 [terraform]
 symbol = 'tf:'
 format = '[ $symbol$workspace]($style)'
-style = 'fg:mono11'
+style = 'fg:overlay0'
 
 [aws]
 symbol = 'aws:'
 format = '[ $symbol$profile( region:$region)( expires:$duration)]($style)'
-style = 'fg:mono11'
+style = 'fg:overlay0'
 expiration_symbol = 'expired'
 force_display = false
-
-# [aws.profile_aliases]
-# production-admin = 'PROD-admin'
-# production-readonly = 'PROD-ro'
-# staging-admin = 'stage-admin'
-# development-admin = 'dev-admin'

@@ -2,25 +2,21 @@ $env.FZF_DEFAULT_COMMAND = "fd --hidden --strip-cwd-prefix --exclude .git"
 $env.FZF_CTRL_T_COMMAND = "fd --type file --hidden --strip-cwd-prefix --exclude .git"
 $env.FZF_ALT_C_COMMAND = "fd --type directory --hidden --strip-cwd-prefix --exclude .git"
 
-# generated theme permalink: https://vitormv.github.io/fzf-themes#eyJib3JkZXJTdHlsZSI6InJvdW5kZWQiLCJib3JkZXJMYWJlbCI6ImZ6ZiIsImJvcmRlckxhYmVsUG9zaXRpb24iOjAsInByZXZpZXdCb3JkZXJTdHlsZSI6InJvdW5kZWQiLCJwYWRkaW5nIjoiMiIsIm1hcmdpbiI6IjIiLCJwcm9tcHQiOiI+ICIsIm1hcmtlciI6Ij4iLCJwb2ludGVyIjoi4peGIiwic2VwYXJhdG9yIjoi4pSAIiwic2Nyb2xsYmFyIjoi4pSCIiwibGF5b3V0IjoicmV2ZXJzZSIsImluZm8iOiJyaWdodCIsImNvbG9ycyI6ImZnOiM4ZThlOGUsZmcrOiNiM2IzYjMsYmc6IzE5MTkxOSxiZys6IzE5MTkxOSxobDojYTY5ZjkxLGhsKzojZGFkNWM4LGluZm86IzQ3NDc0NyxtYXJrZXI6I2IzYWQ5Zixwcm9tcHQ6I2VhZWFlYSxzcGlubmVyOiM3MDZjNjIscG9pbnRlcjojOGU4OTdkLGhlYWRlcjojYjNiM2IzLGJvcmRlcjojMmEyYTJhLGxhYmVsOiNiM2IzYjMscXVlcnk6I2RjZGNkYyJ9 
-# bg set to -1 will use the terminal default bg color
-# achroma colors: both variants rendered from .chezmoidata/colors.yml (same
-# role per slot); picked at shell start by ACHROMA_VARIANT (env/variant.nu).
 {{- $d := .color.achroma.dark }}
 {{- $l := .color.achroma.light }}
 let fzf_colors = if ($env.ACHROMA_VARIANT? | default 'dark') == 'light' {
     [
-        "--color=fg:{{ $l.mono17 }},fg+:{{ $l.mono21 }},bg:-1,bg+:-1"
-        "--color=hl:{{ $l.acc04 }},hl+:{{ $l.acc07 }},info:{{ $l.mono09 }},marker:{{ $l.accDim02 }}"
-        "--color=prompt:{{ $l.mono25 }},spinner:{{ $l.accDim00 }},pointer:{{ $l.accDim02 }},header:{{ $l.mono21 }}"
-        "--color=border:{{ $l.mono05 }},label:{{ $l.mono21 }},query:{{ $l.mono23 }}"
+        "--color=fg:{{ $l.subtext0 }},fg+:{{ $l.text }},bg:-1,bg+:-1"
+        "--color=hl:{{ $l.acc04 }},hl+:{{ $l.acc07 }},info:{{ $l.surface2 }},marker:{{ $l.accDim02 }}"
+        "--color=prompt:{{ $l.mono25 }},spinner:{{ $l.accDim00 }},pointer:{{ $l.accDim02 }},header:{{ $l.text }}"
+        "--color=border:{{ $l.surface0 }},label:{{ $l.text }},query:{{ $l.mono23 }}"
     ]
 } else {
     [
-        "--color=fg:{{ $d.mono17 }},fg+:{{ $d.mono21 }},bg:-1,bg+:-1"
-        "--color=hl:{{ $d.acc04 }},hl+:{{ $d.acc07 }},info:{{ $d.mono09 }},marker:{{ $d.accDim02 }}"
-        "--color=prompt:{{ $d.mono25 }},spinner:{{ $d.accDim00 }},pointer:{{ $d.accDim02 }},header:{{ $d.mono21 }}"
-        "--color=border:{{ $d.mono05 }},label:{{ $d.mono21 }},query:{{ $d.mono23 }}"
+        "--color=fg:{{ $d.subtext0 }},fg+:{{ $d.text }},bg:-1,bg+:-1"
+        "--color=hl:{{ $d.acc04 }},hl+:{{ $d.acc07 }},info:{{ $d.surface2 }},marker:{{ $d.accDim02 }}"
+        "--color=prompt:{{ $d.mono25 }},spinner:{{ $d.accDim00 }},pointer:{{ $d.accDim02 }},header:{{ $d.text }}"
+        "--color=border:{{ $d.surface0 }},label:{{ $d.text }},query:{{ $d.mono23 }}"
     ]
 }
 $env.FZF_DEFAULT_OPTS = ($fzf_colors ++ [

@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+set -eu
+
+local_todo=./todo.txt
+# The zellij server's env can predate TODO_FILE in .chezmoidata/env.yml, so its path is repeated here.
+global_todo=${TODO_FILE:-${HOME:?HOME is required}/.local/share/tuxedo/todo.txt}
+
+if [ -f "$local_todo" ]; then
+  exec tuxedo "$local_todo"
+fi
+
+exec tuxedo "$global_todo"

@@ -1,5 +1,3 @@
-# https://github.com/github-linguist/linguist/blob/1647b5be1658fb15a5e09bf89067f79b392301e2/lib/linguist/languages.yml#L8164
-
 *chezmoiignore* linguist-language=gitignore linguist-detectable
 *chezmoiremove* linguist-language=gitignore linguist-detectable
 *gitignore* linguist-language=gitignore linguist-detectable
@@ -30,8 +28,3 @@ home/dot_ssh/config linguist-language=sshconfig linguist-detectable
 home/dot_config/git/config.tmpl linguist-language=gitconfig linguist-detectable
 home/dot_config/git/os.config.tmpl linguist-language=gitconfig linguist-detectable
 home/dot_config/git/global.gitignore linguist-language=ignore linguist-detectable
-
-# *.exportedUI linguist-language=xsd linguist-detectable
-# home/dot_config/obs/** linguist-generated
-# home/AppData/Local/Microsoft/PowerToys/** linguist-generated
-# home/dot_config/browser-data/vimium/** linguist-generated

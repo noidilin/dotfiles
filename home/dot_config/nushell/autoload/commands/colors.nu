@@ -2,11 +2,8 @@ def replace_mocha_palette [
     file_path: string, 
     --stylus (-s)
 ] {
-    # since nu will convert json into 'record' data type, which can't be piped into `str` command
-    # add '--raw' tag to read the file as raw text.
     let original = (open --raw $file_path | collect)
 
-    # Apply mandatory replacements
     let temp = $original 
         | str replace --all '#f5c2e7' '#9f9fbd'
         | str replace --all '#cba6f7' '#797994'
@@ -33,7 +30,6 @@ def replace_mocha_palette [
         | str replace --all '#181825' '#191919'
         | str replace --all '#11111b' '#151515'
 
-    # Additional replacements if --stylus is used
     let result = if $stylus {
         $temp
             | str replace --all '"updateInterval":24,"updateOnlyEnabled":true' '"updateInterval":0,"updateOnlyEnabled":true'
@@ -56,16 +52,14 @@ def stylus-update [
   let url: string = 'https://github.com/catppuccin/userstyles/releases/download/all-userstyles-export/import.json'
   let file = ( $env.HOME | path join '.local/etc/stylus/achroma.json' )
   
-  # First, let's see what we're working with
   let data = (http get $url | decode utf-8 | from json)
   
-  # Process the array and update accentColor for all styles
   let json_data = (
     $data | each { |style| 
       if 'usercssData' in ($style | columns) {
         $style | update usercssData.vars.accentColor.value $accent
       } else {
-        $style # The first object is the setting object which doesn't contain usercssData
+        $style
       }
     }
     | to json --indent 2
@@ -88,7 +82,6 @@ def stylus-examine [] {
   print $"Old lib URL present: ($file_content | to json | str contains 'userstyles.catppuccin.com')"
 }
 
-# Carapace styling function (can be called manually to customize)
 def style-carapace [] {
   carapace --style "carapace.Description=fg-#4e4e4e,italic"
   carapace --style "carapace.Error=fg-#b07878,bold"

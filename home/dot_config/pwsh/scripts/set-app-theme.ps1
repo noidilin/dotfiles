@@ -1,8 +1,3 @@
-# Flip the Windows app theme (the achroma single source of truth).
-#
-# Only AppsUseLightTheme is touched: terminals, editors and zebar follow the
-# app theme; the system theme (taskbar / start menu) is left alone.
-#
 # A plain registry write does not notify running programs, so afterwards we
 # broadcast WM_SETTINGCHANGE "ImmersiveColorSet" -- the same message Windows
 # Settings sends -- which is what makes wezterm, Windows Terminal and zed
@@ -25,7 +20,10 @@ public static extern IntPtr SendMessageTimeout(
     uint fuFlags, uint uTimeout, out UIntPtr lpdwResult);
 '@
 
+$HWND_BROADCAST = [IntPtr]0xffff
+$WM_SETTINGCHANGE = 0x001A
+$SMTO_ABORTIFHUNG = 0x0002
+
 [UIntPtr]$result = [UIntPtr]::Zero
-# 0xffff = HWND_BROADCAST, 0x1A = WM_SETTINGCHANGE, 2 = SMTO_ABORTIFHUNG
 [Win32.NativeMethods]::SendMessageTimeout(
-    [IntPtr]0xffff, 0x1A, [UIntPtr]::Zero, 'ImmersiveColorSet', 2, 5000, [ref]$result) | Out-Null
+    $HWND_BROADCAST, $WM_SETTINGCHANGE, [UIntPtr]::Zero, 'ImmersiveColorSet', $SMTO_ABORTIFHUNG, 5000, [ref]$result) | Out-Null

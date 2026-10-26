@@ -1,8 +1,3 @@
-# Process-local env caches for Zellij tab state.
-#
-# Exported env vars are inherited by child shells, so every cached value is
-# trusted only when its paired pid matches the current Nushell process.
-
 def process-cache-id [] {
     $nu.pid | into string
 }

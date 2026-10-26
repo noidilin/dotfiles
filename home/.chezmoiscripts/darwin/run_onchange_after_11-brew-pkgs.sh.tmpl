@@ -3,9 +3,7 @@
 
 {{- if eq .chezmoi.os "darwin" }}
 
-# =============================================================================
 # Hash trigger: {{ include ".chezmoidata/pm/brew.yml" | sha256sum }}
-# =============================================================================
 
 set -euo pipefail
 
@@ -18,7 +16,6 @@ print_header "Installing platform-specific packages (macOS - Homebrew)"
 require_command_or_exit "brew" "ERROR: Homebrew is not installed!" "Please install Homebrew first: https://brew.sh"
 brew_update_once
 
-# Install macOS-specific packages
 print_info ""
 print_info "Installing macOS-specific packages (Homebrew)..."
 {{- range .pkgs.brew }}

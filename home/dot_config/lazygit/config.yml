@@ -1,11 +1,8 @@
-# Colors live in theme-achroma{,-light}.yml, layered on top of this file via
-# LG_CONFIG_FILE (set per ACHROMA_VARIANT at shell start, refreshed by `theme`).
 gui:
-  commitHashLength: 6 # default: 8
-  # showDivergenceFromBaseBranch: arrowAndNumber
+  commitHashLength: 6
 keybinding:
   commits:
     moveDownCommit: <c-d>
     moveUpCommit: <c-u>
 git:
-  overrideGpg: true # If true, do not spawn a separate process when using GPG
+  overrideGpg: true

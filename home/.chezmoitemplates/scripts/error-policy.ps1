@@ -1,5 +1,3 @@
-# Shared error-policy helper for package scripts.
-
 $script:StrictMode = $false
 $strictValue = [string]$env:DOTFILES_STRICT
 if ($strictValue -imatch '^(1|true|yes|on)$') {

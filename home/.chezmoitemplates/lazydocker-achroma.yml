@@ -1,16 +1,11 @@
-# yaml-language-server: $schema=https://json.schemastore.org/lazydocker.json
-
-# lazydocker reads exactly one config.yml (no env/flag to point elsewhere at
-# runtime), so that path is a symlink into ~/.config/achroma/current/ and
-# `theme` only re-points the pointer. Applies on next launch.
 gui:
   theme:
     activeBorderColor:
       - "{{ .c.mono23 }}"
       - bold
     inactiveBorderColor:
-      - "{{ .c.mono13 }}"
+      - "{{ .c.overlay1 }}"
     selectedLineBgColor:
       - "{{ .ink.selectionBg }}"
     optionsTextColor:
-      - "{{ .c.mono11 }}"
+      - "{{ .c.overlay0 }}"

@@ -7,15 +7,15 @@
   "themes": [
 {{ template "zed-achroma-theme.json" (dict "name" "achroma-dark" "appearance" "dark" "c" $d "ink" (dict
   "ansiBlack" $d.mono10
-  "ansiBlackBright" $d.mono13
+  "ansiBlackBright" $d.overlay1
   "ansiWhite" $d.acc07
   "ansiWhiteBright" $d.acc08
   "ansiYellow" "#b09661")) }},
 {{ template "zed-achroma-theme.json" (dict "name" "achroma-light" "appearance" "light" "c" $l "ink" (dict
-  "ansiBlack" $l.mono19
-  "ansiBlackBright" $l.mono15
+  "ansiBlack" $l.subtext1
+  "ansiBlackBright" $l.overlay2
   "ansiWhite" $d.acc06
   "ansiWhiteBright" $d.acc07
-  "ansiYellow" $l.yellow00)) }}
+  "ansiYellow" $l.peach)) }}
   ]
 }

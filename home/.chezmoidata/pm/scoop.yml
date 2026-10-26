@@ -1,28 +1,32 @@
+scoop:
+  buckets:
+    - name: "extras"
+    - name: "nerd-fonts"
+    - name: "wezterm-alt-icon"
+      url: "https://github.com/ocodo/wezterm-alt-windows-icon-builds.git"
+
 pkgs:
   scoop:
     - "glazewm"
     - "grep"
-    - "gsudo" # system
-    - "mingw" # C/C++ compiler for Windows (GCC)
+    - "gsudo"
+    - "mingw"
     - "obs-studio"
     - "pwsh"
     - "sed"
     - "sfsu"
-    - "vcredist2022" # system dependencies
+    - "vcredist2022"
     - "zebar"
 
-    # font
     - "CommitMono-NF-Mono"
     - "Noto-CJK-Mega-OTC"
     - "Noto-Serif-CJK-Super-OTC"
 
-    # GUI
     - "blender-launcher"
     - "crystaldiskinfo"
     - "rufus"
     - "sharex"
     - "potplayer"
 
-    # PowerShell modules
     - "psreadline"
     - "psfzf"

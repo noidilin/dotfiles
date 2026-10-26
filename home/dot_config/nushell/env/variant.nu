@@ -1,14 +1,5 @@
-# achroma variant, resolved once per shell start from the OS appearance.
-#
-# The OS app theme is the single source of truth: wezterm, neovim (via OSC 11),
-# bat, ghostty, windows terminal, zed and yazi all follow it on their own.
-# This file covers the tools that only read their colors at shell startup
-# (delta features, fzf colors). Flip everything at once with the `theme`
-# command (autoload/commands/theme.nu).
-
 $env.ACHROMA_VARIANT = (match $nu.os-info.name {
   'windows' => {
-    # registry query returns a record {name, value, type}, not the bare value.
     let v = (try {
       registry query --hkcu 'Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' 'AppsUseLightTheme' | get value
     } catch { 0 })

@@ -1,20 +1,9 @@
-# Zellij integration for Nushell.
-#
-# Scope:
-# - shell-side auto-start when launched from Ghostty
-# - no custom project/session switching; rely on official Zellij attach/session-manager
-
-# True only for shells launched by the standalone Ghostty app. OmniWM's
-# embedded libghostty also sets Ghostty program markers, but uses xterm-256color.
 def "zellij-shell is-standalone-ghostty" [] {
     ($env.TERM? | default "") == "xterm-ghostty"
 }
 
 const ZELLIJ_AUTO_SESSION = "main"
 
-# Official/community-style autostart flow for shells launched by Ghostty:
-# if not already inside Zellij, attach to the main session or create it.
-# This intentionally does not use the local bin/zj-* project/session scripts.
 def --env "zellij-shell autostart" [] {
     if not $nu.is-interactive { return }
     if (($env.ZELLIJ? | default "") | is-not-empty) { return }
@@ -35,7 +24,6 @@ def --env "zellij-shell autostart" [] {
     }
 }
 
-# Main entrypoint called from config.nu.
 def --env "zellij-shell init" [] {
     zellij-shell autostart
 }

@@ -2,9 +2,7 @@
 
 {{- if eq .chezmoi.os "windows" }}
 
-# =============================================================================
 # Hash trigger: {{ include ".chezmoidata/pm/common.yml" | sha256sum }}
-# =============================================================================
 
 Write-Host "=== Installing common packages (Windows) ===" -ForegroundColor Yellow
 
@@ -16,11 +14,6 @@ Write-Host "=== Installing common packages (Windows) ===" -ForegroundColor Yello
 Assert-CommandOrExit -CommandName "scoop" -ErrorMessage "ERROR: Scoop is not installed!" -HintMessage "Please install Scoop first: https://scoop.sh"
 Assert-CommandOrExit -CommandName "winget" -ErrorMessage "ERROR: WinGet is not installed!" -HintMessage "WinGet comes with Windows 11 or can be installed via Microsoft Store (App Installer)"
 
-# ============================================================================
-# Install Common Packages
-# ============================================================================
-
-# Install common packages via Scoop
 Write-Host "`nInstalling common packages via Scoop..." -ForegroundColor White
 {{- range $name, $pkg := .pkgs.common }}
   {{- if hasKey $pkg "scoop" }}
@@ -28,7 +21,6 @@ Install-ScoopPackage "{{ $pkg.scoop }}"
   {{- end }}
 {{- end }}
 
-# Install common packages via WinGet
 Write-Host "`nInstalling common packages via WinGet..." -ForegroundColor White
 {{- range $name, $pkg := .pkgs.common }}
   {{- if hasKey $pkg "winget" }}

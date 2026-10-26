@@ -14,20 +14,4 @@ function _ls {
   eza @DEFAULT_EZA_ARGS @args
 }
 
-# function l {
-#   eza -l @DEFAULT_EZA_ARGS @args
-# }
-#
-# function ll {
-#   eza -lag @DEFAULT_EZA_ARGS @args
-# }
-#
-# function ld {
-#   eza -lD @DEFAULT_EZA_ARGS @args
-# }
-#
-# function lt {
-#   eza --tree --level=3 @DEFAULT_EZA_ARGS @args
-# }
-
 Set-Alias -Name ls -Value _ls -Force

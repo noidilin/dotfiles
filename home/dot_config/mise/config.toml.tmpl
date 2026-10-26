@@ -1,10 +1,3 @@
-# =============================================================================
-# Mise Runtime Version Manager Configuration
-# =============================================================================
-# Generated from: .chezmoidata/mise.yml
-# Modify .chezmoidata/mise.yml, then run: chezmoi apply
-# =============================================================================
-
 [tools]
 {{- range $name, $config := .mise.tools }}
 {{-   if eq $name "node" }}
@@ -20,7 +13,6 @@ rust = { version = "{{ $config.darwin.version }}", profile = "{{ $config.darwin.
 {{-   else if kindIs "string" $config }}
 {{ $name }} = "{{ $config }}"
 {{-   else if kindIs "map" $config }}
-    {{/* Handle future tools with inline table format */}}
 {{-     if and $config.version (not $config.windows) (not $config.linux) }}
 {{ $name }} = { version = "{{ $config.version }}"{{- if $config.profile }}, profile = "{{ $config.profile }}"{{- end }}{{- if $config.postinstall }}, postinstall = "{{ $config.postinstall }}"{{- end }} }
 {{-     end }}
@@ -37,20 +29,6 @@ rust = { version = "{{ $config.darwin.version }}", profile = "{{ $config.darwin.
 {{ $key }} = {{ $value }}
 {{-   end }}
 {{- end }}
-
-# =============================================================================
-# Environment Configuration
-# =============================================================================
-# Environment variables are set using mise's [[env]] section for cross-shell
-# compatibility (bash/zsh/fish/nushell). These vars are active when mise is
-# activated in the shell.
-#
-# Paths are generated from .chezmoidata/env.yml using the same template as
-# chezmoi scriptEnv to maintain single source of truth.
-#
-# Absolute paths (using chezmoi.homeDir) are used for maximum cross-platform
-# compatibility, especially on Windows where tilde expansion may not work
-# consistently across all contexts.
 
 [[env]]
 {{ template "env" . }}

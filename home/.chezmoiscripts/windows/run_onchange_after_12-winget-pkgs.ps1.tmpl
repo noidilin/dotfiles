@@ -2,9 +2,7 @@
 
 {{- if eq .chezmoi.os "windows" }}
 
-# =============================================================================
 # Hash trigger: {{ include ".chezmoidata/pm/winget.yml" | sha256sum }}
-# =============================================================================
 
 Write-Host "=== Installing platform-specific packages (Windows - WinGet) ===" -ForegroundColor Yellow
 
@@ -14,7 +12,6 @@ Write-Host "=== Installing platform-specific packages (Windows - WinGet) ===" -F
 
 Assert-CommandOrExit -CommandName "winget" -ErrorMessage "ERROR: WinGet is not installed!" -HintMessage "WinGet comes with Windows 11 or can be installed via Microsoft Store (App Installer)"
 
-# Install WinGet packages
 Write-Host "`nInstalling WinGet packages..." -ForegroundColor White
 {{- range .pkgs.winget }}
 Install-WinGetPackage "{{ . }}"

@@ -2,20 +2,16 @@
 
 {{- if eq .chezmoi.os "windows" }}
 
-# =============================================================================
 # Hash trigger: {{ include ".chezmoidata/mise.yml" | sha256sum }}
-# =============================================================================
 
 Write-Host "=== Installing mise tools ===" -ForegroundColor Yellow
 
-# Check if mise is installed
 if (!(Get-Command mise -ErrorAction SilentlyContinue)) {
     Write-Host "ERROR: mise is not installed!" -ForegroundColor Red
     Write-Host "Please ensure mise is installed via Scoop first" -ForegroundColor White
     exit 1
 }
 
-# Verify mise config exists (should be created by chezmoi apply)
 $miseConfig = "$HOME\.config\mise\config.toml"
 if (-Not (Test-Path $miseConfig)) {
     Write-Host "ERROR: Mise config not found at $miseConfig" -ForegroundColor Red
@@ -25,7 +21,6 @@ if (-Not (Test-Path $miseConfig)) {
 
 Write-Host "Using mise config: $miseConfig" -ForegroundColor DarkGray
 
-# Install all tools defined in mise config
 Write-Host "`nInstalling tools from mise config..." -ForegroundColor White
 try {
     mise install

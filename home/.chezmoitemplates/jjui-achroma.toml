@@ -1,79 +1,75 @@
-# Warm monochrome jjui theme aligned with the achroma palette.
-# Rendered from the shared palette (.chezmoidata/colors.yml); borders take an
-# ink override because the light ramp is compressed at the background end.
-
-"text" = { fg = "{{ .c.mono15 }}", bg = "{{ .c.mono02 }}" }
-"dimmed" = { fg = "{{ .c.mono09 }}" }
-"selected" = { fg = "{{ .c.mono23 }}", bg = "{{ .c.mono03 }}", bold = true }
+"text" = { fg = "{{ .c.overlay2 }}", bg = "{{ .c.mantle }}" }
+"dimmed" = { fg = "{{ .c.surface2 }}" }
+"selected" = { fg = "{{ .c.mono23 }}", bg = "{{ .c.base }}", bold = true }
 "border" = { fg = "{{ .ink.border }}" }
 "title" = { fg = "{{ .c.mono23 }}", bold = true }
-"shortcut" = { fg = "{{ .c.mono17 }}", bold = true }
+"shortcut" = { fg = "{{ .c.subtext0 }}", bold = true }
 "matched" = { fg = "{{ .c.acc07 }}", bold = true, underline = true }
 
-"source_marker" = { fg = "{{ .c.mono02 }}", bg = "{{ .c.acc04 }}", bold = true }
-"target_marker" = { fg = "{{ .c.mono02 }}", bg = "{{ .c.acc08 }}", bold = true }
+"source_marker" = { fg = "{{ .c.mantle }}", bg = "{{ .c.acc04 }}", bold = true }
+"target_marker" = { fg = "{{ .c.mantle }}", bg = "{{ .c.acc08 }}", bold = true }
 
-"revset" = { fg = "{{ .c.mono21 }}", bg = "{{ .c.mono02 }}" }
+"revset" = { fg = "{{ .c.text }}", bg = "{{ .c.mantle }}" }
 "revset title" = { fg = "{{ .c.acc07 }}", bold = true }
 "revset text" = { fg = "{{ .c.mono23 }}", bold = true }
-"revset completion" = { fg = "{{ .c.mono21 }}", bg = "{{ .c.mono02 }}" }
-"revset completion text" = { fg = "{{ .c.mono21 }}", bg = "{{ .c.mono02 }}" }
-"revset completion matched" = { fg = "{{ .c.acc07 }}", bg = "{{ .c.mono02 }}", bold = true, underline = true }
-"revset completion dimmed" = { fg = "{{ .c.mono15 }}", bg = "{{ .c.mono02 }}" }
-"revset completion selected" = { fg = "{{ .c.acc08 }}", bg = "{{ .c.mono07 }}", bold = true }
-"revset completion selected text" = { fg = "{{ .c.acc08 }}", bg = "{{ .c.mono07 }}", bold = true }
-"revset completion selected matched" = { fg = "{{ .c.acc08 }}", bg = "{{ .c.mono07 }}", bold = true, underline = true }
-"revset completion selected dimmed" = { fg = "{{ .c.acc07 }}", bg = "{{ .c.mono07 }}", bold = true }
+"revset completion" = { fg = "{{ .c.text }}", bg = "{{ .c.mantle }}" }
+"revset completion text" = { fg = "{{ .c.text }}", bg = "{{ .c.mantle }}" }
+"revset completion matched" = { fg = "{{ .c.acc07 }}", bg = "{{ .c.mantle }}", bold = true, underline = true }
+"revset completion dimmed" = { fg = "{{ .c.overlay2 }}", bg = "{{ .c.mantle }}" }
+"revset completion selected" = { fg = "{{ .c.acc08 }}", bg = "{{ .c.surface1 }}", bold = true }
+"revset completion selected text" = { fg = "{{ .c.acc08 }}", bg = "{{ .c.surface1 }}", bold = true }
+"revset completion selected matched" = { fg = "{{ .c.acc08 }}", bg = "{{ .c.surface1 }}", bold = true, underline = true }
+"revset completion selected dimmed" = { fg = "{{ .c.acc07 }}", bg = "{{ .c.surface1 }}", bold = true }
 
-"revisions" = { fg = "{{ .c.mono17 }}", bg = "{{ .c.mono02 }}" }
-"revisions selected" = { fg = "{{ .c.mono23 }}", bg = "{{ .c.mono03 }}", bold = true }
-"revisions dimmed" = { fg = "{{ .c.mono09 }}" }
-"revisions details text" = { fg = "{{ .c.mono15 }}", bg = "{{ .c.mono02 }}" }
-"revisions details dimmed" = { fg = "{{ .c.mono13 }}" }
-"revisions details checked" = { fg = "{{ .c.mono02 }}", bg = "{{ .c.acc04 }}", bold = true }
-"revisions details selected" = { fg = "{{ .c.acc08 }}", bg = "{{ .c.mono03 }}", bold = true }
+"revisions" = { fg = "{{ .c.subtext0 }}", bg = "{{ .c.mantle }}" }
+"revisions selected" = { fg = "{{ .c.mono23 }}", bg = "{{ .c.base }}", bold = true }
+"revisions dimmed" = { fg = "{{ .c.surface2 }}" }
+"revisions details text" = { fg = "{{ .c.overlay2 }}", bg = "{{ .c.mantle }}" }
+"revisions details dimmed" = { fg = "{{ .c.overlay1 }}" }
+"revisions details checked" = { fg = "{{ .c.mantle }}", bg = "{{ .c.acc04 }}", bold = true }
+"revisions details selected" = { fg = "{{ .c.acc08 }}", bg = "{{ .c.base }}", bold = true }
 "revisions details selected dimmed" = { fg = "{{ .c.acc07 }}" }
-"revisions details selected checked" = { fg = "{{ .c.mono02 }}", bg = "{{ .c.acc08 }}", bold = true }
+"revisions details selected checked" = { fg = "{{ .c.mantle }}", bg = "{{ .c.acc08 }}", bold = true }
 "revisions details added" = { fg = "{{ .c.mono23 }}" }
-"revisions details deleted" = { fg = "{{ .c.mono09 }}" }
-"revisions details modified" = { fg = "{{ .c.mono17 }}" }
+"revisions details deleted" = { fg = "{{ .c.surface2 }}" }
+"revisions details modified" = { fg = "{{ .c.subtext0 }}" }
 "revisions details renamed" = { fg = "{{ .c.acc04 }}" }
 "revisions details copied" = { fg = "{{ .c.acc04 }}" }
-"revisions details conflict" = { fg = "{{ .c.acc08 }}", bg = "{{ .c.red00 }}", bold = true }
-"revisions confirmation text" = { fg = "{{ .c.mono21 }}", bg = "{{ .c.mono02 }}" }
-"revisions confirmation selected" = { fg = "{{ .c.mono02 }}", bg = "{{ .c.acc07 }}", bold = true }
-"revisions confirmation dimmed" = { fg = "{{ .c.mono13 }}" }
+"revisions details conflict" = { fg = "{{ .c.acc08 }}", bg = "{{ .c.red }}", bold = true }
+"revisions confirmation text" = { fg = "{{ .c.text }}", bg = "{{ .c.mantle }}" }
+"revisions confirmation selected" = { fg = "{{ .c.mantle }}", bg = "{{ .c.acc07 }}", bold = true }
+"revisions confirmation dimmed" = { fg = "{{ .c.overlay1 }}" }
 "revisions confirmation border" = { fg = "{{ .ink.border }}" }
 "revisions rebase source_marker" = { bold = true }
 "revisions rebase target_marker" = { bold = true }
 
-"oplog" = { fg = "{{ .c.mono15 }}", bg = "{{ .c.mono02 }}" }
-"oplog selected" = { fg = "{{ .c.mono23 }}", bg = "{{ .c.mono03 }}", bold = true }
+"oplog" = { fg = "{{ .c.overlay2 }}", bg = "{{ .c.mantle }}" }
+"oplog selected" = { fg = "{{ .c.mono23 }}", bg = "{{ .c.base }}", bold = true }
 
-"status" = { fg = "{{ .c.mono15 }}", bg = "{{ .c.mono02 }}" }
-"status title" = { fg = "{{ .c.mono02 }}", bg = "{{ .c.acc04 }}", bold = true }
+"status" = { fg = "{{ .c.overlay2 }}", bg = "{{ .c.mantle }}" }
+"status title" = { fg = "{{ .c.mantle }}", bg = "{{ .c.acc04 }}", bold = true }
 "status shortcut" = { fg = "{{ .c.acc07 }}", bold = true }
-"status dimmed" = { fg = "{{ .c.mono17 }}", bg = "{{ .c.mono02 }}" }
-"status text" = { fg = "{{ .c.mono21 }}", bg = "{{ .c.mono02 }}" }
+"status dimmed" = { fg = "{{ .c.subtext0 }}", bg = "{{ .c.mantle }}" }
+"status text" = { fg = "{{ .c.text }}", bg = "{{ .c.mantle }}" }
 
-"evolog" = { fg = "{{ .c.mono15 }}", bg = "{{ .c.mono02 }}" }
-"evolog selected" = { fg = "{{ .c.acc07 }}", bg = "{{ .c.mono03 }}", bold = true }
+"evolog" = { fg = "{{ .c.overlay2 }}", bg = "{{ .c.mantle }}" }
+"evolog selected" = { fg = "{{ .c.acc07 }}", bg = "{{ .c.base }}", bold = true }
 
 "menu title" = { fg = "{{ .c.mono23 }}", bold = true }
-"menu shortcut" = { fg = "{{ .c.mono17 }}", bold = true }
-"menu selected" = { fg = "{{ .c.mono23 }}", bg = "{{ .c.mono03 }}", bold = true }
+"menu shortcut" = { fg = "{{ .c.subtext0 }}", bold = true }
+"menu selected" = { fg = "{{ .c.mono23 }}", bg = "{{ .c.base }}", bold = true }
 "menu matched" = { fg = "{{ .c.acc07 }}", bold = true, underline = true }
 
-"help" = { fg = "{{ .c.mono15 }}", bg = "{{ .c.mono02 }}" }
-"help title" = { fg = "{{ .c.mono23 }}", bg = "{{ .c.mono02 }}", bold = true, underline = true }
+"help" = { fg = "{{ .c.overlay2 }}", bg = "{{ .c.mantle }}" }
+"help title" = { fg = "{{ .c.mono23 }}", bg = "{{ .c.mantle }}", bold = true, underline = true }
 
-"preview" = { fg = "{{ .c.mono15 }}", bg = "{{ .c.mono02 }}" }
+"preview" = { fg = "{{ .c.overlay2 }}", bg = "{{ .c.mantle }}" }
 "preview border" = { fg = "{{ .ink.border }}" }
 
-"confirmation" = { fg = "{{ .c.mono15 }}", bg = "{{ .c.mono02 }}" }
-"confirmation text" = { fg = "{{ .c.mono21 }}" }
-"confirmation selected" = { fg = "{{ .c.mono02 }}", bg = "{{ .c.mono23 }}", bold = true }
+"confirmation" = { fg = "{{ .c.overlay2 }}", bg = "{{ .c.mantle }}" }
+"confirmation text" = { fg = "{{ .c.text }}" }
+"confirmation selected" = { fg = "{{ .c.mantle }}", bg = "{{ .c.mono23 }}", bold = true }
 
-"undo" = { fg = "{{ .c.mono15 }}", bg = "{{ .c.mono02 }}" }
-"undo confirmation dimmed" = { fg = "{{ .c.mono09 }}" }
-"undo confirmation selected" = { fg = "{{ .c.mono02 }}", bg = "{{ .c.mono23 }}", bold = true }
+"undo" = { fg = "{{ .c.overlay2 }}", bg = "{{ .c.mantle }}" }
+"undo confirmation dimmed" = { fg = "{{ .c.surface2 }}" }
+"undo confirmation selected" = { fg = "{{ .c.mantle }}", bg = "{{ .c.mono23 }}", bold = true }

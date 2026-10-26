@@ -1,9 +1,5 @@
-# Foreground-command tab labels.
-
 use format.nu shorten
 
-# Extract a compact process label from the current commandline. This is used by
-# the pre_execution hook so tabs show the active foreground command while it runs.
 export def process-name [command: string] {
     let first_line = ($command | str trim | lines | first | default "")
     if ($first_line | is-empty) { return "" }

@@ -1,13 +1,3 @@
-# achroma palette — single source of truth for every templated theme file.
-#
-# The numeric index is a ROLE, not a lightness: low = "background side",
-# high = "foreground side". The light variant keeps the same key names with
-# the mono ramp reversed and the chromatic ramps re-derived (same hues,
-# darkened for contrast on a light base), mirroring
-# wezterm/utils/palette-dark.lua and palette-light.lua — keep the three in sync.
-#
-# Theme bodies live in home/.chezmoitemplates/ and address colors by role,
-# so rendering the light variant is just passing `color.achroma.light`.
 color:
   achroma:
     dark:
@@ -15,27 +5,27 @@ color:
       mono24: "#dcdcdc"
       mono23: "#cccccc"
       mono22: "#c0c0c0"
-      mono21: "#b3b3b3" # text
+      text: "#b3b3b3"
       mono20: "#aaaaaa"
-      mono19: "#9d9d9d" # subtext1
+      subtext1: "#9d9d9d"
       mono18: "#8e8e8e"
-      mono17: "#878787" # subtext0
+      subtext0: "#878787"
       mono16: "#7f7f7f"
-      mono15: "#707070" # overlay2
+      overlay2: "#707070"
       mono14: "#686868"
-      mono13: "#5d5d5d" # overlay1
+      overlay1: "#5d5d5d"
       mono12: "#555555"
-      mono11: "#4e4e4e" # overlay0
+      overlay0: "#4e4e4e"
       mono10: "#474747"
-      mono09: "#414141" # surface2
+      surface2: "#414141"
       mono08: "#3a3a3a"
-      mono07: "#353535" # surface1
+      surface1: "#353535"
       mono06: "#303030"
-      mono05: "#2a2a2a" # surface0
+      surface0: "#2a2a2a"
       mono04: "#242424"
-      mono03: "#1e1e1e" # base
-      mono02: "#191919" # mantle
-      mono01: "#151515" # crust
+      base: "#1e1e1e"
+      mantle: "#191919"
+      crust: "#151515"
       mono00: "#101010"
       acc08: "#faf5eb"
       acc07: "#dad5c8"
@@ -55,59 +45,55 @@ color:
       accDim02: "#8e8b85"
       accDim01: "#7b7974"
       accDim00: "#6c6a65"
-      red01: "#cc9393" # maroon
-      red00: "#b07878" # red
-      green01: "#9bb09b" # teal
-      green00: "#778777" # green
-      yellow01: "#ebd6b7" # yellow
-      yellow00: "#d6caab" # peach
-      blue01: "#9db2cf" # lavender
-      blue00: "#7d96ad" # blue
-      magenta01: "#9f9fbd" # pink
-      magenta00: "#797994" # mauve
-      cyan01: "#92b3b3" # sky
-      cyan00: "#769494" # sapphire
-      orange01: "#dcb5a5" # rosewater
-      orange00: "#c8a492" # flamingo
-      # Diff/emphasis surfaces: accent mixed into the base (#1f1f1f) at the
-      # given percentage. Used by delta; reusable anywhere a tinted background
-      # over base is needed.
+      maroon: "#cc9393"
+      red: "#b07878"
+      teal: "#9bb09b"
+      green: "#778777"
+      yellow: "#ebd6b7"
+      peach: "#d6caab"
+      lavender: "#9db2cf"
+      blue: "#7d96ad"
+      pink: "#9f9fbd"
+      mauve: "#797994"
+      sky: "#92b3b3"
+      sapphire: "#769494"
+      rosewater: "#dcb5a5"
+      flamingo: "#c8a492"
       mixRed10: "#2e2828"
       mixRed25: "#433535"
       mixGreen10: "#282928"
       mixGreen25: "#353935"
-      mixMagenta25: "#36363c"
+      mixMauve25: "#36363c"
       mixBlue25: "#363d43"
-      mixCyan25: "#353c3c" # cyan01
-      mixYellow25: "#4d4a42" # yellow00
+      mixSky25: "#353c3c"
+      mixPeach25: "#4d4a42"
     light:
       mono00: "#ffffff"
-      mono01: "#fafafa"
-      mono02: "#f7f7f7" # mantle   (zebar)
-      mono03: "#ededed" # base     (zebar)
+      crust: "#fafafa"
+      mantle: "#f7f7f7"
+      base: "#ededed"
       mono04: "#ebebeb"
-      mono05: "#eaeaea" # surface0 (zebar)
+      surface0: "#eaeaea"
       mono06: "#e5e5e5"
-      mono07: "#e0e0e0" # surface1 (zebar)
+      surface1: "#e0e0e0"
       mono08: "#dadada"
-      mono09: "#d4d4d4" # surface2 (zebar)
+      surface2: "#d4d4d4"
       mono10: "#c4c4c4"
-      mono11: "#b4b4b4" # overlay0
+      overlay0: "#b4b4b4"
       mono12: "#9f9f9f"
-      mono13: "#8a8a8a" # overlay1 (zebar)
+      overlay1: "#8a8a8a"
       mono14: "#7c7c7c"
-      mono15: "#6e6e6e" # overlay2 (zebar)
+      overlay2: "#6e6e6e"
       mono16: "#656565"
-      mono17: "#5c5c5c" # subtext0 (zebar)
+      subtext0: "#5c5c5c"
       mono18: "#555555"
-      mono19: "#4d4d4d" # subtext1 (zebar)
+      subtext1: "#4d4d4d"
       mono20: "#444444"
-      mono21: "#3a3a3a" # text     (zebar)
+      text: "#3a3a3a"
       mono22: "#313131"
       mono23: "#292929"
       mono24: "#1f1f1f"
       mono25: "#111111"
-      # warm accent, lightness mirrored, hue/sat preserved
       acc08: "#24211a"
       acc07: "#35312a"
       acc06: "#454037"
@@ -126,29 +112,25 @@ color:
       accDim02: "#75726b"
       accDim01: "#86837c"
       accDim00: "#97948c"
-      # Chroma is re-derived, not inverted: same hues, darkened for 4.3-7.5:1
-      # on #ededed. XX01 stays the "emphasis" slot (darker than XX00 here).
-      red01: "#7f4747" # maroon
-      red00: "#9b5f5f" # red
-      green01: "#3d573d" # teal
-      green00: "#4f6b4f" # green
-      yellow01: "#5c4c2c" # yellow
-      yellow00: "#6f5c37" # peach
-      blue01: "#384f68" # lavender
-      blue00: "#4a6480" # blue
-      magenta01: "#4a4a66" # pink
-      magenta00: "#5f5f7e" # mauve
-      cyan01: "#3b5a5a" # sky
-      cyan00: "#4f7070" # sapphire
-      orange01: "#70503c" # rosewater
-      orange00: "#8a6348" # flamingo
-      # Same mixes re-derived on the light base mono03 (#ededed) with the
-      # light-variant accents, so tinted surfaces keep their meaning.
+      maroon: "#7f4747"
+      red: "#9b5f5f"
+      teal: "#3d573d"
+      green: "#4f6b4f"
+      yellow: "#5c4c2c"
+      peach: "#6f5c37"
+      lavender: "#384f68"
+      blue: "#4a6480"
+      pink: "#4a4a66"
+      mauve: "#5f5f7e"
+      sky: "#3b5a5a"
+      sapphire: "#4f7070"
+      rosewater: "#70503c"
+      flamingo: "#8a6348"
       mixRed10: "#e5dfdf"
       mixRed25: "#d9caca"
       mixGreen10: "#dde0dd"
       mixGreen25: "#c6cdc6"
-      mixMagenta25: "#cacad1"
+      mixMauve25: "#cacad1"
       mixBlue25: "#c4cbd2"
-      mixCyan25: "#c1c8c8" # cyan01
-      mixYellow25: "#cec9c0" # yellow00
+      mixSky25: "#c1c8c8"
+      mixPeach25: "#cec9c0"

@@ -3,9 +3,7 @@
 
 {{- if eq .archEnv "native" }}
 
-# =============================================================================
 # Hash trigger: {{ include ".chezmoidata/pm/yay.yml" | sha256sum }}
-# =============================================================================
 
 set -euo pipefail
 
@@ -26,7 +24,6 @@ yay_version=$(yay_version_line)
 print_skip ""
 print_skip "yay version: $yay_version"
 
-# Install shared AUR packages
 {{- if .pkgs.yay.common }}
 print_warn "Installing shared AUR packages..."
 {{- range .pkgs.yay.common }}
@@ -34,7 +31,6 @@ yay_install_package "{{ . }}"
 {{- end }}
 {{- end }}
 
-# Install native-specific AUR packages
 {{- if .pkgs.yay.native }}
 print_warn "Installing native Arch-specific AUR packages..."
 {{- range .pkgs.yay.native }}

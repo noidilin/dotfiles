@@ -3,14 +3,14 @@
    the background end. The steps hold each surface's dark-variant weight over
    the list background (mantle): border 1.72:1 -> 1.63:1, cursor row
    1.22:1 -> 1.23:1, selection 1.43:1 -> 1.38:1, where the naive mirror would
-   have given 1.38:1, 1.12:1 and 1.23:1. mono07 for the cursor row is also
+   have given 1.38:1, 1.12:1 and 1.23:1. surface1 for the cursor row is also
    what the neovim theme itself overrides `PmenuSel` to in light. `statusbar`
    needs no step: base against mantle is the same faint lift in both variants
    (1.05:1 / 1.09:1), which is what `StatusLine` looks like in neovim too. */ -}}
 {{- template "tuxedo-achroma.toml" (dict
       "c" .color.achroma.light
       "ink" (dict
-        "statusbar" .color.achroma.light.mono03
+        "statusbar" .color.achroma.light.base
         "border" .color.achroma.light.mono10
-        "cursorBg" .color.achroma.light.mono07
-        "selectionBg" .color.achroma.light.mono09)) -}}
+        "cursorBg" .color.achroma.light.surface1
+        "selectionBg" .color.achroma.light.surface2)) -}}

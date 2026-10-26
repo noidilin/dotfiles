@@ -4,23 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Custom styles. -->
     <link rel="stylesheet" type="text/css" href="./styles.css" />
 
-    <!--
-      achroma variant bootstrap. Adds `class="dark"` to <html> when the dark
-      palette should be active; styles.css defaults to light without it.
-
-      Default is to follow the Windows app theme, which keeps the bar in sync
-      with wezterm (wezterm.gui.get_appearance) and neovim automatically.
-
-      To pin a variant, either set FORCED below, or from the widget devtools:
-        localStorage.setItem('achroma-variant', 'light')   // or 'dark'
-        localStorage.removeItem('achroma-variant')         // back to auto
-    -->
     <script>
       (function () {
-        var FORCED = null; // 'light' | 'dark' | null (null = follow Windows)
+        var FORCED = null;
 
         var mq = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -44,7 +32,6 @@
       })();
     </script>
 
-    <!-- Allows React to be run buildless via "text/babel" script below. -->
     <script
       src="https://unpkg.com/@babel/standalone@7.25.6/babel.min.js"
       integrity="sha256-aS0B0wnsaDByLfE16h4MDCP1fQFccysd1YWOcV+gbBo="
@@ -78,7 +65,6 @@
           providers.onOutput(() => setOutput(providers.outputMap));
         }, []);
 
-        // Get icon to show for current network status.
         function getNetworkIcon(networkOutput) {
           switch (networkOutput.defaultInterface?.type) {
             case 'ethernet':
@@ -100,7 +86,6 @@
           }
         }
 
-        // Get icon to show for how much of the battery is charged.
         function getBatteryIcon(batteryOutput) {
           if (batteryOutput.chargePercent > 90)
             return <i className='nf nf-fa-battery_4'></i>;
@@ -113,7 +98,6 @@
           return <i className='nf nf-fa-battery_0'></i>;
         }
 
-        // Get icon to show for current weather status.
         function getWeatherIcon(weatherOutput) {
           switch (weatherOutput.status) {
             case 'clear_day':
@@ -171,7 +155,6 @@
                 <div className='cpu'>
                   <i className='nf nf-oct-cpu'></i>
 
-                  {/* Change the text color if the CPU usage is high. */}
                   <span className={output.cpu.usage > 85 ? 'high-usage' : ''}>
                     {Math.round(output.cpu.usage).toString().padStart(2, '0')}%
                   </span>
@@ -225,7 +208,6 @@
 
               {output.battery && (
                 <div className='battery'>
-                  {/* Show icon for whether battery is charging. */}
                   {output.battery.isCharging && (
                     <i className='nf nf-md-power_plug charging-icon'></i>
                   )}
@@ -243,7 +225,6 @@
                 </div>
               )}
 
-              {/* output.date?.formatted */}
               {output.date && (
                 <div className='clock'>{output.date?.formatted}</div>
               )}

@@ -1,15 +1,11 @@
-/* vscode app icon in win11 */
 .titlebar-left .window-appicon {
   background-size: 0px !important;
 }
 
-/* statusbar */
 .monaco-workbench .part.statusbar {
-  /* height: 22px !important; */
   font-size: 11px !important;
 }
 
-/* global font */
 .shadow-root-host,
 .monaco-editor,
 .mac,
@@ -30,32 +26,6 @@
   font-family: 'CommitMono Nerd Font Mono' !important;
 }
 
-/*
-* strategy:
-* 1. deliberately choose a small font-size to create additional padding 
-* 2. scale whole list item back to readable size while still maintaining the padding
-*
-* panes in explorer view:
-* - open editors: 'open-editors'
-* - explorer: 'explorer-folders-view'
-* - outline: 'outline-tree'
-* - timeline: 'customview-tree'
-*
-* other panes:
-* - search results: 'results'
-* - search results in extensions view: 'extensions-list'
-* - breakpoints in debug view: 'debug-breakpoints'
-*
-* other widgets:
-* - command: 'quick-input-widget' or 'quick-input-list'
-* - suggest: 'suggest-widget' or 'tree'
-* - breadcrumbs: 'monaco-breadcrumbs-picker'
-* - settings: 'settings-toc-wrapper'
-* : 'scm-view'
-* : 'debug-view-content'
-* */
-
-/* .suggest-widget, */
 .open-editors,
 .explorer-folders-view,
 .outline-tree,
@@ -76,15 +46,6 @@
   }
 }
 
-/* fix zoom related styles
-* - key-binding in command palette
-* - install button in extension list
-* - counts badge of search result
-* - all kind of codicon
-* - title of editor group in open editor
-* - icons in explorer
-*/
-
 .monaco-list-row {
   & .quick-input-list-entry-keybinding,
   & .monaco-action-bar,
@@ -95,8 +56,3 @@
     zoom: 0.8 !important;
   }
 }
-
-/* activity bar height */
-/* .composite-bar-container > * {
-  height: 26px !important;
-} */

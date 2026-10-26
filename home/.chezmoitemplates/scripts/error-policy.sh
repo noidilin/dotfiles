@@ -1,5 +1,3 @@
-# Shared error-policy helper for package scripts.
-
 strict_mode=0
 strict_value="${DOTFILES_STRICT:-0}"
 case "$strict_value" in

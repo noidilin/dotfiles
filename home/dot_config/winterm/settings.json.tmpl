@@ -136,13 +136,13 @@
 {{- $l := .color.achroma.light }}
 {{ template "winterm-achroma-scheme.json" (dict "name" "achroma" "c" $d "ink" (dict
     "black" $d.mono10
-    "blackBright" $d.mono13
+    "blackBright" $d.overlay1
     "white" $d.acc07
     "whiteBright" $d.acc08
     "selection" $d.mono06)) }},
 {{ template "winterm-achroma-scheme.json" (dict "name" "achroma-light" "c" $l "ink" (dict
-    "black" $l.mono19
-    "blackBright" $l.mono15
+    "black" $l.subtext1
+    "blackBright" $l.overlay2
     "white" $d.acc06
     "whiteBright" $d.acc07
     "selection" $l.mono08)) }}

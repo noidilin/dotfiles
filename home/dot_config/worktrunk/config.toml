@@ -3,8 +3,5 @@ copy = "wt step copy-ignored"
 
 [projects]
 
-# [pre-start]
-# install = "pnpm install"
-
 [commit.generation]
 command = "pi --provider openai-codex --model gpt-5.3-codex-spark --print"

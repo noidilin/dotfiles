@@ -26,15 +26,15 @@ export def main [] {
       marker: ""
       type: {
         layout: ide
-        min_completion_width: 25       # Ensure min width for readability
-        max_completion_width: 50       # Wider completion area
-        max_completion_height: 10      # More visible items
-        padding: 3                     # More breathing room
+        min_completion_width: 25
+        max_completion_width: 50
+        max_completion_height: 10
+        padding: 3
         description_mode: "prefer_right"
-        min_description_width: 25      # Readable descriptions
-        max_description_width: 50      # More space for docs
-        max_description_height: 10     # Taller description area
-        description_offset: 2          # More separation
+        min_description_width: 25
+        max_description_width: 50
+        max_description_height: 10
+        description_offset: 2
         border: false
         cursor_offset: 0
         correct_cursor_pos: false

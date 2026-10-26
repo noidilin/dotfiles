@@ -4,10 +4,9 @@ pkgs:
       - "sudo"
       - "which"
       - "pacman-contrib"
-      - "base-devel" # gcc, make, etc.
+      - "base-devel"
 
-      # tools
       - "man-db"
       - "man-pages"
-    native: [] # Currently empty - add packages as needed
-    wsl: [] # Currently empty - add packages as needed
+    native: []
+    wsl: []

@@ -2,9 +2,7 @@
 
 {{- if eq .chezmoi.os "windows" }}
 
-# =============================================================================
 # Hash trigger: {{ include ".chezmoidata/pm/pnpm.yml" | sha256sum }}
-# =============================================================================
 
 Write-Host "=== Installing pnpm global packages ===" -ForegroundColor Yellow
 
@@ -17,8 +15,7 @@ if (!(Assert-MiseToolOrSkip -Tool "node" -MissingMiseMessage "WARNING: mise is n
 }
 $nodeVersion = $script:MiseToolVersion
 
-# Corepack will prompt to install pnpm if pnpm has not been installed yet.
-$pnpmVersion = mise exec -- pnpm --version
+Initialize-PnpmViaCorepack
 
 {{- if .pkgs.pnpm }}
 Write-Host "`nNode.js version: $nodeVersion" -ForegroundColor DarkGray

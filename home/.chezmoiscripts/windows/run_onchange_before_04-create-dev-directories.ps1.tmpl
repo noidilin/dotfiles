@@ -2,9 +2,7 @@
 
 {{- if eq .chezmoi.os "windows" }}
 
-# =============================================================================
 # Hash trigger: {{ include ".chezmoidata/env.yml" | sha256sum }}
-# =============================================================================
 
 $DevDirectories = @(
 {{- range .env.runtimeDirs }}

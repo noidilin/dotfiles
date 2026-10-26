@@ -11,28 +11,16 @@ edit = [
   { run = "%EDITOR% %s", desc = "editor", block = true, for = "windows" },
 ]
 
-# leaf-markdown-viewer: a TUI, so it needs `block` to get the terminal, and
-# takes a single file positionally, hence %s1 rather than %s. No `for` filter
-# -- .chezmoidata/pm/common.yml installs it on brew, scoop and aur alike.
 leaf = [
   { run = "leaf %s1", desc = "leaf", block = true },
 ]
 
-# macOS only on purpose: elsewhere the `helium` name resolves to no entry, so
-# the next name in `use` (`open`) becomes the default and PDFs still open.
 helium = [
   { run = "open -a Helium %s", desc = "Helium", for = "macos" },
 ]
 
-# prepend_rules is matched before yazi's defaults; within the list it is
-# top-down first-match-wins. The first name in `use` is what <Enter> runs, the
-# rest populate the <O> "open with" menu.
-# 'spot' on a file to check it's mime-type with the default <Tab> key.
 [open]
 prepend_rules = [
-  # application/pdf has no default rule, so it falls to the `{ url = "*" }`
-  # catch-all -> `open` -> LaunchServices -> Preview. Route it to Helium
-  # instead, keeping the system default reachable via <O>.
   { mime = "application/pdf", use = [
     "helium",
     "open",
@@ -40,8 +28,7 @@ prepend_rules = [
   ] },
 
   # Match on filename, not mime: `file` reports markdown as plain text/plain,
-  # so there is no mime that distinguishes it. Default rule would be text/*
-  # -> `edit`; view in leaf instead, with $EDITOR one <O> away.
+  # so there is no mime that distinguishes it.
   { url = "*.md", use = [
     "leaf",
     "edit",

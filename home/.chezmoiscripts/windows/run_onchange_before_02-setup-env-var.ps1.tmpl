@@ -4,7 +4,6 @@
 
 Write-Host "=== Setting up environment variables ===" -ForegroundColor Yellow
 
-# Environment variables from .chezmoidata/env.yml
 $NamedEnv = @{
 {{- range $key, $pathParts := .env.xdg }}
     "{{ $key }}" = "$HOME\{{ join `\` $pathParts }}"
@@ -17,12 +16,9 @@ $NamedEnv = @{
 {{- end }}
 }
 
-# Set environment variables
 foreach ($Key in $NamedEnv.Keys) {
-    # Expand variables like $HOME
     $expandedValue = $ExecutionContext.InvokeCommand.ExpandString($NamedEnv[$Key])
 
-    # Check if the environment variable already exists
     $currentValue = [System.Environment]::GetEnvironmentVariable($Key, [System.EnvironmentVariableTarget]::User)
 
     if ($currentValue -eq $null -or $currentValue -ne $expandedValue) {
@@ -33,7 +29,6 @@ foreach ($Key in $NamedEnv.Keys) {
     }
 }
 
-# Build PATH entries from env.path references
 $PathEntries = @(
 {{- range .env.path }}
 {{-   $varName := . }}
@@ -51,12 +46,10 @@ $PathEntries = @(
 {{- end }}
 )
 
-# Add PATH entries to User PATH
 $currentPath = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User)
 $pathArray = if ($currentPath) { $currentPath -split ';' | Where-Object { $_ -ne '' } } else { @() }
 
 foreach ($entry in $PathEntries) {
-    # Expand variables like $HOME
     $expandedEntry = $ExecutionContext.InvokeCommand.ExpandString($entry)
 
     if ($pathArray -notcontains $expandedEntry) {

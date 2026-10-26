@@ -4,14 +4,12 @@ JSON_OUT = $(HOME)/.config/karabiner/assets/complex_modifications/karabiner.json
 compile:
 	@echo "Compiling YAML to JSON..."
 	@mkdir -p $(dir $(JSON_OUT))
-	@# Check if yq (mikefarah Go version) is available
 	@if ! yq --version 2>&1 | grep -q "mikefarah"; then \
 		echo "[ERROR] This requires yq (Go version by mikefarah)"; \
 		echo "        Install with: brew install yq"; \
 		echo "        Current yq: $$(which yq)"; \
 		exit 1; \
 	fi
-	@# Convert YAML to JSON, removing x-parameters section
 	@yq eval 'del(.x-parameters)' $(YAML_SOURCE) -o=json > $(JSON_OUT)
 	@echo "✓ Compiled: $(JSON_OUT)"
 

@@ -1,19 +1,15 @@
-# Warm monochrome skin aligned with lazygit/lazydocker achroma theme.
-# Rendered from the shared achroma palette (.chezmoidata/colors.yml); every
-# slot survives role mirroring, so dark and light share this body verbatim.
-
-foreground: &foreground "{{ .c.mono17 }}"
-background: &background "{{ .c.mono02 }}"
+foreground: &foreground "{{ .c.subtext0 }}"
+background: &background "{{ .c.mantle }}"
 accent: &accent "{{ .c.acc07 }}"
 highlight: &highlight "{{ .c.acc08 }}"
-focus: &focus "{{ .c.mono19 }}"
-muted: &muted "{{ .c.mono13 }}"
-selection: &selection "{{ .c.mono05 }}"
-surface: &surface "{{ .c.mono09 }}"
-success: &success "{{ .c.green00 }}"
-warning: &warning "{{ .c.orange00 }}"
-error: &error "{{ .c.red00 }}"
-info: &info "{{ .c.blue00 }}"
+focus: &focus "{{ .c.subtext1 }}"
+muted: &muted "{{ .c.overlay1 }}"
+selection: &selection "{{ .c.surface0 }}"
+surface: &surface "{{ .c.surface2 }}"
+success: &success "{{ .c.green }}"
+warning: &warning "{{ .c.flamingo }}"
+error: &error "{{ .c.red }}"
+info: &info "{{ .c.blue }}"
 
 k9s:
   body:

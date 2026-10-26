@@ -3,9 +3,7 @@
 
 {{- if eq .archEnv "native" }}
 
-# =============================================================================
 # Hash trigger: {{ include ".chezmoidata/pm/common.yml" | sha256sum }}
-# =============================================================================
 
 set -euo pipefail
 
@@ -18,7 +16,6 @@ print_header "Installing common packages (Arch Native)"
 
 pacman_upgrade_once
 
-# Install common packages via pacman (includes GUI apps)
 print_info ""
 print_warn "Installing common packages via pacman..."
 {{- range $name, $pkg := .pkgs.common }}
@@ -27,7 +24,6 @@ pacman_install_package "{{ $pkg.pacman }}"
 {{- end }}
 {{- end }}
 
-# Install common packages via yay/AUR (includes GUI apps)
 if command -v yay &>/dev/null; then
   print_info ""
   print_warn "Installing common packages via yay..."

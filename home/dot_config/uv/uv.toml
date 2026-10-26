@@ -1,9 +1,3 @@
-# Global UV configuration
-# Based on mise integration and .dev directory structure
-
-# Use system Python (from mise) for global operations
 python-preference = "system"
 
-# Link mode for tool installations
-# Options: "symlink" (default), "copy", "hardlink"
 link-mode = "symlink"

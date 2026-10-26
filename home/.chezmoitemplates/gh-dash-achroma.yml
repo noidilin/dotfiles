@@ -1,6 +1,3 @@
-# gh-dash reads one config file; GH_DASH_CONFIG (set per ACHROMA_VARIANT at
-# shell start, refreshed by `theme`) points at the variant render, so no
-# applied file is ever edited in place.
 prSections:
   - title: My Pull Requests
     filters: is:open author:@me
@@ -89,12 +86,12 @@ theme:
       compact: false
   colors:
     text:
-      primary: "{{ .c.mono21 }}"
+      primary: "{{ .c.text }}"
       secondary: "{{ .c.acc06 }}"
-      inverted: "{{ .c.mono03 }}"
-      faint: "{{ .c.mono13 }}"
-      warning: "{{ .c.yellow00 }}"
-      success: "{{ .c.green00 }}"
+      inverted: "{{ .c.base }}"
+      faint: "{{ .c.overlay1 }}"
+      warning: "{{ .c.peach }}"
+      success: "{{ .c.green }}"
     background:
       selected: "{{ .ink.selectionBg }}"
     border:

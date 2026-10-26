@@ -1,22 +1,7 @@
-# Three exceptions from reference implementation:
-#  1. Directory file type and directories with special permissions use acc02
-#     instead of acc05 to stand out better.
-#  2. Where there is a background colour, the foreground of mono16 is replaced by
-#     mono19 to make the text more legible.
-#  3. The media/document file types don't all use green00. These can be
-#     customised according to personal preference and desired granularity.
-
-# Rendered from the shared achroma palette (.chezmoidata/colors.yml).
-
 colors:
 {{- range $k, $v := .c }}
-  {{ $k }}: '{{ trimPrefix "#" $v }}' # {{ $v }}
+  {{ $k }}: '{{ trimPrefix "#" $v }}'
 {{- end }}
-
-# core:
-#     normal_text, regular_file, reset_to_normal, directory, symlink, multi_hard_link, fifo, socket, door,
-#     block_device, character_device, broken_symlink, missing_symlink_target, setuid, setgid, file_with_capability,
-#     sticky_other_writable, other_writable, sticky, executable_file,
 
 core:
   normal_text:
@@ -24,11 +9,11 @@ core:
   regular_file:
     foreground: mono16
   reset_to_normal:
-    background: mono02
+    background: mantle
     foreground: mono16
     font-style: regular
   directory:
-    foreground: mono18 # acc05
+    foreground: mono18
     font-style: bold
   symlink:
     foreground: accDim02
@@ -41,7 +26,6 @@ core:
       - bold
       - underline
   socket:
-    # NOTE: Swapped with block device as used for readline completion prefix
     foreground: mono23
     font-style: bold
   door:
@@ -53,11 +37,10 @@ core:
   character_device:
     foreground: mono23
   broken_symlink:
-    foreground: red00
+    foreground: red
   missing_symlink_target:
-    # NOTE: Also used for readline completion shell builtin and function suffix
-    background: red00
-    foreground: mono07 # mono16
+    background: red
+    foreground: surface1
     font-style: bold
   setuid:
     foreground: mono16
@@ -75,38 +58,31 @@ core:
       - bold
       - underline
   sticky_other_writable:
-    background: accDim02 # acc05
-    foreground: mono05 # mono16
+    background: accDim02
+    foreground: surface0
     font-style:
       - bold
       - underline
   other_writable:
-    background: accDim02 # acc05
-    foreground: mono05 # mono16
+    background: accDim02
+    foreground: surface0
     font-style: bold
   sticky:
-    background: accDim02 # acc05
-    foreground: mono05 # mono16
+    background: accDim02
+    foreground: surface0
     font-style: underline
   executable_file:
     foreground: accDim05
     font-style: bold
 
-# text:
-#   special:
-#   todo:
-#   licenses:
-#   configuration: generic, metadata, bibtex, dockerfile, nix, qt, desktop, system
-#   other:
-
 text:
-  foreground: mono11
+  foreground: overlay0
   configuration:
     foreground: mono16
     dockerfile:
-      foreground: mono19
+      foreground: subtext1
     nix:
-      foreground: mono19
+      foreground: subtext1
   licenses:
     foreground: mono14
   special:
@@ -116,26 +92,10 @@ text:
     foreground: mono16
     font-style: italic
 
-# markup: web, other
 markup:
   foreground: mono16
   web:
-    foreground: mono19
-
-# programming:
-#   source:
-#     actionscript, ada, applescript, asp, assembly, awk, basic, cabal, clojure, crystal, csharp, css, cxx, d, dart, diff,
-#     elixir, emacs, elm, erlang, fsharp, gcode, go, graphviz, groovy, hack, hare, haskell, ipython, java, javascript, julia,
-#     kotlin, latex, less, llvm, lisp, lua, mathematica, matlab, mojo, nim, ocaml, openscad, pascal, perl, php, powershell, prql,
-#     puppet, purescript, python, r, raku, ruby, rust, sass, scala, shell, sql, swift, tablegen, tcl, typescript, v, viml, zig,
-#   tooling:
-#     vcs: git, hg, other
-#     build: cmake, make, automake, configure, scons, pip
-#     packaging: go, python, ruby, v
-#     code-style: python, cxx
-#     editors: editorconfig, qt, kdevelop
-#     documentation:
-#     continuous-integration:
+    foreground: subtext1
 
 programming:
   source:
@@ -143,58 +103,43 @@ programming:
   tooling:
     foreground: mono16
     continuous-integration:
-      foreground: mono21
+      foreground: text
     vcs:
       foreground: mono16
       git:
-        foreground: mono19
-
-# media:
-#   image: application, bitmap, raw, vector
-#   audio:
-#   video:
-#   fonts:
-#   3d: application, mesh
+        foreground: subtext1
 
 media:
-  foreground: mono13
+  foreground: overlay1
   fonts:
     foreground: mono16
     font-style: italic
   image:
-    foreground: mono13
+    foreground: overlay1
     font-style: italic
   audio:
-    foreground: mono11
+    foreground: overlay0
     font-style: italic
   video:
-    foreground: mono11
+    foreground: overlay0
     font-style:
       - italic
       - underline
   3d:
-    foreground: mono09
+    foreground: surface2
     font-style: italic
 
-# office: document, spreadsheet, presentation, calendar
 office:
   foreground: mono16
   font-style: italic
 
-# archives: packages, ros, images, other
 archives:
-  foreground: mono15
+  foreground: overlay2
   font-style: underline
 
-# executable: windows, library, linux
 executable:
   foreground: accDim05
   font-style: bold
 
-# unimportant:
-#   build_artifacts: cxx, cmake, automake, rust, python, haskell, java, scons, latex, llvm
-#   macos:
-#   other:
-
 unimportant:
-  foreground: mono09
+  foreground: surface2

@@ -3,9 +3,7 @@
 
 {{- if eq .archEnv "wsl" }}
 
-# =============================================================================
 # Hash trigger: {{ include ".chezmoidata/pm/common.yml" | sha256sum }}
-# =============================================================================
 
 set -euo pipefail
 
@@ -18,7 +16,6 @@ print_header "Installing common packages (Arch WSL)"
 
 pacman_upgrade_once
 
-# Install common packages via pacman (skip GUI apps with wsl: false)
 print_info ""
 print_warn "Installing common packages via pacman..."
 {{- range $name, $pkg := .pkgs.common }}
@@ -33,7 +30,6 @@ pacman_install_package "{{ $pkg.pacman }}"
 {{- end }}
 {{- end }}
 
-# Install common packages via yay/AUR (skip GUI apps with wsl: false)
 if command -v yay &>/dev/null; then
   print_info ""
   print_warn "Installing common packages via yay..."

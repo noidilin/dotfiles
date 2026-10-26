@@ -1,5 +1,3 @@
--- https://yazi-rs.github.io/docs/tips#symlink-in-status
--- show symlink in status bar
 Status:children_add(function(self)
 	local h = self._current.hovered
 	if h and h.link_to then
@@ -9,8 +7,6 @@ Status:children_add(function(self)
 	end
 end, 3300, Status.LEFT)
 
--- linemode: size_and_mtime
--- ~/.config/yazi/init.lua
 function Linemode:size_and_mtime()
 	local time = math.floor(self._file.cha.mtime or 0)
 	if time == 0 then

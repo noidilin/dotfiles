@@ -2,9 +2,7 @@
 
 {{- if eq .chezmoi.os "windows" }}
 
-# =============================================================================
 # Hash trigger: {{ include ".chezmoidata/pm/uv.yml" | sha256sum }}
-# =============================================================================
 
 Write-Host "=== Installing uv tool packages ===" -ForegroundColor Yellow
 

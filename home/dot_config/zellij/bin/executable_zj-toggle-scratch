@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
-# Toggle between the shared scratch session and the last non-scratch session.
 set -eu
 
 scratch_session=${ZELLIJ_SCRATCH_SESSION:-scratch}

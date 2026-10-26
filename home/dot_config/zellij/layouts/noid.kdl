@@ -1,9 +1,3 @@
-// Default Zellij layout restoring the old WezTerm status/tab experience
-// through dj95/zjstatus.
-//
-// The zjstatus-bar alias and its formatting live in config.kdl. Keeping the
-// plugin pane in both tab templates preserves the status bar through swaps.
-
 layout {
     default_tab_template {
         pane size=1 borderless=true {

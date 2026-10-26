@@ -1,19 +1,4 @@
 {{- $envData := include ".chezmoidata/env.yml" | fromYaml -}}
-encryption = "age"
-progress = true # display progress bar
-
-[age]
-identity = "{{ .chezmoi.homeDir }}/.config/chezmoi/.chezmoi-crypto-key.txt"
-recipient = "age142jxxglda43ghtr5l27h06arhazze8lleu80lap0s2sfawjywgqqj9pnc2"
-
-[completion]
-custom = true # enable custom shell completion
-
-{{/* ========================================== */}}
-{{/* Helper Variables for Template Logic       */}}
-{{/* ========================================== */}}
-
-{{/* Determine OS identifier with granular Linux detection */}}
 {{- $osId := .chezmoi.os -}}
 {{- if eq .chezmoi.os "linux" -}}
 {{-   if hasKey .chezmoi.osRelease "id" -}}
@@ -21,7 +6,6 @@ custom = true # enable custom shell completion
 {{-   end -}}
 {{- end -}}
 
-{{/* Detect WSL2 environment */}}
 {{- $isWsl := false -}}
 {{- if eq .chezmoi.os "linux" -}}
 {{-   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
@@ -29,7 +13,6 @@ custom = true # enable custom shell completion
 {{-   end -}}
 {{- end -}}
 
-{{/* Determine environment type for Arch Linux */}}
 {{- $archEnv := "" -}}
 {{- if eq $osId "linux-arch" -}}
 {{-   if $isWsl -}}
@@ -39,21 +22,25 @@ custom = true # enable custom shell completion
 {{-   end -}}
 {{- end -}}
 
-{{/* Default shell per platform */}}
 {{- $shell := "bash" -}}
 {{- if eq .chezmoi.os "windows" -}}
 {{-   $shell = "pwsh" -}}
 {{- end -}}
+encryption = "age"
+progress = true
+
+[age]
+identity = "{{ .chezmoi.homeDir }}/.config/chezmoi/.chezmoi-crypto-key.txt"
+recipient = "age142jxxglda43ghtr5l27h06arhazze8lleu80lap0s2sfawjywgqqj9pnc2"
+
+[completion]
+custom = true
 
 [data]
-  osId = {{ $osId | quote }} # "windows", "linux-arch", "darwin"
+  osId = {{ $osId | quote }}
   isWsl = {{ $isWsl }}
-  archEnv = {{ $archEnv | quote }} # "wsl", "native", "" (if not Arch)
-  shell = {{ $shell | quote }} # Default shell
-
-{{/* ========================================== */}}
-{{/* Script Environment Variables              */}}
-{{/* ========================================== */}}
+  archEnv = {{ $archEnv | quote }}
+  shell = {{ $shell | quote }}
 
 [scriptEnv]
 {{- range $key, $pathParts := $envData.env.xdg }}
@@ -66,12 +53,7 @@ custom = true # enable custom shell completion
   {{ $key }} = {{ printf "%s/%s" $.chezmoi.homeDir (join "/" $pathParts) | quote }}
 {{- end }}
 
-{{/* ========================================== */}}
-{{/* Platform-Specific Configurations          */}}
-{{/* ========================================== */}}
-
 {{- if $isWsl }}
-# WSL2: Use Windows 1Password CLI via interop
 [onepassword]
 command = "op.exe"
 {{- end }}

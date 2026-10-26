@@ -1,12 +1,3 @@
-# Retrieve the color_config for the active achroma variant.
-#
-# Rendered from the shared achroma palette (.chezmoidata/colors.yml) -- both
-# variants are baked in and picked by ACHROMA_VARIANT (set in env/variant.nu
-# from the OS app theme) when config.nu builds $env.config. A running shell
-# keeps its palette until restart; `theme light|dark` notes this.
-#
-# Named `palette`, not `theme`: the interactive `theme` switcher command lives
-# in autoload/commands/theme.nu and a module named theme would shadow it.
 export def main [] {
   let dark = {
 {{- range $k, $v := .color.achroma.dark }}
@@ -21,53 +12,53 @@ export def main [] {
   let p = if ($env.ACHROMA_VARIANT? | default 'dark') == 'light' { $light } else { $dark }
 
   return {
-    binary: $p.mono19
-    block: $p.mono17
+    binary: $p.subtext1
+    block: $p.subtext0
     cell-path: $p.mono18
     closure: $p.mono20
     custom: $p.acc05
-    duration: $p.mono13
-    float: $p.mono17
+    duration: $p.overlay1
+    float: $p.subtext0
     glob: $p.mono18
-    int: $p.mono15
+    int: $p.overlay2
     list: $p.mono20
-    nothing: $p.mono13
+    nothing: $p.overlay1
     range: $p.acc02
     record: $p.mono20
-    string: $p.mono15
+    string: $p.overlay2
 
-    bool: {|| if $in { $p.mono17 } else { $p.orange00 } }
+    bool: {|| if $in { $p.subtext0 } else { $p.flamingo } }
 
     date: {|| (date now) - $in |
         if $in < 1hr {
-            { fg: $p.mono21 attr: b }
+            { fg: $p.text attr: b }
         } else if $in < 6hr {
-            $p.mono21
+            $p.text
         } else if $in < 1day {
-            $p.mono19
+            $p.subtext1
         } else if $in < 3day {
-            $p.mono17
+            $p.subtext0
         } else if $in < 1wk {
-            { fg: $p.mono15 attr: b }
+            { fg: $p.overlay2 attr: b }
         } else if $in < 6wk {
-            $p.mono13
+            $p.overlay1
         } else if $in < 52wk {
-            $p.mono11
-        } else { $p.mono09 }
+            $p.overlay0
+        } else { $p.surface2 }
     }
 
     filesize: {|e|
         if $e == 0b {
-            { fg: $p.mono13 attr: s }
+            { fg: $p.overlay1 attr: s }
         } else if $e < 1mb {
-            $p.mono17
+            $p.subtext0
         } else {{ "{{" }} fg: $p.mono20 {{ "}}" }}
     }
 
-    shape_and: { fg: $p.mono19 attr: b }
-    shape_binary: { fg: $p.mono19 attr: b }
-    shape_block: { fg: $p.mono17 attr: b }
-    shape_bool: $p.mono17
+    shape_and: { fg: $p.subtext1 attr: b }
+    shape_binary: { fg: $p.subtext1 attr: b }
+    shape_block: { fg: $p.subtext0 attr: b }
+    shape_bool: $p.subtext0
     shape_closure: { fg: $p.mono20 attr: b }
     shape_custom: $p.acc05
     shape_datetime: { fg: $p.mono16 }
@@ -77,42 +68,42 @@ export def main [] {
     shape_externalarg: $p.mono16
     shape_filepath: $p.mono18
     shape_flag: { fg: $p.mono16 attr: b }
-    shape_float: { fg: $p.mono17 }
-    shape_garbage: { fg: $p.mono13 attr: biu }
+    shape_float: { fg: $p.subtext0 }
+    shape_garbage: { fg: $p.overlay1 attr: biu }
     shape_glob_interpolation: { fg: $p.mono18 attr: b }
     shape_globpattern: { fg: $p.mono18 attr: b }
-    shape_int: { fg: $p.mono15 }
+    shape_int: { fg: $p.overlay2 }
     shape_internalcall: { fg: $p.mono22 attr: b }
-    shape_keyword: { fg: $p.mono19 attr: b }
+    shape_keyword: { fg: $p.subtext1 attr: b }
     shape_list: { fg: $p.mono20 }
-    shape_literal: $p.mono17
+    shape_literal: $p.subtext0
     shape_match_pattern: $p.mono24
     shape_matching_brackets: { attr: u }
-    shape_nothing: $p.mono13
+    shape_nothing: $p.overlay1
     shape_operator: $p.acc02
-    shape_or: { fg: $p.mono19 attr: b }
-    shape_pipe: { fg: $p.mono19 attr: b }
+    shape_or: { fg: $p.subtext1 attr: b }
+    shape_pipe: { fg: $p.subtext1 attr: b }
     shape_range: { fg: $p.acc02 attr: b }
     shape_raw_string: { fg: $p.mono22 attr: b }
     shape_record: { fg: $p.mono20 attr: b }
-    shape_redirection: { fg: $p.mono19 attr: b }
+    shape_redirection: { fg: $p.subtext1 attr: b }
     shape_signature: { fg: $p.mono24 attr: b }
-    shape_string: $p.mono15
-    shape_string_interpolation: { fg: $p.mono17 attr: b }
-    shape_table: { fg: $p.mono17 attr: b }
-    shape_vardecl: { fg: $p.mono17 attr: u }
-    shape_variable: { fg: $p.mono19 attr: ui }
+    shape_string: $p.overlay2
+    shape_string_interpolation: { fg: $p.subtext0 attr: b }
+    shape_table: { fg: $p.subtext0 attr: b }
+    shape_vardecl: { fg: $p.subtext0 attr: u }
+    shape_variable: { fg: $p.subtext1 attr: ui }
 
     foreground: $p.mono16
-    background: $p.mono02
-    cursor: $p.mono17
+    background: $p.mantle
+    cursor: $p.subtext0
 
-    empty: $p.mono07
+    empty: $p.surface1
     header: { fg: $p.mono24 attr: b }
-    hints: { fg: $p.mono09 attr: i }
+    hints: { fg: $p.surface2 attr: i }
     leading_trailing_space_bg: { attr: n }
     row_index: { fg: $p.mono22 attr: b }
-    search_result: { fg: $p.mono17 bg: $p.mono10 attr: b }
-    separator: $p.mono07
+    search_result: { fg: $p.subtext0 bg: $p.mono10 attr: b }
+    separator: $p.surface1
   }
 }

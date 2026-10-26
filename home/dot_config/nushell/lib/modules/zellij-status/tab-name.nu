@@ -1,10 +1,6 @@
-# Automatic tab naming from the working directory / git repository.
-
 use format.nu shorten
 use cache.nu
 
-# Compute the automatic tab name. Prefer the git repository root basename, then
-# the cwd leaf, then a stable fallback.
 export def --env auto-name [cwd?: string] {
     let cwd = ($cwd | default ($env.PWD? | default (pwd)))
 

@@ -5,22 +5,22 @@ description: Warm monochrome {{ .variant }} theme inspired by opencode achroma.
 primary: "{{ .c.acc07 }}"
 secondary: "{{ .c.mono23 }}"
 accent: "{{ .c.acc04 }}"
-background: "{{ .c.mono02 }}"
+background: "{{ .c.mantle }}"
 surface: "{{ .c.mono04 }}"
 
-error: "{{ .c.red00 }}"
-success: "{{ .c.green00 }}"
-warning: "{{ .c.orange00 }}"
+error: "{{ .c.red }}"
+success: "{{ .c.green }}"
+warning: "{{ .c.flamingo }}"
 
 method:
-  get: "{{ .c.blue00 }}"
-  post: "{{ .c.green00 }}"
-  put: "{{ .c.orange00 }}"
-  delete: "{{ .c.red00 }}"
+  get: "{{ .c.blue }}"
+  post: "{{ .c.green }}"
+  put: "{{ .c.flamingo }}"
+  delete: "{{ .c.red }}"
 
 text_area:
   cursor: "reverse"
-  cursor_line: "underline {{ .c.mono07 }}"
+  cursor_line: "underline {{ .c.surface1 }}"
   selection: "reverse"
   gutter: "{{ .c.mono12 }}"
   matched_bracket: "bold {{ .c.mono24 }}"
@@ -30,8 +30,8 @@ url:
   protocol: "bold {{ .c.acc03 }}"
 
 syntax:
-  json_key: "{{ .c.blue01 }}"
+  json_key: "{{ .c.lavender }}"
   json_number: "{{ .c.mono25 }}"
   json_string: "{{ .c.mono16 }}"
-  json_boolean: "{{ .c.magenta01 }}"
-  json_null: "italic {{ .c.cyan00 }}"
+  json_boolean: "{{ .c.pink }}"
+  json_null: "italic {{ .c.sapphire }}"

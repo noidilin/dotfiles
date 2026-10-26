@@ -16,15 +16,15 @@
 				<key>accent</key>
 				<string>{{ .c.acc07 }}</string>
 				<key>activeGuide</key>
-				<string>{{ .c.mono13 }}</string>
+				<string>{{ .c.overlay1 }}</string>
 				<key>background</key>
-				<string>{{ .c.mono02 }}</string>
+				<string>{{ .c.mantle }}</string>
 				<key>bracketContentsForeground</key>
-				<string>{{ .c.mono13 }}</string>
+				<string>{{ .c.overlay1 }}</string>
 				<key>bracketContentsOptions</key>
 				<string>underline foreground</string>
 				<key>bracketsForeground</key>
-				<string>{{ .c.mono07 }}</string>
+				<string>{{ .c.surface1 }}</string>
 				<key>bracketsOptions</key>
 				<string>foreground</string>
 				<key>caret</key>
@@ -32,7 +32,7 @@
 				<key>findHighlight</key>
 				<string>{{ .c.mono10 }}</string>
 				<key>foreground</key>
-				<string>{{ .c.mono21 }}</string>
+				<string>{{ .c.text }}</string>
 				<key>guide</key>
 				<string>{{ .c.mono04 }}</string>
 				<key>gutterForeground</key>
@@ -42,13 +42,13 @@
 				<key>lineHighlight</key>
 				<string>{{ .c.mono04 }}</string>
 				<key>misspelling</key>
-				<string>{{ .c.red00 }}</string>
+				<string>{{ .c.red }}</string>
 				<key>selection</key>
 				<string>{{ .c.mono06 }}</string>
 				<key>stackGuide</key>
-				<string>{{ .c.mono07 }}</string>
+				<string>{{ .c.surface1 }}</string>
 				<key>tagsForeground</key>
-				<string>{{ .c.mono13 }}</string>
+				<string>{{ .c.overlay1 }}</string>
 				<key>tagsOptions</key>
 				<string>underline foreground</string>
 			</dict>
@@ -61,7 +61,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono19 }}</string>
+				<string>{{ .c.subtext1 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -72,7 +72,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono17 }}</string>
+				<string>{{ .c.subtext0 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -94,7 +94,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono17 }}</string>
+				<string>{{ .c.subtext0 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -129,7 +129,7 @@
 				<key>fontStyle</key>
 				<string>italic</string>
 				<key>foreground</key>
-				<string>{{ .c.mono17 }}</string>
+				<string>{{ .c.subtext0 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -173,7 +173,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono17 }}</string>
+				<string>{{ .c.subtext0 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -184,7 +184,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono19 }}</string>
+				<string>{{ .c.subtext1 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -228,7 +228,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono19 }}</string>
+				<string>{{ .c.subtext1 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -261,7 +261,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono15 }}</string>
+				<string>{{ .c.overlay2 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -272,7 +272,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono17 }}</string>
+				<string>{{ .c.subtext0 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -283,7 +283,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono13 }}</string>
+				<string>{{ .c.overlay1 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -296,7 +296,7 @@
 				<key>fontStyle</key>
 				<string>underline</string>
 				<key>foreground</key>
-				<string>{{ .c.mono15 }}</string>
+				<string>{{ .c.overlay2 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -307,7 +307,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.red00 }}</string>
+				<string>{{ .c.red }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -320,7 +320,7 @@
 				<key>fontStyle</key>
 				<string>italic strikethrough</string>
 				<key>foreground</key>
-				<string>{{ .c.red00 }}</string>
+				<string>{{ .c.red }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -342,7 +342,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono11 }}</string>
+				<string>{{ .c.overlay0 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -351,7 +351,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono11 }}</string>
+				<string>{{ .c.overlay0 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -373,7 +373,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono17 }}</string>
+				<string>{{ .c.subtext0 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -395,7 +395,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono15 }}</string>
+				<string>{{ .c.overlay2 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -417,7 +417,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono17 }}</string>
+				<string>{{ .c.subtext0 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -465,7 +465,7 @@
 				<key>fontStyle</key>
 				<string>bold</string>
 				<key>foreground</key>
-				<string>{{ .c.mono19 }}</string>
+				<string>{{ .c.subtext1 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -489,7 +489,7 @@
 				<key>fontStyle</key>
 				<string>bold</string>
 				<key>foreground</key>
-				<string>{{ .c.mono13 }}</string>
+				<string>{{ .c.overlay1 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -511,7 +511,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono15 }}</string>
+				<string>{{ .c.overlay2 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -535,7 +535,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono19 }}</string>
+				<string>{{ .c.subtext1 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -546,7 +546,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono17 }}</string>
+				<string>{{ .c.subtext0 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -557,7 +557,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono15 }}</string>
+				<string>{{ .c.overlay2 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -568,7 +568,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono13 }}</string>
+				<string>{{ .c.overlay1 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -579,7 +579,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.mono19 }}</string>
+				<string>{{ .c.subtext1 }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -601,7 +601,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.red00 }}</string>
+				<string>{{ .c.red }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -612,7 +612,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.green00 }}</string>
+				<string>{{ .c.green }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -731,7 +731,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.orange00 }}</string>
+				<string>{{ .c.flamingo }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -740,7 +740,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.red00 }}</string>
+				<string>{{ .c.red }}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -749,7 +749,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>{{ .c.blue00 }}</string>
+				<string>{{ .c.blue }}</string>
 			</dict>
 		</dict>
 	</array>

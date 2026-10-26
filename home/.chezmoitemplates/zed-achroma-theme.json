@@ -4,97 +4,97 @@
       "style": {
         "background.appearance": "opaque",
         "accents": [
-          "{{ .c.mono21 }}",
-          "{{ .c.mono19 }}",
-          "{{ .c.mono17 }}",
-          "{{ .c.mono15 }}",
-          "{{ .c.mono13 }}",
-          "{{ .c.mono11 }}",
-          "{{ .c.mono09 }}"
+          "{{ .c.text }}",
+          "{{ .c.subtext1 }}",
+          "{{ .c.subtext0 }}",
+          "{{ .c.overlay2 }}",
+          "{{ .c.overlay1 }}",
+          "{{ .c.overlay0 }}",
+          "{{ .c.surface2 }}"
         ],
-        "border": "{{ .c.mono03 }}",
-        "border.variant": "{{ .c.mono03 }}",
+        "border": "{{ .c.base }}",
+        "border.variant": "{{ .c.base }}",
         "border.focused": "{{ .c.mono10 }}",
-        "border.selected": "{{ .c.mono03 }}",
-        "border.transparent": "{{ .c.mono03 }}",
-        "border.disabled": "{{ .c.mono03 }}",
-        "elevated_surface.background": "{{ .c.mono02 }}",
-        "surface.background": "{{ .c.mono02 }}",
-        "background": "{{ .c.mono02 }}",
+        "border.selected": "{{ .c.base }}",
+        "border.transparent": "{{ .c.base }}",
+        "border.disabled": "{{ .c.base }}",
+        "elevated_surface.background": "{{ .c.mantle }}",
+        "surface.background": "{{ .c.mantle }}",
+        "background": "{{ .c.mantle }}",
         "element.background": "{{ .c.mono18 }}",
-        "element.hover": "{{ .c.mono03 }}",
+        "element.hover": "{{ .c.base }}",
         "element.selected": "{{ .c.mono04 }}",
         "drop_target.background": "{{ .c.mono18 }}15",
-        "ghost_element.hover": "{{ .c.mono03 }}",
+        "ghost_element.hover": "{{ .c.base }}",
         "ghost_element.selected": "{{ .c.mono04 }}",
-        "text": "{{ .c.mono21 }}",
-        "text.muted": "{{ .c.mono13 }}",
-        "status_bar.background": "{{ .c.mono02 }}",
-        "title_bar.background": "{{ .c.mono02 }}",
-        "toolbar.background": "{{ .c.mono02 }}",
-        "tab_bar.background": "{{ .c.mono02 }}",
-        "tab.inactive_background": "{{ .c.mono03 }}",
-        "tab.active_background": "{{ .c.mono02 }}",
+        "text": "{{ .c.text }}",
+        "text.muted": "{{ .c.overlay1 }}",
+        "status_bar.background": "{{ .c.mantle }}",
+        "title_bar.background": "{{ .c.mantle }}",
+        "toolbar.background": "{{ .c.mantle }}",
+        "tab_bar.background": "{{ .c.mantle }}",
+        "tab.inactive_background": "{{ .c.base }}",
+        "tab.active_background": "{{ .c.mantle }}",
         "search.match_background": "{{ .c.mono10 }}",
-        "panel.background": "{{ .c.mono02 }}",
+        "panel.background": "{{ .c.mantle }}",
         "pane_group.border": "{{ .c.mono04 }}",
         "scrollbar.thumb.background": "{{ .c.mono06 }}",
-        "scrollbar.thumb.hover_background": "{{ .c.mono11 }}",
-        "scrollbar.thumb.active_background": "{{ .c.mono11 }}",
+        "scrollbar.thumb.hover_background": "{{ .c.overlay0 }}",
+        "scrollbar.thumb.active_background": "{{ .c.overlay0 }}",
         "scrollbar.thumb.border": "{{ .c.mono06 }}",
-        "scrollbar.track.background": "{{ .c.mono02 }}",
-        "scrollbar.track.border": "{{ .c.mono02 }}",
-        "editor.foreground": "{{ .c.mono21 }}",
-        "editor.background": "{{ .c.mono02 }}",
-        "editor.gutter.background": "{{ .c.mono02 }}",
+        "scrollbar.track.background": "{{ .c.mantle }}",
+        "scrollbar.track.border": "{{ .c.mantle }}",
+        "editor.foreground": "{{ .c.text }}",
+        "editor.background": "{{ .c.mantle }}",
+        "editor.gutter.background": "{{ .c.mantle }}",
         "editor.active_line.background": "{{ .c.mono04 }}",
         "editor.line_number": "{{ .c.mono10 }}",
-        "editor.active_line_number": "{{ .c.mono21 }}",
-        "editor.wrap_guide": "{{ .c.mono03 }}",
-        "editor.active_wrap_guide": "{{ .c.mono03 }}",
-        "editor.document_highlight.bracket_background": "{{ .c.mono03 }}",
-        "terminal.background": "{{ .c.mono02 }}",
+        "editor.active_line_number": "{{ .c.text }}",
+        "editor.wrap_guide": "{{ .c.base }}",
+        "editor.active_wrap_guide": "{{ .c.base }}",
+        "editor.document_highlight.bracket_background": "{{ .c.base }}",
+        "terminal.background": "{{ .c.mantle }}",
         "terminal.ansi.black": "{{ .ink.ansiBlack }}",
         "terminal.ansi.bright_black": "{{ .ink.ansiBlackBright }}",
-        "terminal.ansi.red": "{{ .c.red00 }}",
-        "terminal.ansi.bright_red": "{{ .c.red01 }}",
-        "terminal.ansi.green": "{{ .c.green00 }}",
-        "terminal.ansi.bright_green": "{{ .c.green01 }}",
+        "terminal.ansi.red": "{{ .c.red }}",
+        "terminal.ansi.bright_red": "{{ .c.maroon }}",
+        "terminal.ansi.green": "{{ .c.green }}",
+        "terminal.ansi.bright_green": "{{ .c.teal }}",
         "terminal.ansi.yellow": "{{ .ink.ansiYellow }}",
-        "terminal.ansi.bright_yellow": "{{ .c.yellow01 }}",
-        "terminal.ansi.blue": "{{ .c.blue00 }}",
-        "terminal.ansi.bright_blue": "{{ .c.blue01 }}",
-        "terminal.ansi.magenta": "{{ .c.magenta00 }}",
-        "terminal.ansi.bright_magenta": "{{ .c.magenta01 }}",
-        "terminal.ansi.cyan": "{{ .c.cyan00 }}",
-        "terminal.ansi.bright_cyan": "{{ .c.cyan01 }}",
+        "terminal.ansi.bright_yellow": "{{ .c.yellow }}",
+        "terminal.ansi.blue": "{{ .c.blue }}",
+        "terminal.ansi.bright_blue": "{{ .c.lavender }}",
+        "terminal.ansi.magenta": "{{ .c.mauve }}",
+        "terminal.ansi.bright_magenta": "{{ .c.pink }}",
+        "terminal.ansi.cyan": "{{ .c.sapphire }}",
+        "terminal.ansi.bright_cyan": "{{ .c.sky }}",
         "terminal.ansi.white": "{{ .ink.ansiWhite }}",
         "terminal.ansi.bright_white": "{{ .ink.ansiWhiteBright }}",
         "link_text.hover": "{{ .c.acc04 }}",
-        "conflict": "{{ .c.red00 }}",
-        "created": "{{ .c.green01 }}",
-        "deleted": "{{ .c.red01 }}",
-        "error": "{{ .c.red00 }}",
-        "error.background": "{{ .c.mono03 }}",
-        "error.border": "{{ .c.mono05 }}",
-        "hidden": "{{ .c.mono13 }}",
-        "hidden.background": "{{ .c.mono03 }}",
-        "hidden.border": "{{ .c.mono05 }}",
+        "conflict": "{{ .c.red }}",
+        "created": "{{ .c.teal }}",
+        "deleted": "{{ .c.maroon }}",
+        "error": "{{ .c.red }}",
+        "error.background": "{{ .c.base }}",
+        "error.border": "{{ .c.surface0 }}",
+        "hidden": "{{ .c.overlay1 }}",
+        "hidden.background": "{{ .c.base }}",
+        "hidden.border": "{{ .c.surface0 }}",
         "hint": "{{ .c.mono12 }}",
-        "hint.background": "{{ .c.mono03 }}",
-        "hint.border": "{{ .c.mono05 }}",
+        "hint.background": "{{ .c.base }}",
+        "hint.border": "{{ .c.surface0 }}",
         "ignored": "{{ .c.mono10 }}",
-        "ignored.background": "{{ .c.mono03 }}",
-        "ignored.border": "{{ .c.mono05 }}",
+        "ignored.background": "{{ .c.base }}",
+        "ignored.border": "{{ .c.surface0 }}",
         "info": "{{ .c.acc05 }}",
-        "info.background": "{{ .c.mono03 }}",
-        "info.border": "{{ .c.mono05 }}",
-        "modified": "{{ .c.cyan01 }}",
-        "modified.background": "{{ .c.mono03 }}",
-        "modified.border": "{{ .c.mono05 }}",
-        "warning": "{{ .c.orange00 }}",
-        "warning.background": "{{ .c.mono03 }}",
-        "warning.border": "{{ .c.mono05 }}",
+        "info.background": "{{ .c.base }}",
+        "info.border": "{{ .c.surface0 }}",
+        "modified": "{{ .c.sky }}",
+        "modified.background": "{{ .c.base }}",
+        "modified.border": "{{ .c.surface0 }}",
+        "warning": "{{ .c.flamingo }}",
+        "warning.background": "{{ .c.base }}",
+        "warning.border": "{{ .c.surface0 }}",
         "players": [
           {
             "cursor": "{{ .c.mono25 }}",
@@ -117,29 +117,29 @@
             "selection": "{{ .c.accDim01 }}3d"
           },
           {
-            "cursor": "{{ .c.magenta01 }}",
-            "background": "{{ .c.magenta01 }}",
-            "selection": "{{ .c.magenta01 }}3d"
+            "cursor": "{{ .c.pink }}",
+            "background": "{{ .c.pink }}",
+            "selection": "{{ .c.pink }}3d"
           },
           {
-            "cursor": "{{ .c.blue01 }}",
-            "background": "{{ .c.blue01 }}",
-            "selection": "{{ .c.blue01 }}3d"
+            "cursor": "{{ .c.lavender }}",
+            "background": "{{ .c.lavender }}",
+            "selection": "{{ .c.lavender }}3d"
           },
           {
-            "cursor": "{{ .c.orange00 }}",
-            "background": "{{ .c.orange00 }}",
-            "selection": "{{ .c.orange00 }}3d"
+            "cursor": "{{ .c.flamingo }}",
+            "background": "{{ .c.flamingo }}",
+            "selection": "{{ .c.flamingo }}3d"
           },
           {
-            "cursor": "{{ .c.red00 }}",
-            "background": "{{ .c.red00 }}",
-            "selection": "{{ .c.red00 }}3d"
+            "cursor": "{{ .c.red }}",
+            "background": "{{ .c.red }}",
+            "selection": "{{ .c.red }}3d"
           }
         ],
         "syntax": {
           "attribute": {
-            "color": "{{ .c.mono19 }}"
+            "color": "{{ .c.subtext1 }}"
           },
           "boolean": {
             "color": "{{ .c.accDim05 }}"
@@ -160,19 +160,19 @@
             "color": "{{ .c.mono22 }}"
           },
           "keyword": {
-            "color": "{{ .c.mono19 }}"
+            "color": "{{ .c.subtext1 }}"
           },
           "link_text": {
-            "color": "{{ .c.mono15 }}"
+            "color": "{{ .c.overlay2 }}"
           },
           "link_uri": {
-            "color": "{{ .c.mono15 }}"
+            "color": "{{ .c.overlay2 }}"
           },
           "number": {
-            "color": "{{ .c.mono17 }}"
+            "color": "{{ .c.subtext0 }}"
           },
           "operator": {
-            "color": "{{ .c.mono19 }}"
+            "color": "{{ .c.subtext1 }}"
           },
           "punctuation": {
             "color": "{{ .c.mono20 }}"
@@ -190,34 +190,34 @@
             "color": "{{ .c.mono20 }}"
           },
           "string": {
-            "color": "{{ .c.mono15 }}"
+            "color": "{{ .c.overlay2 }}"
           },
           "string.escape": {
             "color": "{{ .c.accDim05 }}"
           },
           "string.regex": {
-            "color": "{{ .c.mono15 }}"
+            "color": "{{ .c.overlay2 }}"
           },
           "string.special": {
-            "color": "{{ .c.mono15 }}"
+            "color": "{{ .c.overlay2 }}"
           },
           "string.special.symbol": {
-            "color": "{{ .c.mono15 }}"
+            "color": "{{ .c.overlay2 }}"
           },
           "tag": {
             "color": "{{ .c.mono24 }}"
           },
           "text.literal": {
-            "color": "{{ .c.mono15 }}"
+            "color": "{{ .c.overlay2 }}"
           },
           "type": {
-            "color": "{{ .c.mono17 }}"
+            "color": "{{ .c.subtext0 }}"
           },
           "variable": {
-            "color": "{{ .c.mono17 }}"
+            "color": "{{ .c.subtext0 }}"
           },
           "variable.special": {
-            "color": "{{ .c.mono19 }}"
+            "color": "{{ .c.subtext1 }}"
           }
         }
       }

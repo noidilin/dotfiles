@@ -1,14 +1,7 @@
-// Zellij draft config for migration from the WezTerm mux setup.
-// Install/copy as: $XDG_CONFIG_HOME/zellij/config.kdl
-// Leader model: Ctrl-q enters a Zellij command mode, matching WezTerm LEADER.
-// Default mode is Locked. Ctrl-hjkl go through vim-zellij-navigator
-// so Neovim smart-splits.nvim and Zellij panes cooperate.
-
 keybinds clear-defaults=true {
     locked {
         bind "Ctrl q" { SwitchToMode "Normal"; }
 
-        // Direct session-manager chord, same plugin as Ctrl-q w o/w.
         // Ctrl-, has no legacy encoding, so it only arrives as the kitty
         // keyboard CSI 44;5u -- fine here because Zellij pushes `CSI > 1 u`
         // on startup, and ghostty/config forwards the chord explicitly for
@@ -20,9 +13,6 @@ keybinds clear-defaults=true {
             }
         }
 
-        // Smart pane navigation through hiasr/vim-zellij-navigator.
-        // If the focused pane is Neovim, the plugin forwards Ctrl-hjkl to
-        // smart-splits.nvim. Otherwise it moves the Zellij pane only.
         bind "Ctrl Tab" { GoToNextTab; }
         bind "Ctrl Shift Tab" { GoToPreviousTab; }
         bind "Ctrl h" {
@@ -52,26 +42,21 @@ keybinds clear-defaults=true {
     }
 
     normal {
-        // Send literal Ctrl-q, equivalent to the WezTerm double-leader escape.
         bind "Ctrl q" { Write 17; SwitchToMode "Locked"; }
         bind "Esc" "Enter" { SwitchToMode "Locked"; }
 
-        // WezTerm: LEADER - / LEADER \
         bind "-" { NewPane "Down"; SwitchToMode "Locked"; }
         bind "\\" { NewPane "Right"; SwitchToMode "Locked"; }
 
-        // panes
         bind "x" { CloseFocus; SwitchToMode "Locked"; }
         bind "z" { ToggleFocusFullscreen; SwitchToMode "Locked"; }
         bind "!" { BreakPane; SwitchToMode "Locked"; }
 
-        // float / stack workflow
         bind "f" { TogglePaneEmbedOrFloating; ShowFloatingPanes; SwitchToMode "Locked"; }
         bind "a" { ToggleFloatingPanes; SwitchToMode "Locked"; }
         bind "S" { NewPane "stacked"; SwitchToMode "Locked"; }
         bind "P" { TogglePanePinned; SwitchToMode "Locked"; }
 
-        // Toggle the shared scratch session, returning to the last non-scratch session.
         bind "g" {
             Run "/bin/sh" "-lc" "exec \"${XDG_CONFIG_HOME:-$HOME/.config}/zellij/bin/zj-toggle-scratch\"" {
                 floating true
@@ -84,16 +69,8 @@ keybinds clear-defaults=true {
             SwitchToMode "Locked"
         }
 
-        // Todo list (tuxedo) in a floating pane: Ctrl-q t to open,
-        // q inside tuxedo to close. The pane inherits the focused pane's cwd,
-        // so a project-local ./todo.txt wins; otherwise fall back to the
-        // global list. TODO_FILE comes from .chezmoidata/env.yml, but the
-        // zellij server outlives a config change and passes its own env to
-        // the pane, so the global path is spelled out as a fallback -- and
-        // passed explicitly rather than left to tuxedo's cwd resolution
-        // (which prompts to create a file instead of falling back).
         bind "t" {
-            Run "/bin/sh" "-lc" "if [ -f ./todo.txt ]; then exec tuxedo ./todo.txt; else exec tuxedo \"${TODO_FILE:-$HOME/.local/share/tuxedo/todo.txt}\"; fi" {
+            Run "/bin/sh" "-lc" "exec \"${XDG_CONFIG_HOME:-$HOME/.config}/zellij/bin/zj-todo\"" {
                 name "todo"
                 floating true
                 close_on_exit true
@@ -105,15 +82,11 @@ keybinds clear-defaults=true {
             SwitchToMode "Locked"
         }
 
-        // WezTerm: LEADER + Shift-H/J/K/L quick resize
         bind "H" { Resize "Increase Left"; SwitchToMode "Locked"; }
         bind "J" { Resize "Increase Down"; SwitchToMode "Locked"; }
         bind "K" { Resize "Increase Up"; SwitchToMode "Locked"; }
         bind "L" { Resize "Increase Right"; SwitchToMode "Locked"; }
 
-        // tabs
-        // Zellij 0.44.3 loses the requested cwd when NewTab uses a configured
-        // default_shell. Supplying Nushell as the initial command preserves it.
         bind "c" {
             Run "/bin/sh" "-lc" "zellij action new-tab --cwd \"$PWD\" -- /opt/homebrew/bin/nu" {
                 floating true
@@ -138,7 +111,6 @@ keybinds clear-defaults=true {
         bind "8" { GoToTab 8; SwitchToMode "Locked"; }
         bind "9" { GoToTab 9; SwitchToMode "Locked"; }
 
-        // key tables: move / resize / view-copy-search / mux / open
         bind "m" { SwitchToMode "Move"; }
         bind "s" { SwitchToMode "Resize"; }
         bind "v" { SwitchToMode "Scroll"; }
@@ -167,8 +139,6 @@ keybinds clear-defaults=true {
     }
 
     scroll {
-        // Nearest Zellij equivalent to WezTerm copy-mode: open scrollback in $EDITOR.
-        // In Neovim, use normal Vim motions/visual selection, then yank to clipboard.
         bind "e" { EditScrollback; SwitchToMode "Locked"; }
         bind "j" "Down" { ScrollDown; }
         bind "k" "Up" { ScrollUp; }
@@ -200,7 +170,6 @@ keybinds clear-defaults=true {
     }
 
     session {
-        // Ctrl-q o / Ctrl-q w: workspace + Zellij built-in tools.
         bind "o" "w" {
             LaunchOrFocusPlugin "session-manager" {
                 floating true
@@ -208,7 +177,6 @@ keybinds clear-defaults=true {
             }
             SwitchToMode "Locked"
         }
-        // WezTerm: LEADER w p => switch to current git-root project session.
         bind "p" {
             Run "/bin/sh" "-lc" "exec \"${XDG_CONFIG_HOME:-$HOME/.config}/zellij/bin/zj-switch-project\"" {
                 floating true
@@ -220,7 +188,6 @@ keybinds clear-defaults=true {
             }
             SwitchToMode "Locked"
         }
-        // WezTerm: LEADER w h/l/n equivalents for previous/next/new session.
         bind "h" {
             Run "/bin/sh" "-lc" "exec \"${XDG_CONFIG_HOME:-$HOME/.config}/zellij/bin/zj-switch-session-relative\" prev" {
                 floating true
@@ -243,7 +210,6 @@ keybinds clear-defaults=true {
             }
             SwitchToMode "Locked"
         }
-        // c = configuration, P = plugin manager, a = about, s = share, L = layout manager
         bind "c" {
             LaunchOrFocusPlugin "configuration" {
                 floating true
@@ -314,18 +280,11 @@ keybinds clear-defaults=true {
 }
 
 plugins {
-    // Status bar: dj95/zjstatus v0.24.0.
-    // The local binary is pinned and verified in README.md.
-    // Use the terminal's ANSI palette rather than fixed RGB values. Ghostty's
-    // Achroma themes redefine slots 0/7/8 for each appearance, while an
-    // unspecified background inherits the active theme's background. This
-    // lets an already-running bar repaint when the OS appearance changes.
     zjstatus-bar location="file:/Users/noid/.config/zellij/plugins/zjstatus.wasm" {
         format_left "{mode}#[fg=8]{session} #[fg=8]local#[fg=8,bold] | {tabs}"
         format_center ""
         format_right "{command_worktree}#[fg=8,bold] 󰍛 {command_memory} #[fg=8]{command_battery} "
         format_space ""
-        // Keep the right/left status segments visible when tabs would overflow.
         format_precedence "lrc"
         format_hide_on_overlength "true"
 
@@ -355,7 +314,6 @@ plugins {
         tab_fullscreen_indicator " "
         tab_floating_indicator " ⬚"
 
-        // v0.24 follows pane focus and runs this helper in that pane's cwd.
         command_worktree_command "/Users/noid/.config/zellij/bin/zjstatus-worktree"
         command_worktree_cwd "{focused_pane_cwd}"
         command_worktree_format "#[fg=8,bold] {stdout} "

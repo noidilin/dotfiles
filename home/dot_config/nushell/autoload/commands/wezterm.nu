@@ -1,4 +1,3 @@
-# Returns the best wezterm executable name for this environment
 def wezterm-bin [] {
   let in_wsl = (($env.WSL_DISTRO_NAME? != null) or ($env.WSL_INTEROP? != null))
 
@@ -13,28 +12,25 @@ def wezterm-bin [] {
   error make { msg: "WezTerm not found in PATH (tried wezterm and wezterm.exe)" }
 }
 
-# `^` char means run this as an external command, not as nushell data (tables, records, lists)
+def nvim-outside-project [file: path] {
+  cd $nu.temp-dir
+  ^nvim $file
+}
+
 # Dump current pane scrollback into a temp file, open in nvim
 def wlog [
   --lines: int = 0
 ] {
   let wez = (wezterm-bin)
+  let ts  = (date now | format date "%Y%m%d-%H%M%S")
+  let tmp = ($nu.temp-dir | path join $"wezterm-scrollback-($ts).txt")
 
-  do {
-    # Run everything in a neutral folder so your project sessions don't get touched
-    cd $nu.temp-dir
-
-    let ts  = (date now | format date "%Y%m%d-%H%M%S")
-    let tmp = $"wezterm-scrollback-($ts).txt"
-
-    if $lines > 0 {
-      ^($wez) cli get-text --start-line (-$lines) | save --raw --force $tmp
-    } else {
-      ^($wez) cli get-text --start-line 5000 | save --raw --force $tmp
-    }
-
-    # Open *from the temp directory* so any “last session” is associated with temp, not your repo
-    ^nvim $tmp
-    rm -f $tmp
+  if $lines > 0 {
+    ^($wez) cli get-text --start-line (0 - $lines) | save --raw --force $tmp
+  } else {
+    ^($wez) cli get-text --start-line 5000 | save --raw --force $tmp
   }
+
+  nvim-outside-project $tmp
+  rm -f $tmp
 }

@@ -1,16 +1,11 @@
-# Warm monochrome eza theme aligned with the achroma palette.
-# Rendered from the shared palette (.chezmoidata/colors.yml). eza reads
-# exactly one $EZA_CONFIG_DIR/theme.yml, so each variant gets its own config
-# dir and the shell picks one via EZA_CONFIG_DIR (env/shell.nu, `theme`).
-# Anchor names are historical: light*/dark* mean fg-side/bg-side ROLES.
 palettes:
-  light01: &light01 "{{ .c.mono21 }}"
-  light00: &light00 "{{ .c.mono17 }}"
+  light01: &light01 "{{ .c.text }}"
+  light00: &light00 "{{ .c.subtext0 }}"
   dark01: &dark01 "{{ .c.mono14 }}"
-  dark00: &dark00 "{{ .c.mono11 }}"
+  dark00: &dark00 "{{ .c.overlay0 }}"
   acc01: &acc01 "{{ .c.accDim05 }}"
   acc00: &acc00 "{{ .c.accDim02 }}"
-  error: &error "{{ .c.red00 }}"
+  error: &error "{{ .c.red }}"
 
 colourful: false
 
@@ -116,9 +111,5 @@ broken_symlink: { foreground: *error }
 broken_path_overlay: { foreground: *dark00 }
 
 filenames:
-  # Custom filename-based overrides
-  # Cargo.toml: {icon: {glyph: 🦀}}
 
 extensions:
-  # Custom extension-based overrides
-  # rs: {filename: {foreground: Red}, icon: {glyph: 🦀}}

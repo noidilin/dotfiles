@@ -1,2 +1,0 @@
-# $env.ANTHROPIC_API_KEY = ( open ($nu.home-dir | path join '.config' 'api' 'ANTHROPIC_API_KEY') | str trim )
-# $env.OPENAI_API_KEY = ( open ($nu.home-dir | path join '.config' 'api' 'OPENAI_API_KEY') | str trim )

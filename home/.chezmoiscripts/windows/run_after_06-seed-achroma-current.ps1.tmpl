@@ -1,0 +1,18 @@
+# vim: ft=powershell
+
+{{- if eq .chezmoi.os "windows" }}
+
+{{ include ".chezmoitemplates/scripts/lib/powershell/achroma.ps1" }}
+$link = Join-Path $env:USERPROFILE '.config\achroma\current'
+
+if (Test-Path -LiteralPath $link) {
+    Write-Host "[achroma] variant pointer already present" -ForegroundColor DarkGray
+    return
+}
+
+$variant = Get-AchromaVariant
+
+& (Join-Path $env:USERPROFILE '.config\pwsh\scripts\set-achroma-current.ps1') -Variant $variant
+Write-Host "[achroma] seeded variant pointer -> variants\$variant" -ForegroundColor White
+
+{{- end }}

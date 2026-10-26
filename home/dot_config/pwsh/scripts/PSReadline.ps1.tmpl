@@ -1,0 +1,30 @@
+if ($env:ACHROMA_VARIANT -eq 'light') {
+{{ template "psreadline-achroma.ps1" (dict "c" .color.achroma.light) -}}
+} else {
+{{ template "psreadline-achroma.ps1" (dict "c" .color.achroma.dark) -}}
+}
+
+$ScriptBlock = {
+  Param([string]$line)
+  if ($line -like " *") { return $false }
+  $ignore_psreadline = @("user", "pass", "account")
+  foreach ($ignore in $ignore_psreadline) {
+    if ($line -match $ignore) { return $false }
+  }
+  return $true
+}
+
+$PSReadLineOptions = @{
+  BellStyle = "None"
+  Color = $Colors
+  AddToHistoryHandler = $ScriptBlock
+  HistoryNoDuplicates = $true
+  HistorySearchCursorMovesToEnd = $true
+  MaximumHistoryCount = 5000
+  ExtraPromptLineCount = $true
+}
+Set-PSReadLineOption @PSReadLineOptions
+
+Set-PSReadLineKeyHandler -Key "Ctrl+p" -Function HistorySearchBackward
+Set-PSReadLineKeyHandler -Key "Ctrl+n" -Function HistorySearchForward
+Set-PSReadLineKeyHandler -Key "Ctrl+y" -Function MenuComplete
