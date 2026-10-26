@@ -1,7 +1,4 @@
 gui:
-  authorColors:
-    "noidilin": "{{ .c.acc06 }}"
-    "*": "{{ .c.subtext0 }}"
   theme:
     activeBorderColor:
       - "{{ .c.subtext1 }}"
@@ -29,3 +26,6 @@ gui:
       - red
     defaultFgColor:
       - "{{ .c.subtext0 }}"
+    authorColors:
+      "noidilin": "{{ .c.acc06 }}"
+      "*": "{{ .c.subtext0 }}"
