@@ -6,17 +6,18 @@ function Get-ScoopBuckets {
         return $script:ScoopBuckets
     }
 
-    $script:ScoopBuckets = @()
-
     try {
         $buckets = scoop bucket list 2>$null
         if ($LASTEXITCODE -eq 0 -and $buckets) {
             $script:ScoopBuckets = @($buckets.Name)
+            return $script:ScoopBuckets
         }
     } catch {
         Write-ErrorLine "WARNING: Failed to query scoop buckets: $_"
     }
 
+    $scoopRoot = if ($env:SCOOP) { $env:SCOOP } else { Join-Path $env:USERPROFILE "scoop" }
+    $script:ScoopBuckets = @(Get-ChildItem (Join-Path $scoopRoot "buckets") -Directory -ErrorAction SilentlyContinue | ForEach-Object Name)
     return $script:ScoopBuckets
 }
 

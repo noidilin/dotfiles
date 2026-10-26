@@ -1,0 +1,2 @@
+.config/nushell/env/key.nu
+.config/nushell/autoload/commands/pbr-assets.nu

@@ -716,17 +716,6 @@
       "libraryPath": "/Users/noid/.config/agent-skill-manager/library/skills/vibe-wise-reset",
       "installedAt": "2026-10-25T17:33:19.789Z"
     },
-    "simplified-technical-english": {
-      "name": "simplified-technical-english",
-      "version": "0.0.0",
-      "source": "github:noidilin/skills",
-      "sourceType": "github",
-      "commitHash": "efaa3eab38ec14d989df1eb4de3337647e1c8e64",
-      "ref": "main",
-      "skillPath": "skills/simplified-technical-english",
-      "libraryPath": "/Users/noid/.config/agent-skill-manager/library/skills/simplified-technical-english",
-      "installedAt": "2026-10-25T17:40:24.261Z"
-    },
     "addy-skills-sync": {
       "name": "addy-skills-sync",
       "version": "1.0.0",
@@ -737,6 +726,17 @@
       "skillPath": "skills/addy-skills-sync",
       "libraryPath": "/Users/noid/.config/agent-skill-manager/library/skills/addy-skills-sync",
       "installedAt": "2026-10-25T17:55:17.866Z"
+    },
+    "ste": {
+      "name": "ste",
+      "version": "0.0.0",
+      "source": "github:noidilin/skills",
+      "sourceType": "github",
+      "commitHash": "f14770e9ef0d10f67ec8fd27f652c99ed293b3e6",
+      "ref": "main",
+      "skillPath": "skills/ste",
+      "libraryPath": "/Users/noid/.config/agent-skill-manager/library/skills/ste",
+      "installedAt": "2026-10-25T23:00:40.702Z"
     }
   }
 }

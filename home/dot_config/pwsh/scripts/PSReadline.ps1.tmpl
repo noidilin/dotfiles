@@ -1,7 +1,15 @@
+{{- $d := .color.achroma.dark }}
+{{- $l := .color.achroma.light -}}
 if ($env:ACHROMA_VARIANT -eq 'light') {
-{{ template "psreadline-achroma.ps1" (dict "c" .color.achroma.light) -}}
+{{ template "psreadline-achroma.ps1" (dict "c" $l "ink" (dict
+    "selection" $l.surface2
+    "prediction" $l.overlay0
+    "directory" $l.mono10)) -}}
 } else {
-{{ template "psreadline-achroma.ps1" (dict "c" .color.achroma.dark) -}}
+{{ template "psreadline-achroma.ps1" (dict "c" $d "ink" (dict
+    "selection" $d.surface1
+    "prediction" $d.mono10
+    "directory" $d.surface2)) -}}
 }
 
 $ScriptBlock = {

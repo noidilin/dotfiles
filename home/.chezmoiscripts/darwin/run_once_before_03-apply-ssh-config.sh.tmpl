@@ -13,7 +13,7 @@ fi
 
 # Manually render and apply SSH config (avoiding chezmoi apply lock)
 mkdir -p ~/.ssh
-chezmoi execute-template <~/.local/share/chezmoi/home/dot_ssh/config.tmpl >~/.ssh/config
+chezmoi execute-template <~/.local/share/chezmoi/home/dot_ssh/private_config.tmpl >~/.ssh/config
 chmod 600 ~/.ssh/config
 echo "SUCCESS: SSH config applied: ~/.ssh/config"
 

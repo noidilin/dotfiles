@@ -1,0 +1,105 @@
+{{- $d := .color.achroma.dark -}}
+[LightMode]
+OverrideDefault=True
+HighlightColor={{ $d.mono24 }}
+HighlightHoverColor={{ $d.mono25 }}
+HighlightTextColor={{ $d.mantle }}
+HighlightTextPressColor={{ $d.overlay0 }}
+HighlightLabelColor={{ $d.crust }}
+HighlightCommentColor={{ $d.crust }}
+HighlightMarkColor={{ $d.accDim05 }}
+PanelColor={{ $d.mono25 }}
+TextColor={{ $d.surface0 }}
+LabelColor={{ $d.crust }}
+CommentColor={{ $d.surface2 }}
+PagingButtonColor={{ $d.crust }}
+DisabledPagingButtonColor={{ $d.mono20 }}
+AuxColor={{ $d.surface0 }}
+PreeditColorPreCaret={{ $d.surface0 }}
+PreeditColorCaret={{ $d.surface0 }}
+PreeditColorPostCaret={{ $d.surface0 }}
+BorderColor={{ $d.mono24 }}e9
+DividerColor={{ $d.mono23 }}
+
+[DarkMode]
+OverrideDefault=True
+SameWithLightMode=False
+HighlightColor={{ $d.mono08 }}
+HighlightHoverColor={{ $d.surface1 }}
+HighlightTextColor={{ $d.mono25 }}
+HighlightTextPressColor={{ $d.mono22 }}
+HighlightLabelColor={{ $d.mono25 }}
+HighlightCommentColor={{ $d.mono25 }}
+HighlightMarkColor={{ $d.acc07 }}
+PanelColor={{ $d.surface0 }}
+TextColor={{ $d.mono25 }}
+LabelColor={{ $d.mono25 }}
+CommentColor={{ $d.mono25 }}
+PagingButtonColor={{ $d.mono24 }}
+DisabledPagingButtonColor={{ $d.overlay1 }}
+AuxColor={{ $d.mono25 }}
+PreeditColorPreCaret={{ $d.mono25 }}
+PreeditColorCaret={{ $d.mono25 }}
+PreeditColorPostCaret={{ $d.mono25 }}
+BorderColor={{ $d.mantle }}d3
+DividerColor={{ $d.surface1 }}
+
+[Typography]
+Layout=Vertical
+WritingMode="Horizontal top-bottom"
+TypographyAwarenessForIM=True
+VerticalCommentsAlignRight=False
+PagingButtonsStyle=Arrow
+
+[Background]
+ImageUrl=
+KeepPanelColorWhenHasImage=False
+Blur=System
+Shadow=True
+
+[Font]
+TextFontSize=16
+TextFontWeight=400
+LabelFontSize=12
+LabelFontWeight=400
+CommentFontSize=12
+CommentFontWeight=400
+PreeditFontSize=16
+PreeditFontWeight=400
+
+[Font/TextFontFamily]
+0=
+
+[Font/LabelFontFamily]
+0=
+
+[Font/CommentFontFamily]
+0=
+
+[Font/PreeditFontFamily]
+0=
+
+[Caret]
+Style=Blink
+Text=‸
+
+[Highlight]
+MarkStyle=None
+MarkText=*
+HoverBehavior=None
+
+[Size]
+OverrideDefault=True
+BorderWidth=1
+BorderRadius=8
+Margin=2
+HighlightRadius=8
+TopPadding=3
+RightPadding=7
+BottomPadding=3
+LeftPadding=7
+LabelTextGap=6
+VerticalMinWidth=200
+ScrollCellWidth=65
+HorizontalDividerWidth=1
+

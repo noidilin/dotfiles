@@ -28,7 +28,7 @@ def wlog [
   if $lines > 0 {
     ^($wez) cli get-text --start-line (0 - $lines) | save --raw --force $tmp
   } else {
-    ^($wez) cli get-text --start-line 5000 | save --raw --force $tmp
+    ^($wez) cli get-text --start-line (0 - 5000) | save --raw --force $tmp
   }
 
   nvim-outside-project $tmp
