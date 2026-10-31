@@ -4,6 +4,10 @@ onboarding = false
 default_shell = "nu"
 
 [ui]
+pane_gaps = false
+pane_outer_borders = true
+pane_scrollbars = false
+pane_borders = "always"
 show_agent_labels_on_pane_borders = true
 status_indicators = "symbols"
 
@@ -71,32 +75,32 @@ navigate_workspace_down = "down"
 [[keys.command]]
 key = "ctrl+h"
 type = "plugin_action"
-command = "smart-splits.nvim.left"
+command = "smart-splits-backend-herdr.left"
 description = "navigate left (vim/herdr)"
 
 [[keys.command]]
 key = "ctrl+j"
 type = "plugin_action"
-command = "smart-splits.nvim.down"
+command = "smart-splits-backend-herdr.down"
 description = "navigate down (vim/herdr)"
 
 [[keys.command]]
 key = "ctrl+k"
 type = "plugin_action"
-command = "smart-splits.nvim.up"
+command = "smart-splits-backend-herdr.up"
 description = "navigate up (vim/herdr)"
 
 [[keys.command]]
 key = "ctrl+l"
 type = "plugin_action"
-command = "smart-splits.nvim.right"
+command = "smart-splits-backend-herdr.right"
 description = "navigate right (vim/herdr)"
 
 [theme]
 name = "terminal"
 
 [theme.custom]
-accent = "{{ .c.acc04 }}"
+accent = "{{ .c.acc00 }}"
 panel_bg = "reset"
 # Sidebar rows have independent backgrounds; do not inherit ANSI bright-black.
 active_row_bg = "{{ .c.surface0 }}"
@@ -104,7 +108,7 @@ selection_bg = "{{ .c.surface1 }}"
 surface0 = "{{ .c.surface0 }}"
 surface1 = "{{ .c.surface1 }}"
 surface_dim = "{{ .c.base }}"
-overlay0 = "{{ if (get . "light") }}{{ .c.subtext0 }}{{ else }}{{ .c.overlay0 }}{{ end }}"
+overlay0 = "{{ .c.surface2 }}"
 overlay1 = "{{ .c.overlay1 }}"
 text = "{{ .c.text }}"
 subtext0 = "{{ .c.subtext0 }}"
