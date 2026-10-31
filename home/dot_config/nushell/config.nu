@@ -36,6 +36,7 @@ const NU_LIB_DIRS = [
 ]
 
 source zellij.nu
+source herdr.nu
 source zoxide.nu
 source mise.nu
 source carapace.nu
@@ -44,3 +45,4 @@ source starship.nu
 use zellij-status *
 ztab install-hooks
 zellij-shell init
+herdr-shell init
