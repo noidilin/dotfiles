@@ -15,7 +15,9 @@ if (!(Assert-MiseToolOrSkip -Tool "node" -MissingMiseMessage "WARNING: mise is n
 }
 $nodeVersion = $script:MiseToolVersion
 
-Initialize-PnpmViaCorepack
+if (!(Assert-MiseToolOrSkip -Tool "pnpm" -MissingMiseMessage "WARNING: mise is not installed (skipping pnpm packages)" -MissingToolMessage "WARNING: pnpm is not available via mise (skipping pnpm packages)")) {
+    exit 0
+}
 
 {{- if .pkgs.pnpm }}
 Write-Host "`nNode.js version: $nodeVersion" -ForegroundColor DarkGray

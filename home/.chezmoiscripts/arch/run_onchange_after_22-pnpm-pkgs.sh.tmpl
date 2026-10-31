@@ -20,7 +20,10 @@ if ! node_version=$(mise exec -- node --version 2>/dev/null); then
   exit 0
 fi
 
-pnpm_ensure_via_corepack
+if ! mise exec -- pnpm --version >/dev/null 2>&1; then
+  print_error "WARNING: pnpm is not available via mise (skipping pnpm packages)"
+  exit 0
+fi
 
 {{- if .pkgs.pnpm }}
 print_skip ""

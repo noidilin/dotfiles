@@ -2,9 +2,8 @@ mise:
   tools:
     opencode: "latest"
     bun: "latest"
-    node:
-      version: "lts"
-      postinstall: "corepack enable pnpm"
+    node: "lts"
+    pnpm: "latest"
     python: "latest"
     uv: "latest"
     rust:

@@ -1,10 +1,6 @@
 declare -a PNPM_INSTALLED=()
 pnpm_cache_loaded=0
 
-pnpm_ensure_via_corepack() {
-	COREPACK_ENABLE_DOWNLOAD_PROMPT=0 mise exec -- pnpm --version >/dev/null
-}
-
 pnpm_load_packages() {
 	if [[ $pnpm_cache_loaded -eq 1 ]]; then
 		return
