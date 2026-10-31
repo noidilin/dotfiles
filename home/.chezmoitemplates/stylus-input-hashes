@@ -1,0 +1,5 @@
+# Python: {{ .mise.tools.python }}
+# Palette: {{ .color.achroma | toJson | sha256sum }}
+{{ range $file := list "build.py" "filters.py" "browser-map.json" "palette.json.tmpl" "vendor/upstream.lock.json" "vendor/export.json" "vendor/std.less" "vendor/LICENSE" "vendor/pygments.css" "vendor/prism.css" "vendor/highlightjs.css" "vendor/highlightjs-important.css" -}}
+# {{ $file }}: {{ include (printf "dot_config/achroma/stylus/%s" $file) | sha256sum }}
+{{ end -}}

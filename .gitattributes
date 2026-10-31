@@ -28,3 +28,7 @@ home/dot_ssh/config linguist-language=sshconfig linguist-detectable
 home/dot_config/git/config.tmpl linguist-language=gitconfig linguist-detectable
 home/dot_config/git/os.config.tmpl linguist-language=gitconfig linguist-detectable
 home/dot_config/git/global.gitignore linguist-language=ignore linguist-detectable
+
+# Vendored Stylus inputs are checksummed byte-for-byte on every platform.
+home/dot_config/achroma/stylus/vendor/** -text whitespace=-blank-at-eof
+home/dot_config/achroma/stylus/*.py text eol=lf

@@ -379,8 +379,12 @@ Deliberately skipped — revisit only if it starts to matter:
 
 - **blender** — `achroma.xml` is a 1672-line interface theme; a mechanical
   role mirror would look wrong without visual tuning inside blender.
-- **stylus** — `achroma.json` there is a full 3MB userstyles backup export,
-  not a theme file; light support would mean authoring per-site CSS.
+- **stylus migration** — a Python builder now generates dark/light UserCSS from
+  the shared palette and pinned Catppuccin rules. The legacy backup remains
+  unchanged until browser review; 132 styles compile, while Codeberg and
+  PythonAnywhere are explicitly excluded pending adaptation of precompiled
+  dependencies. See [Achroma for Stylus](achroma-stylus.md) for the offline
+  chezmoi build, explicit upstream refresh, and remaining browser approval gate.
 - **shareX** — no config captured in this repo.
 - **fcitx5** — linux-only and untestable on the current machines.
 

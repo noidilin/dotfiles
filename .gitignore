@@ -7,3 +7,5 @@ home/dot_config/nushell/history.txt
 /.claude/skills/no-comments
 /.claude/skills/addy-skills-sync
 .claude/worktrees/
+scripts/stylus/node_modules/
+**/__pycache__/

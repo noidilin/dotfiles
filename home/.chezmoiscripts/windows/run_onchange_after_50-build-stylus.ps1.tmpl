@@ -1,0 +1,22 @@
+{{ if eq .chezmoi.os "windows" -}}
+$ErrorActionPreference = 'Stop'
+{{ template "stylus-input-hashes" . }}
+$configHome = if ($env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME } else { Join-Path $HOME '.config' }
+$config = Join-Path $configHome 'achroma/stylus'
+$builder = Join-Path $config 'build.py'
+$dataHome = if ($env:XDG_DATA_HOME) { $env:XDG_DATA_HOME } else { Join-Path $HOME '.local/share' }
+$cacheHome = if ($env:XDG_CACHE_HOME) { $env:XDG_CACHE_HOME } else { Join-Path $HOME '.cache' }
+$output = Join-Path $dataHome 'achroma/stylus'
+$cache = Join-Path $cacheHome 'achroma/stylus'
+$previousAutoInstall = $env:MISE_AUTO_INSTALL
+$previousExecAutoInstall = $env:MISE_EXEC_AUTO_INSTALL
+try {
+    $env:MISE_AUTO_INSTALL = '0'
+    $env:MISE_EXEC_AUTO_INSTALL = '0'
+    & mise exec 'python@{{ .mise.tools.python }}' -- python $builder build --config $config --output $output --cache $cache
+    if ($LASTEXITCODE -ne 0) { throw "Achroma Stylus build failed ($LASTEXITCODE)" }
+} finally {
+    $env:MISE_AUTO_INSTALL = $previousAutoInstall
+    $env:MISE_EXEC_AUTO_INSTALL = $previousExecAutoInstall
+}
+{{ end -}}

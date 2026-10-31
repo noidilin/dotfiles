@@ -2,6 +2,9 @@ def replace_mocha_palette [
     file_path: string, 
     --stylus (-s)
 ] {
+    if $stylus {
+        print --stderr 'Deprecated: use stylus-build for palette-based dark/light UserCSS generation.'
+    }
     let original = (open --raw $file_path | collect)
 
     let temp = $original 
@@ -45,41 +48,35 @@ def replace_mocha_palette [
     $result | save --force $file_path
 }
 
-def stylus-update [
-  accent: string = 'rosewater'
-  lib: string = 'https://noidilin.github.io/achroma/lib/lib.less'
-] {
-  let url: string = 'https://github.com/catppuccin/userstyles/releases/download/all-userstyles-export/import.json'
-  let file = ( $env.HOME | path join '.local/etc/stylus/achroma.json' )
-  
-  let data = (http get $url | decode utf-8 | from json)
-  
-  let json_data = (
-    $data | each { |style| 
-      if 'usercssData' in ($style | columns) {
-        $style | update usercssData.vars.accentColor.value $accent
-      } else {
-        $style
-      }
+def stylus-run [...args: string] {
+    let builder = ($env.XDG_CONFIG_HOME | path join 'achroma' 'stylus' 'build.py')
+    with-env { MISE_AUTO_INSTALL: '0', MISE_EXEC_AUTO_INSTALL: '0' } {
+        mise exec -- python $builder ...$args
     }
-    | to json --indent 2
-  )
-  
-  $json_data
-    | str replace --all "https://userstyles.catppuccin.com/lib/lib.less" $lib
-    | save --force $file
-  
-  print $"✓ Created ($file) with ($accent) accent"
 }
 
-def stylus-examine [] {
-  let file_content = (open ~/.local/etc/stylus/achroma.json)
+# Offline generation; upstream refresh is an explicit repository operation.
+def stylus-build [] {
+    let output = ($env.XDG_DATA_HOME | path join 'achroma' 'stylus')
+    let cache = ($env.XDG_CACHE_HOME | path join 'achroma' 'stylus')
+    stylus-run build '--output' $output '--cache' $cache
+}
 
-  print "=== Verification Summary ==="
-  print $"Total styles: ($file_content | length)"
-  print $"Accent colors: ($file_content | each { |s| $s.usercssData?.vars?.accentColor?.value } | uniq)"
-  print $"Custom lib URL present: ($file_content | to json | str contains 'noidilin.github.io/achroma')"
-  print $"Old lib URL present: ($file_content | to json | str contains 'userstyles.catppuccin.com')"
+def stylus-update [] {
+    print --stderr 'stylus-update now builds offline. Edit browser-map.json for accent changes; see docs/achroma-stylus.md for upstream refresh.'
+    stylus-build
+}
+
+def stylus-examine [file?: path] {
+    if $file == null {
+        stylus-run examine ($env.XDG_DATA_HOME | path join 'achroma' 'stylus' 'import.json')
+    } else {
+        stylus-run examine $file
+    }
+}
+
+def stylus-check [] {
+    stylus-run check '--output' ($env.XDG_DATA_HOME | path join 'achroma' 'stylus')
 }
 
 def style-carapace [] {

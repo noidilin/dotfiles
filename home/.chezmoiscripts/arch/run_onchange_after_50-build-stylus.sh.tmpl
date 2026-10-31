@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+{{ if eq .chezmoi.os "linux" -}}
+{{ template "stylus-input-hashes" . }}
+config="${XDG_CONFIG_HOME:-$HOME/.config}/achroma/stylus"
+output="${XDG_DATA_HOME:-$HOME/.local/share}/achroma/stylus"
+cache="${XDG_CACHE_HOME:-$HOME/.cache}/achroma/stylus"
+MISE_AUTO_INSTALL=0 MISE_EXEC_AUTO_INSTALL=0 mise exec "python@{{ .mise.tools.python }}" -- python "$config/build.py" build --config "$config" --output "$output" --cache "$cache"
+{{ end -}}
