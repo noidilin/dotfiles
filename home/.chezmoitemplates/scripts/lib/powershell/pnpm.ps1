@@ -6,15 +6,14 @@ function Get-PnpmInstalledPackages {
     }
 
     $script:PnpmPackages = @()
-    $rawOutput = mise exec -- pnpm ls -g --depth=0 2>$null
+    $rawOutput = mise exec -- pnpm ls -g --depth=0 --json 2>$null
     if ($LASTEXITCODE -ne 0 -or -not $rawOutput) {
         return $script:PnpmPackages
     }
 
-    $packages = $rawOutput | rg -N '^[@a-z]' | rg -o '^\S+' | rg -v '^dependencies:$'
-    foreach ($pkg in $packages) {
-        if ($pkg) {
-            $script:PnpmPackages += $pkg
+    foreach ($project in ($rawOutput | Out-String | ConvertFrom-Json)) {
+        if ($project.dependencies) {
+            $script:PnpmPackages += $project.dependencies.PSObject.Properties.Name
         }
     }
 

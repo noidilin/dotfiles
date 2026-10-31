@@ -8,7 +8,7 @@ pnpm_load_packages() {
 
 	pnpm_cache_loaded=1
 	local output
-	if ! output=$(mise exec -- pnpm ls -g --depth=0 2>/dev/null); then
+	if ! output=$(mise exec -- pnpm ls -g --depth=0 --json 2>/dev/null); then
 		PNPM_INSTALLED=()
 		return
 	fi
@@ -17,7 +17,7 @@ pnpm_load_packages() {
 		if [[ -n "$pkg" ]]; then
 			PNPM_INSTALLED+=("$pkg")
 		fi
-	done < <(printf '%s\n' "$output" | rg -N '^[@a-z]' | rg -o '^\S+' | rg -v '^dependencies:$')
+	done < <(printf '%s\n' "$output" | jq -r '.[].dependencies // {} | keys[]')
 }
 
 pnpm_package_installed() {
